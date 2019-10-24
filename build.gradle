@@ -46,11 +46,18 @@ repositories {
         name = 'sponge'
         url = 'https://repo.spongepowered.org/maven'
     }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    implementation 'org.spongepowered:configurate-yaml:3.6.1'
+    implementation 'com.electronwill.night-config:toml:3.6.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation 'com.github.sk1erllc:elementa:03ea9a6a0a'
+
+    testImplementation "io.mockk:mockk:1.9.3"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+    testImplementation "io.strikt:strikt-core:0.22.1"
 }
 
 processResources {
