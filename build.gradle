@@ -52,7 +52,7 @@ repositories {
 dependencies {
     implementation 'com.electronwill.night-config:toml:3.6.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'com.github.sk1erllc:elementa:03ea9a6a0a'
+    implementation 'com.github.sk1erllc:elementa:043ed99ad6'
 
     testImplementation "io.mockk:mockk:1.9.3"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
