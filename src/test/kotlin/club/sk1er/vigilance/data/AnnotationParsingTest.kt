@@ -8,7 +8,7 @@ import strikt.assertions.hasSize
 import strikt.assertions.isEqualTo
 
 class AnnotationParsingTest {
-    private val categories = ExampleConfig().getCategories()
+    private val categories = ExampleConfig.getCategories()
 
     init {
         println(categories.joinToString(separator = "\n"))

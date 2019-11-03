@@ -2,7 +2,7 @@ package club.sk1er.vigilance.data
 
 import club.sk1er.vigilance.Vigilant
 
-class ExampleConfig : Vigilant() {
+object ExampleConfig : Vigilant() {
     @Property(type = PropertyType.NUMBER, name = "Num Property", category = "Cat2")
     var numProperty = 0
 
