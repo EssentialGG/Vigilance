@@ -180,26 +180,27 @@ class SettingsGui(private val categories: List<Category>) : GuiScreen() {
         var scrolled = 0
 
         init {
-            onMouseScroll {
-                if (it == 0 && !(children.first() as SettingObject).selected) return@onMouseScroll
-                scrolled += it * 50
+            onMouseScroll(::scroll)
+        }
 
-                if (scrolled <= 0) {
-                    children.first().animate {
-                        setYAnimation(Animations.OUT_EXP, 0.5f, scrolled.pixels())
-                    }
-                } else {
-                    children.first().animate {
-                        setYAnimation(Animations.OUT_EXP, 0.3f, (scrolled / 4).pixels())
-                    }
+        private fun scroll(delta: Int) {
+            if (delta == 0 && !(children.first() as SettingObject).selected) return
+            scrolled += delta * 50
+
+            if (scrolled <= 0) {
+                children.first().animate {
+                    setYAnimation(Animations.OUT_EXP, 0.5f, scrolled.pixels())
                 }
+            } else {
+                children.first().animate {
+                    setYAnimation(Animations.OUT_EXP, 0.3f, (scrolled / 4).pixels())
+                }
+            }
 
-
-                if (scrolled > 0) {
-                    scrolled = 0
-                    children.first().animate {
-                        setYAnimation(Animations.OUT_BOUNCE, 0.5f, 0.pixels(), delay = 0.1f)
-                    }
+            if (scrolled > 0) {
+                scrolled = 0
+                children.first().animate {
+                    setYAnimation(Animations.OUT_BOUNCE, 0.5f, 0.pixels(), delay = 0.1f)
                 }
             }
         }

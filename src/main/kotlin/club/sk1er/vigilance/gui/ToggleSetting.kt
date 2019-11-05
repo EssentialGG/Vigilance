@@ -7,11 +7,12 @@ import club.sk1er.elementa.constraints.PixelConstraint
 import club.sk1er.elementa.constraints.RelativeConstraint
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
+import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.components.Toggle
 import net.minecraft.client.Minecraft
 import java.awt.Color
 
-class ToggleSetting(name: String, description: String) : SettingObject() {
+class ToggleSetting(name: String, description: String, prop: PropertyData) : SettingObject() {
     private val drawBox = UIBlock().constrain {
         height = ChildBasedSizeConstraint()
         width = RelativeConstraint()
@@ -32,7 +33,7 @@ class ToggleSetting(name: String, description: String) : SettingObject() {
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf drawBox
 
-    private val toggle = Toggle()
+    private val toggle = Toggle(prop)
 
     init {
         toggle childOf drawBox

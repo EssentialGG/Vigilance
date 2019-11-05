@@ -16,6 +16,8 @@ class ExampleMod {
     fun init(event: FMLInitializationEvent) {
         StencilEffect.enableStencil()
 
+        ExampleConfig.preload()
+
         MinecraftForge.EVENT_BUS.register(this)
         ClientCommandHandler.instance.registerCommand(ExampleCommand())
     }

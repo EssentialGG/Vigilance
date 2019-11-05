@@ -3,8 +3,9 @@ package club.sk1er.vigilance.example
 import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.Property
 import club.sk1er.vigilance.data.PropertyType
+import java.io.File
 
-object ExampleConfig : Vigilant() {
+object ExampleConfig : Vigilant(File("./config/example.toml")) {
     @Property(
         type = PropertyType.SWITCH,
         name = "General 1",
@@ -12,7 +13,7 @@ object ExampleConfig : Vigilant() {
         category = "General",
         subcategory = "General Settings"
     )
-    var toggle1 = 0
+    var toggle1 = true
 
     @Property(
         type = PropertyType.SWITCH,
@@ -21,7 +22,7 @@ object ExampleConfig : Vigilant() {
         category = "General",
         subcategory = "General Settings"
     )
-    var toggle2 = 0
+    var toggle2 = true
 
     @Property(
         type = PropertyType.SWITCH,
@@ -30,7 +31,7 @@ object ExampleConfig : Vigilant() {
         category = "General",
         subcategory = "General Settings"
     )
-    var toggle3 = 0
+    var toggle3 = true
 
     @Property(
         type = PropertyType.SWITCH,
@@ -39,7 +40,7 @@ object ExampleConfig : Vigilant() {
         category = "General",
         subcategory = "General Settings"
     )
-    var toggle4 = 0
+    var toggle4 = false
 
     @Property(
         type = PropertyType.SWITCH,
@@ -48,7 +49,7 @@ object ExampleConfig : Vigilant() {
         category = "General",
         subcategory = "Category"
     )
-    var toggle5 = 0
+    var toggle5 = true
 
     @Property(
         type = PropertyType.SWITCH,
@@ -57,7 +58,7 @@ object ExampleConfig : Vigilant() {
         category = "General",
         subcategory = "Category"
     )
-    var toggle6 = 0
+    var toggle6 = true
 
     @Property(
         type = PropertyType.SWITCH,
@@ -66,7 +67,7 @@ object ExampleConfig : Vigilant() {
         category = "General",
         subcategory = "Category"
     )
-    var toggle7 = 0
+    var toggle7 = false
 
     @Property(
         type = PropertyType.SWITCH,
@@ -75,5 +76,5 @@ object ExampleConfig : Vigilant() {
         category = "General",
         subcategory = "Category"
     )
-    var toggle8 = 0
+    var toggle8 = true
 }

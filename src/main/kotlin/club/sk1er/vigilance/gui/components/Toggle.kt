@@ -8,11 +8,12 @@ import club.sk1er.elementa.constraints.RelativeConstraint
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.StencilEffect
+import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.components.Knob
 import java.awt.Color
 
-class Toggle : UIComponent() {
-    private var toggled = true
+class Toggle(private val prop: PropertyData) : UIComponent() {
+    private var toggled = prop.getValue<Boolean>()
     private var selected = false
 
     private val slide = UIRoundedRectangle(5f).constrain {
@@ -24,7 +25,7 @@ class Toggle : UIComponent() {
     }.enableEffects(StencilEffect()) childOf this
 
     private val slideOn = UIBlock().constrain {
-        width = RelativeConstraint()
+        width = if (toggled) RelativeConstraint() else 0.pixels()
         height = RelativeConstraint()
         color = Color(0, 170, 165, 0).asConstraint()
     } childOf slide
@@ -69,6 +70,7 @@ class Toggle : UIComponent() {
 
     private fun toggle() {
         knob.click(toggled)
+        prop.setValue(toggled)
 
         if (toggled) {
             toggled = false

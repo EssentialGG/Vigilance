@@ -28,7 +28,7 @@ class DividerItem(val name: String) : CategoryItem() {
 class PropertyItem(val data: PropertyData) : CategoryItem() {
     override fun toSettingsObject(): SettingObject {
         return when (data.getDataType()) {
-            PropertyType.SWITCH -> ToggleSetting(data.property.name, data.property.description)
+            PropertyType.SWITCH -> ToggleSetting(data.property.name, data.property.description, data)
             PropertyType.TEXT -> TODO()
             PropertyType.PARAGRAPH -> TODO()
             PropertyType.SLIDER -> SliderSetting(data.property.name, data.property.description)

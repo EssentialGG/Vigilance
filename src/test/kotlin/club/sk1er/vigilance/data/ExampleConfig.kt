@@ -1,8 +1,9 @@
 package club.sk1er.vigilance.data
 
 import club.sk1er.vigilance.Vigilant
+import java.io.File
 
-object ExampleConfig : Vigilant() {
+object ExampleConfig : Vigilant(File("config.toml")) {
     @Property(type = PropertyType.NUMBER, name = "Num Property", category = "Cat2")
     var numProperty = 0
 

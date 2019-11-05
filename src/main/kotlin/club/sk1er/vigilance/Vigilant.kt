@@ -1,8 +1,11 @@
 package club.sk1er.vigilance
 
 import club.sk1er.vigilance.data.*
+import com.electronwill.nightconfig.core.file.FileConfig
+import java.io.File
+import kotlin.concurrent.fixedRateTimer
 
-abstract class Vigilant {
+abstract class Vigilant(file: File) {
     private val properties: List<PropertyData> =
         this::class.java.declaredFields
         .filter { it.isAnnotationPresent(Property::class.java) }
@@ -12,9 +15,54 @@ abstract class Vigilant {
             this
         ) }
 
+    private val fileConfig = FileConfig.of(file)
+    private var dirty = false
+
+    init {
+        readData()
+
+        fixedRateTimer(period = 10 * 1000) {
+            if (dirty) {
+                writeData()
+                dirty = false
+            }
+        }
+    }
+
     fun getCategories(): List<Category> {
         val groupedByCategory = properties.groupBy { it.property.category }
         return groupedByCategory.map { Category(it.key, it.value.splitBySubcategory()) }
+    }
+
+    fun markDirty() {
+        dirty = true
+    }
+
+    fun preload() {}
+
+    private fun readData() {
+        fileConfig.load()
+
+        properties.forEach {
+            val fullPath = it.property.fullPropertyPath()
+
+            val oldValue: Any = fileConfig.get(fullPath) ?: run {
+                    markDirty()
+                    return@forEach
+                }
+
+            it.setValue(oldValue)
+        }
+    }
+
+    private fun writeData() {
+        properties.forEach {
+            val fullPath = it.property.fullPropertyPath()
+
+            fileConfig.set(fullPath, it.getValue())
+        }
+
+        fileConfig.save()
     }
 
     private fun List<PropertyData>.splitBySubcategory(): List<CategoryItem> {

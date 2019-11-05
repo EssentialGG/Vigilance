@@ -12,5 +12,7 @@ data class PropertyData(val property: Property, val field: Field, val instance: 
 
     fun setValue(value: Any?) {
         field.set(instance, value)
+
+        instance.markDirty()
     }
 }
