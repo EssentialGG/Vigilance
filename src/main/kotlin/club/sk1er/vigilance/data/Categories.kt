@@ -33,6 +33,8 @@ class PropertyItem(val data: PropertyData) : CategoryItem() {
             PropertyType.PARAGRAPH -> TODO()
             PropertyType.SLIDER -> SliderSetting(data.property.name, data.property.description)
             PropertyType.NUMBER -> TODO()
+            PropertyType.COLOR -> TODO()
+            PropertyType.DROP_DOWN -> TODO()
         }
     }
 

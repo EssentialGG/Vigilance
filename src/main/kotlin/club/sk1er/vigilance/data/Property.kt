@@ -11,8 +11,18 @@ annotation class Property(
     val category: String,
     val subcategory: String = "",
     val description: String = "",
+    /**
+     * Reserved for [PropertyType.SLIDER]
+     */
     val min: Int = 0,
-    val max: Int = 0
+    /**
+     * Reserved for [PropertyType.SLIDER]
+     */
+    val max: Int = 0,
+    /**
+     * Reserved for [PropertyType.DROP_DOWN]
+     */
+    val options: Array<String>
 )
 
 fun Property.fullPropertyPath(): String {
