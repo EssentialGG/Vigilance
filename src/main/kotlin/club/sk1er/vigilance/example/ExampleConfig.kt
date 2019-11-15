@@ -77,4 +77,13 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         subcategory = "Category"
     )
     var toggle8 = true
+
+    @Property(
+            type = PropertyType.SWITCH,
+            name = "Color 1",
+            description = "This toggles something",
+            category = "Color",
+            subcategory = "General Settings"
+    )
+    var toggle10 = true
 }

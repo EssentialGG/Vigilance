@@ -7,7 +7,7 @@ import net.minecraft.command.ICommandSender
 class ExampleCommand : CommandBase() {
     override fun getCommandName() = "config"
 
-    override fun getCommandUsage(sender: ICommandSender?) = "/example - open example gui"
+    override fun getCommandUsage(sender: ICommandSender?) = "/config - open example gui"
 
     override fun getRequiredPermissionLevel() = 0
 

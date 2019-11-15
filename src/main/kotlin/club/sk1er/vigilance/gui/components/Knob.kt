@@ -7,26 +7,23 @@ import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import java.awt.Color
 
-class Knob(private val size: Int) : UIContainer() {
+class Knob(private val size: Int, toggled: Boolean = true) : UIContainer() {
     private val hover = UICircle().constrain {
         x = (size / 2).pixels()
         y = CenterConstraint()
         width = size.pixels()
-        color = Color(0, 255, 250, 0).asConstraint()
     } childOf this
 
     private val click = UICircle().constrain {
         x = (size / 2).pixels()
         y = CenterConstraint()
         width = size.pixels()
-        color = Color(255, 255, 255, 0).asConstraint()
     } childOf this
 
     private val knob = UICircle().constrain {
         x = (size / 2).pixels()
         y = CenterConstraint()
         width = size.pixels()
-        color = Color(0, 210, 205, 0).asConstraint()
     } childOf this
 
     init {
@@ -35,16 +32,28 @@ class Knob(private val size: Int) : UIContainer() {
             width = size.pixels()
             height = size.pixels()
         }
+
+        if (toggled) {
+            knob.setColor(Color(0, 210, 205, 0).asConstraint())
+            hover.setColor(Color(0, 255, 250, 0).asConstraint())
+        } else {
+            knob.setColor(Color(164, 164, 164, 0).asConstraint())
+            hover.setColor(Color(255, 255, 255, 0).asConstraint())
+        }
     }
 
     fun fadeIn() {
-        hover.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 255, 250, 50).asConstraint()) }
-        knob.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 210, 205, 255).asConstraint()) }
+        var color = Color(hover.getColor().red, hover.getColor().green, hover.getColor().blue, 50)
+        hover.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, color.asConstraint()) }
+        color = Color(knob.getColor().red, knob.getColor().green, knob.getColor().blue, 255)
+        knob.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, color.asConstraint()) }
     }
 
     fun fadeOut() {
-        hover.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 255, 250, 0).asConstraint()) }
-        knob.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 210, 205, 0).asConstraint()) }
+        var color = Color(hover.getColor().red, hover.getColor().green, hover.getColor().blue, 0)
+        hover.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, color.asConstraint()) }
+        color = Color(knob.getColor().red, knob.getColor().green, knob.getColor().blue, 0)
+        knob.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, color.asConstraint()) }
     }
 
     fun hover() = hover.animate { setWidthAnimation(Animations.OUT_EXP, 0.5f, (size * 1.75f).pixels()) }
@@ -73,7 +82,7 @@ class Knob(private val size: Int) : UIContainer() {
         } else {
             animate { setXAnimation(Animations.OUT_EXP, 0.5f, 0.pixels(true)) }
             hover.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 255, 250, 50).asConstraint()) }
-            knob.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 210, 205).asConstraint()) }
+            knob.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 210, 205, 255).asConstraint()) }
         }
     }
 }
