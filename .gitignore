@@ -28,3 +28,11 @@ gradle
 run
 .DS_Store
 Thumbs.db
+
+# minecraft
+saves
+logs
+config
+options.txt
+usercache.json
+usernamecache.json

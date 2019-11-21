@@ -9,7 +9,7 @@ import club.sk1er.elementa.dsl.pixels
 import club.sk1er.elementa.dsl.plus
 
 abstract class SettingObject : UIContainer() {
-    var selected = false
+    var active = false
 
     init {
         setX(CenterConstraint())
@@ -18,6 +18,6 @@ abstract class SettingObject : UIContainer() {
         setHeight(ChildBasedSizeConstraint() + 5.pixels())
     }
 
-    open fun animateIn() { selected = true }
-    open fun animateOut() { selected = false }
+    open fun animateIn() { active = true }
+    open fun animateOut() { active = false }
 }

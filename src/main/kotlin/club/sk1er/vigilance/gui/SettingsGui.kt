@@ -195,7 +195,7 @@ class SettingsGui(private val categories: List<Category>) : GuiScreen() {
         }
 
         private fun scroll(delta: Int) {
-            if (delta == 0 && !(box.children.first() as SettingObject).selected) return
+            if (delta == 0 && !(box.children.first() as SettingObject).active) return
             if (box.getHeight() < window.getHeight()) {
                 scrolled = 0
                 return
