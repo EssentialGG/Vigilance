@@ -15,28 +15,23 @@ import java.awt.Color
 
 class Button @JvmOverloads constructor(buttonText: String, private var style: Int = 0) : UIComponent() {
     private var active = false
+    private var onClickAction: () -> Unit = {}
 
     private val background = when (style) {
         ROUNDED_GRAY -> UIRoundedRectangle(4f).constrain {
-            width = RelativeConstraint()
-            height = RelativeConstraint()
             color = Color(120, 120, 120, 0).asConstraint()
-        }.enableEffect(StencilEffect()) childOf this
+        }.enableEffect(StencilEffect())
         RECTANGLE_COLOR -> UIBlock().constrain {
-            width = RelativeConstraint()
-            height = RelativeConstraint()
             color = Color(0, 205, 200, 0).asConstraint()
-        }.enableEffect(ScissorEffect()) childOf this
+        }.enableEffect(ScissorEffect())
         RECTANGLE_GRAY -> UIBlock().constrain {
-            width = RelativeConstraint()
-            height = RelativeConstraint()
             color = Color(120, 120, 120, 0).asConstraint()
-        }.enableEffect(ScissorEffect()) childOf this
+        }.enableEffect(ScissorEffect())
+        ROUNDED_TRANSPARENT -> UIRoundedRectangle(4f).enableEffect(StencilEffect())
+        RECTANGLE_TRANSPARENT -> UIBlock().enableEffect(ScissorEffect())
         else -> UIRoundedRectangle(4f).constrain {
-            width = RelativeConstraint()
-            height = RelativeConstraint()
             color = Color(0, 205, 200, 0).asConstraint()
-        }.enableEffect(StencilEffect()) childOf this
+        }.enableEffect(StencilEffect())
     }
 
     private val click = UICircle() childOf background
@@ -44,13 +39,23 @@ class Button @JvmOverloads constructor(buttonText: String, private var style: In
     private val text = UIText(buttonText, false)
 
     init {
+        background.constrain {
+            width = RelativeConstraint()
+            height = RelativeConstraint()
+        } childOf this
+
+
         text.constrain {
             x = CenterConstraint()
             y = CenterConstraint()
-            color = Color(0, 0, 0, 0).asConstraint()
+            color = if (style == ROUNDED_TRANSPARENT || style == RECTANGLE_TRANSPARENT) {
+                Color.WHITE.asConstraint()
+            } else {
+                Color.BLACK.asConstraint()
+            }
         } childOf background
 
-        onMouseClick { mouseX, mouseY, button ->
+        onMouseClick { mouseX, mouseY, _ ->
             if (!active) return@onMouseClick
             click.constrain {
                 x = mouseX.pixels()
@@ -62,6 +67,8 @@ class Button @JvmOverloads constructor(buttonText: String, private var style: In
             click.animate {
                 setWidthAnimation(Animations.OUT_CUBIC, 0.5f, RelativeConstraint(2f))
             }
+
+            onClickAction()
         }
 
         onMouseRelease {
@@ -73,25 +80,60 @@ class Button @JvmOverloads constructor(buttonText: String, private var style: In
 
         onMouseEnter {
             if (!active) return@onMouseEnter
-            background.animate { setColorAnimation(Animations.OUT_EXP, 1f, Color(0, 170, 165, 255).asConstraint()) }
+            when (style) {
+                ROUNDED_GRAY, RECTANGLE_GRAY -> background.animate {
+                    setColorAnimation(Animations.OUT_EXP, 1f, Color(100, 100, 100, 255).asConstraint())
+                }
+                ROUNDED_COLOR, RECTANGLE_COLOR -> background.animate {
+                    setColorAnimation(Animations.OUT_EXP, 1f, Color(0, 170, 165, 255).asConstraint())
+                }
+            }
+
         }
 
         onMouseLeave {
             if (!active) return@onMouseLeave
-            background.animate { setColorAnimation(Animations.OUT_EXP, 1f, Color(0, 205, 200, 255).asConstraint()) }
+            when (style) {
+                ROUNDED_GRAY, RECTANGLE_GRAY -> background.animate {
+                    setColorAnimation(Animations.OUT_EXP, 1f, Color(120, 120, 120, 255).asConstraint())
+                }
+                ROUNDED_COLOR, RECTANGLE_COLOR -> background.animate {
+                    setColorAnimation(Animations.OUT_EXP, 1f, Color(0, 205, 200, 255).asConstraint())
+                }
+            }
         }
+    }
+
+    fun onClick(method: () -> Unit) = apply {
+        onClickAction = method
     }
 
     fun fadeIn() {
         active = true
-        background.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 205, 200, 255).asConstraint()) }
-        text.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.BLACK.asConstraint()) }
+        var color = text.getColor()
+        text.animate {
+            setColorAnimation(Animations.OUT_EXP, 0.5f, Color(color.red, color.green, color.blue, 255).asConstraint())
+        }
+
+        if (style == ROUNDED_TRANSPARENT || style == RECTANGLE_TRANSPARENT) return
+        color = background.getColor()
+        background.animate {
+            setColorAnimation(Animations.OUT_EXP, 0.5f, Color(color.red, color.green, color.blue, 255).asConstraint())
+        }
     }
 
     fun fadeOut() {
         active = false
-        background.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 255, 255, 0).asConstraint()) }
-        text.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 0, 0, 0).asConstraint()) }
+        var color = text.getColor()
+        text.animate {
+            setColorAnimation(Animations.OUT_EXP, 0.5f, Color(color.red, color.green, color.blue, 0).asConstraint())
+        }
+
+        if (style == ROUNDED_TRANSPARENT || style == RECTANGLE_TRANSPARENT) return
+        color = background.getColor()
+        background.animate {
+            setColorAnimation(Animations.OUT_EXP, 0.5f, Color(color.red, color.green, color.blue, 0).asConstraint())
+        }
     }
 
     fun setText(newText: String) {
@@ -100,8 +142,10 @@ class Button @JvmOverloads constructor(buttonText: String, private var style: In
 
     companion object {
         val ROUNDED_COLOR = 0
-        val ROUNDED_GRAY = 1
-        val RECTANGLE_COLOR = 2
+        val RECTANGLE_COLOR = 1
+        val ROUNDED_GRAY = 2
         val RECTANGLE_GRAY = 3
+        val ROUNDED_TRANSPARENT = 4
+        val RECTANGLE_TRANSPARENT = 5
     }
 }

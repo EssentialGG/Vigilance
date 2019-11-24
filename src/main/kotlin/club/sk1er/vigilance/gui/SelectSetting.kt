@@ -12,6 +12,8 @@ import net.minecraft.client.Minecraft
 import java.awt.Color
 
 class SelectSetting(name: String, description: String, var selected: Int, var selections: MutableList<String>) : SettingObject() {
+    private var opened = false
+
     private val drawBox = UIBlock().constrain {
         height = ChildBasedSizeConstraint()
         width = RelativeConstraint()
@@ -32,17 +34,32 @@ class SelectSetting(name: String, description: String, var selected: Int, var se
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf drawBox
 
-    private val button = Button(selections[selected], Button.ROUNDED_GRAY)
+    private val button = Button(selections[selected], Button.RECTANGLE_TRANSPARENT)
 
     private val dropDown = UIRoundedRectangle(0f).constrain {
         x = SiblingConstraint()
-        y = 0.pixels()
+        y = CenterConstraint()
         width = ChildBasedSizeConstraint()
-        height = 0.pixels()
+        height = 20.pixels()
+        color = Color.RED.asConstraint()
     }.enableEffect(StencilEffect()) childOf this
 
     init {
-        button.constrain {
+        selections.forEach {
+            dropDown.addChild(
+                Button(it).constrain {
+                    y = SiblingConstraint()
+                }
+            )
+        }
+
+        button.onClick {
+            opened = !opened
+            dropDown.animate {
+                if (opened) setHeightAnimation(Animations.OUT_EXP, 0.5f, ChildBasedSizeConstraint())
+                else setHeightAnimation(Animations.OUT_EXP, 0.5f, 20.pixels())
+            }
+        }.constrain {
             x = 5.pixels(true)
             y = CenterConstraint()
             width = 50.pixels()

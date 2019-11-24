@@ -17,6 +17,9 @@ enum class PropertyType {
     },
     NUMBER() {
         override fun isFieldValid(field: Field) = field.type == Int::class.java
+    },
+    SELECTOR() {
+        override fun isFieldValid(field: Field) = field.type == Int::class.java
     };
 
     abstract fun isFieldValid(field: Field): Boolean
