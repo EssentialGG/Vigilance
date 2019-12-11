@@ -9,7 +9,6 @@ import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.StencilEffect
 import club.sk1er.vigilance.data.PropertyData
-import club.sk1er.vigilance.gui.components.Knob
 import java.awt.Color
 
 class Toggle(private val prop: PropertyData) : UIComponent() {
@@ -49,7 +48,7 @@ class Toggle(private val prop: PropertyData) : UIComponent() {
             knob.unHover()
         }
 
-        if (toggled) knob.setX(0.pixels(true))
+        if (toggled) knob.setX(15.pixels(true))
         else knob.setX(0.pixels())
         knob childOf this
     }

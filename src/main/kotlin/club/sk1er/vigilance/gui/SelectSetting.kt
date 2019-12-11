@@ -14,6 +14,12 @@ import java.awt.Color
 class SelectSetting(name: String, description: String, var selected: Int, var selections: MutableList<String>) : SettingObject() {
     private var opened = false
 
+    override fun getHeight(): Float {
+        return drawBox.getHeight() + 5
+    }
+
+    override fun getBottom() = getTop() + getHeight()
+
     private val drawBox = UIBlock().constrain {
         height = ChildBasedSizeConstraint()
         width = RelativeConstraint()

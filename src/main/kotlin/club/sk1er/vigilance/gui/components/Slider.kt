@@ -9,7 +9,6 @@ import club.sk1er.elementa.constraints.SiblingConstraint
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.StencilEffect
-import club.sk1er.vigilance.gui.components.Knob
 import java.awt.Color
 
 class Slider : UIComponent() {
