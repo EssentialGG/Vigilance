@@ -1,6 +1,7 @@
 package club.sk1er.vigilance
 
 import club.sk1er.vigilance.data.*
+import club.sk1er.vigilance.gui.SettingsGui
 import com.electronwill.nightconfig.core.file.FileConfig
 import java.io.File
 import kotlin.concurrent.fixedRateTimer
@@ -28,6 +29,8 @@ abstract class Vigilant(file: File) {
             }
         }
     }
+
+    fun gui() = SettingsGui(getCategories())
 
     fun getCategories(): List<Category> {
         val groupedByCategory = properties.groupBy { it.property.category }
