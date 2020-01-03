@@ -11,7 +11,8 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         name = "Test",
         description = "String Selector",
         category = "General",
-        subcategory = "General Settings"
+        subcategory = "General Settings",
+        options = ["test 1", "test 2", "test 3"]
     )
     var selector = 0
 

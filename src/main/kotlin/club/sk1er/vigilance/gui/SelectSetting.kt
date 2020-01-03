@@ -11,7 +11,7 @@ import club.sk1er.vigilance.gui.components.Button
 import net.minecraft.client.Minecraft
 import java.awt.Color
 
-class SelectSetting(name: String, description: String, var selected: Int, var selections: MutableList<String>) : SettingObject() {
+class SelectSetting(name: String, description: String, selected: Int, selections: List<String>) : SettingObject() {
     private var opened = false
 
     override fun getHeight(): Float {

@@ -31,7 +31,7 @@ class PropertyItem(val data: PropertyData) : CategoryItem() {
             PropertyType.SLIDER -> SliderSetting(data.property.name, data.property.description)
             PropertyType.NUMBER -> TODO()
             PropertyType.COLOR -> TODO()
-            PropertyType.SELECTOR -> SelectSetting(data.property.name, data.property.description, 0, mutableListOf("test 1", "test 2", "test 3"))
+            PropertyType.SELECTOR -> SelectSetting(data.property.name, data.property.description, 0, data.property.options.toList())
         }
     }
 
