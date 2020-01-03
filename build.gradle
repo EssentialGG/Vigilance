@@ -53,7 +53,7 @@ dependencies {
     implementation 'com.electronwill.night-config:toml:3.6.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect"
-    implementation 'com.github.sk1erllc:Elementa:578cea26e9'
+    implementation 'com.github.sk1erllc:Elementa:184ffa1d3b'
 
     testImplementation "io.mockk:mockk:1.9.3"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
