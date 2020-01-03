@@ -12,6 +12,12 @@ data class PropertyData(val property: Property, val value: PropertyValue, val in
         return value.getValue(instance) as T
     }
 
+    fun getAsAny(): Any? = value.getValue(instance)
+
+    fun getAsBoolean(): Boolean = getValue()
+
+    fun <T> getAs(clazz: Class<T>) = clazz.cast(getAsAny())
+
     fun setValue(value: Any?) {
         if (value != null) action?.invoke(value)
 
