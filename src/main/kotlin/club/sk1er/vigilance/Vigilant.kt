@@ -6,14 +6,16 @@ import java.io.File
 import kotlin.concurrent.fixedRateTimer
 
 abstract class Vigilant(file: File) {
-    private val properties: List<PropertyData> =
-        this::class.java.declaredFields
-        .filter { it.isAnnotationPresent(Property::class.java) }
-        .map { PropertyData(
-            it.getAnnotation(Property::class.java),
-            it.apply { it.isAccessible = true },
-            this
-        ) }
+    private val properties: MutableList<PropertyData> =
+            this::class.java.declaredFields
+                    .filter { it.isAnnotationPresent(Property::class.java) }
+                    .map {
+                        PropertyData(
+                                it.getAnnotation(Property::class.java),
+                                it.apply { it.isAccessible = true },
+                                this
+                        )
+                    }.toMutableList()
 
     private val fileConfig = FileConfig.of(file)
     private var dirty = false
@@ -29,6 +31,10 @@ abstract class Vigilant(file: File) {
         }
     }
 
+    fun registerProperty(prop: PropertyData) {
+        properties.add(prop);
+    }
+
     fun getCategories(): List<Category> {
         val groupedByCategory = properties.groupBy { it.property.category }
         return groupedByCategory.map { Category(it.key, it.value.splitBySubcategory()) }
@@ -40,6 +46,7 @@ abstract class Vigilant(file: File) {
 
     fun preload() {}
 
+
     private fun readData() {
         fileConfig.load()
 
@@ -47,9 +54,9 @@ abstract class Vigilant(file: File) {
             val fullPath = it.property.fullPropertyPath()
 
             val oldValue: Any = fileConfig.get(fullPath) ?: run {
-                    markDirty()
-                    return@forEach
-                }
+                markDirty()
+                return@forEach
+            }
 
             it.setValue(oldValue)
         }
