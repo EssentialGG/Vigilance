@@ -22,8 +22,8 @@ enum class PropertyType {
     COLOR() {
         override fun isFieldValid(field: Field) = field.type == Color::class.java
     },
-    DROP_DOWN() {
-        override fun isFieldValid(field: Field) = field.type == String::class.java
+    SELECTOR() {
+        override fun isFieldValid(field: Field) = field.type == Int::class.java
     };
 
     abstract fun isFieldValid(field: Field): Boolean

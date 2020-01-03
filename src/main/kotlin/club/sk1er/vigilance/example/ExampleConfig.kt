@@ -7,6 +7,15 @@ import java.io.File
 
 object ExampleConfig : Vigilant(File("./config/example.toml")) {
     @Property(
+        type = PropertyType.SELECTOR,
+        name = "Test",
+        description = "String Selector",
+        category = "General",
+        subcategory = "General Settings"
+    )
+    var selector = 0
+
+    @Property(
         type = PropertyType.SWITCH,
         name = "General 1",
         description = "This toggles something",
@@ -77,4 +86,13 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         subcategory = "Category"
     )
     var toggle8 = true
+
+    @Property(
+            type = PropertyType.SWITCH,
+            name = "Color 1",
+            description = "This toggles something",
+            category = "Color",
+            subcategory = "General Settings"
+    )
+    var toggle10 = true
 }

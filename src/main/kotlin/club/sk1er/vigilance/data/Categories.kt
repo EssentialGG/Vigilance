@@ -1,9 +1,6 @@
 package club.sk1er.vigilance.data
 
-import club.sk1er.vigilance.gui.SettingDivider
-import club.sk1er.vigilance.gui.SettingObject
-import club.sk1er.vigilance.gui.SliderSetting
-import club.sk1er.vigilance.gui.ToggleSetting
+import club.sk1er.vigilance.gui.*
 
 class Category(val name: String, val items: List<CategoryItem>) {
     override fun toString(): String {
@@ -34,7 +31,7 @@ class PropertyItem(val data: PropertyData) : CategoryItem() {
             PropertyType.SLIDER -> SliderSetting(data.property.name, data.property.description)
             PropertyType.NUMBER -> TODO()
             PropertyType.COLOR -> TODO()
-            PropertyType.DROP_DOWN -> TODO()
+            PropertyType.SELECTOR -> SelectSetting(data.property.name, data.property.description, 0, mutableListOf("test 1", "test 2", "test 3"))
         }
     }
 

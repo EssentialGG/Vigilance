@@ -2,6 +2,7 @@ package club.sk1er.vigilance.gui
 
 import club.sk1er.elementa.UIComponent
 import club.sk1er.elementa.components.UIBlock
+import club.sk1er.elementa.components.UIContainer
 import club.sk1er.elementa.components.UIText
 import club.sk1er.elementa.components.Window
 import club.sk1er.elementa.constraints.*
@@ -51,7 +52,7 @@ class SettingsGui(private val categories: List<Category>) : GuiScreen() {
             color = Color(0, 0, 0, 100).asConstraint()
         } childOf window
 
-        this.categories.map { GUICategory.fromCategoryData(it, settingsBox) }.forEach { it childOf categoryHolder }
+        this.categories.map { GUICategory.fromCategoryData(it, settingsBox, window) }.forEach { it childOf categoryHolder }
 
         ////////////////
         // ANIMATIONS //
@@ -102,7 +103,7 @@ class SettingsGui(private val categories: List<Category>) : GuiScreen() {
         window.mouseScroll(delta)
     }
 
-    class GUICategory(string: String, settingsBox: UIComponent) : UIBlock() {
+    class GUICategory(string: String, settingsBox: UIComponent, window: Window) : UIBlock() {
         private val settings = mutableListOf<SettingObject>()
         var selected = false
 
@@ -117,10 +118,7 @@ class SettingsGui(private val categories: List<Category>) : GuiScreen() {
             height = 2.pixels()
         } childOf this
 
-        private val settingsBlock = SettingsBlock().constrain {
-            width = RelativeConstraint()
-            height = RelativeConstraint()
-        } childOf settingsBox
+        private val settingsBlock = SettingsBlock(window)
 
         init {
             setY(SiblingConstraint())
@@ -144,6 +142,11 @@ class SettingsGui(private val categories: List<Category>) : GuiScreen() {
                     else if (it != this && it.selected) it.deselect()
                 }
             }
+
+            settingsBlock.constrain {
+                width = RelativeConstraint()
+                height = RelativeConstraint()
+            } childOf settingsBox
         }
 
         fun select() = apply {
@@ -160,12 +163,12 @@ class SettingsGui(private val categories: List<Category>) : GuiScreen() {
 
         fun addSetting(setting: SettingObject) = apply {
             settings.add(setting)
-            settingsBlock.addChild(setting)
+            settingsBlock.addSetting(setting)
         }
 
         companion object {
-            fun fromCategoryData(category: Category, settingsBox: UIComponent): GUICategory {
-                val guiCat = GUICategory(category.name, settingsBox)
+            fun fromCategoryData(category: Category, settingsBox: UIComponent, window: Window): GUICategory {
+                val guiCat = GUICategory(category.name, settingsBox, window)
 
                 category.items.forEach {
                     guiCat.addSetting(it.toSettingsObject())
@@ -176,32 +179,40 @@ class SettingsGui(private val categories: List<Category>) : GuiScreen() {
         }
     }
 
-    private class SettingsBlock : UIComponent() {
+    private class SettingsBlock(private val window: Window) : UIContainer() {
         var scrolled = 0
+        val box = UIContainer().constrain {
+            width = RelativeConstraint()
+            height = ChildBasedSizeConstraint()
+        } childOf this
 
         init {
             onMouseScroll(::scroll)
         }
 
-        private fun scroll(delta: Int) {
-            if (delta == 0 && !(children.first() as SettingObject).selected) return
-            scrolled += delta * 50
+        fun addSetting(component: UIComponent) {
+            box.addChild(component)
+        }
 
-            if (scrolled <= 0) {
-                children.first().animate {
-                    setYAnimation(Animations.OUT_EXP, 0.5f, scrolled.pixels())
-                }
-            } else {
-                children.first().animate {
-                    setYAnimation(Animations.OUT_EXP, 0.3f, (scrolled / 4).pixels())
-                }
+        private fun scroll(delta: Int) {
+            if (delta == 0 && !(box.children.first() as SettingObject).active) return
+            if (box.getHeight() < window.getHeight()) {
+                scrolled = 0
+                return
             }
 
-            if (scrolled > 0) {
-                scrolled = 0
-                children.first().animate {
-                    setYAnimation(Animations.OUT_BOUNCE, 0.5f, 0.pixels(), delay = 0.1f)
+            scrolled += delta * 50
+
+            if (delta < 0) {
+                if (scrolled < -(box.getHeight() - window.getHeight())) {
+                    scrolled = -(box.getHeight() - window.getHeight()).toInt()
                 }
+            } else {
+                if (scrolled > 0) scrolled = 0
+            }
+
+            box.animate {
+                setYAnimation(Animations.OUT_EXP, 0.5f, scrolled.pixels())
             }
         }
     }

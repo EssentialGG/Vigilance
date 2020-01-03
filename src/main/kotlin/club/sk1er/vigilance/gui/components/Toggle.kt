@@ -9,7 +9,6 @@ import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.StencilEffect
 import club.sk1er.vigilance.data.PropertyData
-import club.sk1er.vigilance.gui.components.Knob
 import java.awt.Color
 
 class Toggle(private val prop: PropertyData) : UIComponent() {
@@ -30,7 +29,7 @@ class Toggle(private val prop: PropertyData) : UIComponent() {
         color = Color(0, 170, 165, 0).asConstraint()
     } childOf slide
 
-    private val knob = Knob(14)
+    private val knob = Knob(14, toggled)
 
     init {
         constrain {
@@ -49,9 +48,9 @@ class Toggle(private val prop: PropertyData) : UIComponent() {
             knob.unHover()
         }
 
-        knob.constrain {
-            x = 0.pixels(true)
-        } childOf this
+        if (toggled) knob.setX(15.pixels(true))
+        else knob.setX(0.pixels())
+        knob childOf this
     }
 
     fun fadeIn() {

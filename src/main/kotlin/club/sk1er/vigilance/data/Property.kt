@@ -22,7 +22,7 @@ annotation class Property(
     /**
      * Reserved for [PropertyType.DROP_DOWN]
      */
-    val options: Array<String>
+    val options: Array<String> = []
 )
 
 fun Property.fullPropertyPath(): String {
