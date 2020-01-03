@@ -5,13 +5,15 @@ import club.sk1er.vigilance.gui.SettingsGui
 import com.electronwill.nightconfig.core.file.FileConfig
 import java.io.File
 import kotlin.concurrent.fixedRateTimer
+import kotlin.reflect.KProperty
+import kotlin.reflect.jvm.javaField
 
 abstract class Vigilant(file: File) {
     private val properties: MutableList<PropertyData> =
         this::class.java.declaredFields
             .filter { it.isAnnotationPresent(Property::class.java) }
             .map {
-                PropertyData(
+                PropertyData.fromField(
                     it.getAnnotation(Property::class.java),
                     it.apply { it.isAccessible = true },
                     this
@@ -36,6 +38,12 @@ abstract class Vigilant(file: File) {
 
     fun registerProperty(prop: PropertyData) {
         properties.add(prop);
+    }
+
+    fun registerListener(field: KProperty<*>, listener: (Any?) -> Unit) {
+        properties
+            .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field == field.javaField }
+            ?.action = listener
     }
 
     fun getCategories(): List<Category> {

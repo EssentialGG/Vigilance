@@ -4,33 +4,58 @@ import club.sk1er.vigilance.Vigilant
 import java.lang.reflect.Field
 import java.util.function.Consumer
 
-data class PropertyData(val property: Property, val instance: Vigilant) {
+data class PropertyData(val property: Property, val value: PropertyValue, val instance: Vigilant) {
     fun getDataType() = property.type
-    var obj: Any? = null
-    var field: Field? = null
-    var action: Consumer<Any>? = null
-
-    constructor(property: Property, obj: Any, instance: Vigilant) : this(property, instance) {
-        this.obj = obj;
-    }
-
-    constructor(property: Property, field: Field, instance: Vigilant) : this(property, instance) {
-        this.field = field
-    }
-
+    var action: ((Any?) -> Unit)? = null
 
     inline fun <reified T> getValue(): T {
-        if (obj != null) return obj as T
-
-        return field?.get(instance) as T
+        return value.getValue(instance) as T
     }
 
     fun setValue(value: Any?) {
-        if (value != null) action?.accept(value)
+        if (value != null) action?.invoke(value)
 
-        if (obj != null) obj = value
-        else field?.set(instance, value)
+        this.value.setValue(value, instance)
 
         instance.markDirty()
+    }
+
+    fun setCallbackConsumer(callback: Consumer<Any?>) {
+        this.action = callback::accept
+    }
+
+    companion object {
+        fun fromField(property: Property, field: Field, instance: Vigilant): PropertyData {
+            return PropertyData(property, FieldBackedPropertyValue(field), instance)
+        }
+
+        fun withValue(property: Property, obj: Any?, instance: Vigilant): PropertyData {
+            return PropertyData(property, ValueBackedPropertyValue(obj), instance)
+        }
+    }
+}
+
+sealed class PropertyValue {
+    abstract fun getValue(instance: Vigilant): Any?
+    abstract fun setValue(value: Any?, instance: Vigilant)
+}
+
+class FieldBackedPropertyValue(internal val field: Field) : PropertyValue() {
+    override fun getValue(instance: Vigilant): Any? {
+        return field.get(instance)
+    }
+
+    override fun setValue(value: Any?, instance: Vigilant) {
+        field.set(instance, value)
+    }
+}
+
+class ValueBackedPropertyValue(private var obj: Any?) : PropertyValue() {
+    override fun getValue(instance: Vigilant): Any? {
+        return obj
+    }
+
+    override fun setValue(value: Any?, instance: Vigilant) {
+        obj = value
     }
 }
