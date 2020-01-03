@@ -12,7 +12,7 @@ import club.sk1er.vigilance.data.PropertyData
 import java.awt.Color
 
 class Toggle(private val prop: PropertyData) : UIComponent() {
-    private var toggled = prop.getValue<Boolean>()
+    private var toggled = prop.getAsBoolean()
     private var selected = false
 
     private val slide = UIRoundedRectangle(5f).constrain {
@@ -69,7 +69,6 @@ class Toggle(private val prop: PropertyData) : UIComponent() {
 
     private fun toggle() {
         knob.click(toggled)
-        prop.setValue(toggled)
 
         if (toggled) {
             toggled = false
@@ -79,5 +78,7 @@ class Toggle(private val prop: PropertyData) : UIComponent() {
             toggled = true
             slideOn.animate { setWidthAnimation(Animations.OUT_EXP, 0.5f, RelativeConstraint()) }
         }
+
+        prop.setValue(toggled)
     }
 }

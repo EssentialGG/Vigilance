@@ -5,6 +5,7 @@ import club.sk1er.vigilance.gui.SettingsGui
 import com.electronwill.nightconfig.core.file.FileConfig
 import java.io.File
 import kotlin.concurrent.fixedRateTimer
+import kotlin.concurrent.thread
 import kotlin.reflect.KProperty
 import kotlin.reflect.jvm.javaField
 
@@ -23,20 +24,23 @@ abstract class Vigilant(file: File) {
     private val fileConfig = FileConfig.of(file)
     private var dirty = false
 
-    init {
+    fun initialize() {
         readData()
 
-        fixedRateTimer(period = 10 * 1000) {
-            if (dirty) {
-                writeData()
-                dirty = false
-            }
-        }
+        fixedRateTimer(period = 10 * 1000) { writeData() }
+
+        Runtime.getRuntime().addShutdownHook(Thread { writeData() })
     }
 
     fun gui() = SettingsGui(getCategories())
 
     fun registerProperty(prop: PropertyData) {
+        val fullPath = prop.property.fullPropertyPath()
+
+        val oldValue: Any? = fileConfig.get(fullPath) ?: prop.getAsAny()
+
+        prop.setValue(oldValue)
+
         properties.add(prop);
     }
 
@@ -63,16 +67,15 @@ abstract class Vigilant(file: File) {
         properties.forEach {
             val fullPath = it.property.fullPropertyPath()
 
-            val oldValue: Any = fileConfig.get(fullPath) ?: run {
-                markDirty()
-                return@forEach
-            }
+            val oldValue: Any? = fileConfig.get(fullPath) ?: it.getAsAny()
 
             it.setValue(oldValue)
         }
     }
 
     private fun writeData() {
+        if (!dirty) return
+
         properties.forEach {
             val fullPath = it.property.fullPropertyPath()
 
@@ -80,6 +83,8 @@ abstract class Vigilant(file: File) {
         }
 
         fileConfig.save()
+
+        dirty = false
     }
 
     private fun List<PropertyData>.splitBySubcategory(): List<CategoryItem> {

@@ -96,4 +96,8 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
             subcategory = "General Settings"
     )
     var toggle10 = true
+
+    init {
+        initialize()
+    }
 }
