@@ -22,10 +22,10 @@ class ToggleSetting(name: String, description: String, prop: PropertyData) : Set
         x = 3.pixels()
         y = 3.pixels()
         width = PixelConstraint(Minecraft.getMinecraft().fontRendererObj.getStringWidth(name) * 2f)
-            .max(RelativeConstraint() as SizeConstraint)
+            .max(RelativeConstraint() - 6.pixels() as SizeConstraint)
 
         // TODO: This doesn't work, how can we scale the height appropriately so the text doesn't look really squished?
-        height = 18.pixels().max(AspectConstraint(0.8f) as SizeConstraint)
+        height = TextAspectConstraint()
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf drawBox
 
@@ -33,7 +33,7 @@ class ToggleSetting(name: String, description: String, prop: PropertyData) : Set
         x = 3.pixels()
         y = 25.pixels()
         color = Color(255, 255, 255, 10).asConstraint()
-        width = RelativeConstraint(0.8f)
+        width = FillConstraint() - 50.pixels()
     } childOf drawBox
 
     private val toggle = Toggle(prop)
