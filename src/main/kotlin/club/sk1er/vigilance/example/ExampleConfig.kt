@@ -72,8 +72,8 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
 
     @Property(
         type = PropertyType.SWITCH,
-        name = "General 7",
-        description = "This toggles something",
+        name = "Some kind of really long name",
+        description = "This toggles something. This description is going to be really long, so hopefully it will wrap on to the next couple of lines making vigilance look cool!",
         category = "General",
         subcategory = "Category"
     )

@@ -2,9 +2,8 @@ package club.sk1er.vigilance.gui
 
 import club.sk1er.elementa.components.UIBlock
 import club.sk1er.elementa.components.UIText
-import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
-import club.sk1er.elementa.constraints.PixelConstraint
-import club.sk1er.elementa.constraints.RelativeConstraint
+import club.sk1er.elementa.components.UIWrappedText
+import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.vigilance.data.PropertyData
@@ -23,14 +22,18 @@ class ToggleSetting(name: String, description: String, prop: PropertyData) : Set
         x = 3.pixels()
         y = 3.pixels()
         width = PixelConstraint(Minecraft.getMinecraft().fontRendererObj.getStringWidth(name) * 2f)
-        height = 18.pixels()
+            .max(RelativeConstraint() as SizeConstraint)
+
+        // TODO: This doesn't work, how can we scale the height appropriately so the text doesn't look really squished?
+        height = 18.pixels().max(AspectConstraint(0.8f) as SizeConstraint)
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf drawBox
 
-    private val text = UIText(description).constrain {
+    private val text = UIWrappedText(description).constrain {
         x = 3.pixels()
         y = 25.pixels()
         color = Color(255, 255, 255, 10).asConstraint()
+        width = RelativeConstraint(0.8f)
     } childOf drawBox
 
     private val toggle = Toggle(prop)
