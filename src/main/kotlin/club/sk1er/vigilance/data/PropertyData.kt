@@ -25,11 +25,8 @@ data class PropertyData(val property: Property, val instance: Vigilant) {
     }
 
     fun setValue(value: Any?) {
-        if (obj != null) {
-            obj = value
-            return
-        }
-        field?.set(instance, value)
+        if (obj != null) obj = value
+        else field?.set(instance, value)
 
         instance.markDirty()
     }
