@@ -60,12 +60,12 @@ class Button @JvmOverloads constructor(buttonText: String, private var style: In
             click.constrain {
                 x = mouseX.pixels()
                 y = mouseY.pixels()
-                width = 0.pixels()
+                radius = 0.pixels()
                 color = Color(0, 0, 0, 75).asConstraint()
             }
 
             click.animate {
-                setWidthAnimation(Animations.OUT_CUBIC, 0.5f, RelativeConstraint(2f))
+                setRadiusAnimation(Animations.OUT_CUBIC, 0.5f, RelativeConstraint(2f))
             }
 
             onClickAction()

@@ -5,7 +5,6 @@ import club.sk1er.vigilance.gui.SettingsGui
 import com.electronwill.nightconfig.core.file.FileConfig
 import java.io.File
 import kotlin.concurrent.fixedRateTimer
-import kotlin.concurrent.thread
 import kotlin.reflect.KProperty
 import kotlin.reflect.jvm.javaField
 

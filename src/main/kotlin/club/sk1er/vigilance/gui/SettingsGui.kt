@@ -9,6 +9,7 @@ import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.ScissorEffect
+import club.sk1er.elementa.effects.StencilEffect
 import club.sk1er.vigilance.data.Category
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
@@ -19,6 +20,8 @@ class SettingsGui(private val categories: List<Category>) : GuiScreen() {
     private val window = Window()
 
     init {
+        StencilEffect.enableStencil()
+
         val categories = UIBlock().constrain {
             x = PixelConstraint(-window.getWidth() / 3)
             width = RelativeConstraint(1 / 3f)
