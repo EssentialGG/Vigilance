@@ -2,10 +2,12 @@ package club.sk1er.vigilance.gui
 
 import club.sk1er.elementa.components.UIBlock
 import club.sk1er.elementa.components.UIText
-import club.sk1er.elementa.constraints.*
+import club.sk1er.elementa.constraints.CenterConstraint
+import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
+import club.sk1er.elementa.constraints.PixelConstraint
+import club.sk1er.elementa.constraints.RelativeConstraint
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
-import club.sk1er.vigilance.gui.components.Button
 import club.sk1er.vigilance.gui.components.DropDown
 import net.minecraft.client.Minecraft
 import java.awt.Color
@@ -39,28 +41,14 @@ class SelectSetting(name: String, description: String, selected: Int, selections
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf drawBox
 
-    private val button = Button(selections[selected], Button.RECTANGLE_TRANSPARENT)
-
-
-    private val dropDown = DropDown()
+    private val dropDown = DropDown(false)
 
     init {
-        button.onClick {
-            opened = !opened
-            if (opened) dropDown.open() else dropDown.close()
-        }.constrain {
-            x = 5.pixels(true)
-            y = CenterConstraint()
-            width = 50.pixels()
-            height = 20.pixels()
-        } childOf drawBox
-
         dropDown.constrain {
-            x = SiblingConstraint()
+            x = 10.pixels(true)
             y = CenterConstraint()
         } childOf drawBox
         selections.forEach {
-            //dropDown.addElement(Button(it, Button.RECTANGLE_GRAY))
             dropDown.addElement(UIText(it))
         }
     }
@@ -74,7 +62,7 @@ class SelectSetting(name: String, description: String, selected: Int, selections
         }
         title.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.WHITE.asConstraint())}
         text.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.WHITE.asConstraint()) }
-        button.fadeIn()
+        dropDown.fadeIn()
     }
 
     override fun animateOut() {
@@ -86,6 +74,6 @@ class SelectSetting(name: String, description: String, selected: Int, selections
         }
         title.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(255, 255, 255, 10).asConstraint())}
         text.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(255, 255, 255, 10).asConstraint()) }
-        button.fadeOut()
+        dropDown.fadeOut()
     }
 }

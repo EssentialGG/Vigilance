@@ -34,7 +34,7 @@ class SettingsGui(private val categories: List<Category>) : GuiScreen() {
             x = CenterConstraint()
             width = 0.pixels()
             height = 36.pixels()
-        }.enableEffects(ScissorEffect()) childOf categories
+        } effect ScissorEffect() childOf categories
 
         UIText("Settings").constrain {
             width = MaxSizeConstraint(PixelConstraint("Settings".width() * 4f), RelativeConstraint().to(categories) as SizeConstraint)
