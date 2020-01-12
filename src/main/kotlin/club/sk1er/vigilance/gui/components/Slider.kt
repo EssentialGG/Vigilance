@@ -51,10 +51,10 @@ class Slider : UIComponent() {
         onMouseDrag { mouseX, _, _ ->
             if (!grabbed) return@onMouseDrag
             knob.animate {
-                setXAnimation(Animations.OUT_EXP, 0.5f, (mouseX - 5).pixels().positionMinMax(0.pixels(), 0.pixels(true)))
+                setXAnimation(Animations.OUT_EXP, 0.5f, (mouseX - 5).pixels().minMax(0.pixels(), 0.pixels(true)))
             }
             slideBackground.animate {
-                setWidthAnimation(Animations.OUT_EXP, 0.5f, mouseX.pixels().sizeMinMax(0.pixels(), RelativeConstraint()))
+                setWidthAnimation(Animations.OUT_EXP, 0.5f, mouseX.pixels().minMax(0.pixels(), RelativeConstraint()))
             }
         }
 
