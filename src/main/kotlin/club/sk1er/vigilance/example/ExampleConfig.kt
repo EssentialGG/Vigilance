@@ -17,6 +17,17 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
     var selector = 0
 
     @Property(
+        type = PropertyType.SLIDER,
+        name = "Slider",
+        description = "Test Slider",
+        category = "General",
+        subcategory = "General Settings",
+        min = 15,
+        max = 75
+    )
+    var slide = 15
+
+    @Property(
         type = PropertyType.SWITCH,
         name = "General 1",
         description = "This toggles something",

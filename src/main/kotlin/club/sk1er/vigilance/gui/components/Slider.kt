@@ -13,7 +13,7 @@ import java.awt.Color
 
 class Slider : UIComponent() {
     private var grabbed = false
-    private val value = 0.5f
+    var value = 0.5f
 
     private val slide = UIRoundedRectangle(1f).constrain {
         y = CenterConstraint()
@@ -32,13 +32,11 @@ class Slider : UIComponent() {
 
     init {
         knob.constrain {
-            x = 0.pixels(true)
+            x = 100.pixels(true)
         }.onMouseEnter {
-            if (!grabbed)
-            knob.hover()
+            if (!grabbed) knob.hover()
         }.onMouseLeave {
-            if (!grabbed)
-            knob.unHover()
+            if (!grabbed) knob.unHover()
         }.onMouseClick { _, _, _ ->
             knob.grab()
             grabbed = true
@@ -56,6 +54,8 @@ class Slider : UIComponent() {
             slideBackground.animate {
                 setWidthAnimation(Animations.OUT_EXP, 0.5f, mouseX.pixels().minMax(0.pixels(), RelativeConstraint()))
             }
+            value = knob.getLeft() / (slide.getRight() - slide.getLeft())
+            println(value)
         }
 
         constrain {

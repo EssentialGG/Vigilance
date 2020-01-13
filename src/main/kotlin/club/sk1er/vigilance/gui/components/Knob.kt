@@ -29,7 +29,8 @@ class Knob(private val size: Int, toggled: Boolean = true) : UIContainer() {
     init {
         constrain {
             y = CenterConstraint()
-            radius = (size / 2).pixels()
+            width = size.pixels()
+            height = size.pixels()
         }
 
         if (toggled) {
