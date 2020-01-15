@@ -1,10 +1,7 @@
 package club.sk1er.vigilance.gui
 
 import club.sk1er.elementa.UIComponent
-import club.sk1er.elementa.components.UIBlock
-import club.sk1er.elementa.components.UIContainer
-import club.sk1er.elementa.components.UIText
-import club.sk1er.elementa.components.Window
+import club.sk1er.elementa.components.*
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
@@ -121,7 +118,7 @@ class SettingsGui(private val categories: List<Category>) : GuiScreen() {
             height = 2.pixels()
         } childOf this
 
-        private val settingsBlock = SettingsBlock(window)
+        private val settingsBlock = ScrollComponent()
 
         init {
             setY(SiblingConstraint())
@@ -166,7 +163,7 @@ class SettingsGui(private val categories: List<Category>) : GuiScreen() {
 
         fun addSetting(setting: SettingObject) = apply {
             settings.add(setting)
-            settingsBlock.addSetting(setting)
+            setting childOf settingsBlock
         }
 
         companion object {
@@ -178,44 +175,6 @@ class SettingsGui(private val categories: List<Category>) : GuiScreen() {
                 }
 
                 return guiCat
-            }
-        }
-    }
-
-    private class SettingsBlock(private val window: Window) : UIContainer() {
-        var scrolled = 0
-        val box = UIContainer().constrain {
-            width = RelativeConstraint()
-            height = ChildBasedSizeConstraint()
-        } childOf this
-
-        init {
-            onMouseScroll(::scroll)
-        }
-
-        fun addSetting(component: UIComponent) {
-            box.addChild(component)
-        }
-
-        private fun scroll(delta: Int) {
-            if (delta == 0 && !(box.children.first() as SettingObject).active) return
-            if (box.getHeight() < window.getHeight()) {
-                scrolled = 0
-                return
-            }
-
-            scrolled += delta * 50
-
-            if (delta < 0) {
-                if (scrolled < -(box.getHeight() - window.getHeight())) {
-                    scrolled = -(box.getHeight() - window.getHeight()).toInt()
-                }
-            } else {
-                if (scrolled > 0) scrolled = 0
-            }
-
-            box.animate {
-                setYAnimation(Animations.OUT_EXP, 0.5f, scrolled.pixels())
             }
         }
     }
