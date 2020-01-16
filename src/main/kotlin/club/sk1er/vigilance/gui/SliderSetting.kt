@@ -2,6 +2,7 @@ package club.sk1er.vigilance.gui
 
 import club.sk1er.elementa.components.UIBlock
 import club.sk1er.elementa.components.UIText
+import club.sk1er.elementa.constraints.CenterConstraint
 import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
 import club.sk1er.elementa.constraints.PixelConstraint
 import club.sk1er.elementa.constraints.RelativeConstraint
@@ -12,7 +13,7 @@ import club.sk1er.vigilance.gui.components.Slider
 import net.minecraft.client.Minecraft
 import java.awt.Color
 
-class SliderSetting(name: String, description: String, prop: PropertyData) : SettingObject() {
+class SliderSetting(name: String, description: String, private val prop: PropertyData) : SettingObject() {
     private val drawBox = UIBlock().constrain {
         height = ChildBasedSizeConstraint() + 15.pixels()
         width = RelativeConstraint()
@@ -35,8 +36,29 @@ class SliderSetting(name: String, description: String, prop: PropertyData) : Set
 
     private val slider = Slider(prop)
 
+    private val minText = UIText(prop.property.min.toString()).constrain {
+        x = RelativeConstraint(1.25f) - Minecraft.getMinecraft().fontRendererObj.getStringWidth(prop.property.min.toString()).pixels()
+        y = CenterConstraint()
+    } childOf slider
+
+    private val maxText = UIText(prop.property.max.toString()).constrain {
+        x = RelativeConstraint(2.25f) + Minecraft.getMinecraft().fontRendererObj.getStringWidth(prop.property.max.toString()).pixels()
+        y = CenterConstraint()
+    } childOf slider
+
+    private val currentText = (UIText(prop.getValue<Int>().toString()).constrain {
+        y = CenterConstraint() + (10).pixels()
+    } childOf slider) as UIText
+
     init {
         slider childOf drawBox
+        onMouseDrag { mouseX, _, _ ->
+            val tmp = prop.getValue<Int>()
+            currentText.setText(tmp.toString())
+            currentText.animate {
+                setXAnimation(Animations.OUT_EXP, 0.5f, (mouseX - slider.knob.getRadius() / 2 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(tmp.toString()) / 2).pixels().minMax(0.pixels(), 0.pixels(true)))
+            }
+        }
     }
 
     override fun animateIn() {
