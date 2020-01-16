@@ -14,7 +14,7 @@ import java.awt.Color
 
 class SliderSetting(name: String, description: String, prop: PropertyData) : SettingObject() {
     private val drawBox = UIBlock().constrain {
-        height = ChildBasedSizeConstraint() + 8.pixels()
+        height = ChildBasedSizeConstraint() + 15.pixels()
         width = RelativeConstraint()
         color = Color(0, 0, 0, 0).asConstraint()
     } childOf this

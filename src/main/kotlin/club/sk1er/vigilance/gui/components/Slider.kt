@@ -31,6 +31,8 @@ class Slider(private val prop: PropertyData) : UIComponent() {
         color = Color(0, 170, 165, 0).asConstraint()
     } childOf slide
 
+    private val knob = Knob(10)
+
     private val minText = UIText(prop.property.min.toString()).constrain {
         x = RelativeConstraint(1.25f) - Minecraft.getMinecraft().fontRendererObj.getStringWidth(prop.property.min.toString()).pixels()
         y = CenterConstraint()
@@ -41,9 +43,13 @@ class Slider(private val prop: PropertyData) : UIComponent() {
         y = CenterConstraint()
     } childOf this
 
-    private val knob = Knob(10)
+    private val currentText = (UIText(prop.getValue<Int>().toString()).constrain {
+        y = CenterConstraint() + (10).pixels()
+    } childOf this) as UIText
+
 
     init {
+
         knob.constrain {
             x = 100.pixels(true)
         }.onMouseEnter {
@@ -68,10 +74,16 @@ class Slider(private val prop: PropertyData) : UIComponent() {
                 setWidthAnimation(Animations.OUT_EXP, 0.5f, mouseX.pixels().minMax(0.pixels(), RelativeConstraint()))
             }
 
+
+
             value = slideBackground.getWidth() / (slide.getRight() - slide.getLeft())
             val tmp = (prop.property.min + ((prop.property.max - prop.property.min) * value)).toInt()
             println(tmp)
             prop.setValue(tmp)
+            currentText.setText(tmp.toString())
+            currentText.animate {
+                setXAnimation(Animations.OUT_EXP, 0.5f, (mouseX - knob.getRadius() / 2 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(tmp.toString()) / 2).pixels().minMax(0.pixels(), 0.pixels(true)))
+            }
         }
 
         constrain {
