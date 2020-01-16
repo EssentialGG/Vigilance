@@ -9,9 +9,10 @@ import club.sk1er.elementa.constraints.SiblingConstraint
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.StencilEffect
+import club.sk1er.vigilance.data.PropertyData
 import java.awt.Color
 
-class Slider : UIComponent() {
+class Slider(private val prop: PropertyData) : UIComponent() {
     private var grabbed = false
     var value = 0.5f
 
@@ -54,8 +55,10 @@ class Slider : UIComponent() {
             slideBackground.animate {
                 setWidthAnimation(Animations.OUT_EXP, 0.5f, mouseX.pixels().minMax(0.pixels(), RelativeConstraint()))
             }
-            value = knob.getLeft() / (slide.getRight() - slide.getLeft())
-            println(value)
+
+            value = ((knob.getLeft() + knob.getRight()) / 2 - slide.getLeft() * 2) / (slide.getRight() - slide.getLeft())
+            val tmp = (prop.property.min + ((prop.property.max - prop.property.min) * value)).toInt()
+            prop.setValue(tmp)
         }
 
         constrain {

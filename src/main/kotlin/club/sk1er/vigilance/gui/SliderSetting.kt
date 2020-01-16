@@ -7,11 +7,12 @@ import club.sk1er.elementa.constraints.PixelConstraint
 import club.sk1er.elementa.constraints.RelativeConstraint
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
+import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.components.Slider
 import net.minecraft.client.Minecraft
 import java.awt.Color
 
-class SliderSetting(name: String, description: String) : SettingObject() {
+class SliderSetting(name: String, description: String, prop: PropertyData) : SettingObject() {
     private val drawBox = UIBlock().constrain {
         height = ChildBasedSizeConstraint() + 8.pixels()
         width = RelativeConstraint()
@@ -32,7 +33,7 @@ class SliderSetting(name: String, description: String) : SettingObject() {
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf drawBox
 
-    private val slider = Slider()
+    private val slider = Slider(prop)
 
     init {
         slider childOf drawBox
@@ -45,7 +46,7 @@ class SliderSetting(name: String, description: String) : SettingObject() {
             setYAnimation(Animations.OUT_EXP, 0.5f, 0.pixels())
             setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 0, 0, 100).asConstraint())
         }
-        title.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.WHITE.asConstraint())}
+        title.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.WHITE.asConstraint()) }
         text.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.WHITE.asConstraint()) }
         slider.fadeIn()
     }
@@ -57,7 +58,7 @@ class SliderSetting(name: String, description: String) : SettingObject() {
             setYAnimation(Animations.OUT_EXP, 0.5f, (-10).pixels())
             setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 0, 0, 0).asConstraint())
         }
-        title.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(255, 255, 255, 10).asConstraint())}
+        title.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(255, 255, 255, 10).asConstraint()) }
         text.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(255, 255, 255, 10).asConstraint()) }
         slider.fadeOut()
     }
