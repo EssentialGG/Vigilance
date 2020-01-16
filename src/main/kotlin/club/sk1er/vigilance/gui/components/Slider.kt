@@ -3,6 +3,7 @@ package club.sk1er.vigilance.gui.components
 import club.sk1er.elementa.UIComponent
 import club.sk1er.elementa.components.UIBlock
 import club.sk1er.elementa.components.UIRoundedRectangle
+import club.sk1er.elementa.components.UIText
 import club.sk1er.elementa.constraints.CenterConstraint
 import club.sk1er.elementa.constraints.RelativeConstraint
 import club.sk1er.elementa.constraints.SiblingConstraint
@@ -10,6 +11,7 @@ import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.StencilEffect
 import club.sk1er.vigilance.data.PropertyData
+import net.minecraft.client.Minecraft
 import java.awt.Color
 
 class Slider(private val prop: PropertyData) : UIComponent() {
@@ -28,6 +30,16 @@ class Slider(private val prop: PropertyData) : UIComponent() {
         height = RelativeConstraint()
         color = Color(0, 170, 165, 0).asConstraint()
     } childOf slide
+
+    private val minText = UIText(prop.property.min.toString()).constrain {
+        x = RelativeConstraint(1.25f) - Minecraft.getMinecraft().fontRendererObj.getStringWidth(prop.property.min.toString()).pixels()
+        y = CenterConstraint()
+    } childOf this
+
+    private val maxText = UIText(prop.property.max.toString()).constrain {
+        x = RelativeConstraint(2.25f) + Minecraft.getMinecraft().fontRendererObj.getStringWidth(prop.property.max.toString()).pixels()
+        y = CenterConstraint()
+    } childOf this
 
     private val knob = Knob(10)
 
@@ -58,7 +70,7 @@ class Slider(private val prop: PropertyData) : UIComponent() {
 
             value = slideBackground.getWidth() / (slide.getRight() - slide.getLeft())
             val tmp = (prop.property.min + ((prop.property.max - prop.property.min) * value)).toInt()
-            println(value)
+            println(tmp)
             prop.setValue(tmp)
         }
 
