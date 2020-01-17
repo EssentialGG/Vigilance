@@ -53,7 +53,7 @@ dependencies {
     implementation 'com.electronwill.night-config:toml:3.6.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect"
-    implementation 'com.github.sk1erllc:Elementa:da05db0a5f'
+    implementation 'com.github.sk1erllc:Elementa:ec24102f34'
 
     testImplementation "io.mockk:mockk:1.9.3"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
@@ -90,6 +90,8 @@ shadowJar {
     minimize {
 
     }
+
+    exclude("club/sk1er/vigilance/example/**")
 
     classifier ''
 }
