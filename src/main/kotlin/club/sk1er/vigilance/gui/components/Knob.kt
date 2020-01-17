@@ -80,7 +80,7 @@ class Knob(private val size: Int, toggled: Boolean = true) : UIContainer() {
             hover.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(255, 255, 255, 50).asConstraint()) }
             knob.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(164, 164, 164, 255).asConstraint()) }
         } else {
-            animate { setXAnimation(Animations.OUT_EXP, 0.5f, 15.pixels(true)) }
+            animate { setXAnimation(Animations.OUT_EXP, 0.5f, 0.pixels(true)) }
             hover.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 255, 250, 50).asConstraint()) }
             knob.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 210, 205, 255).asConstraint()) }
         }
