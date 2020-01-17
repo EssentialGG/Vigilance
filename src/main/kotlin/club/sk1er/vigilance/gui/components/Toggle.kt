@@ -48,8 +48,6 @@ class Toggle(private val prop: PropertyData) : UIComponent() {
             knob.unHover()
         }
 
-        if (toggled) knob.setX(15.pixels(true))
-        else knob.setX(0.pixels())
         knob childOf this
     }
 
