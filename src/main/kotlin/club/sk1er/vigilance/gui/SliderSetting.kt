@@ -2,10 +2,7 @@ package club.sk1er.vigilance.gui
 
 import club.sk1er.elementa.components.UIBlock
 import club.sk1er.elementa.components.UIText
-import club.sk1er.elementa.constraints.CenterConstraint
-import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
-import club.sk1er.elementa.constraints.PixelConstraint
-import club.sk1er.elementa.constraints.RelativeConstraint
+import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.vigilance.data.PropertyData
@@ -47,17 +44,14 @@ class SliderSetting(name: String, description: String, private val prop: Propert
     } childOf slider
 
     private val currentText = (UIText(prop.getValue<Int>().toString()).constrain {
-        y = CenterConstraint() + (10).pixels()
+        x = 0.pixels().to(slider.knob) as XConstraint
+        y = 2.pixels(true).alignOutside(true).to(slider.knob) as YConstraint
     } childOf slider) as UIText
 
     init {
         slider childOf drawBox
-        onMouseDrag { mouseX, _, _ ->
-            val tmp = prop.getValue<Int>()
-            currentText.setText(tmp.toString())
-            currentText.animate {
-                setXAnimation(Animations.OUT_EXP, 0.5f, (mouseX - slider.knob.getRadius() / 2 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(tmp.toString()) / 2).pixels().minMax(0.pixels(), 0.pixels(true)))
-            }
+        onMouseDrag { _, _, _ ->
+            currentText.setText(prop.getValue<Int>().toString())
         }
     }
 
@@ -70,6 +64,9 @@ class SliderSetting(name: String, description: String, private val prop: Propert
         }
         title.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.WHITE.asConstraint()) }
         text.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.WHITE.asConstraint()) }
+        minText.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.WHITE.asConstraint()) }
+        maxText.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.WHITE.asConstraint()) }
+        currentText.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.WHITE.asConstraint()) }
         slider.fadeIn()
     }
 
@@ -82,6 +79,9 @@ class SliderSetting(name: String, description: String, private val prop: Propert
         }
         title.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(255, 255, 255, 10).asConstraint()) }
         text.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(255, 255, 255, 10).asConstraint()) }
+        minText.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(255, 255, 255, 10).asConstraint()) }
+        maxText.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(255, 255, 255, 10).asConstraint()) }
+        currentText.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(255, 255, 255, 10).asConstraint()) }
         slider.fadeOut()
     }
 }
