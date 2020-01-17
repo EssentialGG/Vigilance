@@ -36,16 +36,19 @@ class SliderSetting(name: String, description: String, private val prop: Propert
     private val minText = UIText(prop.property.min.toString()).constrain {
         x = RelativeConstraint(1.25f) - Minecraft.getMinecraft().fontRendererObj.getStringWidth(prop.property.min.toString()).pixels()
         y = CenterConstraint()
+        color = Color(255, 255, 255, 10).asConstraint()
     } childOf slider
 
     private val maxText = UIText(prop.property.max.toString()).constrain {
         x = RelativeConstraint(2.25f) + Minecraft.getMinecraft().fontRendererObj.getStringWidth(prop.property.max.toString()).pixels()
         y = CenterConstraint()
+        color = Color(255, 255, 255, 10).asConstraint()
     } childOf slider
 
     private val currentText = (UIText(prop.getValue<Int>().toString()).constrain {
         x = 0.pixels().to(slider.knob) as XConstraint
         y = 2.pixels(true).alignOutside(true).to(slider.knob) as YConstraint
+        color = Color(255, 255, 255, 10).asConstraint()
     } childOf slider) as UIText
 
     init {
