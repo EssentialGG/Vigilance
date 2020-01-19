@@ -18,7 +18,7 @@ class DropDown @JvmOverloads constructor(var floating: Boolean = true) : UIRound
 
     val selectionBox = UIContainer().constrain {
         width = ChildBasedMaxSizeConstraint()
-        height = ChildBasedSizeConstraint()
+        height = ChildBasedSizeConstraint(padding = 2f)
     }
     val clickBox = UIContainer()
     val click = UICircle()
