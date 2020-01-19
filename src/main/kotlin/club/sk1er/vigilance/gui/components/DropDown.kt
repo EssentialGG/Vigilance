@@ -14,7 +14,7 @@ import java.awt.Color
 
 class DropDown @JvmOverloads constructor(var floating: Boolean = true) : UIRoundedRectangle(5f) {
     var active = false
-    var selected = 2
+    var selected = 0
 
     val selectionBox = UIContainer().constrain {
         width = ChildBasedMaxSizeConstraint()
@@ -22,6 +22,8 @@ class DropDown @JvmOverloads constructor(var floating: Boolean = true) : UIRound
     }
     val clickBox = UIContainer()
     val click = UICircle()
+
+    var onSelect: (selected: UIComponent) -> Unit = { }
 
     init {
         setColor(Color(120, 120, 120, 0).asConstraint())
@@ -40,6 +42,10 @@ class DropDown @JvmOverloads constructor(var floating: Boolean = true) : UIRound
 
     override fun getHeight() = if (floating) 0f else super.getHeight()
 
+    fun onSelect(action: (selected: UIComponent) -> Unit) = apply {
+        onSelect = action
+    }
+
     fun addElement(element: UIComponent) = apply {
         selectionBox.addChild(element.constrain {
             y = SiblingConstraint() + 2.pixels()
@@ -48,6 +54,7 @@ class DropDown @JvmOverloads constructor(var floating: Boolean = true) : UIRound
         }.onMouseClick { mouseX, mouseY, _ ->
             if (active && getHeight() > 12) {
                 selected = selectionBox.children.indexOf(element)
+                onSelect(element)
                 close(mouseX, mouseY)
             }
         })

@@ -8,11 +8,12 @@ import club.sk1er.elementa.constraints.PixelConstraint
 import club.sk1er.elementa.constraints.RelativeConstraint
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
+import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.components.DropDown
 import net.minecraft.client.Minecraft
 import java.awt.Color
 
-class SelectSetting(name: String, description: String, selected: Int, selections: List<String>) : SettingObject() {
+class SelectSetting(name: String, description: String, selected: Int, selections: List<String>, prop: PropertyData) : SettingObject() {
     private var opened = false
 
     override fun getHeight(): Float {
@@ -44,7 +45,9 @@ class SelectSetting(name: String, description: String, selected: Int, selections
     private val dropDown = DropDown(false)
 
     init {
-        dropDown.constrain {
+        dropDown.onSelect {
+            prop.setValue(dropDown.selected)
+        }.constrain {
             x = 10.pixels(true)
             y = CenterConstraint()
         } childOf drawBox
