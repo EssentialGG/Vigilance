@@ -10,9 +10,8 @@ import club.sk1er.elementa.effects.StencilEffect
 import club.sk1er.vigilance.data.PropertyData
 import java.awt.Color
 
-class Slider(private val prop: PropertyData) : UIComponent() {
+class Slider(var value: Float = 0.5f) : UIComponent() {
     private var grabbed = false
-    var value = 0.5f
 
     private val slide = UIRoundedRectangle(1f).constrain {
         y = CenterConstraint()
@@ -28,6 +27,8 @@ class Slider(private val prop: PropertyData) : UIComponent() {
     } childOf slide
 
     internal val knob = Knob(10)
+
+    private var onUpdate: (current: Float) -> Unit = { }
 
     init {
         constrain {
@@ -63,9 +64,12 @@ class Slider(private val prop: PropertyData) : UIComponent() {
             }
 
             value = (slideBackground.getLeft() - slide.getRight()) / (slide.getLeft() - slide.getRight()) * -1 + 1
-            val tmp = (prop.property.min + ((prop.property.max - prop.property.min) * value)).toInt()
-            prop.setValue(tmp)
+            onUpdate(value)
         }
+    }
+
+    fun onUpdate(action: (current: Float) -> Unit) {
+        onUpdate = action
     }
 
     fun fadeIn() {

@@ -31,7 +31,7 @@ class SliderSetting(name: String, description: String, private val prop: Propert
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf drawBox
 
-    private val slider = Slider(prop)
+    private val slider = Slider((prop.getValue<Int>().toFloat() - prop.property.min) / (prop.property.max - prop.property.min))
 
     private val minText = UIText(prop.property.min.toString()).constrain {
         x = RelativeConstraint(1.25f) - Minecraft.getMinecraft().fontRendererObj.getStringWidth(prop.property.min.toString()).pixels()
@@ -52,6 +52,10 @@ class SliderSetting(name: String, description: String, private val prop: Propert
     } childOf slider) as UIText
 
     init {
+        slider.onUpdate { value ->
+            val tmp = (prop.property.min + ((prop.property.max - prop.property.min) * value)).toInt()
+            prop.setValue(tmp)
+        }
         slider childOf drawBox
         onMouseDrag { _, _, _ ->
             currentText.setText(prop.getValue<Int>().toString())
