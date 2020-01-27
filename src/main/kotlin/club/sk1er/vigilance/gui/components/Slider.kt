@@ -10,7 +10,7 @@ import club.sk1er.elementa.effects.StencilEffect
 import club.sk1er.vigilance.data.PropertyData
 import java.awt.Color
 
-class Slider(var value: Float = 0.5f) : UIComponent() {
+class Slider(private var value: Float = 0.5f) : UIComponent() {
     private var grabbed = false
 
     private val slide = UIRoundedRectangle(1f).constrain {
@@ -63,9 +63,13 @@ class Slider(var value: Float = 0.5f) : UIComponent() {
                 )
             }
 
-            value = (slideBackground.getLeft() - slide.getRight()) / (slide.getLeft() - slide.getRight()) * -1 + 1
-            onUpdate(value)
+            setValue((slideBackground.getLeft() - slide.getRight()) / (slide.getLeft() - slide.getRight()) * -1 + 1)
         }
+    }
+
+    fun setValue(value: Float) {
+        this.value = value
+        onUpdate(value)
     }
 
     fun onUpdate(action: (current: Float) -> Unit) = apply {
