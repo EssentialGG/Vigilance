@@ -63,13 +63,16 @@ class Slider(private var value: Float = 0.5f) : UIComponent() {
                 )
             }
 
-            setValue((slideBackground.getLeft() - slide.getRight()) / (slide.getLeft() - slide.getRight()) * -1 + 1)
+            value = (slideBackground.getLeft() - slide.getRight()) / (slide.getLeft() - slide.getRight()) * -1 + 1
+            onUpdate(value)
         }
     }
 
     fun setValue(value: Float) {
         this.value = value
         onUpdate(value)
+
+        slideBackground.setX((value * (slide.getRight() - slide.getLeft())).pixels())
     }
 
     fun onUpdate(action: (current: Float) -> Unit) = apply {
