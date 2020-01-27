@@ -68,7 +68,7 @@ class Slider(var value: Float = 0.5f) : UIComponent() {
         }
     }
 
-    fun onUpdate(action: (current: Float) -> Unit) {
+    fun onUpdate(action: (current: Float) -> Unit) = apply {
         onUpdate = action
     }
 

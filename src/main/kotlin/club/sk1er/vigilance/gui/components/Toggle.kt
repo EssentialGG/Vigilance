@@ -11,8 +11,7 @@ import club.sk1er.elementa.effects.StencilEffect
 import club.sk1er.vigilance.data.PropertyData
 import java.awt.Color
 
-class Toggle(private val prop: PropertyData) : UIComponent() {
-    private var toggled = prop.getAsBoolean()
+class Toggle(private var toggled: Boolean) : UIComponent() {
     private var selected = false
 
     private val slide = UIRoundedRectangle(5f).constrain {
@@ -30,6 +29,8 @@ class Toggle(private val prop: PropertyData) : UIComponent() {
     } childOf slide
 
     private val knob = Knob(14, toggled)
+
+    private var onUpdate: (newValue: Boolean) -> Unit = { }
 
     init {
         constrain {
@@ -77,6 +78,10 @@ class Toggle(private val prop: PropertyData) : UIComponent() {
             slideOn.animate { setWidthAnimation(Animations.OUT_EXP, 0.5f, RelativeConstraint()) }
         }
 
-        prop.setValue(toggled)
+        onUpdate(toggled)
+    }
+
+    fun onUpdate(action: (newValue: Boolean) -> Unit) = apply {
+        onUpdate = action
     }
 }

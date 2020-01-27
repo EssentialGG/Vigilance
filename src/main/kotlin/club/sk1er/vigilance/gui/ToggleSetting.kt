@@ -36,7 +36,9 @@ class ToggleSetting(name: String, description: String, prop: PropertyData) : Set
         width = FillConstraint() - 50.pixels()
     } childOf drawBox
 
-    private val toggle = Toggle(prop)
+    private val toggle = Toggle(prop.getAsBoolean()).onUpdate { newValue ->
+        prop.setValue(newValue)
+    }
 
     init {
         toggle childOf drawBox
