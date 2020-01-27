@@ -12,9 +12,13 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import org.lwjgl.input.Mouse
 import java.awt.Color
+import java.net.URL
 
 class SettingsGui(private val categories: List<Category>) : GuiScreen() {
     private val window = Window()
+
+    private val search = UIContainer()
+    private val searchInput = UITextInput("Search", false)
 
     init {
         StencilEffect.enableStencil()
@@ -54,6 +58,61 @@ class SettingsGui(private val categories: List<Category>) : GuiScreen() {
 
         this.categories.map { GUICategory.fromCategoryData(it, settingsBox, window) }.forEach { it childOf categoryHolder }
 
+        searchInput.constrain {
+            x = 5.pixels()
+            y = CenterConstraint()
+            width = 100.pixels()
+            height = 9.pixels()
+        } as UITextInput
+        searchInput.minWidth = 75.pixels()
+        searchInput.maxWidth = 125.pixels()
+
+        search.constrain {
+            y = 5.pixels()
+            x = 0.pixels(true)
+            width = 20.pixels()
+            height = 20.pixels()
+        }.addChildren(
+            // search icon
+            UIContainer().constrain {
+                width = 20.pixels()
+                height = 20.pixels()
+            }.addChild(
+                UIImage.ofURL(URL("https://i.imgur.com/2jRqkVW.png")).constrain {
+                    x = CenterConstraint()
+                    y = CenterConstraint()
+                    width = 15.pixels()
+                    height = 15.pixels()
+                }
+            ),
+
+            // text box
+            UIRoundedRectangle(10f).constrain {
+                x = SiblingConstraint()
+                width = ChildBasedSizeConstraint() + 10.pixels()
+                height = 20.pixels()
+                color = Color(0, 0, 0, 175).asConstraint()
+            }.addChild(searchInput) effect StencilEffect()
+        ) childOf window
+
+        search.onMouseClick { _, _, _ ->
+            searchInput.active = true
+            search.animate {
+                setWidthAnimation(Animations.OUT_EXP, 1f, ChildBasedSizeConstraint() + 5.pixels())
+            }
+        }.onMouseEnter {
+            if (searchInput.active) return@onMouseEnter
+            search.animate {
+                setWidthAnimation(Animations.OUT_EXP, 1f, 65.pixels())
+            }
+        }.onMouseLeave {
+            if (searchInput.active) return@onMouseLeave
+            search.animate {
+                setWidthAnimation(Animations.OUT_EXP, 1f, 20.pixels())
+            }
+        }
+
+
         ////////////////
         // ANIMATIONS //
         ////////////////
@@ -79,7 +138,12 @@ class SettingsGui(private val categories: List<Category>) : GuiScreen() {
 
     override fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int) {
         super.mouseClicked(mouseX, mouseY, mouseButton)
+        searchInput.active = false
         window.mouseClick(mouseX, mouseY, mouseButton)
+        if (searchInput.active) return
+        search.animate {
+            setWidthAnimation(Animations.OUT_EXP, 1f, 20.pixels())
+        }
     }
 
     override fun mouseReleased(mouseX: Int, mouseY: Int, state: Int) {
@@ -101,6 +165,11 @@ class SettingsGui(private val categories: List<Category>) : GuiScreen() {
         super.handleMouseInput()
         val delta = Mouse.getEventDWheel().coerceIn(-1, 1)
         window.mouseScroll(delta)
+    }
+
+    override fun keyTyped(typedChar: Char, keyCode: Int) {
+        super.keyTyped(typedChar, keyCode)
+        window.keyType(typedChar, keyCode)
     }
 
     class GUICategory(string: String, settingsBox: UIComponent, window: Window) : UIBlock() {
