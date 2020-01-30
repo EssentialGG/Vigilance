@@ -68,8 +68,12 @@ class Slider(private var value: Float = 0.5f) : UIComponent() {
         }
     }
 
-    fun setValue(value: Float) {
+    fun setValue(value: Float, activateEvent: Boolean = false) {
         this.value = value
+
+        if (activateEvent) {
+            onUpdate(value)
+        }
 
         slideBackground.setX((value * (slide.getRight() - slide.getLeft())).pixels())
     }
