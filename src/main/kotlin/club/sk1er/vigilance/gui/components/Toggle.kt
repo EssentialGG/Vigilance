@@ -73,7 +73,7 @@ class Toggle(private var toggled: Boolean) : UIComponent() {
 
     fun setValue(newValue: Boolean) {
         toggled = newValue
-        knob.click(toggled)
+        knob.click(!toggled)
 
         if (toggled) {
             slideOn.animate { setWidthAnimation(Animations.OUT_EXP, 0f, RelativeConstraint()) }
