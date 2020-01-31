@@ -66,13 +66,28 @@ class Toggle(private var toggled: Boolean) : UIComponent() {
         knob.fadeOut()
     }
 
+    fun deactivate() {
+        setValue(false)
+        selected = false
+    }
+
+    fun setValue(newValue: Boolean) {
+        toggled = newValue
+        knob.click(toggled)
+
+        if (toggled) {
+            slideOn.animate { setWidthAnimation(Animations.OUT_EXP, 0f, RelativeConstraint()) }
+        } else {
+            slideOn.animate { setWidthAnimation(Animations.OUT_EXP, 0f, 0.pixels()) }
+        }
+    }
+
     private fun toggle() {
         knob.click(toggled)
 
         if (toggled) {
             toggled = false
             slideOn.animate { setWidthAnimation(Animations.OUT_EXP, 0.5f, 0.pixels()) }
-
         } else {
             toggled = true
             slideOn.animate { setWidthAnimation(Animations.OUT_EXP, 0.5f, RelativeConstraint()) }
