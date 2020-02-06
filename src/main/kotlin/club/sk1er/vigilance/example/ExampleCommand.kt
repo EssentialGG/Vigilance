@@ -12,6 +12,6 @@ class ExampleCommand : CommandBase() {
     override fun getRequiredPermissionLevel() = 0
 
     override fun processCommand(sender: ICommandSender?, args: Array<String>) {
-        ExampleMod.gui = SettingsGui(ExampleConfig.getCategories())
+        ExampleMod.gui = SettingsGui(ExampleConfig)
     }
 }

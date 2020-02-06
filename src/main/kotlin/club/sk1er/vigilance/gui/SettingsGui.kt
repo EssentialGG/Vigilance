@@ -7,15 +7,18 @@ import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.ScissorEffect
 import club.sk1er.elementa.effects.StencilEffect
+import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.Category
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
+import org.lwjgl.input.Keyboard
 import org.lwjgl.input.Mouse
 import java.awt.Color
 import java.net.URL
 
-class SettingsGui(private val categories: List<Category>) : GuiScreen() {
+class SettingsGui(private val config: Vigilant) : GuiScreen() {
     private val window = Window()
+    private val categories = config.getCategories()
 
     private val search = UIContainer()
     private val searchInput = UITextInput("Search", false)
@@ -134,6 +137,10 @@ class SettingsGui(private val categories: List<Category>) : GuiScreen() {
         }
 
         categoryHolder.childrenOfType<GUICategory>().first().select()
+
+        searchInput.onActivate { searchTerm ->
+            // TODO: Display this search!
+        }
     }
 
     override fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int) {
@@ -170,6 +177,16 @@ class SettingsGui(private val categories: List<Category>) : GuiScreen() {
     override fun keyTyped(typedChar: Char, keyCode: Int) {
         super.keyTyped(typedChar, keyCode)
         window.keyType(typedChar, keyCode)
+    }
+
+    override fun initGui() {
+        super.initGui()
+        Keyboard.enableRepeatEvents(true)
+    }
+
+    override fun onGuiClosed() {
+        super.onGuiClosed()
+        Keyboard.enableRepeatEvents(false)
     }
 
     class GUICategory(string: String, settingsBox: UIComponent, window: Window) : UIBlock() {

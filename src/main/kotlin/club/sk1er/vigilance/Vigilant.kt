@@ -31,7 +31,7 @@ abstract class Vigilant(file: File) {
         Runtime.getRuntime().addShutdownHook(Thread { writeData() })
     }
 
-    fun gui() = SettingsGui(getCategories())
+    fun gui() = SettingsGui(this)
 
     fun registerProperty(prop: PropertyData) {
         val fullPath = prop.property.fullPropertyPath()
@@ -52,6 +52,14 @@ abstract class Vigilant(file: File) {
     fun getCategories(): List<Category> {
         val groupedByCategory = properties.groupBy { it.property.category }
         return groupedByCategory.map { Category(it.key, it.value.splitBySubcategory()) }
+    }
+
+    fun getCategoryFromSearch(term: String): Category {
+        val sorted = properties
+            .sortedBy { it.property.subcategory }
+            .filter { it.property.name.contains(term, ignoreCase = true) || it.property.description.contains(term, ignoreCase = true)  }
+
+        return Category("", sorted.splitBySubcategory())
     }
 
     fun markDirty() {
