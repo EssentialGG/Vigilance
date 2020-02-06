@@ -1,10 +1,7 @@
 package club.sk1er.vigilance.gui.components
 
 import club.sk1er.elementa.UIComponent
-import club.sk1er.elementa.components.UIBlock
-import club.sk1er.elementa.components.UICircle
-import club.sk1er.elementa.components.UIRoundedRectangle
-import club.sk1er.elementa.components.UIText
+import club.sk1er.elementa.components.*
 import club.sk1er.elementa.constraints.CenterConstraint
 import club.sk1er.elementa.constraints.RelativeConstraint
 import club.sk1er.elementa.constraints.animation.Animations
@@ -36,7 +33,7 @@ class Button @JvmOverloads constructor(buttonText: String, private var style: In
 
     private val click = UICircle() childOf background
 
-    private val text = UIText(buttonText, false)
+    private val text = UIWrappedText(buttonText, false)
 
     init {
         background.constrain {
@@ -44,10 +41,10 @@ class Button @JvmOverloads constructor(buttonText: String, private var style: In
             height = RelativeConstraint()
         } childOf this
 
-
         text.constrain {
             x = CenterConstraint()
             y = CenterConstraint()
+            width = RelativeConstraint(1f)
             color = if (style == ROUNDED_TRANSPARENT || style == RECTANGLE_TRANSPARENT) {
                 Color.WHITE.asConstraint()
             } else {
