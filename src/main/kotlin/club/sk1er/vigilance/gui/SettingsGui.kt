@@ -19,9 +19,11 @@ import java.net.URL
 class SettingsGui(private val config: Vigilant) : GuiScreen() {
     private val window = Window()
     private val categories = config.getCategories()
+    private val settingsBox = UIBlock(Color(0, 0, 0, 100))
 
     private val search = UIContainer()
     private val searchInput = UITextInput("Search", false)
+    private var searchCategory: GUICategory? = null
 
     init {
         StencilEffect.enableStencil()
@@ -52,14 +54,13 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
             height = ChildBasedSizeConstraint()
         } childOf categories
 
-        val settingsBox = UIBlock().constrain {
+        settingsBox.constrain {
             x = PixelConstraint(-window.getWidth() * 2 / 3, true)
             width = RelativeConstraint(2 / 3f)
             height = RelativeConstraint()
-            color = Color(0, 0, 0, 100).asConstraint()
         } childOf window
 
-        this.categories.map { GUICategory.fromCategoryData(it, settingsBox, window) }.forEach { it childOf categoryHolder }
+        this.categories.map { fromCategoryData(it, settingsBox) }.forEach { it childOf categoryHolder }
 
         searchInput.constrain {
             x = 5.pixels()
@@ -139,7 +140,19 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
         categoryHolder.childrenOfType<GUICategory>().first().select()
 
         searchInput.onActivate { searchTerm ->
-            // TODO: Display this search!
+            searchCategory?.deselect()
+            val category = config.getCategoryFromSearch(searchTerm)
+            searchCategory = if (category.items.isEmpty()) {
+                GUICategory("Search", settingsBox, true)
+                    .addSetting(SettingDivider(" "))
+                    .addSetting(SettingDivider("No search items found!"))
+            } else {
+                fromCategoryData(category, settingsBox, true)
+            }
+            categoryHolder.children.forEach {
+                (it as GUICategory).deselect()
+            }
+            searchCategory?.select()
         }
     }
 
@@ -189,7 +202,7 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
         Keyboard.enableRepeatEvents(false)
     }
 
-    class GUICategory(string: String, settingsBox: UIComponent, window: Window) : UIBlock() {
+    inner class GUICategory(string: String, settingsBox: UIComponent, private val isSearch: Boolean = false) : UIContainer() {
         private val settings = mutableListOf<SettingObject>()
         var selected = false
 
@@ -205,8 +218,26 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
         } childOf this
 
         private val settingsBlock = ScrollComponent()
+        private val scrollBar = UIRoundedRectangle(3f).constrain {
+            width = RelativeConstraint()
+            color = Color(0, 0, 0, 0).asConstraint()
+        }
 
         init {
+            val scrollContainer = UIContainer().constrain {
+                y = 30.pixels()
+                x = 3.pixels(true)
+                width = 6.pixels()
+                height = FillConstraint() - 5.pixels()
+            }.addChild(scrollBar) childOf window
+            settingsBlock.setScrollBarComponent(scrollBar)
+
+            settingsBlock.addScrollAdjustEvent { _, percentageOfParent ->
+                if (percentageOfParent >= 1f) {
+                    scrollContainer.setX(10.pixels(alignOutside = true))
+                }
+            }
+
             setY(SiblingConstraint())
             setX((-10).pixels())
             setHeight(ChildBasedSizeConstraint() + 8.pixels())
@@ -222,6 +253,7 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
             }
 
             onMouseClick { _, _, _ ->
+                searchCategory?.deselect()
                 parent.children.forEach {
                     it as GUICategory
                     if (it == this && !it.selected) select()
@@ -237,31 +269,39 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
 
         fun select() = apply {
             selected = true
-            selBlock.animate { setWidthAnimation(Animations.OUT_EXP, 0.5f, RelativeConstraint()) }
+            scrollBar.animate {
+                setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 0, 0, 150).asConstraint())
+            }
+            if (!isSearch) selBlock.animate { setWidthAnimation(Animations.OUT_EXP, 0.5f, RelativeConstraint()) }
             settings.forEach { it.animateIn() }
         }
 
         fun deselect() = apply {
             selected = false
-            selBlock.animate { setWidthAnimation(Animations.OUT_EXP, 0.5f, 0.pixels()) }
-            settings.forEach { it.animateOut() }
+            scrollBar.animate {
+                setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 0, 0, 0).asConstraint())
+            }
+            if (isSearch) {
+                settingsBox.removeChild(settingsBlock)
+            } else {
+                selBlock.animate { setWidthAnimation(Animations.OUT_EXP, 0.5f, 0.pixels()) }
+                settings.forEach { it.animateOut() }
+            }
         }
 
         fun addSetting(setting: SettingObject) = apply {
             settings.add(setting)
             setting childOf settingsBlock
         }
+    }
 
-        companion object {
-            fun fromCategoryData(category: Category, settingsBox: UIComponent, window: Window): GUICategory {
-                val guiCat = GUICategory(category.name, settingsBox, window)
+    private fun fromCategoryData(category: Category, settingsBox: UIComponent, isSearch: Boolean = false): GUICategory {
+        val guiCat = GUICategory(category.name, settingsBox, isSearch)
 
-                category.items.forEach {
-                    guiCat.addSetting(it.toSettingsObject())
-                }
-
-                return guiCat
-            }
+        category.items.forEach {
+            guiCat.addSetting(it.toSettingsObject())
         }
+
+        return guiCat
     }
 }
