@@ -177,10 +177,7 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
     }
 
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
-        if (mc.theWorld == null) {
-            super.drawDefaultBackground()
-        }
-
+        mc.theWorld ?: super.drawDefaultBackground()
         super.drawScreen(mouseX, mouseY, partialTicks)
         window.draw()
     }
