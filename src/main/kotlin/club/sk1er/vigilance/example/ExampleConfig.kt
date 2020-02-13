@@ -8,11 +8,12 @@ import java.io.File
 object ExampleConfig : Vigilant(File("./config/example.toml")) {
     @Property(
         type = PropertyType.SELECTOR,
-        name = "Test",
+        name = "hidden value",
         description = "String Selector",
         category = "General",
         subcategory = "General Settings",
-        options = ["test 1", "test 2", "test 3"]
+        options = ["test 1", "test 2", "test 3"],
+        hidden = true
     )
     var selector = 0
 

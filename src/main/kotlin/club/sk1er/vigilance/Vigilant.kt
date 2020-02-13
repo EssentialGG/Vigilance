@@ -57,7 +57,7 @@ abstract class Vigilant(file: File) {
     fun getCategoryFromSearch(term: String): Category {
         val sorted = properties
             .sortedBy { it.property.subcategory }
-            .filter { it.property.name.contains(term, ignoreCase = true) || it.property.description.contains(term, ignoreCase = true)  }
+            .filter { !it.property.hidden && (it.property.name.contains(term, ignoreCase = true) || it.property.description.contains(term, ignoreCase = true))  }
 
         return Category("", sorted.splitBySubcategory())
     }

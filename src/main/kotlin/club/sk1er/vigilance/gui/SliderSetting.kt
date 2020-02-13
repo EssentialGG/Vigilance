@@ -10,7 +10,7 @@ import club.sk1er.vigilance.gui.components.Slider
 import net.minecraft.client.Minecraft
 import java.awt.Color
 
-class SliderSetting(name: String, description: String, private val prop: PropertyData) : SettingObject() {
+class SliderSetting(name: String, description: String, private val prop: PropertyData) : SettingObject(prop) {
     private val drawBox = UIBlock().constrain {
         height = ChildBasedSizeConstraint() + 15.pixels()
         width = RelativeConstraint()

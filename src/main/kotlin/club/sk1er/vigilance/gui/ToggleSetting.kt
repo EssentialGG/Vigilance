@@ -11,7 +11,7 @@ import club.sk1er.vigilance.gui.components.Toggle
 import net.minecraft.client.Minecraft
 import java.awt.Color
 
-class ToggleSetting(name: String, description: String, prop: PropertyData) : SettingObject() {
+class ToggleSetting(name: String, description: String, prop: PropertyData) : SettingObject(prop) {
     private val drawBox = UIBlock().constrain {
         height = ChildBasedSizeConstraint()
         width = RelativeConstraint()

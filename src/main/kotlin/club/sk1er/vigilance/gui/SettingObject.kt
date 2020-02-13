@@ -7,8 +7,9 @@ import club.sk1er.elementa.constraints.RelativeConstraint
 import club.sk1er.elementa.constraints.SiblingConstraint
 import club.sk1er.elementa.dsl.pixels
 import club.sk1er.elementa.dsl.plus
+import club.sk1er.vigilance.data.PropertyData
 
-abstract class SettingObject : UIContainer() {
+abstract class SettingObject(private val prop: PropertyData? = null) : UIContainer() {
     var active = false
 
     init {
@@ -20,4 +21,14 @@ abstract class SettingObject : UIContainer() {
 
     open fun animateIn() { active = true }
     open fun animateOut() { active = false }
+
+    override fun draw() {
+        if (prop?.property?.hidden == true) return
+        super.draw()
+    }
+
+    override fun getHeight(): Float {
+        if (prop?.property?.hidden == true) return 0f
+        return super.getHeight()
+    }
 }

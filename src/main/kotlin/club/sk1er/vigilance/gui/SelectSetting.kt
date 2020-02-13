@@ -13,10 +13,11 @@ import club.sk1er.vigilance.gui.components.DropDown
 import net.minecraft.client.Minecraft
 import java.awt.Color
 
-class SelectSetting(name: String, description: String, selected: Int, selections: List<String>, prop: PropertyData) : SettingObject() {
+class SelectSetting(name: String, description: String, selected: Int, selections: List<String>, private val prop: PropertyData) : SettingObject(prop) {
     private var opened = false
 
     override fun getHeight(): Float {
+        if (prop.property.hidden) return 0f
         return drawBox.getHeight() + 5
     }
 

@@ -1,6 +1,5 @@
 package club.sk1er.vigilance.data
 
-import java.lang.StringBuilder
 import java.util.*
 
 @Retention(AnnotationRetention.RUNTIME)
@@ -22,7 +21,9 @@ annotation class Property(
     /**
      * Reserved for [PropertyType.DROP_DOWN]
      */
-    val options: Array<String> = []
+    val options: Array<String> = [],
+
+    val hidden: Boolean = false
 )
 
 fun Property.fullPropertyPath(): String {
