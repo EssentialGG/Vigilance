@@ -7,7 +7,6 @@ import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.StencilEffect
-import club.sk1er.vigilance.data.PropertyData
 import java.awt.Color
 
 class Slider(private var value: Float = 0.5f) : UIComponent() {
@@ -39,7 +38,7 @@ class Slider(private var value: Float = 0.5f) : UIComponent() {
         }
 
         knob.constrain {
-            x = 0.pixels().to(slideBackground) as XConstraint
+            x = (-5).pixels().to(slideBackground) as XConstraint
         }.onMouseEnter {
             if (!grabbed) knob.hover()
         }.onMouseLeave {
