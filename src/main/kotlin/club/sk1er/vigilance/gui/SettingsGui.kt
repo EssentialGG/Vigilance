@@ -200,6 +200,7 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
 
     override fun onGuiClosed() {
         super.onGuiClosed()
+        config.writeData()
         Keyboard.enableRepeatEvents(false)
     }
 
