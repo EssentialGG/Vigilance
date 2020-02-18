@@ -10,15 +10,15 @@ import kotlin.reflect.jvm.javaField
 
 abstract class Vigilant(file: File) {
     private val properties: MutableList<PropertyData> =
-        this::class.java.declaredFields
-            .filter { it.isAnnotationPresent(Property::class.java) }
-            .map {
-                PropertyData.fromField(
-                    it.getAnnotation(Property::class.java),
-                    it.apply { it.isAccessible = true },
-                    this
-                )
-            }.toMutableList()
+            this::class.java.declaredFields
+                    .filter { it.isAnnotationPresent(Property::class.java) }
+                    .map {
+                        PropertyData.fromField(
+                            it.getAnnotation(Property::class.java),
+                            it.apply { it.isAccessible = true },
+                            this
+                        )
+                    }.toMutableList()
 
     private val fileConfig = FileConfig.of(file)
     private var dirty = false
@@ -45,8 +45,8 @@ abstract class Vigilant(file: File) {
 
     fun registerListener(field: KProperty<*>, listener: (Any?) -> Unit) {
         properties
-            .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field == field.javaField }
-            ?.action = listener
+                .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field == field.javaField }
+                ?.action = listener
     }
 
     fun getCategories(): List<Category> {
@@ -56,8 +56,8 @@ abstract class Vigilant(file: File) {
 
     fun getCategoryFromSearch(term: String): Category {
         val sorted = properties
-            .sortedBy { it.property.subcategory }
-            .filter { !it.property.hidden && (it.property.name.contains(term, ignoreCase = true) || it.property.description.contains(term, ignoreCase = true))  }
+                .sortedBy { it.property.subcategory }
+                .filter { !it.property.hidden && (it.property.name.contains(term, ignoreCase = true) || it.property.description.contains(term, ignoreCase = true)) }
 
         return Category("", sorted.splitBySubcategory())
     }
@@ -80,7 +80,7 @@ abstract class Vigilant(file: File) {
         }
     }
 
-    private fun writeData() {
+    fun writeData() {
         if (!dirty) return
 
         properties.forEach {
