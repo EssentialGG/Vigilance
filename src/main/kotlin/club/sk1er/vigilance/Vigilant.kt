@@ -5,20 +5,31 @@ import club.sk1er.vigilance.gui.SettingsGui
 import com.electronwill.nightconfig.core.file.FileConfig
 import java.io.File
 import kotlin.concurrent.fixedRateTimer
+import kotlin.properties.ObservableProperty
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KClass
+import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KProperty
+import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.isAccessible
 import kotlin.reflect.jvm.javaField
 
 abstract class Vigilant(file: File) {
     private val properties: MutableList<PropertyData> =
-            this::class.java.declaredFields
-                    .filter { it.isAnnotationPresent(Property::class.java) }
-                    .map {
-                        PropertyData.fromField(
-                            it.getAnnotation(Property::class.java),
-                            it.apply { it.isAccessible = true },
-                            this
-                        )
-                    }.toMutableList()
+        this::class.java.declaredFields
+            .filter { it.isAnnotationPresent(Property::class.java) }
+            .map {
+                PropertyData.fromField(
+                    it.getAnnotation(Property::class.java),
+                    it.apply { it.isAccessible = true },
+                    this
+                )
+            }.toMutableList()
+
+    private val miscData = (this::class as KClass<Vigilant>).memberProperties
+        .filter { it.findAnnotation<Data>() != null }
+        .map { it.apply { isAccessible = true } as KMutableProperty1<Vigilant, Any?> to it.findAnnotation<Data>()!! }
 
     private val fileConfig = FileConfig.of(file)
     private var dirty = false
@@ -26,7 +37,7 @@ abstract class Vigilant(file: File) {
     fun initialize() {
         readData()
 
-        fixedRateTimer(period = 10 * 1000) { writeData() }
+        fixedRateTimer(period = 30 * 1000) { writeData() }
 
         Runtime.getRuntime().addShutdownHook(Thread { writeData() })
     }
@@ -45,8 +56,8 @@ abstract class Vigilant(file: File) {
 
     fun registerListener(field: KProperty<*>, listener: (Any?) -> Unit) {
         properties
-                .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field == field.javaField }
-                ?.action = listener
+            .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field == field.javaField }
+            ?.action = listener
     }
 
     fun getCategories(): List<Category> {
@@ -56,8 +67,11 @@ abstract class Vigilant(file: File) {
 
     fun getCategoryFromSearch(term: String): Category {
         val sorted = properties
-                .sortedBy { it.property.subcategory }
-                .filter { !it.property.hidden && (it.property.name.contains(term, ignoreCase = true) || it.property.description.contains(term, ignoreCase = true)) }
+            .sortedBy { it.property.subcategory }
+            .filter {
+                !it.property.hidden && (it.property.name.contains(term, ignoreCase = true) || it.property.description
+                    .contains(term, ignoreCase = true))
+            }
 
         return Category("", sorted.splitBySubcategory())
     }
@@ -75,8 +89,14 @@ abstract class Vigilant(file: File) {
             val fullPath = it.property.fullPropertyPath()
 
             val oldValue: Any? = fileConfig.get(fullPath) ?: it.getAsAny()
-
             it.setValue(oldValue)
+        }
+
+        miscData.forEach { (property, ann) ->
+            val path = ann.prefix + "." + property.name
+
+            val oldValue: Any? = fileConfig.get(path) ?: property.get(this)
+            property.set(this, oldValue)
         }
     }
 
@@ -87,6 +107,12 @@ abstract class Vigilant(file: File) {
             val fullPath = it.property.fullPropertyPath()
 
             fileConfig.set(fullPath, it.getValue())
+        }
+
+        miscData.forEach { (property, ann) ->
+            val path = ann.prefix + "." + property.name
+
+            fileConfig.set(path, property.get(this))
         }
 
         fileConfig.save()
@@ -109,4 +135,11 @@ abstract class Vigilant(file: File) {
 
         return withSubcategory
     }
+
+    protected fun <T> watched(initialValue: T): ReadWriteProperty<Any?, T> =
+        object : ObservableProperty<T>(initialValue) {
+            override fun afterChange(property: KProperty<*>, oldValue: T, newValue: T) {
+                dirty = true
+            }
+        }
 }
