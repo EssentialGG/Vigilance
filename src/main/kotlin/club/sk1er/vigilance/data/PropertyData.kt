@@ -16,6 +16,8 @@ data class PropertyData(val property: Property, val value: PropertyValue, val in
 
     fun getAsBoolean(): Boolean = getValue()
 
+    fun getAsString(): String = getValue()
+
     fun <T> getAs(clazz: Class<T>) = clazz.cast(getAsAny())
 
     fun setValue(value: Any?) {

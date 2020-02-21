@@ -18,6 +18,15 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
     var selector = 0
 
     @Property(
+        type = PropertyType.TEXT,
+        name = "aoeuidhtns",
+        description = "aoeu",
+        category = "General",
+        subcategory = "General Settings"
+    )
+    var text = "default value yep"
+
+    @Property(
         type = PropertyType.SLIDER,
         name = "Slider",
         description = "Test Slider",
