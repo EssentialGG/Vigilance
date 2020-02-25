@@ -9,14 +9,13 @@ import java.io.File
 object ExampleConfig : Vigilant(File("./config/example.toml")) {
     @Property(
         type = PropertyType.SELECTOR,
-        name = "hidden value",
+        name = "selector",
         description = "String Selector",
         category = "General",
-        subcategory = "General Settings",
-        options = ["test 1", "test 2", "test 3"],
-        hidden = true
+        subcategory = "Category",
+        options = ["test 1", "test 2", "test 3"]
     )
-    var selector = 0
+    var selector = 1
 
     @Property(
         type = PropertyType.SLIDER,
@@ -43,7 +42,8 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         name = "General 2",
         description = "This toggles something",
         category = "General",
-        subcategory = "General Settings"
+        subcategory = "General Settings",
+        hidden = true
     )
     var toggle2 = true
 

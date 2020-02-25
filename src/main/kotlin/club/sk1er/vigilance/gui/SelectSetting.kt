@@ -43,7 +43,7 @@ class SelectSetting(name: String, description: String, selected: Int, selections
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf drawBox
 
-    private val dropDown = DropDown(false)
+    private val dropDown = DropDown(prop.getValue(),false)
 
     init {
         dropDown.onSelect {

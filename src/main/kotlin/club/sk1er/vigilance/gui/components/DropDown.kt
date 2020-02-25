@@ -12,11 +12,11 @@ import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.StencilEffect
 import java.awt.Color
 
-class DropDown @JvmOverloads constructor(var floating: Boolean = true) : UIRoundedRectangle(5f) {
+class DropDown @JvmOverloads constructor(var selected: Int = 0, var floating: Boolean = true) : UIRoundedRectangle(5f) {
     var active = false
-    var selected = 0
 
     val selectionBox = UIContainer().constrain {
+        y = (selected * -12 + selected).pixels()
         width = ChildBasedMaxSizeConstraint()
         height = ChildBasedSizeConstraint(padding = 2f)
     }
