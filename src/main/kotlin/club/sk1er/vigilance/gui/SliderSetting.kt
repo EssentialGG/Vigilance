@@ -2,6 +2,7 @@ package club.sk1er.vigilance.gui
 
 import club.sk1er.elementa.components.UIBlock
 import club.sk1er.elementa.components.UIText
+import club.sk1er.elementa.components.UIWrappedText
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
@@ -25,9 +26,10 @@ class SliderSetting(name: String, description: String, private val prop: Propert
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf drawBox
 
-    private val text = UIText(description).constrain {
+    private val text = UIWrappedText(description).constrain {
         x = 3.pixels()
         y = 25.pixels()
+        width = FillConstraint() - 50.pixels()
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf drawBox
 

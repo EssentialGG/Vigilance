@@ -8,6 +8,16 @@ import java.io.File
 
 object ExampleConfig : Vigilant(File("./config/example.toml")) {
     @Property(
+        type = PropertyType.TEXT,
+        name = "text",
+        description = "example of text input that does not wrap the text",
+        category = "General",
+        subcategory = "Category",
+        max = 0
+    )
+    var textInput = ""
+
+    @Property(
         type = PropertyType.SELECTOR,
         name = "selector",
         description = "String Selector",

@@ -2,15 +2,16 @@ package club.sk1er.vigilance.gui
 
 import club.sk1er.elementa.components.UIBlock
 import club.sk1er.elementa.components.UIText
+import club.sk1er.elementa.components.UITextInput
 import club.sk1er.elementa.components.UIWrappedText
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
-import club.sk1er.vigilance.gui.components.Button
+import club.sk1er.elementa.effects.ScissorEffect
 import net.minecraft.client.Minecraft
 import java.awt.Color
 
-class ButtonSetting(name: String, description: String, buttonText: String) : SettingObject() {
+class TextInputSetting(name: String, description: String, placeholder: String = "") : SettingObject() {
     private val drawBox = UIBlock().constrain {
         height = ChildBasedSizeConstraint()
         width = RelativeConstraint()
@@ -32,15 +33,26 @@ class ButtonSetting(name: String, description: String, buttonText: String) : Set
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf drawBox
 
-    private val button = Button(buttonText)
+    private val inputBox = UIBlock(Color(0, 0, 0, 0))
+    private val input = UITextInput(placeholder, wrapped = false)
 
     init {
-        button.constrain {
+        inputBox.constrain {
             x = 5.pixels(true)
             y = CenterConstraint()
-            width = 50.pixels()
-            height = 20.pixels()
-        } childOf drawBox
+            width = ChildBasedSizeConstraint() + 4.pixels()
+            height = ChildBasedSizeConstraint() + 4.pixels()
+        }.onMouseClick {_, _, _ ->
+            input.active = true
+        } effect ScissorEffect() childOf drawBox
+
+        input.minWidth = 20.pixels()
+        input.maxWidth = 100.pixels()
+        input.constrain {
+            x = 2.pixels()
+            y = CenterConstraint()
+            color = Color(255, 255, 255, 10).asConstraint()
+        } childOf inputBox
     }
 
     override fun animateIn() {
@@ -50,9 +62,10 @@ class ButtonSetting(name: String, description: String, buttonText: String) : Set
             setYAnimation(Animations.OUT_EXP, 0.5f, 0.pixels())
             setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 0, 0, 100).asConstraint())
         }
-        title.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.WHITE.asConstraint())}
+        title.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.WHITE.asConstraint()) }
         text.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.WHITE.asConstraint()) }
-        button.fadeIn()
+        input.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.WHITE.asConstraint()) }
+        inputBox.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.BLACK.asConstraint()) }
     }
 
     override fun animateOut() {
@@ -64,6 +77,7 @@ class ButtonSetting(name: String, description: String, buttonText: String) : Set
         }
         title.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(255, 255, 255, 10).asConstraint())}
         text.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(255, 255, 255, 10).asConstraint()) }
-        button.fadeOut()
+        input.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(255, 255, 255, 10).asConstraint()) }
+        inputBox.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 0, 0, 0).asConstraint()) }
     }
 }

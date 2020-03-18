@@ -2,10 +2,8 @@ package club.sk1er.vigilance.gui
 
 import club.sk1er.elementa.components.UIBlock
 import club.sk1er.elementa.components.UIText
-import club.sk1er.elementa.constraints.CenterConstraint
-import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
-import club.sk1er.elementa.constraints.PixelConstraint
-import club.sk1er.elementa.constraints.RelativeConstraint
+import club.sk1er.elementa.components.UIWrappedText
+import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.vigilance.data.PropertyData
@@ -37,9 +35,10 @@ class SelectSetting(name: String, description: String, selected: Int, selections
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf drawBox
 
-    private val text = UIText(description).constrain {
+    private val text = UIWrappedText(description).constrain {
         x = 3.pixels()
         y = 25.pixels()
+        width = FillConstraint() - 50.pixels()
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf drawBox
 

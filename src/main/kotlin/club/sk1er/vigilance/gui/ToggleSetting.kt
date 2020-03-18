@@ -32,8 +32,8 @@ class ToggleSetting(name: String, description: String, prop: PropertyData) : Set
     private val text = UIWrappedText(description).constrain {
         x = 3.pixels()
         y = 25.pixels()
-        color = Color(255, 255, 255, 10).asConstraint()
         width = FillConstraint() - 50.pixels()
+        color = Color(255, 255, 255, 10).asConstraint()
     } childOf drawBox
 
     private val toggle = Toggle(prop.getAsBoolean()).onUpdate { newValue ->
