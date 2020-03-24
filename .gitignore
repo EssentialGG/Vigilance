@@ -36,3 +36,6 @@ options.txt
 usercache.json
 usernamecache.json
 *.txt
+
+# Sk1er
+*gradle.properties.private
