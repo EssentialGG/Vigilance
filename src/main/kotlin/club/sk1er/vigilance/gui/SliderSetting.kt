@@ -19,8 +19,7 @@ class SliderSetting(name: String, description: String, private val prop: Propert
     } childOf this
 
     private val title = UIText(name).constrain {
-        x = 3.pixels()
-        y = 3.pixels()
+        x = 3.pixels(); y = 3.pixels()
         width = PixelConstraint(Minecraft.getMinecraft().fontRendererObj.getStringWidth(name) * 2f)
         height = 18.pixels()
         color = Color(255, 255, 255, 10).asConstraint()
