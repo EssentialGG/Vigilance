@@ -10,7 +10,6 @@ buildscript {
         maven {
             url = "https://jitpack.io"
         }
-        flatDir dirs: 'libs'
     }
     dependencies {
         classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
@@ -185,8 +184,9 @@ dependencies {
     if (mcVersion == 11502) {
         minecraft 'net.minecraftforge:forge:1.15.2-31.1.18'
     }
-    provided files("../../libs/UniversalCraft" + mcVersion + ".jar")
-    provided files("../../libs/Elementa" + mcVersion + ".jar")
+    implementation "club.sk1er:Elementa:4-" + mcVersion + "@jar"
+    implementation "club.sk1er:UniversalCraft:25-" + mcVersion + "@jar"
+
 }
 
 processResources {
