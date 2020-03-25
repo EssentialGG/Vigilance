@@ -61,6 +61,9 @@ repositories {
         name = 'sponge'
         url = 'https://repo.spongepowered.org/maven'
     }
+    maven {
+        url = "https://repo.sk1er.club/repository/maven-releases"
+    }
 }
 
 preprocess {
