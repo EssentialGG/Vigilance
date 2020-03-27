@@ -19,7 +19,8 @@ class SliderSetting(name: String, description: String, private val prop: Propert
     } childOf this
 
     private val title = UIText(name).constrain {
-        x = 3.pixels(); y = 3.pixels()
+        x = 3.pixels()
+        y = 3.pixels()
         width = PixelConstraint(Minecraft.getMinecraft().fontRendererObj.getStringWidth(name) * 2f)
         height = 18.pixels()
         color = Color(255, 255, 255, 10).asConstraint()
@@ -47,7 +48,7 @@ class SliderSetting(name: String, description: String, private val prop: Propert
     } childOf slider
 
     private val currentText = (UIText(prop.getValue<Int>().toString()).constrain {
-        x = 0.pixels().to(slider.knob) as XConstraint
+        x = CenterConstraint().to(slider.knob) as XConstraint
         y = 2.pixels(true).alignOutside(true).to(slider.knob) as YConstraint
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf slider) as UIText
