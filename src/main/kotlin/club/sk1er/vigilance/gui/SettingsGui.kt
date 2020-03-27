@@ -139,7 +139,7 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
 
         categoryHolder.childrenOfType<GUICategory>().first().select()
 
-        searchInput.onActivate { searchTerm ->
+        searchInput.onUpdate { searchTerm ->
             searchCategory?.deselect()
             val category = config.getCategoryFromSearch(searchTerm)
             searchCategory = if (category.items.isEmpty()) {
