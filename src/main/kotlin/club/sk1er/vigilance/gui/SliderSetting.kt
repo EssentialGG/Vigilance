@@ -9,6 +9,7 @@ import club.sk1er.elementa.dsl.*
 import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.components.Slider
 import net.minecraft.client.Minecraft
+import org.lwjgl.input.Keyboard
 import java.awt.Color
 
 class SliderSetting(name: String, description: String, private val prop: PropertyData) : SettingObject(prop) {
@@ -33,16 +34,16 @@ class SliderSetting(name: String, description: String, private val prop: Propert
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf drawBox
 
-    private val slider = Slider((prop.getValue<Int>().toFloat() - prop.property.min) / (prop.property.max - prop.property.min))
+    private val slider = Slider(valueToPercent(prop.getValue()))
 
     private val minText = UIText(prop.property.min.toString()).constrain {
-        x = RelativeConstraint(1.25f) - Minecraft.getMinecraft().fontRendererObj.getStringWidth(prop.property.min.toString()).pixels()
+        x = RelativeConstraint(1.25f) - (prop.property.max.toString().width() / 2).pixels() /*Minecraft.getMinecraft().fontRendererObj.getStringWidth(prop.property.min.toString()).pixels()*/
         y = CenterConstraint()
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf slider
 
     private val maxText = UIText(prop.property.max.toString()).constrain {
-        x = RelativeConstraint(2.25f) + Minecraft.getMinecraft().fontRendererObj.getStringWidth(prop.property.max.toString()).pixels()
+        x = RelativeConstraint(2.25f) + (prop.property.max.toString().width() / 2).pixels() /*+ Minecraft.getMinecraft().fontRendererObj.getStringWidth().pixels()*/
         y = CenterConstraint()
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf slider
@@ -58,10 +59,31 @@ class SliderSetting(name: String, description: String, private val prop: Propert
             val tmp = (prop.property.min + ((prop.property.max - prop.property.min) * value)).toInt()
             prop.setValue(tmp)
         }
+
+        onKeyType { _, keyCode ->
+            if (!slider.knob.isHovered()) return@onKeyType
+
+            if (keyCode == Keyboard.KEY_LEFT) {
+                val newValue = prop.getValue<Int>() - 1
+                slider.setValue(valueToPercent(newValue))
+                prop.setValue(newValue)
+                currentText.setText(newValue.toString())
+            } else if (keyCode == Keyboard.KEY_RIGHT) {
+                val newValue = prop.getValue<Int>() + 1
+                slider.setValue(valueToPercent(newValue))
+                prop.setValue(newValue)
+                currentText.setText(newValue.toString())
+            }
+        }
+
         slider childOf drawBox
         onMouseDrag { _, _, _ ->
             currentText.setText(prop.getValue<Int>().toString())
         }
+    }
+
+    private fun valueToPercent(value: Int): Float {
+        return (value.toFloat() - prop.property.min) / (prop.property.max - prop.property.min)
     }
 
     override fun animateIn() {
