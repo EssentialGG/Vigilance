@@ -20,4 +20,5 @@ pipeline {
 //         archiveArtifacts 'versions/1.15.2/build/libs/*.jar'
       }
     }
+  }
 }
