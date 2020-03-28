@@ -249,7 +249,7 @@ publishing {
     publications {
         maven(MavenPublication) {
             artifactId = "Vigilance"
-            version = "${project.version}-$mcVersion"
+            version = "${project.version}-$mcVersion${this.properties.getOrDefault("IS_CI", false) ? "-SNAPSHOT" : ""}"
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
@@ -272,7 +272,7 @@ publishing {
     repositories {
         maven {
             name 'nexus'
-            url "https://repo.sk1er.club/repository/maven-${this.properties.getOrDefault("TARGET_REPO", "releases")}/"
+            url "https://repo.sk1er.club/repository/maven-${this.properties.getOrDefault("IS_CI", false) ? "snapshots" : "releases"}/"
 
             credentials {
                 username project.nexus_user

@@ -9,7 +9,7 @@ pipeline {
     }
     stage('Build') {
       steps {
-        sh "./gradlew publish -PBUILD_ID=${env.BUILD_ID} -PTARGET_REPO=snapshots --no-daemon"
+        sh "./gradlew publish -PBUILD_ID=${env.BUILD_ID} -PIS_CI=true --no-daemon"
       }
     }
 
