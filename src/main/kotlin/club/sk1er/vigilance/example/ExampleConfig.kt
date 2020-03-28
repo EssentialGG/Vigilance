@@ -33,10 +33,10 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         description = "Test Slider",
         category = "General",
         subcategory = "General Settings",
-        min = 15,
-        max = 75
+        min = 1000,
+        max = 1000000
     )
-    var slide = 15
+    var slide = 5
 
     @Property(
         type = PropertyType.SWITCH,

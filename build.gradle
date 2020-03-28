@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = "1.3.61"
+    ext.kotlin_version = "1.3.71"
 
     repositories {
         jcenter()
@@ -36,12 +36,11 @@ buildscript {
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: "net.minecraftforge.gradle.forge"
 apply plugin: 'kotlin'
-
+apply plugin: 'maven-publish'
 
 apply plugin: project.name == "1.15.2" ? 'net.minecraftforge.gradle' : 'net.minecraftforge.gradle.forge'
 apply plugin: 'com.replaymod.preprocess'
 mcVersion = project.ext.mcVersion
-
 
 sourceCompatibility = targetCompatibility = 1.8
 
@@ -175,6 +174,8 @@ dependencies {
     implementation 'com.electronwill.night-config:toml:3.6.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    implementation "club.sk1er:Elementa:4-$mcVersion"
+    implementation "club.sk1er:UniversalCraft:25-$mcVersion"
 
     testImplementation "io.mockk:mockk:1.9.3"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
@@ -184,9 +185,6 @@ dependencies {
     if (mcVersion == 11502) {
         minecraft 'net.minecraftforge:forge:1.15.2-31.1.18'
     }
-    implementation "club.sk1er:Elementa:4-" + mcVersion + "@jar"
-    implementation "club.sk1er:UniversalCraft:25-" + mcVersion + "@jar"
-
 }
 
 processResources {
@@ -245,4 +243,41 @@ task wrapper(type: Wrapper) {
 
 jar {
     exclude('club/sk1er/vigilance/example/**')
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = "Vigilance"
+            version = "${project.version}-$mcVersion"
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+
+                configurations.implementation.allDependencies.each {
+                    if (it.group != null && (it.name != null || "unspecified" == it.name) && it.version != null) {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
+                }
+            }
+
+            artifact jar
+            artifact sourcesJar
+        }
+    }
+
+    repositories {
+        maven {
+            name 'nexus'
+            url "https://repo.sk1er.club/repository/maven-${this.properties.getOrDefault("TARGET_REPO", "releases")}/"
+
+            credentials {
+                username project.nexus_user
+                password project.nexus_password
+            }
+        }
+    }
 }
