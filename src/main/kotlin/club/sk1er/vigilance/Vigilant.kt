@@ -27,9 +27,13 @@ abstract class Vigilant(file: File) {
                 )
             }.toMutableList()
 
+
+    /*
+    TODO: Fix this in production
     private val miscData = (this::class as KClass<Vigilant>).memberProperties
         .filter { it.findAnnotation<Data>() != null }
         .map { it.apply { isAccessible = true } as KMutableProperty1<Vigilant, Any?> to it.findAnnotation<Data>()!! }
+    */
 
     private val fileConfig = FileConfig.of(file)
     private var dirty = false
@@ -92,12 +96,13 @@ abstract class Vigilant(file: File) {
             it.setValue(oldValue)
         }
 
-        miscData.forEach { (property, ann) ->
-            val path = ann.prefix + "." + property.name
-
-            val oldValue: Any? = fileConfig.get(path) ?: property.get(this)
-            property.set(this, oldValue)
-        }
+        // Leave until misc data is supported
+        // miscData.forEach { (property, ann) ->
+        //     val path = ann.prefix + "." + property.name
+        //
+        //     val oldValue: Any? = fileConfig.get(path) ?: property.get(this)
+        //     property.set(this, oldValue)
+        // }
     }
 
     fun writeData() {
@@ -109,11 +114,12 @@ abstract class Vigilant(file: File) {
             fileConfig.set(fullPath, it.getValue())
         }
 
-        miscData.forEach { (property, ann) ->
-            val path = ann.prefix + "." + property.name
-
-            fileConfig.set(path, property.get(this))
-        }
+        // Leave until misc data is supported
+        // miscData.forEach { (property, ann) ->
+        //     val path = ann.prefix + "." + property.name
+        //
+        //     fileConfig.set(path, property.get(this))
+        // }
 
         fileConfig.save()
 
@@ -136,10 +142,11 @@ abstract class Vigilant(file: File) {
         return withSubcategory
     }
 
-    protected fun <T> watched(initialValue: T): ReadWriteProperty<Any?, T> =
-        object : ObservableProperty<T>(initialValue) {
-            override fun afterChange(property: KProperty<*>, oldValue: T, newValue: T) {
-                dirty = true
-            }
-        }
+    // Leave until misc data is supported
+    // protected fun <T> watched(initialValue: T): ReadWriteProperty<Any?, T> =
+    //     object : ObservableProperty<T>(initialValue) {
+    //         override fun afterChange(property: KProperty<*>, oldValue: T, newValue: T) {
+    //             dirty = true
+    //         }
+    //     }
 }

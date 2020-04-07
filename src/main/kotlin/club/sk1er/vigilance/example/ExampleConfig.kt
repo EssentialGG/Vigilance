@@ -1,7 +1,6 @@
 package club.sk1er.vigilance.example
 
 import club.sk1er.vigilance.Vigilant
-import club.sk1er.vigilance.data.Data
 import club.sk1er.vigilance.data.Property
 import club.sk1er.vigilance.data.PropertyType
 import java.io.File
@@ -119,9 +118,9 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
             subcategory = "General Settings"
     )
     var toggle10 = true
-
-    @Data
-    var randomData: String by watched("Initial")
+//
+//    @Data
+//    var randomData: String by watched("Initial")
 
     init {
         initialize()
