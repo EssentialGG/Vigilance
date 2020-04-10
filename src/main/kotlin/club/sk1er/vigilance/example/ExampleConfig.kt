@@ -111,13 +111,152 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
     var toggle8 = true
 
     @Property(
-            type = PropertyType.SWITCH,
-            name = "Color 1",
-            description = "This toggles something",
-            category = "Color",
-            subcategory = "General Settings"
+        type = PropertyType.SWITCH,
+        name = "Color 1",
+        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
+        category = "Color",
+        subcategory = "General Settings"
     )
     var toggle10 = true
+
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Color 1",
+        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
+        category = "Color",
+        subcategory = "General Settings"
+    )
+    var toggle11 = true
+
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Color 1",
+        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
+        category = "Color",
+        subcategory = "General Settings"
+    )
+    var toggle12 = true
+
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Color 1",
+        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
+        category = "Color",
+        subcategory = "General Settings"
+    )
+    var toggle13 = true
+
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Color 1",
+        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
+        category = "Color",
+        subcategory = "General Settings"
+    )
+    var toggle14 = true
+
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Color 1",
+        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
+        category = "Color",
+        subcategory = "General Settings"
+    )
+    var toggle15 = true
+
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Color 1",
+        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
+        category = "Color",
+        subcategory = "General Settings"
+    )
+    var toggle16 = true
+
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Color 1",
+        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
+        category = "Color",
+        subcategory = "General Settings"
+    )
+    var toggle17 = true
+
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Color 1",
+        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
+        category = "Color",
+        subcategory = "General Settings"
+    )
+    var toggle18 = true
+
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Color 1",
+        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
+        category = "Color",
+        subcategory = "General Settings"
+    )
+    var toggle20 = true
+
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Color 1",
+        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
+        category = "Color",
+        subcategory = "General Settings"
+    )
+    var toggle21 = true
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Color 1",
+        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
+        category = "Color",
+        subcategory = "General Settings"
+    )
+    var toggle22 = true
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Color 1",
+        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
+        category = "Color",
+        subcategory = "General Settings"
+    )
+    var toggle23 = true
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Color 1",
+        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
+        category = "Color",
+        subcategory = "General Settings"
+    )
+    var toggle24 = true
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Color 1",
+        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
+        category = "Color",
+        subcategory = "General Settings"
+    )
+    var toggle25 = true
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Color 1",
+        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
+        category = "Color",
+        subcategory = "General Settings"
+    )
+    var toggle26 = true
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Color 1",
+        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
+        category = "Color",
+        subcategory = "General Settings"
+    )
+    var toggle27 = true
+
 //
 //    @Data
 //    var randomData: String by watched("Initial")
