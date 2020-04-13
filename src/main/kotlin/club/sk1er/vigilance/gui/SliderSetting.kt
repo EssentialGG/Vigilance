@@ -65,11 +65,17 @@ class SliderSetting(name: String, description: String, private val prop: Propert
 
             if (keyCode == Keyboard.KEY_LEFT) {
                 val newValue = prop.getValue<Int>() - 1
+
+                if (newValue < prop.property.min) return@onKeyType
+
                 slider.setValue(valueToPercent(newValue))
                 prop.setValue(newValue)
                 currentText.setText(newValue.toString())
             } else if (keyCode == Keyboard.KEY_RIGHT) {
                 val newValue = prop.getValue<Int>() + 1
+
+                if (newValue > prop.property.max) return@onKeyType
+
                 slider.setValue(valueToPercent(newValue))
                 prop.setValue(newValue)
                 currentText.setText(newValue.toString())
