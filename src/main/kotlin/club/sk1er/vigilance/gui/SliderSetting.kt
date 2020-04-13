@@ -37,13 +37,13 @@ class SliderSetting(name: String, description: String, private val prop: Propert
     private val slider = Slider(valueToPercent(prop.getValue()))
 
     private val minText = UIText(prop.property.min.toString()).constrain {
-        x = RelativeConstraint(1.25f) - (prop.property.max.toString().width() / 2).pixels()
+        x = 8.pixels(alignOutside = true) // RelativeConstraint(1.25f) - (prop.property.max.toString().width() / 2).pixels()
         y = CenterConstraint()
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf slider
 
     private val maxText = UIText(prop.property.max.toString()).constrain {
-        x = RelativeConstraint(2.25f) + (prop.property.max.toString().width() / 2).coerceAtLeast(15).pixels()
+        x = 8.pixels(alignOpposite = true, alignOutside = true) // RelativeConstraint(2.25f) + (prop.property.max.toString().width() / 2).coerceAtLeast(15).pixels()
         y = CenterConstraint()
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf slider
