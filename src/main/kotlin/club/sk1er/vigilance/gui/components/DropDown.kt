@@ -52,7 +52,7 @@ class DropDown @JvmOverloads constructor(var selected: Int = 0, var floating: Bo
             x = 4.pixels()
             color = Color(255, 255, 255, 0).asConstraint()
         }.onMouseClick { mouseX, mouseY, _ ->
-            if (active && getHeight() > 12) {
+            if (active && this@DropDown.getHeight() > 12) {
                 selected = selectionBox.children.indexOf(element)
                 onSelect(element)
                 close(mouseX, mouseY)
@@ -63,7 +63,7 @@ class DropDown @JvmOverloads constructor(var selected: Int = 0, var floating: Bo
     fun open() {
         active = true
         animate {
-            setHeightAnimation(Animations.OUT_EXP, 0.5f, ChildBasedSizeConstraint() + (children.size * 5).pixels())
+            setHeightAnimation(Animations.OUT_EXP, 0.5f, ChildBasedSizeConstraint(padding = 8f))
         }
 
         selectionBox.animate{
