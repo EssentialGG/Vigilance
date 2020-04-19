@@ -35,7 +35,7 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
             color = Color(0, 0, 0, 150).asConstraint()
         } childOf window
 
-        val categoryTitle = UIBlock().constrain {
+        val categoryTitle = UIContainer().constrain {
             y = 10.pixels()
             x = CenterConstraint()
             width = 0.pixels()
@@ -47,7 +47,7 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
             height = TextAspectConstraint()
         } childOf categoryTitle
 
-        val categoryHolder = UIBlock().constrain {
+        val categoryHolder = UIContainer().constrain {
             x = CenterConstraint()
             y = 50.pixels()
             width = RelativeConstraint(0.9f)

@@ -8,19 +8,19 @@ import club.sk1er.elementa.dsl.*
 import java.awt.Color
 
 class Knob(private val size: Int, toggled: Boolean = true) : UIContainer() {
-    private val hover = UICircle().constrain {
+    private val hover = UICircle(color = Color(0, 0, 0, 0)).constrain {
         x = (size / 2).pixels()
         y = CenterConstraint()
         radius = (size / 2).pixels()
     } childOf this
 
-    private val click = UICircle().constrain {
+    private val click = UICircle(color = Color(0, 0, 0, 0)).constrain {
         x = (size / 2).pixels()
         y = CenterConstraint()
         radius = (size / 2).pixels()
     } childOf this
 
-    private val knob = UICircle().constrain {
+    private val knob = UICircle(color = Color(0, 0, 0, 0)).constrain {
         x = (size / 2).pixels()
         y = CenterConstraint()
         radius = (size / 2).pixels()

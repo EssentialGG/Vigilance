@@ -8,7 +8,6 @@ import club.sk1er.elementa.constraints.RelativeConstraint
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.StencilEffect
-import club.sk1er.vigilance.data.PropertyData
 import java.awt.Color
 
 class Toggle(private var toggled: Boolean) : UIComponent() {
