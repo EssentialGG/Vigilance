@@ -37,7 +37,7 @@ class Toggle(private var toggled: Boolean) : UIComponent() {
             y = CenterConstraint()
             width = 30.pixels()
             height = 20.pixels()
-        }.onMouseClick { _, _, _ ->
+        }.onMouseClick {
             if (!selected) return@onMouseClick
             toggle()
         }.onMouseEnter {

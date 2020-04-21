@@ -42,7 +42,7 @@ class TextInputSetting(name: String, description: String, placeholder: String = 
             y = CenterConstraint()
             width = ChildBasedSizeConstraint() + 4.pixels()
             height = ChildBasedSizeConstraint() + 4.pixels()
-        }.onMouseClick {_, _, _ ->
+        }.onMouseClick {
             input.active = true
         } effect ScissorEffect() childOf drawBox
 

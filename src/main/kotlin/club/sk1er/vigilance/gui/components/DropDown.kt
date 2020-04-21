@@ -31,7 +31,7 @@ class DropDown @JvmOverloads constructor(var selected: Int = 0, var floating: Bo
         setHeight(12.pixels())
         enableEffect(StencilEffect())
 
-        onMouseClick { mouseX, mouseY, mouseButton ->
+        onMouseClick {
             if (!active) {
                 open()
             }
@@ -51,11 +51,11 @@ class DropDown @JvmOverloads constructor(var selected: Int = 0, var floating: Bo
             y = SiblingConstraint() + 2.pixels()
             x = 4.pixels()
             color = Color(255, 255, 255, 0).asConstraint()
-        }.onMouseClick { mouseX, mouseY, _ ->
+        }.onMouseClick { event ->
             if (active && this@DropDown.getHeight() > 12) {
                 selected = selectionBox.children.indexOf(element)
                 onSelect(element)
-                close(mouseX, mouseY)
+                close(event.relativeX, event.relativeY)
             }
         })
     }

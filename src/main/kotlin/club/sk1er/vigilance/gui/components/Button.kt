@@ -55,11 +55,11 @@ class Button @JvmOverloads constructor(buttonText: String, private var style: In
             }
         } childOf background
 
-        onMouseClick { mouseX, mouseY, _ ->
+        onMouseClick { event ->
             if (!active) return@onMouseClick
             click.constrain {
-                x = mouseX.pixels()
-                y = mouseY.pixels()
+                x = event.relativeX.pixels()
+                y = event.relativeY.pixels()
                 radius = 0.pixels()
                 color = Color(0, 0, 0, 75).asConstraint()
             }

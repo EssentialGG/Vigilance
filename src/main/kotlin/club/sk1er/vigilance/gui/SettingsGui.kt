@@ -99,7 +99,7 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
             }.addChild(searchInput) effect StencilEffect()
         ) childOf window
 
-        search.onMouseClick { _, _, _ ->
+        search.onMouseClick {
             searchInput.active = true
             search.animate {
                 setWidthAnimation(Animations.OUT_EXP, 1f, ChildBasedSizeConstraint() + 5.pixels())
@@ -254,7 +254,7 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
                 text.animate { setXAnimation(Animations.OUT_BOUNCE, 0.5f, 0.pixels()) }
             }
 
-            onMouseClick { _, _, _ ->
+            onMouseClick {
                 searchCategory?.deselect()
                 parent.children.forEach {
                     it as GUICategory

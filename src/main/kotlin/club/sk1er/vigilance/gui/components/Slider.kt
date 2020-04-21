@@ -43,7 +43,7 @@ class Slider(private var value: Float = 0.5f) : UIComponent() {
             if (!grabbed) knob.hover()
         }.onMouseLeave {
             if (!grabbed) knob.unHover()
-        }.onMouseClick { _, _, _ ->
+        }.onMouseClick {
             knob.grab()
             grabbed = true
         }.onMouseRelease {
