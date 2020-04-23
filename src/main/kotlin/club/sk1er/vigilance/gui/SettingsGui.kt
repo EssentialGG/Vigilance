@@ -67,7 +67,7 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
             y = CenterConstraint()
             width = 100.pixels()
             height = 9.pixels()
-        } as UITextInput
+        }
         searchInput.minWidth = 75.pixels()
         searchInput.maxWidth = 125.pixels()
 
@@ -114,6 +114,15 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
             search.animate {
                 setWidthAnimation(Animations.OUT_EXP, 1f, 20.pixels())
             }
+        }
+
+        window.onMouseClick {
+            categoryHolder
+                .childrenOfType<GUICategory>()
+                .firstOrNull { it.selected }
+                ?.settings
+                ?.filterIsInstance<TextInputSetting>()
+                ?.forEach { it.input.active = false }
         }
 
 
@@ -171,11 +180,6 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
         window.mouseRelease()
     }
 
-    override fun mouseClickMove(mouseX: Int, mouseY: Int, clickedMouseButton: Int, timeSinceLastClick: Long) {
-        super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick)
-        window.mouseDrag(mouseX, mouseY, clickedMouseButton)
-    }
-
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
         mc.theWorld ?: super.drawDefaultBackground()
         super.drawScreen(mouseX, mouseY, partialTicks)
@@ -205,7 +209,7 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
     }
 
     inner class GUICategory(string: String, settingsBox: UIComponent, private val isSearch: Boolean = false) : UIContainer() {
-        private val settings = mutableListOf<SettingObject>()
+        val settings = mutableListOf<SettingObject>()
         var selected = false
 
         private val text = UIText(string).constrain {
@@ -267,10 +271,13 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
                 width = RelativeConstraint()
                 height = RelativeConstraint()
             } childOf settingsBox
+
+            settingsBlock.hide(instantly = true)
         }
 
         fun select() = apply {
             selected = true
+            settingsBlock.unhide()
             scrollBar.animate {
                 setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 0, 0, 150).asConstraint())
             }
@@ -282,6 +289,10 @@ class SettingsGui(private val config: Vigilant) : GuiScreen() {
             selected = false
             scrollBar.animate {
                 setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 0, 0, 0).asConstraint())
+
+                onComplete {
+                    settingsBlock.hide()
+                }
             }
             if (isSearch) {
                 settingsBox.removeChild(settingsBlock)

@@ -34,7 +34,7 @@ class TextInputSetting(name: String, description: String, placeholder: String = 
     } childOf drawBox
 
     private val inputBox = UIBlock(Color(0, 0, 0, 0))
-    private val input = UITextInput(placeholder, wrapped = false)
+    val input = UITextInput(placeholder, wrapped = false)
 
     init {
         inputBox.constrain {
@@ -42,8 +42,9 @@ class TextInputSetting(name: String, description: String, placeholder: String = 
             y = CenterConstraint()
             width = ChildBasedSizeConstraint() + 4.pixels()
             height = ChildBasedSizeConstraint() + 4.pixels()
-        }.onMouseClick {
+        }.onMouseClick { event ->
             input.active = true
+            event.stopPropagation()
         } effect ScissorEffect() childOf drawBox
 
         input.minWidth = 20.pixels()

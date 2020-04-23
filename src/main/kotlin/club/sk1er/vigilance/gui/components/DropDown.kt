@@ -56,6 +56,7 @@ class DropDown @JvmOverloads constructor(var selected: Int = 0, var floating: Bo
                 selected = selectionBox.children.indexOf(element)
                 onSelect(element)
                 close(event.relativeX, event.relativeY)
+                event.stopPropagation()
             }
         })
     }
