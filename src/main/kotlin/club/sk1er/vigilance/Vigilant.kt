@@ -3,6 +3,7 @@ package club.sk1er.vigilance
 import club.sk1er.vigilance.data.*
 import club.sk1er.vigilance.gui.SettingsGui
 import com.electronwill.nightconfig.core.file.FileConfig
+import org.apache.logging.log4j.LogManager
 import java.io.File
 import kotlin.concurrent.fixedRateTimer
 import kotlin.properties.ObservableProperty
@@ -27,6 +28,8 @@ abstract class Vigilant(file: File) {
                 )
             }.toMutableList()
 
+    private val logger = LogManager.getLogger("Vigilance")
+
 
     /*
     TODO: Fix this in production
@@ -39,7 +42,12 @@ abstract class Vigilant(file: File) {
     private var dirty = false
 
     fun initialize() {
-        readData()
+        try {
+            readData()
+        } catch (ex: Exception) {
+            writeData()
+            logger.error("Failed reading config data, resetting to default.", ex)
+        }
 
         fixedRateTimer(period = 30 * 1000) { writeData() }
 
