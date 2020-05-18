@@ -1,26 +1,17 @@
-package club.sk1er.vigilance.gui
+package club.sk1er.vigilance.oldgui
 
 import club.sk1er.elementa.components.UIBlock
 import club.sk1er.elementa.components.UIText
+import club.sk1er.elementa.components.UITextInput
 import club.sk1er.elementa.components.UIWrappedText
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
-import club.sk1er.vigilance.data.PropertyData
-import club.sk1er.vigilance.gui.components.DropDown
+import club.sk1er.elementa.effects.ScissorEffect
 import net.minecraft.client.Minecraft
 import java.awt.Color
 
-class SelectSetting(name: String, description: String, selected: Int, selections: List<String>, private val prop: PropertyData) : SettingObject(prop) {
-    private var opened = false
-
-    override fun getHeight(): Float {
-        if (prop.property.hidden) return 0f
-        return drawBox.getHeight() + 5
-    }
-
-    override fun getBottom() = getTop() + getHeight()
-
+class TextInputSetting(name: String, description: String, placeholder: String = "") : SettingObject() {
     private val drawBox = UIBlock().constrain {
         height = ChildBasedSizeConstraint()
         width = RelativeConstraint()
@@ -42,18 +33,27 @@ class SelectSetting(name: String, description: String, selected: Int, selections
         color = Color(255, 255, 255, 10).asConstraint()
     } childOf drawBox
 
-    private val dropDown = DropDown(prop.getValue(),false)
+    private val inputBox = UIBlock(Color(0, 0, 0, 0))
+    val input = UITextInput(placeholder, wrapped = false)
 
     init {
-        dropDown.onSelect {
-            prop.setValue(dropDown.selected)
-        }.constrain {
-            x = 10.pixels(true)
+        inputBox.constrain {
+            x = 5.pixels(true)
             y = CenterConstraint()
-        } childOf drawBox
-        selections.forEach {
-            dropDown.addElement(UIText(it))
-        }
+            width = ChildBasedSizeConstraint() + 4.pixels()
+            height = ChildBasedSizeConstraint() + 4.pixels()
+        }.onMouseClick { event ->
+            input.active = true
+            event.stopPropagation()
+        } effect ScissorEffect() childOf drawBox
+
+        input.minWidth = 20.pixels()
+        input.maxWidth = 100.pixels()
+        input.constrain {
+            x = 2.pixels()
+            y = CenterConstraint()
+            color = Color(255, 255, 255, 10).asConstraint()
+        } childOf inputBox
     }
 
     override fun animateIn() {
@@ -63,9 +63,10 @@ class SelectSetting(name: String, description: String, selected: Int, selections
             setYAnimation(Animations.OUT_EXP, 0.5f, 0.pixels())
             setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 0, 0, 100).asConstraint())
         }
-        title.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.WHITE.asConstraint())}
+        title.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.WHITE.asConstraint()) }
         text.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.WHITE.asConstraint()) }
-        dropDown.fadeIn()
+        input.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.WHITE.asConstraint()) }
+        inputBox.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color.BLACK.asConstraint()) }
     }
 
     override fun animateOut() {
@@ -77,6 +78,7 @@ class SelectSetting(name: String, description: String, selected: Int, selections
         }
         title.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(255, 255, 255, 10).asConstraint())}
         text.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(255, 255, 255, 10).asConstraint()) }
-        dropDown.fadeOut()
+        input.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(255, 255, 255, 10).asConstraint()) }
+        inputBox.animate { setColorAnimation(Animations.OUT_EXP, 0.5f, Color(0, 0, 0, 0).asConstraint()) }
     }
 }

@@ -1,4 +1,4 @@
-package club.sk1er.vigilance.gui
+package club.sk1er.vigilance.oldgui
 
 import club.sk1er.elementa.components.UIContainer
 import club.sk1er.elementa.constraints.CenterConstraint

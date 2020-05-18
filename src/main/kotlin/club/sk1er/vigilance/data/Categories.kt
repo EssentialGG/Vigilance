@@ -9,12 +9,12 @@ class Category(val name: String, val items: List<CategoryItem>) {
 }
 
 sealed class CategoryItem {
-    abstract fun toSettingsObject(): SettingObject
+    abstract fun toSettingsObject(): Setting?
 }
 
 class DividerItem(val name: String) : CategoryItem() {
-    override fun toSettingsObject(): SettingObject {
-        return SettingDivider(name)
+    override fun toSettingsObject(): Setting? {
+        return Divider(name)
     }
 
     override fun toString(): String {
@@ -23,16 +23,17 @@ class DividerItem(val name: String) : CategoryItem() {
 }
 
 class PropertyItem(val data: PropertyData) : CategoryItem() {
-    override fun toSettingsObject(): SettingObject {
-        return when (data.getDataType()) {
-            PropertyType.SWITCH -> ToggleSetting(data.property.name, data.property.description, data)
-            PropertyType.TEXT -> TextInputSetting(data.property.name, data.property.description)
-            PropertyType.PARAGRAPH -> TODO()
-            PropertyType.SLIDER -> SliderSetting(data.property.name, data.property.description, data)
-            PropertyType.NUMBER -> TODO()
-            PropertyType.COLOR -> TODO()
-            PropertyType.SELECTOR -> SelectSetting(data.property.name, data.property.description, 0, data.property.options.toList(), data)
-        }
+    override fun toSettingsObject(): Setting? {
+        return null
+//        return when (data.getDataType()) {
+//            PropertyType.SWITCH -> TODO()
+//            PropertyType.TEXT -> TODO()
+//            PropertyType.PARAGRAPH -> TODO()
+//            PropertyType.SLIDER -> TODO()
+//            PropertyType.NUMBER -> TODO()
+//            PropertyType.COLOR -> TODO()
+//            PropertyType.SELECTOR -> TODO()
+//        }
     }
 
     override fun toString(): String {
