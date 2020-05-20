@@ -102,4 +102,9 @@ class SettingsGui(private val config: Vigilant) : WindowScreen() {
 
         categoryScroller.allChildren.filterIsInstance<CategoryLabel>().firstOrNull { it.isSelected }?.deselect()
     }
+
+    companion object {
+        val ACCENT_COLOR = Color(1, 165, 82)
+        val DISABLED_COLOR = Color(145, 145, 147)
+    }
 }

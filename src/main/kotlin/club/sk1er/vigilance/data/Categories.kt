@@ -1,6 +1,7 @@
 package club.sk1er.vigilance.data
 
 import club.sk1er.vigilance.gui.*
+import club.sk1er.vigilance.gui.settings.SwitchSetting
 
 class Category(val name: String, val items: List<CategoryItem>) {
     override fun toString(): String {
@@ -24,16 +25,16 @@ class DividerItem(val name: String) : CategoryItem() {
 
 class PropertyItem(val data: PropertyData) : CategoryItem() {
     override fun toSettingsObject(): Setting? {
-        return null
-//        return when (data.getDataType()) {
-//            PropertyType.SWITCH -> TODO()
+        return when (data.getDataType()) {
+            PropertyType.SWITCH -> SwitchSetting(data)
 //            PropertyType.TEXT -> TODO()
 //            PropertyType.PARAGRAPH -> TODO()
 //            PropertyType.SLIDER -> TODO()
 //            PropertyType.NUMBER -> TODO()
 //            PropertyType.COLOR -> TODO()
 //            PropertyType.SELECTOR -> TODO()
-//        }
+            else -> null
+        }
     }
 
     override fun toString(): String {

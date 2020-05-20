@@ -13,6 +13,9 @@ enum class PropertyType {
     PARAGRAPH() {
         override fun isFieldValid(field: Field) = field.type == String::class.java
     },
+    PERCENT_SLIDER() {
+        override fun isFieldValid(field: Field) = field.type == Float::class.java
+    },
     SLIDER() {
         override fun isFieldValid(field: Field) = field.type == Int::class.java
     },
