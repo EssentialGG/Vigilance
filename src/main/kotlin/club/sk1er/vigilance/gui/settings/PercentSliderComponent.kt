@@ -11,7 +11,7 @@ import club.sk1er.vigilance.gui.SettingsGui
 class PercentSliderComponent(initialValue: Float) : SettingComponent() {
     private val percentageText = UIText(getFormattedPercent(initialValue)).constrain {
         y = CenterConstraint()
-        color = SettingsGui.DISABLED_COLOR.asConstraint()
+        color = SettingsGui.GRAY_COLOR.asConstraint()
     } childOf this
 
     private val slider = Slider(initialValue).constrain {

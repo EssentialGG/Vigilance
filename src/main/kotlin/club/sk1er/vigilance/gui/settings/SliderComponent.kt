@@ -9,7 +9,7 @@ import kotlin.math.roundToInt
 class SliderComponent(initialValue: Int, min: Int, max: Int) : SettingComponent() {
     private val minText = UIText(min.toString()).constrain {
         y = CenterConstraint()
-        color = SettingsGui.DISABLED_COLOR.asConstraint()
+        color = SettingsGui.GRAY_COLOR.asConstraint()
     } childOf this
 
     private val slider = Slider(initialValue.toFloat() / (max - min)).constrain {
@@ -21,13 +21,13 @@ class SliderComponent(initialValue: Int, min: Int, max: Int) : SettingComponent(
     private val maxText = UIText(max.toString()).constrain {
         x = SiblingConstraint(PADDING)
         y = CenterConstraint()
-        color = SettingsGui.DISABLED_COLOR.asConstraint()
+        color = SettingsGui.GRAY_COLOR.asConstraint()
     } childOf this
 
     private val currentValueText = UIText(initialValue.toString()).constrain {
         x = CenterConstraint().to(slider.grabBox) as XConstraint
         y = RelativeConstraint(1.5f)
-        color = SettingsGui.DISABLED_COLOR.asConstraint()
+        color = SettingsGui.GRAY_COLOR.asConstraint()
     } childOf slider
 
     init {

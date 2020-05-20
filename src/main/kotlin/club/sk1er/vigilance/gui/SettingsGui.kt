@@ -1,20 +1,16 @@
 package club.sk1er.vigilance.gui
 
 import club.sk1er.elementa.WindowScreen
-import club.sk1er.elementa.components.ScrollComponent
-import club.sk1er.elementa.components.UIBlock
-import club.sk1er.elementa.components.UIContainer
-import club.sk1er.elementa.components.UIText
-import club.sk1er.elementa.constraints.CenterConstraint
-import club.sk1er.elementa.constraints.FillConstraint
-import club.sk1er.elementa.constraints.RelativeConstraint
-import club.sk1er.elementa.constraints.SiblingConstraint
+import club.sk1er.elementa.components.*
+import club.sk1er.elementa.constraints.*
+import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.Category
+import org.lwjgl.input.Keyboard
 import java.awt.Color
 
-class SettingsGui(private val config: Vigilant) : WindowScreen() {
+class SettingsGui(config: Vigilant) : WindowScreen() {
     private val background = UIBlock(Color(22, 22, 24)).constrain {
         width = RelativeConstraint(1f)
         height = RelativeConstraint(1f)
@@ -53,7 +49,68 @@ class SettingsGui(private val config: Vigilant) : WindowScreen() {
         width = 3.pixels()
     } childOf scrollContainer
 
+    private val searchContainer = UIBlock(Color(41, 42, 46)).constrain {
+        x = 0.pixels(true)
+        y = 5.pixels()
+        width = 20.pixels()
+        height = 20.pixels()
+    } childOf window
+
+    private val searchIcon = SVGComponent.ofResource("/vigilance/search.svg").constrain {
+        x = 4.pixels()
+        y = CenterConstraint()
+        width = 12.pixels()
+        height = 12.pixels()
+    } childOf searchContainer
+
+    private val searchInput = UITextInput("Search...", wrapped = false, shadow = false).constrain {
+        x = SiblingConstraint(4f)
+        y = 5.5f.pixels()
+        width = 100.pixels()
+        height = 12.pixels()
+    } childOf searchContainer
+
+    private val searchCloseIcon = SVGComponent.ofResource("/vigilance/x.svg").constrain {
+        x = SiblingConstraint(4f)
+        y = CenterConstraint()
+        width = 12.pixels()
+        height = 12.pixels()
+    } childOf searchContainer
+
     init {
+        searchInput.minWidth = 75.pixels()
+        searchInput.maxWidth = 75.pixels()
+
+        searchInput.onUpdate { searchTerm ->
+            val searchCategory = config.getCategoryFromSearch(searchTerm)
+            selectCategory(searchCategory)
+        }
+
+        searchContainer.onMouseClick { event ->
+            searchInput.active = true
+            searchContainer.animate {
+                setWidthAnimation(Animations.OUT_EXP, 1f, ChildBasedSizeConstraint(4f) + 8.pixels())
+            }
+            event.stopPropagation()
+        }.onMouseEnter {
+            if (searchInput.active) return@onMouseEnter
+            searchContainer.animate {
+                setWidthAnimation(Animations.OUT_EXP, 1f, 65.pixels())
+            }
+        }.onMouseLeave {
+            if (searchInput.active) return@onMouseLeave
+            hideSearch()
+        }
+
+        searchCloseIcon.onMouseClick { event ->
+            hideSearch()
+            event.stopPropagation()
+        }
+
+        window.onMouseClick {
+            hideSearch()
+        }
+
         categoryScroller.setScrollBarComponent(categoryScrollBar, true)
     }
 
@@ -93,7 +150,7 @@ class SettingsGui(private val config: Vigilant) : WindowScreen() {
     }
 
     fun selectCategory(category: Category) {
-        val newCategory = categories[category] ?: SettingsCategory(category)
+        val newCategory = categories[category] ?: SettingsCategory(category) childOf categoryHolder
         if (newCategory == currentCategory) return
 
         currentCategory.hide()
@@ -103,8 +160,16 @@ class SettingsGui(private val config: Vigilant) : WindowScreen() {
         categoryScroller.allChildren.filterIsInstance<CategoryLabel>().firstOrNull { it.isSelected }?.deselect()
     }
 
+    private fun hideSearch() {
+        searchInput.active = false
+        searchContainer.animate {
+            setWidthAnimation(Animations.OUT_EXP, 1f, 20.pixels())
+        }
+    }
+
     companion object {
         val ACCENT_COLOR = Color(1, 165, 82)
-        val DISABLED_COLOR = Color(145, 145, 147)
+        val GRAY_COLOR = Color(145, 145, 147)
+        val DISABLED_COLOR = Color(73, 73, 73)
     }
 }

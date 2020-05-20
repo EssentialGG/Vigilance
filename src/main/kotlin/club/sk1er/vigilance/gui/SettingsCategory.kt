@@ -17,7 +17,7 @@ class SettingsCategory(private val category: Category) : UIContainer() {
         }
     }
 
-    private val scroller = ScrollComponent(innerPadding = 4f).constrain {
+    private val scroller = ScrollComponent(innerPadding = 4f, emptyString = "No matching settings found :(").constrain {
         width = RelativeConstraint(1f) - 5.pixels()
         height = RelativeConstraint(1f)
     } childOf this
@@ -32,6 +32,6 @@ class SettingsCategory(private val category: Category) : UIContainer() {
             it.toSettingsObject()?.childOf(scroller)
         }
 
-        scroller.setScrollBarComponent(scrollBar)
+        scroller.setScrollBarComponent(scrollBar, true)
     }
 }

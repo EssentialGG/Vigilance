@@ -21,7 +21,7 @@ class Slider(initialValue: Float) : UIContainer() {
         y = 1.pixels()
         width = RelativeConstraint(1f) - 2.pixels()
         height = RelativeConstraint(1f) - 2.pixels()
-    } childOf this effect OutlineEffect(SettingsGui.DISABLED_COLOR, 0.5f)
+    } childOf this effect OutlineEffect(SettingsGui.GRAY_COLOR, 0.5f)
 
     private val completionBox = UIBlock(SettingsGui.ACCENT_COLOR).constrain {
         x = (-0.5f).pixels()

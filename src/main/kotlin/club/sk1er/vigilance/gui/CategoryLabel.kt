@@ -12,7 +12,7 @@ import java.awt.Color
 
 class CategoryLabel(private val gui: SettingsGui, private val category: Category) : UIContainer() {
     private val text = UIText(category.name).constrain {
-        color = SettingsGui.DISABLED_COLOR.asConstraint()
+        color = SettingsGui.GRAY_COLOR.asConstraint()
         textScale = (1.5f).pixels()
     } childOf this
 

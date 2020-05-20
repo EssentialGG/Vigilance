@@ -11,11 +11,11 @@ annotation class Property(
     val subcategory: String = "",
     val description: String = "",
     /**
-     * Reserved for [PropertyType.SLIDER]
+     * Reserved for [PropertyType.SLIDER] and [PropertyType.NUMBER]
      */
     val min: Int = 0,
     /**
-     * Reserved for [PropertyType.SLIDER]
+     * Reserved for [PropertyType.SLIDER] and [PropertyType.NUMBER]
      */
     val max: Int = 0,
     /**

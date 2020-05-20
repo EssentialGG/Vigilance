@@ -47,6 +47,17 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
     var percentSlide = 0.5f
 
     @Property(
+        type = PropertyType.NUMBER,
+        name = "A number!",
+        description = "A number that can be incremented & decremented using button controls!",
+        category = "General",
+        subcategory = "General Settings",
+        min = 5,
+        max = 100
+    )
+    var number = 10
+
+    @Property(
         type = PropertyType.SWITCH,
         name = "General 1",
         description = "This toggles something",
