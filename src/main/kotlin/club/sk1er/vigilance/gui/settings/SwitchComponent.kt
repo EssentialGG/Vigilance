@@ -9,32 +9,35 @@ import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.DataBackedSetting
+import club.sk1er.vigilance.gui.DataBackedSetting.Companion.INNER_PADDING
 import club.sk1er.vigilance.gui.SettingsGui
 import java.awt.Color
 
-class SwitchSetting(data: PropertyData) : DataBackedSetting(data) {
-    private var enabled = data.getAsBoolean()
+class SwitchComponent(initialState: Boolean) : SettingComponent() {
+    private var enabled = initialState
 
-    private val switchContainer = UIBlock(Color(33, 34, 38)).constrain {
-        x = INNER_PADDING.pixels(true)
-        y = CenterConstraint()
-        width = 20.pixels()
-        height = 10.pixels()
-    } childOf boundingBox effect getOutlineEffect()
+    init {
+        constrain {
+            width = 20.pixels()
+            height = 10.pixels()
+        }
+
+        effect(getOutlineEffect())
+    }
 
     private val switchBox = UIBlock(getSwitchColor()).constrain {
         x = getSwitchPosition()
         width = RelativeConstraint(0.5f)
         height = RelativeConstraint(1f)
-    } childOf switchContainer
+    } childOf this
 
     init {
-        switchContainer.onMouseClick {
+        onMouseClick {
             enabled = !enabled
-            data.setValue(enabled)
+            changeValue(enabled)
 
-            switchContainer.removeEffect<OutlineEffect>()
-            switchContainer.enableEffect(getOutlineEffect())
+            removeEffect<OutlineEffect>()
+            enableEffect(getOutlineEffect())
 
             switchBox.setColor(getSwitchColor().asConstraint())
             switchBox.animate {

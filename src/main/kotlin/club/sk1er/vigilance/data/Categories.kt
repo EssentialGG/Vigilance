@@ -1,7 +1,8 @@
 package club.sk1er.vigilance.data
 
 import club.sk1er.vigilance.gui.*
-import club.sk1er.vigilance.gui.settings.SwitchSetting
+import club.sk1er.vigilance.gui.settings.PercentSliderComponent
+import club.sk1er.vigilance.gui.settings.SwitchComponent
 
 class Category(val name: String, val items: List<CategoryItem>) {
     override fun toString(): String {
@@ -26,7 +27,8 @@ class DividerItem(val name: String) : CategoryItem() {
 class PropertyItem(val data: PropertyData) : CategoryItem() {
     override fun toSettingsObject(): Setting? {
         return when (data.getDataType()) {
-            PropertyType.SWITCH -> SwitchSetting(data)
+            PropertyType.SWITCH -> DataBackedSetting(data, SwitchComponent(data.getAsBoolean()))
+            PropertyType.PERCENT_SLIDER -> DataBackedSetting(data, PercentSliderComponent(data.getValue()))
 //            PropertyType.TEXT -> TODO()
 //            PropertyType.PARAGRAPH -> TODO()
 //            PropertyType.SLIDER -> TODO()

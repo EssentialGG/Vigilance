@@ -3,6 +3,7 @@ package club.sk1er.vigilance.gui
 import club.sk1er.elementa.components.UIBlock
 import club.sk1er.elementa.components.UIText
 import club.sk1er.elementa.constraints.CenterConstraint
+import club.sk1er.elementa.constraints.ChildBasedMaxSizeConstraint
 import club.sk1er.elementa.constraints.FillConstraint
 import club.sk1er.elementa.dsl.*
 import java.awt.Color
@@ -10,6 +11,7 @@ import java.awt.Color
 class Divider(name: String) : Setting() {
     private val label = UIText(name).constrain {
         x = CenterConstraint()
+        y = 5.pixels()
     } childOf this
 
     private val leftLine = UIBlock(Color(151, 151, 151)).constrain {
@@ -25,4 +27,10 @@ class Divider(name: String) : Setting() {
         width = FillConstraint()
         height = 1.pixels()
     } childOf this
+
+    init {
+        constrain {
+            height = ChildBasedMaxSizeConstraint() + 10.pixels()
+        }
+    }
 }

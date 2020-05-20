@@ -9,7 +9,7 @@ import club.sk1er.elementa.dsl.constrain
 abstract class Setting : UIContainer() {
     init {
         constrain {
-            y = SiblingConstraint(5f)
+            y = SiblingConstraint(10f)
             width = RelativeConstraint(1f)
             height = ChildBasedMaxSizeConstraint()
         }

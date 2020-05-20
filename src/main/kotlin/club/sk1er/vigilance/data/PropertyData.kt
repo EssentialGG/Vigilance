@@ -52,7 +52,11 @@ class FieldBackedPropertyValue(internal val field: Field) : PropertyValue() {
     }
 
     override fun setValue(value: Any?, instance: Vigilant) {
-        field.set(instance, value)
+        if (value is Double && field.type == Float::class.java) {
+            field.set(instance, value.toFloat())
+        } else {
+            field.set(instance, value)
+        }
     }
 }
 
