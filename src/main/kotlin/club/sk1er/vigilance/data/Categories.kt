@@ -2,6 +2,7 @@ package club.sk1er.vigilance.data
 
 import club.sk1er.vigilance.gui.*
 import club.sk1er.vigilance.gui.settings.PercentSliderComponent
+import club.sk1er.vigilance.gui.settings.SliderComponent
 import club.sk1er.vigilance.gui.settings.SwitchComponent
 
 class Category(val name: String, val items: List<CategoryItem>) {
@@ -29,9 +30,9 @@ class PropertyItem(val data: PropertyData) : CategoryItem() {
         return when (data.getDataType()) {
             PropertyType.SWITCH -> DataBackedSetting(data, SwitchComponent(data.getAsBoolean()))
             PropertyType.PERCENT_SLIDER -> DataBackedSetting(data, PercentSliderComponent(data.getValue()))
+            PropertyType.SLIDER -> DataBackedSetting(data, SliderComponent(data.getValue(), data.property.min, data.property.max))
 //            PropertyType.TEXT -> TODO()
 //            PropertyType.PARAGRAPH -> TODO()
-//            PropertyType.SLIDER -> TODO()
 //            PropertyType.NUMBER -> TODO()
 //            PropertyType.COLOR -> TODO()
 //            PropertyType.SELECTOR -> TODO()

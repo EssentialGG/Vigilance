@@ -9,13 +9,6 @@ import club.sk1er.elementa.dsl.*
 import club.sk1er.vigilance.gui.SettingsGui
 
 class PercentSliderComponent(initialValue: Float) : SettingComponent() {
-    init {
-        constrain {
-            width = ChildBasedSizeConstraint(5f)
-            height = ChildBasedMaxSizeConstraint()
-        }
-    }
-
     private val percentageText = UIText(getFormattedPercent(initialValue)).constrain {
         y = CenterConstraint()
         color = SettingsGui.DISABLED_COLOR.asConstraint()
@@ -28,6 +21,11 @@ class PercentSliderComponent(initialValue: Float) : SettingComponent() {
     } childOf this
 
     init {
+        constrain {
+            width = ChildBasedSizeConstraint(5f)
+            height = ChildBasedMaxSizeConstraint()
+        }
+
         slider.onValueChange { newPercentage ->
             changeValue(newPercentage)
             percentageText.setText(getFormattedPercent())

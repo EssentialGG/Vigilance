@@ -29,7 +29,7 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
     @Property(
         type = PropertyType.SLIDER,
         name = "Slider",
-        description = "Test Slider",
+        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd ",
         category = "General",
         subcategory = "General Settings",
         min = 1000,

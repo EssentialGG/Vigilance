@@ -32,7 +32,7 @@ class Slider(initialValue: Float) : UIContainer() {
 
     private val grabBoxCenterConstraint = basicXConstraint { it.parent.getLeft() + it.getWidth() / 2 }
 
-    private val grabBox = UIBlock(SettingsGui.ACCENT_COLOR).constrain {
+    val grabBox = UIBlock(SettingsGui.ACCENT_COLOR).constrain {
         x = RelativeConstraint(percentage) - grabBoxCenterConstraint
         y = CenterConstraint()
         width = AspectConstraint(1f)
@@ -58,8 +58,11 @@ class Slider(initialValue: Float) : UIContainer() {
         }
 
         outerBox.onMouseClick { event ->
-            val percentage = event.relativeX / outerBox.getWidth()
-            setCurrentPercentage(percentage)
+            if (event.mouseButton == 0) {
+                val percentage = event.relativeX / outerBox.getWidth()
+                setCurrentPercentage(percentage)
+                dragging = true
+            }
         }
     }
 

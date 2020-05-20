@@ -54,7 +54,7 @@ class SettingsGui(private val config: Vigilant) : WindowScreen() {
     } childOf scrollContainer
 
     init {
-        categoryScroller.setScrollBarComponent(categoryScrollBar)
+        categoryScroller.setScrollBarComponent(categoryScrollBar, true)
     }
 
     private val categories = config.getCategories().associateWith(::SettingsCategory)

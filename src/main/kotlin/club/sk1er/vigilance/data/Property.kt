@@ -19,7 +19,7 @@ annotation class Property(
      */
     val max: Int = 0,
     /**
-     * Reserved for [PropertyType.DROP_DOWN]
+     * Reserved for [PropertyType.SELECTOR]
      */
     val options: Array<String> = [],
 
