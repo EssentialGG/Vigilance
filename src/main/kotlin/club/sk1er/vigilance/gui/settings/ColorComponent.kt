@@ -64,12 +64,12 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
             unHoverText(currentColorHex)
         }
 
-        onMouseClick {
+        onMouseClick { event ->
+            event.stopPropagation()
+
             if (active) {
-                active = false
                 collapse()
             } else {
-                active = true
                 expand()
             }
         }
@@ -101,10 +101,12 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
     }
 
     override fun closePopups() {
-        collapse()
+        collapse(true)
     }
 
     private fun expand() {
+        active = true
+
         animate {
             setHeightAnimation(Animations.IN_SIN, 0.35f, 25.pixels() + RelativeConstraint(1f).to(colorPicker))
         }
@@ -112,9 +114,15 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         dropDownArrow.setSVG(UP_ARROW_SVG)
     }
 
-    private fun collapse() {
+    private fun collapse(unHover: Boolean = false) {
+        active = false
+
         animate {
             setHeightAnimation(Animations.OUT_SIN, 0.35f, 20.pixels())
+        }
+
+        if (unHover) {
+            unHoverText(currentColorHex)
         }
 
         currentColorHex.active = false

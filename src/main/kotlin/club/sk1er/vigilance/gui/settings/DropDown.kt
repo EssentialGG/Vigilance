@@ -83,10 +83,8 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
             event.stopPropagation()
 
             if (active) {
-                active = false
                 collapse()
             } else {
-                active = true
                 expand()
             }
         }
@@ -100,6 +98,8 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
     }
 
     private fun expand() {
+        active = true
+
         animate {
             setHeightAnimation(Animations.IN_SIN, 0.35f, 20.pixels() + RelativeConstraint(1f).to(optionsHolder))
         }
@@ -107,9 +107,15 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
         dropDownArrow.setSVG(SettingComponent.UP_ARROW_SVG)
     }
 
-    fun collapse() {
+    fun collapse(unHover: Boolean = false) {
+        active = false
+
         animate {
             setHeightAnimation(Animations.OUT_SIN, 0.35f, 20.pixels())
+        }
+
+        if (unHover) {
+            unHoverText(currentSelectionText)
         }
 
         dropDownArrow.setSVG(SettingComponent.DOWN_ARROW_SVG)

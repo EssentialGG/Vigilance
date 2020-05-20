@@ -19,6 +19,6 @@ class SelectorComponent(initialSelection: Int, options: List<String>) : SettingC
     }
 
     override fun closePopups() {
-        dropDown.collapse()
+        dropDown.collapse(true)
     }
 }
