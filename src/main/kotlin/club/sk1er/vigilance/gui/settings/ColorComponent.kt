@@ -10,7 +10,9 @@ import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.elementa.effects.ScissorEffect
+import club.sk1er.mods.core.universal.UniversalMinecraft
 import club.sk1er.vigilance.gui.SettingsGui
+import net.minecraft.client.Minecraft
 import java.awt.Color
 
 class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingComponent() {
@@ -66,6 +68,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
 
         onMouseClick { event ->
             event.stopPropagation()
+            (Minecraft.getMinecraft().currentScreen as? SettingsGui)?.hideSearch()
 
             if (active) {
                 collapse()

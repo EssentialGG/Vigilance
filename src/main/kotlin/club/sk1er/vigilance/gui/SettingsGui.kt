@@ -163,7 +163,7 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         categoryScroller.allChildren.filterIsInstance<CategoryLabel>().firstOrNull { it.isSelected }?.deselect()
     }
 
-    private fun hideSearch() {
+    fun hideSearch() {
         searchInput.active = false
         searchContainer.animate {
             setWidthAnimation(Animations.OUT_EXP, 1f, 20.pixels())

@@ -11,6 +11,7 @@ import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.elementa.effects.ScissorEffect
 import club.sk1er.vigilance.gui.SettingsGui
+import net.minecraft.client.Minecraft
 import java.awt.Color
 
 class DropDown(initialSelection: Int, private val options: List<String>) : UIBlock(Color(33, 34, 38)) {
@@ -81,6 +82,7 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
 
         onMouseClick { event ->
             event.stopPropagation()
+            (Minecraft.getMinecraft().currentScreen as? SettingsGui)?.hideSearch()
 
             if (active) {
                 collapse()
