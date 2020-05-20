@@ -15,7 +15,7 @@ import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.settings.SettingComponent
 import java.awt.Color
 
-class DataBackedSetting(data: PropertyData, component: SettingComponent) : Setting() {
+class DataBackedSetting(data: PropertyData, private val component: SettingComponent) : Setting() {
     protected val boundingBox = UIBlock(Color(33, 34, 38)).constrain {
         x = 1.pixels()
         y = 1.pixels()
@@ -32,7 +32,8 @@ class DataBackedSetting(data: PropertyData, component: SettingComponent) : Setti
         height = ChildBasedSizeConstraint(3f) + INNER_PADDING.pixels()
     } childOf boundingBox
 
-    private val settingName = UIText(data.property.name).constrain {
+    private val settingName = UIWrappedText(data.property.name).constrain {
+        width = RelativeConstraint(1f)
         textScale = 1.5f.pixels()
         color = Color.WHITE.asConstraint()
     } childOf textBoundingBox
@@ -64,6 +65,10 @@ class DataBackedSetting(data: PropertyData, component: SettingComponent) : Setti
             data.setValue(it)
         }
         component childOf boundingBox
+    }
+
+    override fun closePopups() {
+        component.closePopups()
     }
 
     companion object {

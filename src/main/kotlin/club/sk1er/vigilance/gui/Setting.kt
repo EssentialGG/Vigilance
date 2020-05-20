@@ -14,4 +14,6 @@ abstract class Setting : UIContainer() {
             height = ChildBasedMaxSizeConstraint()
         }
     }
+
+    open fun closePopups() { }
 }

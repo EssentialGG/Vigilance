@@ -110,6 +110,8 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
 
         window.onMouseClick {
             hideSearch()
+
+            currentCategory.closePopups()
         }
 
         categoryScroller.setScrollBarComponent(categoryScrollBar, true)

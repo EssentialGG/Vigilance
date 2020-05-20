@@ -25,6 +25,8 @@ abstract class SettingComponent : UIContainer() {
         this.onValueChange(newValue)
     }
 
+    open fun closePopups() { }
+
     companion object {
         val DOWN_ARROW_SVG = SVGParser.parseFromResource("/vigilance/chevron-down.svg")
         val UP_ARROW_SVG = SVGParser.parseFromResource("/vigilance/chevron-up.svg")

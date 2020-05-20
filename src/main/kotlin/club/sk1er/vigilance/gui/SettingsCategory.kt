@@ -34,4 +34,10 @@ class SettingsCategory(private val category: Category) : UIContainer() {
 
         scroller.setScrollBarComponent(scrollBar, true)
     }
+
+    fun closePopups() {
+        scroller.allChildren.filterIsInstance<Setting>().forEach {
+            it.closePopups()
+        }
+    }
 }

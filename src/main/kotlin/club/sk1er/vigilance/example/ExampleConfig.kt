@@ -3,6 +3,7 @@ package club.sk1er.vigilance.example
 import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.Property
 import club.sk1er.vigilance.data.PropertyType
+import java.awt.Color
 import java.io.File
 
 object ExampleConfig : Vigilant(File("./config/example.toml")) {
@@ -25,6 +26,25 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         options = ["test 1", "test 2 but my text is really long", "test 3 medium len"]
     )
     var selector = 1
+
+    @Property(
+        type = PropertyType.COLOR,
+        name = "Color Picker",
+        description = "Pick a color! (hopefully...)",
+        category = "General",
+        subcategory = "Category"
+    )
+    var myColor = Color.BLUE
+
+    @Property(
+        type = PropertyType.COLOR,
+        name = "Color Picker wit no alpha",
+        description = "Pick a color, but alpha headed out",
+        category = "General",
+        subcategory = "Category",
+        allowAlpha = false
+    )
+    var alphaless = Color.MAGENTA
 
     @Property(
         type = PropertyType.SLIDER,

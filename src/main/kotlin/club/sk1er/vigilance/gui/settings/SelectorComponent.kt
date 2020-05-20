@@ -17,4 +17,8 @@ class SelectorComponent(initialSelection: Int, options: List<String>) : SettingC
             changeValue(newValue)
         }
     }
+
+    override fun closePopups() {
+        dropDown.collapse()
+    }
 }

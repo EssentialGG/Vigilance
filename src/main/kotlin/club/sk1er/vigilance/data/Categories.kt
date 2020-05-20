@@ -31,9 +31,9 @@ class PropertyItem(val data: PropertyData) : CategoryItem() {
             PropertyType.SLIDER -> SliderComponent(data.getValue(), data.property.min, data.property.max)
             PropertyType.NUMBER -> NumberComponent(data.getValue(), data.property.min, data.property.max)
             PropertyType.SELECTOR -> SelectorComponent(data.getValue(), data.property.options.toList())
+            PropertyType.COLOR -> ColorComponent(data.getValue(), data.property.allowAlpha)
 //            PropertyType.TEXT -> TODO()
 //            PropertyType.PARAGRAPH -> TODO()
-//            PropertyType.COLOR -> TODO()
             else -> null
         } ?: return null
 

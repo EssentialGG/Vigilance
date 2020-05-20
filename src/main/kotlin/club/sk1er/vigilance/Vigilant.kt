@@ -2,8 +2,11 @@ package club.sk1er.vigilance
 
 import club.sk1er.vigilance.data.*
 import club.sk1er.vigilance.gui.SettingsGui
+import com.electronwill.nightconfig.core.conversion.ConversionTable
+import com.electronwill.nightconfig.core.conversion.ConvertedConfig
 import com.electronwill.nightconfig.core.file.FileConfig
-import java.io.File
+import java.awt.Color
+import java.io.*
 import java.util.logging.LogManager
 import java.util.logging.Logger.getLogger
 import kotlin.concurrent.fixedRateTimer
@@ -100,8 +103,18 @@ abstract class Vigilant(file: File) {
         properties.forEach {
             val fullPath = it.property.fullPropertyPath()
 
-            val oldValue: Any? = fileConfig.get(fullPath) ?: it.getAsAny()
-            it.setValue(oldValue)
+            var oldValue: Any? = fileConfig.get(fullPath)
+
+            if (it.property.type == PropertyType.COLOR) {
+                oldValue = if (oldValue is String) {
+                    val split = oldValue.split(",").map(String::toInt)
+                    if (split.size == 4) Color(split[1], split[2], split[3], split[0]) else null
+                } else {
+                    null
+                }
+            }
+
+            it.setValue(oldValue ?: it.getAsAny())
         }
 
         // Leave until misc data is supported
@@ -119,7 +132,13 @@ abstract class Vigilant(file: File) {
         properties.forEach {
             val fullPath = it.property.fullPropertyPath()
 
-            fileConfig.set(fullPath, it.getValue())
+            var toSet = it.getAsAny()
+
+            if (toSet is Color) {
+                toSet = "${toSet.alpha},${toSet.red},${toSet.green},${toSet.blue}"
+            }
+
+            fileConfig.set(fullPath, toSet)
         }
 
         // Leave until misc data is supported

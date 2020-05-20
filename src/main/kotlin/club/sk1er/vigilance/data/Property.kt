@@ -22,6 +22,10 @@ annotation class Property(
      * Reserved for [PropertyType.SELECTOR]
      */
     val options: Array<String> = [],
+    /**
+     * Reserved for [PropertyType.COLOR]
+     */
+    val allowAlpha: Boolean = true,
 
     val hidden: Boolean = false
 )

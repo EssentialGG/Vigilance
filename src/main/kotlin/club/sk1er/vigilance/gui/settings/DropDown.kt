@@ -1,10 +1,7 @@
 package club.sk1er.vigilance.gui.settings
 
 import club.sk1er.elementa.UIComponent
-import club.sk1er.elementa.components.SVGComponent
-import club.sk1er.elementa.components.UIBlock
-import club.sk1er.elementa.components.UIContainer
-import club.sk1er.elementa.components.UIText
+import club.sk1er.elementa.components.*
 import club.sk1er.elementa.constraints.ChildBasedMaxSizeConstraint
 import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
 import club.sk1er.elementa.constraints.RelativeConstraint
@@ -48,6 +45,7 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
         }
 
         options.forEachIndexed { index, opt ->
+            // TODO: Wrap this somehow
             UIText(opt).constrain {
                 y = SiblingConstraint(OPTION_PADDING)
                 color = SettingsGui.GRAY_COLOR.asConstraint()
@@ -81,10 +79,12 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
             unHoverText(currentSelectionText)
         }
 
-        onMouseClick {
+        onMouseClick { event ->
+            event.stopPropagation()
+
             if (active) {
                 active = false
-                contract()
+                collapse()
             } else {
                 active = true
                 expand()
@@ -96,7 +96,7 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
         selected = index
         onValueChange(index)
         currentSelectionText.setText(options[index])
-        contract()
+        collapse()
     }
 
     private fun expand() {
@@ -107,7 +107,7 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
         dropDownArrow.setSVG(SettingComponent.UP_ARROW_SVG)
     }
 
-    private fun contract() {
+    fun collapse() {
         animate {
             setHeightAnimation(Animations.OUT_SIN, 0.35f, 20.pixels())
         }
