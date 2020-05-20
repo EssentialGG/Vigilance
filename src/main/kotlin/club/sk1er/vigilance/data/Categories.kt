@@ -1,10 +1,7 @@
 package club.sk1er.vigilance.data
 
 import club.sk1er.vigilance.gui.*
-import club.sk1er.vigilance.gui.settings.NumberComponent
-import club.sk1er.vigilance.gui.settings.PercentSliderComponent
-import club.sk1er.vigilance.gui.settings.SliderComponent
-import club.sk1er.vigilance.gui.settings.SwitchComponent
+import club.sk1er.vigilance.gui.settings.*
 
 class Category(val name: String, val items: List<CategoryItem>) {
     override fun toString(): String {
@@ -33,10 +30,10 @@ class PropertyItem(val data: PropertyData) : CategoryItem() {
             PropertyType.PERCENT_SLIDER -> PercentSliderComponent(data.getValue())
             PropertyType.SLIDER -> SliderComponent(data.getValue(), data.property.min, data.property.max)
             PropertyType.NUMBER -> NumberComponent(data.getValue(), data.property.min, data.property.max)
+            PropertyType.SELECTOR -> SelectorComponent(data.getValue(), data.property.options.toList())
 //            PropertyType.TEXT -> TODO()
 //            PropertyType.PARAGRAPH -> TODO()
 //            PropertyType.COLOR -> TODO()
-//            PropertyType.SELECTOR -> TODO()
             else -> null
         } ?: return null
 

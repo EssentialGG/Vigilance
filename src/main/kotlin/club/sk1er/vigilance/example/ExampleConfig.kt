@@ -22,7 +22,7 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         description = "String Selector",
         category = "General",
         subcategory = "Category",
-        options = ["test 1", "test 2", "test 3"]
+        options = ["test 1", "test 2 but my text is really long", "test 3 medium len"]
     )
     var selector = 1
 

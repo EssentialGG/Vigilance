@@ -34,7 +34,7 @@ class NumberComponent(initialValue: Int, private val min: Int, private val  max:
         height = CONTROL_HEIGHT.pixels()
     } childOf controlContainer
 
-    private val incrementIcon = SVGComponent.ofResource("/vigilance/chevron-up.svg").constrain {
+    private val incrementIcon = SVGComponent(UP_ARROW_SVG).constrain {
         x = CenterConstraint()
         y = CenterConstraint()
         width = (CONTROL_WIDTH * 0.8f).pixels()
@@ -47,7 +47,7 @@ class NumberComponent(initialValue: Int, private val min: Int, private val  max:
         height = CONTROL_HEIGHT.pixels()
     } childOf controlContainer
 
-    private val decrementIcon = SVGComponent.ofResource("/vigilance/chevron-down.svg").constrain {
+    private val decrementIcon = SVGComponent(DOWN_ARROW_SVG).constrain {
         x = CenterConstraint()
         y = CenterConstraint()
         width = (CONTROL_WIDTH * 0.8f).pixels()

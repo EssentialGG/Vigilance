@@ -4,6 +4,7 @@ import club.sk1er.elementa.components.UIContainer
 import club.sk1er.elementa.constraints.CenterConstraint
 import club.sk1er.elementa.dsl.constrain
 import club.sk1er.elementa.dsl.pixels
+import club.sk1er.elementa.svg.SVGParser
 import club.sk1er.vigilance.gui.DataBackedSetting
 
 abstract class SettingComponent : UIContainer() {
@@ -22,5 +23,10 @@ abstract class SettingComponent : UIContainer() {
 
     fun changeValue(newValue: Any?, callListener: Boolean = true) {
         this.onValueChange(newValue)
+    }
+
+    companion object {
+        val DOWN_ARROW_SVG = SVGParser.parseFromResource("/vigilance/chevron-down.svg")
+        val UP_ARROW_SVG = SVGParser.parseFromResource("/vigilance/chevron-up.svg")
     }
 }

@@ -103,6 +103,7 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         }
 
         searchCloseIcon.onMouseClick { event ->
+            searchInput.text = ""
             hideSearch()
             event.stopPropagation()
         }

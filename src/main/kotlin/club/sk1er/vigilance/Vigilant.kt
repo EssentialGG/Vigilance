@@ -4,6 +4,8 @@ import club.sk1er.vigilance.data.*
 import club.sk1er.vigilance.gui.SettingsGui
 import com.electronwill.nightconfig.core.file.FileConfig
 import java.io.File
+import java.util.logging.LogManager
+import java.util.logging.Logger.getLogger
 import kotlin.concurrent.fixedRateTimer
 import kotlin.properties.ObservableProperty
 import kotlin.properties.ReadWriteProperty
@@ -39,7 +41,13 @@ abstract class Vigilant(file: File) {
     private var dirty = false
 
     fun initialize() {
-        readData()
+        try {
+            readData()
+        } catch (e: Throwable) {
+            writeData()
+            println("Failed to read Vigilant config data from ${fileConfig.file.name}")
+            e.printStackTrace()
+        }
 
         fixedRateTimer(period = 30 * 1000) { writeData() }
 

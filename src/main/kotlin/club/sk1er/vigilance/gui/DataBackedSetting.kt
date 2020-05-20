@@ -45,7 +45,7 @@ class DataBackedSetting(data: PropertyData, component: SettingComponent) : Setti
 
     init {
         boundingBox.constrain {
-            height = RelativeConstraint(1f).to(textBoundingBox) + 10.pixels()
+            height = (RelativeConstraint(1f).to(textBoundingBox) min RelativeConstraint(1f).to(component)) + 10.pixels()
         }
 
         onMouseEnter {
