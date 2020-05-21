@@ -251,18 +251,14 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     private fun setupDraw() {
         UniversalGraphicsHandler.disableTexture2D()
         UniversalGraphicsHandler.enableBlend()
-        // TODO: Make Universal
-        GlStateManager.disableAlpha()
+        UniversalGraphicsHandler.disableAlpha()
         UniversalGraphicsHandler.tryBlendFuncSeparate(770, 771, 1, 0)
-        // TODO: Make Universal
-        GlStateManager.shadeModel(7425)
+        UniversalGraphicsHandler.shadeModel(7425)
     }
 
     private fun cleanupDraw() {
         UniversalGraphicsHandler.draw()
-
-        // TODO: Make Universal
-        GlStateManager.shadeModel(7424)
+        UniversalGraphicsHandler.shadeModel(7424)
         UniversalGraphicsHandler.disableBlend()
         UniversalGraphicsHandler.enableAlpha()
         UniversalGraphicsHandler.enableTexture2D()
