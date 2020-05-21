@@ -26,6 +26,10 @@ annotation class Property(
      * Reserved for [PropertyType.COLOR]
      */
     val allowAlpha: Boolean = true,
+    /**
+     * Reserved for [PropertyType.TEXT] and [PropertyType.PARAGRAPH]
+     */
+    val placeholder: String = "",
 
     val hidden: Boolean = false
 )

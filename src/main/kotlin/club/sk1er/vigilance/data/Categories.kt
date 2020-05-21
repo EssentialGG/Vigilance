@@ -32,9 +32,8 @@ class PropertyItem(val data: PropertyData) : CategoryItem() {
             PropertyType.NUMBER -> NumberComponent(data.getValue(), data.property.min, data.property.max)
             PropertyType.SELECTOR -> SelectorComponent(data.getValue(), data.property.options.toList())
             PropertyType.COLOR -> ColorComponent(data.getValue(), data.property.allowAlpha)
-//            PropertyType.TEXT -> TODO()
-//            PropertyType.PARAGRAPH -> TODO()
-            else -> null
+            PropertyType.TEXT -> TextComponent(data.getValue(), data.property.placeholder, false)
+            PropertyType.PARAGRAPH -> TextComponent(data.getValue(), data.property.placeholder, true)
         } ?: return null
 
         return DataBackedSetting(data, component)

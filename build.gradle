@@ -172,7 +172,7 @@ dependencies {
     implementation 'com.electronwill.night-config:toml:3.6.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "club.sk1er:Elementa:86-$mcVersion-SNAPSHOT"
+    implementation "club.sk1er:Elementa:88-$mcVersion-SNAPSHOT"
     implementation "club.sk1er:UniversalCraft:1.1.4-$mcVersion"
 
     testImplementation "io.mockk:mockk:1.9.3"

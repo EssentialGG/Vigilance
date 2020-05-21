@@ -13,9 +13,19 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         description = "example of text input that does not wrap the text",
         category = "General",
         subcategory = "Category",
-        max = 0
+        placeholder = "Empty... :("
     )
     var textInput = ""
+
+    @Property(
+        type = PropertyType.PARAGRAPH,
+        name = "Paragraph",
+        description = "example of text input that do wrap the text",
+        category = "General",
+        subcategory = "Category",
+        placeholder = "Empty... :("
+    )
+    var bigParagraph = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at imperdiet tortor. Quisque et accumsan metus, quis rutrum nulla. Vivamus metus lacus, tristique at tristique sit amet, pretium vel dui. Curabitur pharetra blandit dapibus. Donec ac nibh vel nisi laoreet mollis. Vivamus at metus quis diam consequat fermentum. Vivamus ut cursus eros. Vivamus maximus nulla nibh, vel interdum risus varius in."
 
     @Property(
         type = PropertyType.SELECTOR,
