@@ -7,7 +7,6 @@ import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.Category
-import org.lwjgl.input.Keyboard
 import java.awt.Color
 
 class SettingsGui(config: Vigilant) : WindowScreen() {
@@ -80,11 +79,12 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
     init {
         searchInput.minWidth = 75.pixels()
         searchInput.maxWidth = 75.pixels()
-
-        searchInput.onUpdate { searchTerm ->
-            val searchCategory = config.getCategoryFromSearch(searchTerm)
-            selectCategory(searchCategory)
+        window.onKeyType { typedChar, keyCode ->
+            if (typedChar.toInt() == 6) {
+                searchInput.mouseClick(0, 0, 1)
+            }
         }
+
 
         searchContainer.onMouseClick { event ->
             searchInput.active = true
@@ -101,7 +101,10 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
             if (searchInput.active) return@onMouseLeave
             hideSearch()
         }
-
+        searchInput.onUpdate { searchTerm ->
+            val searchCategory = config.getCategoryFromSearch(searchTerm)
+            selectCategory(searchCategory)
+        }
         searchCloseIcon.onMouseClick { event ->
             searchInput.text = ""
             hideSearch()
