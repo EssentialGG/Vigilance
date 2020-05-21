@@ -54,7 +54,8 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
                 hoverText(this)
             }.onMouseLeave {
                 unHoverText(this)
-            }.onMouseClick {
+            }.onMouseClick { event ->
+                event.stopPropagation()
                 select(index)
             } childOf optionsHolder
         }

@@ -10,6 +10,7 @@ import club.sk1er.elementa.constraints.FillConstraint
 import club.sk1er.elementa.constraints.RelativeConstraint
 import club.sk1er.elementa.constraints.YConstraint
 import club.sk1er.elementa.dsl.*
+import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.mods.core.universal.UniversalGraphicsHandler
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
@@ -17,15 +18,33 @@ import org.lwjgl.opengl.GL11
 import java.awt.Color
 
 class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
-    private var currentHue = Color.RGBtoHSB(initial.red, initial.green, initial.blue, null)[0]
-    private var onValueChange: (Color) -> Unit = { }
+    private var currentHue: Float
+    private var currentSaturation: Float
+    private var currentBrightness: Float
+    private var currentAlpha = initial.alpha / 255f
 
+    init {
+        val hsb = Color.RGBtoHSB(initial.red, initial.green, initial.blue, null)
+        currentHue = hsb[0]
+        currentSaturation = hsb[1]
+        currentBrightness = hsb[2]
+    }
+
+    private var onValueChange: (Color) -> Unit = { }
     private var draggingHue = false
+    private var draggingPicker = false
 
     private val bigPickerBox = UIBlock(OUTLINE_COLOR).constrain {
         width = RelativeConstraint(0.8f)
         height = RelativeConstraint(if (allowAlpha) 0.8f else 1f)
     } childOf this
+
+    private val pickerIndicator = UIContainer().constrain {
+        x = (RelativeConstraint(currentSaturation) - 3.5f.pixels()).minMax(2.pixels(), 2.pixels(true))
+        y = (RelativeConstraint(1f - currentBrightness) - 3.5f.pixels()).minMax(2.pixels(), 2.pixels(true))
+        width = 3.pixels()
+        height = 3.pixels()
+    } effect OutlineEffect(Color.WHITE, 1f)
 
     private val huePickerLine = UIBlock(OUTLINE_COLOR).constrain {
         x = RelativeConstraint(0.85f)
@@ -40,7 +59,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         height = 15.pixels()
     }
 
-    private val alphaSlider = Slider(initial.alpha / 255f).constrain {
+    private val alphaSlider = Slider(currentAlpha).constrain {
         x = RelativeConstraint(0.05f)
         y = RelativeConstraint(0.85f)
         width = RelativeConstraint(0.7f)
@@ -59,9 +78,11 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
             alphaSlider childOf this
             alphaText childOf this
 
-            alphaSlider.onValueChange {
-                // TODO
+            alphaSlider.onValueChange { newAlpha ->
+                currentAlpha = newAlpha
                 alphaText.setText(getFormattedAlpha())
+
+                recalculateColor()
             }
         }
 
@@ -92,16 +113,67 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
                 super.draw()
             }
-        })
+        }).addChild(pickerIndicator)
+
+        bigPickerBox.onMouseClick { event ->
+            draggingPicker = true
+
+            currentSaturation = event.relativeX / bigPickerBox.getWidth()
+            currentBrightness = 1f - (event.relativeY / bigPickerBox.getHeight())
+            updatePickerIndicator()
+        }.onMouseDrag { mouseX, mouseY, _ ->
+            if (!draggingPicker) return@onMouseDrag
+
+            currentSaturation = (mouseX / bigPickerBox.getWidth()).coerceIn(0f..1f)
+            currentBrightness = 1f - ((mouseY / bigPickerBox.getHeight()).coerceIn(0f..1f))
+            updatePickerIndicator()
+        }.onMouseRelease {
+            draggingPicker = false
+        }
     }
 
     private fun updateHueIndicator() {
         hueIndicator.setY(RelativeConstraint(currentHue) - 7.5f.pixels())
+
+        recalculateColor()
+    }
+
+    private fun updatePickerIndicator() {
+        pickerIndicator.setX(
+            (RelativeConstraint(currentSaturation) - 2.5f.pixels()).minMax(2.pixels(), 2.pixels(true))
+        )
+        pickerIndicator.setY(
+            (RelativeConstraint(1f - currentBrightness) - 2.5f.pixels()).minMax(2.pixels(), 2.pixels(true))
+        )
+
+        recalculateColor()
+    }
+
+    private fun recalculateColor() {
+        onValueChange(getCurrentColor())
     }
 
     fun getCurrentColor(): Color {
-        // TODO
-        return Color.WHITE
+        return Color(
+            (Color.HSBtoRGB(currentHue, currentSaturation, currentBrightness) and 0xffffff) or ((currentAlpha * 255f).toInt() shl 24),
+            true
+        )
+    }
+
+    fun setHSB(hue: Float, sat: Float, bright: Float) {
+        currentHue = hue
+        currentSaturation = sat
+        currentBrightness = bright
+
+        updateHueIndicator()
+        updatePickerIndicator()
+        recalculateColor()
+    }
+
+    fun setAlpha(alpha: Float) {
+        currentAlpha = alpha
+        alphaSlider.setCurrentPercentage(alpha)
+        recalculateColor()
     }
 
     fun onValueChange(listener: (Color) -> Unit) {
@@ -109,26 +181,26 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     }
 
     private fun drawColorPicker() {
-        val left = (bigPickerBox.getLeft() + 1f).toDouble()
-        val top = (bigPickerBox.getTop() + 1f).toDouble()
-        val right = (bigPickerBox.getRight() - 1f).toDouble()
+        val left = (bigPickerBox.getLeft()).toDouble()
+        val top = (bigPickerBox.getTop()).toDouble()
+        val right = (bigPickerBox.getRight() - 2f).toDouble()
         val bottom = (bigPickerBox.getBottom() - 1f).toDouble()
 
         setupDraw()
         val graphics = UniversalGraphicsHandler.getFromTessellator()
         graphics.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR)
 
-        val currentHueColor = Color(Color.HSBtoRGB(currentHue, 1f, 0.5f))
-        val height = bottom-top
-        var first = true;
+        val height = bottom - top
+        var first = true
 
         for (x in 1..50) {
-            val curLeft = left + (right - left).toFloat() *x.toFloat()/ 50f
-            val curRight = left + (right -left).toFloat() *(x.toFloat()+1)/ 50f
+            val curLeft = left + (right - left).toFloat() * x.toFloat() / 50f
+            val curRight = left + (right - left).toFloat() * (x.toFloat() + 1) / 50f
 
             for (y in 1..50) {
                 val yPos = top + (y.toFloat() * height / 50.0)
                 val color = getColor(x.toFloat() / 50f, 1 - y.toFloat() / 50f, currentHue)
+
                 if (!first) {
                     drawVertex(graphics, curLeft, yPos, color)
                     drawVertex(graphics, curRight, yPos, color)
@@ -136,22 +208,16 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
                 drawVertex(graphics, curRight, yPos, color)
                 drawVertex(graphics, curLeft, yPos, color)
-                first =false;
+                first = false
             }
 
         }
-
-//        drawVertex(graphics, right, top, currentHueColor)
-//        drawVertex(graphics, left, top, Color.WHITE)
-//        drawVertex(graphics, left, bottom, Color.BLACK)
-//        drawVertex(graphics, right, bottom, Color.BLACK)
 
         cleanupDraw()
     }
 
     private fun getColor(x: Float, y: Float, hue: Float): Color {
         return Color(Color.HSBtoRGB(hue, x, y))
-
     }
 
     private fun drawHueLine() {
@@ -204,9 +270,9 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
     private fun drawVertex(graphics: UniversalGraphicsHandler, x: Double, y: Double, color: Color) {
         graphics
-                .pos(x, y, 0.0)
-                .color(color.red.toFloat() / 255f, color.green.toFloat() / 255f, color.blue.toFloat() / 255f, 1f)
-                .endVertex()
+            .pos(x, y, 0.0)
+            .color(color.red.toFloat() / 255f, color.green.toFloat() / 255f, color.blue.toFloat() / 255f, 1f)
+            .endVertex()
     }
 
     private fun getFormattedAlpha(): String {

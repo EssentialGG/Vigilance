@@ -88,9 +88,34 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
             event.stopPropagation()
         }
 
-        currentColorHex.onActivate {
+        currentColorHex.onActivate { color ->
             currentColorHex.active = false
-            // TODO: Parse & set color
+
+            if ((allowAlpha && color.length != 9) || (!allowAlpha && color.length != 7)) {
+                currentColorHex.text = getColorString(colorPicker.getCurrentColor())
+                return@onActivate
+            }
+
+            val hex = color.substring(if (allowAlpha) 3 else 1).toIntOrNull(16)
+
+            if (hex == null) {
+                currentColorHex.text = getColorString(colorPicker.getCurrentColor())
+                return@onActivate
+            }
+
+            if (allowAlpha) {
+                val alpha = color.substring(1, 3).toIntOrNull(16)
+
+                if (alpha == null) {
+                    currentColorHex.text = getColorString(colorPicker.getCurrentColor())
+                    return@onActivate
+                }
+
+                colorPicker.setAlpha(alpha / 255f)
+            }
+
+            val hsb = Color.RGBtoHSB((hex shr 16) and 0xff, (hex shr 8) and 0xff, hex and 0xff, null)
+            colorPicker.setHSB(hsb[0], hsb[1], hsb[2])
         }
 
         colorPicker.onValueChange { color ->
