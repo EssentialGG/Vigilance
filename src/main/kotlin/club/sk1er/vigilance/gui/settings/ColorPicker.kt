@@ -119,13 +119,39 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         graphics.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR)
 
         val currentHueColor = Color(Color.HSBtoRGB(currentHue, 1f, 0.5f))
+        val height = bottom-top
+        var first = true;
 
-        drawVertex(graphics, right, top, currentHueColor)
-        drawVertex(graphics, left, top, Color.WHITE)
-        drawVertex(graphics, left, bottom, Color.BLACK)
-        drawVertex(graphics, right, bottom, Color.BLACK)
+        for (x in 1..50) {
+            val curLeft = left + (right - left).toFloat() *x.toFloat()/ 50f
+            val curRight = left + (right -left).toFloat() *(x.toFloat()+1)/ 50f
+
+            for (y in 1..50) {
+                val yPos = top + (y.toFloat() * height / 50.0)
+                val color = getColor(x.toFloat() / 50f, 1 - y.toFloat() / 50f, currentHue)
+                if (!first) {
+                    drawVertex(graphics, curLeft, yPos, color)
+                    drawVertex(graphics, curRight, yPos, color)
+                }
+
+                drawVertex(graphics, curRight, yPos, color)
+                drawVertex(graphics, curLeft, yPos, color)
+                first =false;
+            }
+
+        }
+
+//        drawVertex(graphics, right, top, currentHueColor)
+//        drawVertex(graphics, left, top, Color.WHITE)
+//        drawVertex(graphics, left, bottom, Color.BLACK)
+//        drawVertex(graphics, right, bottom, Color.BLACK)
 
         cleanupDraw()
+    }
+
+    private fun getColor(x: Float, y: Float, hue: Float): Color {
+        return Color(Color.HSBtoRGB(hue, x, y))
+
     }
 
     private fun drawHueLine() {
@@ -136,6 +162,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
         setupDraw()
         val graphics = UniversalGraphicsHandler.getFromTessellator()
+
         graphics.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR)
 
         var first = true
@@ -177,9 +204,9 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
     private fun drawVertex(graphics: UniversalGraphicsHandler, x: Double, y: Double, color: Color) {
         graphics
-            .pos(x, y, 0.0)
-            .color(color.red.toFloat() / 255f, color.green.toFloat() / 255f, color.blue.toFloat() / 255f, 1f)
-            .endVertex()
+                .pos(x, y, 0.0)
+                .color(color.red.toFloat() / 255f, color.green.toFloat() / 255f, color.blue.toFloat() / 255f, 1f)
+                .endVertex()
     }
 
     private fun getFormattedAlpha(): String {
