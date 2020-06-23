@@ -28,13 +28,14 @@ class TextComponent(initial: String, placeholder: String, wrap: Boolean) : Setti
         textInput.text = initial
         textInput.onUpdate { newText ->
             changeValue(newText)
-        }
-
-        textInput.onMouseClick { event ->
+        }.onMouseClick { event ->
             event.stopPropagation()
-            (Minecraft.getMinecraft().currentScreen as? SettingsGui)?.hideSearch()
 
+            textInput.grabWindowFocus()
+        }.onFocus {
             textInput.active = true
+        }.onFocusLost {
+            textInput.active = false
         }
 
         constrain {

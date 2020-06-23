@@ -5,6 +5,7 @@ import club.sk1er.elementa.components.*
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
+import club.sk1er.elementa.effects.ScissorEffect
 import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.Category
 import java.awt.Color
@@ -48,25 +49,30 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         width = 3.pixels()
     } childOf scrollContainer
 
-    private val searchContainer = UIBlock(Color(41, 42, 46)).constrain {
+    private val searchBox = UIBlock(Color(41, 42, 46)).constrain {
         x = 0.pixels(true)
         y = 5.pixels()
         width = 20.pixels()
         height = 20.pixels()
-    } childOf window
+    } childOf window effect ScissorEffect()
 
     private val searchIcon = SVGComponent.ofResource("/vigilance/search.svg").constrain {
         x = 4.pixels()
         y = CenterConstraint()
         width = 12.pixels()
         height = 12.pixels()
-    } childOf searchContainer
+    } childOf searchBox
 
-    private val searchInput = UITextInput("Search...", wrapped = false, shadow = false).constrain {
+    private val searchContainer = UIContainer().constrain {
         x = SiblingConstraint(4f)
         y = 5.5f.pixels()
         width = 100.pixels()
         height = 12.pixels()
+    } childOf searchBox effect ScissorEffect()
+
+    private val searchInput = UITextInput("Search...", wrapped = false, shadow = false).constrain {
+        width = RelativeConstraint(1f)
+        height = RelativeConstraint(1f)
     } childOf searchContainer
 
     private val searchCloseIcon = SVGComponent.ofResource("/vigilance/x.svg").constrain {
@@ -74,46 +80,53 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         y = CenterConstraint()
         width = 12.pixels()
         height = 12.pixels()
-    } childOf searchContainer
+    } childOf searchBox
 
     init {
         searchInput.minWidth = 75.pixels()
         searchInput.maxWidth = 75.pixels()
         window.onKeyType { typedChar, keyCode ->
-            if (typedChar.toInt() == 6) {
-                searchInput.mouseClick(0, 0, 1)
-            }
+            if (typedChar.toInt() == 6)
+                searchInput.grabWindowFocus()
+            defaultKeyBehavior(typedChar, keyCode)
         }
 
-
-        searchContainer.onMouseClick { event ->
-            searchInput.active = true
-            searchContainer.animate {
+        searchBox.onMouseClick { event ->
+            searchInput.grabWindowFocus()
+            searchBox.animate {
                 setWidthAnimation(Animations.OUT_EXP, 1f, ChildBasedSizeConstraint(4f) + 8.pixels())
             }
             event.stopPropagation()
         }.onMouseEnter {
             if (searchInput.active) return@onMouseEnter
-            searchContainer.animate {
+            searchBox.animate {
                 setWidthAnimation(Animations.OUT_EXP, 1f, 65.pixels())
             }
         }.onMouseLeave {
             if (searchInput.active) return@onMouseLeave
             hideSearch()
         }
+
         searchInput.onUpdate { searchTerm ->
             val searchCategory = config.getCategoryFromSearch(searchTerm)
             selectCategory(searchCategory)
+        }.onFocus {
+            searchInput.active = true
+            searchBox.animate {
+                setWidthAnimation(Animations.OUT_EXP, 1f, ChildBasedSizeConstraint(4f) + 8.pixels())
+            }
+        }.onFocusLost {
+            searchInput.active = false
+            hideSearch()
         }
+
         searchCloseIcon.onMouseClick { event ->
             searchInput.text = ""
-            hideSearch()
+            searchInput.releaseWindowFocus()
             event.stopPropagation()
         }
 
         window.onMouseClick {
-            hideSearch()
-
             currentCategory.closePopups()
         }
 
@@ -166,9 +179,8 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         categoryScroller.allChildren.filterIsInstance<CategoryLabel>().firstOrNull { it.isSelected }?.deselect()
     }
 
-    fun hideSearch() {
-        searchInput.active = false
-        searchContainer.animate {
+    private fun hideSearch() {
+        searchBox.animate {
             setWidthAnimation(Animations.OUT_EXP, 1f, 20.pixels())
         }
     }

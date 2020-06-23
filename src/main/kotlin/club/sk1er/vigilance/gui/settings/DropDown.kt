@@ -34,7 +34,7 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
 
     private val optionsHolder = UIContainer().constrain {
         x = 5.pixels()
-        y = 21.pixels()
+        y = 22.pixels()
         width = ChildBasedMaxSizeConstraint()
         height = ChildBasedSizeConstraint(OPTION_PADDING) + OPTION_PADDING.pixels()
     } childOf this
@@ -65,7 +65,7 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
             x = (-1).pixels()
             y = (-1).pixels()
             width = RelativeConstraint(1f) + 2.pixels()
-            height = RelativeConstraint(1f) + 2.5f.pixels()
+            height = RelativeConstraint(1f) + 3f.pixels()
         }
         outlineContainer.parent = this
         children.add(0, outlineContainer)
@@ -83,7 +83,6 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
 
         onMouseClick { event ->
             event.stopPropagation()
-            (Minecraft.getMinecraft().currentScreen as? SettingsGui)?.hideSearch()
 
             if (active) {
                 collapse()

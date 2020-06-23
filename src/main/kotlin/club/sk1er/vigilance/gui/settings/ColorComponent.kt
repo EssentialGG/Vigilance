@@ -68,7 +68,6 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
 
         onMouseClick { event ->
             event.stopPropagation()
-            (Minecraft.getMinecraft().currentScreen as? SettingsGui)?.hideSearch()
 
             if (active) {
                 collapse()
@@ -84,8 +83,12 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         currentColorHex.onMouseClick { event ->
             if (!active) return@onMouseClick
 
-            currentColorHex.active = true
+            currentColorHex.grabWindowFocus()
             event.stopPropagation()
+        }.onFocus {
+            currentColorHex.active = true
+        }.onFocusLost {
+            currentColorHex.active = false
         }
 
         currentColorHex.onActivate { color ->
