@@ -88,7 +88,8 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         window.onKeyType { typedChar, keyCode ->
             if (typedChar.toInt() == 6)
                 searchInput.grabWindowFocus()
-            defaultKeyBehavior(typedChar, keyCode)
+            else
+                defaultKeyBehavior(typedChar, keyCode)
         }
 
         searchBox.onMouseClick { event ->
