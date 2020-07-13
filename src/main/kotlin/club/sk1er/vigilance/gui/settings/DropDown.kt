@@ -139,6 +139,8 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
         onValueChange = listener
     }
 
+    fun getValue() = selected
+
     companion object {
         private const val OPTION_PADDING = 5f
     }
