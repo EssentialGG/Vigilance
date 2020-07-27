@@ -172,7 +172,7 @@ dependencies {
     implementation 'com.electronwill.night-config:toml:3.6.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation ("club.sk1er:Elementa:102-$mcVersion-SNAPSHOT") {
+    implementation ("club.sk1er:Elementa:105-$mcVersion-SNAPSHOT") {
         exclude group: 'UniversalCraft'
     }
     implementation "club.sk1er:UniversalCraft:68-$mcVersion-SNAPSHOT"
@@ -218,6 +218,13 @@ shadowJar {
     }
 
     exclude("club/sk1er/vigilance/example/**")
+
+    if (this.properties.getOrDefault("IS_CTJS", false)) {
+        exclude("kotlin/**")
+        exclude("club/sk1er/elementa/**")
+
+        relocate 'club.sk1er', 'club.sk1er.ctjs'
+    }
 
     classifier ''
 }
