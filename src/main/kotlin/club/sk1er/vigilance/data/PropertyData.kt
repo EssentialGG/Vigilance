@@ -4,7 +4,7 @@ import club.sk1er.vigilance.Vigilant
 import java.lang.reflect.Field
 import java.util.function.Consumer
 
-data class PropertyData(val property: Property, val value: PropertyValue, val instance: Vigilant) {
+data class PropertyData(val property: PropertyAttributes, val value: PropertyValue, val instance: Vigilant) {
     fun getDataType() = property.type
     var action: ((Any?) -> Unit)? = null
 
@@ -32,11 +32,27 @@ data class PropertyData(val property: Property, val value: PropertyValue, val in
 
     companion object {
         fun fromField(property: Property, field: Field, instance: Vigilant): PropertyData {
-            return PropertyData(property, FieldBackedPropertyValue(field), instance)
+            return PropertyData(
+                PropertyAttributes.fromPropertyAnnotation(property),
+                FieldBackedPropertyValue(field),
+                instance
+            )
+        }
+
+        fun fromField(propertyAttributes: PropertyAttributes, field: Field, instance: Vigilant): PropertyData {
+            return PropertyData(
+                propertyAttributes,
+                FieldBackedPropertyValue(field),
+                instance
+            )
         }
 
         fun withValue(property: Property, obj: Any?, instance: Vigilant): PropertyData {
-            return PropertyData(property, ValueBackedPropertyValue(obj), instance)
+            return PropertyData(
+                PropertyAttributes.fromPropertyAnnotation(property),
+                ValueBackedPropertyValue(obj),
+                instance
+            )
         }
     }
 }

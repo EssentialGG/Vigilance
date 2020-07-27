@@ -2,36 +2,20 @@ package club.sk1er.vigilance
 
 import club.sk1er.vigilance.data.*
 import club.sk1er.vigilance.gui.SettingsGui
-import com.electronwill.nightconfig.core.conversion.ConversionTable
-import com.electronwill.nightconfig.core.conversion.ConvertedConfig
 import com.electronwill.nightconfig.core.file.FileConfig
 import java.awt.Color
-import java.io.*
-import java.util.logging.LogManager
-import java.util.logging.Logger.getLogger
+import java.io.File
 import kotlin.concurrent.fixedRateTimer
-import kotlin.properties.ObservableProperty
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KClass
-import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KProperty
-import kotlin.reflect.full.findAnnotation
-import kotlin.reflect.full.memberProperties
-import kotlin.reflect.jvm.isAccessible
 import kotlin.reflect.jvm.javaField
 
-abstract class Vigilant(file: File) {
-    private val properties: MutableList<PropertyData> =
-        this::class.java.declaredFields
-            .filter { it.isAnnotationPresent(Property::class.java) }
-            .map {
-                PropertyData.fromField(
-                    it.getAnnotation(Property::class.java),
-                    it.apply { it.isAccessible = true },
-                    this
-                )
-            }.toMutableList()
-
+abstract class Vigilant @JvmOverloads constructor(
+    file: File,
+    private val propertyCollector: PropertyCollector = JVMAnnotationPropertyCollector()
+) {
+    init {
+        propertyCollector.initialize(this)
+    }
 
     /*
     TODO: Fix this in production
@@ -66,22 +50,24 @@ abstract class Vigilant(file: File) {
 
         prop.setValue(oldValue)
 
-        properties.add(prop);
+        propertyCollector.addProperty(prop)
     }
 
     fun registerListener(field: KProperty<*>, listener: (Any?) -> Unit) {
-        properties
+        propertyCollector
+            .getProperties()
             .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field == field.javaField }
             ?.action = listener
     }
 
     fun getCategories(): List<Category> {
-        val groupedByCategory = properties.groupBy { it.property.category }
+        val groupedByCategory = propertyCollector.getProperties().groupBy { it.property.category }
         return groupedByCategory.map { Category(it.key, it.value.splitBySubcategory()) }
     }
 
     fun getCategoryFromSearch(term: String): Category {
-        val sorted = properties
+        val sorted = propertyCollector
+            .getProperties()
             .sortedBy { it.property.subcategory }
             .filter {
                 !it.property.hidden && (it.property.name.contains(term, ignoreCase = true) || it.property.description
@@ -100,7 +86,7 @@ abstract class Vigilant(file: File) {
     private fun readData() {
         fileConfig.load()
 
-        properties.forEach {
+        propertyCollector.getProperties().forEach {
             val fullPath = it.property.fullPropertyPath()
 
             var oldValue: Any? = fileConfig.get(fullPath)
@@ -129,7 +115,7 @@ abstract class Vigilant(file: File) {
     fun writeData() {
         if (!dirty) return
 
-        properties.forEach {
+        propertyCollector.getProperties().forEach {
             val fullPath = it.property.fullPropertyPath()
 
             var toSet = it.getAsAny()
