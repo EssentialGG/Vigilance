@@ -57,7 +57,7 @@ data class PropertyData(val property: PropertyAttributes, val value: PropertyVal
     }
 }
 
-sealed class PropertyValue {
+abstract class PropertyValue {
     abstract fun getValue(instance: Vigilant): Any?
     abstract fun setValue(value: Any?, instance: Vigilant)
 }

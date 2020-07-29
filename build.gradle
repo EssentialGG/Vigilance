@@ -163,11 +163,6 @@ minecraft {
     }
 }
 
-configurations {
-    embed
-    compile.extendsFrom(embed)
-}
-
 dependencies {
     implementation 'com.electronwill.night-config:toml:3.6.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -213,10 +208,6 @@ reobf {
 tasks.build.dependsOn reobfShadowJar
 
 shadowJar {
-    minimize {
-
-    }
-
     exclude("club/sk1er/vigilance/example/**")
 
     if (this.properties.getOrDefault("IS_CTJS", false)) {
