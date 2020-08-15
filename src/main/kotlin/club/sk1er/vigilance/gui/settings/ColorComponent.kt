@@ -3,16 +3,14 @@ package club.sk1er.vigilance.gui.settings
 import club.sk1er.elementa.UIComponent
 import club.sk1er.elementa.components.SVGComponent
 import club.sk1er.elementa.components.UIContainer
-import club.sk1er.elementa.components.UITextInput
+import club.sk1er.elementa.components.input.UITextInput
 import club.sk1er.elementa.constraints.CenterConstraint
 import club.sk1er.elementa.constraints.RelativeConstraint
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.elementa.effects.ScissorEffect
-import club.sk1er.mods.core.universal.UniversalMinecraft
 import club.sk1er.vigilance.gui.SettingsGui
-import net.minecraft.client.Minecraft
 import java.awt.Color
 
 class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingComponent() {
@@ -76,9 +74,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
             }
         }
 
-        currentColorHex.minWidth = RelativeConstraint(0.5f)
-        currentColorHex.maxWidth = RelativeConstraint(1f) - 25.pixels()
-        currentColorHex.text = getColorString(initial)
+        currentColorHex.setText(getColorString(initial))
 
         currentColorHex.onMouseClick { event ->
             if (!active) return@onMouseClick
@@ -86,23 +82,23 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
             currentColorHex.grabWindowFocus()
             event.stopPropagation()
         }.onFocus {
-            currentColorHex.active = true
+            currentColorHex.setActive(true)
         }.onFocusLost {
-            currentColorHex.active = false
+            currentColorHex.setActive(false)
         }
 
         currentColorHex.onActivate { color ->
-            currentColorHex.active = false
+            currentColorHex.setActive(false)
 
             if ((allowAlpha && color.length != 9) || (!allowAlpha && color.length != 7)) {
-                currentColorHex.text = getColorString(colorPicker.getCurrentColor())
+                currentColorHex.setText(getColorString(colorPicker.getCurrentColor()))
                 return@onActivate
             }
 
             val hex = color.substring(if (allowAlpha) 3 else 1).toIntOrNull(16)
 
             if (hex == null) {
-                currentColorHex.text = getColorString(colorPicker.getCurrentColor())
+                currentColorHex.setText(getColorString(colorPicker.getCurrentColor()))
                 return@onActivate
             }
 
@@ -110,7 +106,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
                 val alpha = color.substring(1, 3).toIntOrNull(16)
 
                 if (alpha == null) {
-                    currentColorHex.text = getColorString(colorPicker.getCurrentColor())
+                    currentColorHex.setText(getColorString(colorPicker.getCurrentColor()))
                     return@onActivate
                 }
 
@@ -123,7 +119,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
 
         colorPicker.onValueChange { color ->
             changeValue(color)
-            currentColorHex.text = getColorString(color)
+            currentColorHex.setText(getColorString(color))
         }
 
         colorPicker.onMouseClick { event ->
@@ -156,7 +152,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
             unHoverText(currentColorHex)
         }
 
-        currentColorHex.active = false
+        currentColorHex.setActive(false)
 
         dropDownArrow.setSVG(DOWN_ARROW_SVG)
     }

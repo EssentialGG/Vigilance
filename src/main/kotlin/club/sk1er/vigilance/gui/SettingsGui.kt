@@ -2,6 +2,7 @@ package club.sk1er.vigilance.gui
 
 import club.sk1er.elementa.WindowScreen
 import club.sk1er.elementa.components.*
+import club.sk1er.elementa.components.input.UITextInput
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
@@ -68,10 +69,10 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         y = 5.5f.pixels()
         width = 100.pixels()
         height = 12.pixels()
-    } childOf searchBox effect ScissorEffect()
+    } childOf searchBox
 
-    private val searchInput = UITextInput("Search...", wrapped = false, shadow = false).constrain {
-        width = RelativeConstraint(1f)
+    private val searchInput = UITextInput("Search...", shadow = false).constrain {
+        width = 75.pixels()
         height = RelativeConstraint(1f)
     } childOf searchContainer
 
@@ -83,8 +84,6 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
     } childOf searchBox
 
     init {
-        searchInput.minWidth = 75.pixels()
-        searchInput.maxWidth = 75.pixels()
         window.onKeyType { typedChar, keyCode ->
             if (typedChar.toInt() == 6)
                 searchInput.grabWindowFocus()
@@ -99,12 +98,12 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
             }
             event.stopPropagation()
         }.onMouseEnter {
-            if (searchInput.active) return@onMouseEnter
+            if (searchInput.isActive()) return@onMouseEnter
             searchBox.animate {
                 setWidthAnimation(Animations.OUT_EXP, 1f, 65.pixels())
             }
         }.onMouseLeave {
-            if (searchInput.active) return@onMouseLeave
+            if (searchInput.isActive()) return@onMouseLeave
             hideSearch()
         }
 
@@ -112,17 +111,17 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
             val searchCategory = config.getCategoryFromSearch(searchTerm)
             selectCategory(searchCategory)
         }.onFocus {
-            searchInput.active = true
+            searchInput.setActive(true)
             searchBox.animate {
                 setWidthAnimation(Animations.OUT_EXP, 1f, ChildBasedSizeConstraint(4f) + 8.pixels())
             }
         }.onFocusLost {
-            searchInput.active = false
+            searchInput.setActive(false)
             hideSearch()
         }
 
         searchCloseIcon.onMouseClick { event ->
-            searchInput.text = ""
+            searchInput.setText("")
             searchInput.releaseWindowFocus()
             event.stopPropagation()
         }
