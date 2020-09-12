@@ -11,6 +11,7 @@ import club.sk1er.elementa.constraints.SiblingConstraint
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.vigilance.gui.SettingsGui
+import club.sk1er.vigilance.gui.VigilancePalette
 import java.awt.Color
 
 class NumberComponent(initialValue: Int, private val min: Int, private val  max: Int) : SettingComponent() {
@@ -19,7 +20,7 @@ class NumberComponent(initialValue: Int, private val min: Int, private val  max:
     private val valueText = UIText(value.toString()).constrain {
         y = CenterConstraint()
         textScale = 1.5f.pixels()
-        color = SettingsGui.ACCENT_COLOR.asConstraint()
+        color = VigilancePalette.ACCENT.asConstraint()
     } childOf this
 
     private val controlContainer = UIContainer().constrain {
@@ -79,7 +80,7 @@ class NumberComponent(initialValue: Int, private val min: Int, private val  max:
     }
 
     private fun clickControl(control: UIComponent) {
-        changeOutlineColor(control, SettingsGui.ACCENT_COLOR)
+        changeOutlineColor(control, VigilancePalette.ACCENT)
 
         val change = if (control == incrementControl) 1 else -1
         value = (value + change).coerceIn(min..max)
@@ -87,7 +88,7 @@ class NumberComponent(initialValue: Int, private val min: Int, private val  max:
         changeValue(value)
 
         if (isControlDisabled(control)) {
-            changeOutlineColor(control, SettingsGui.DISABLED_COLOR)
+            changeOutlineColor(control, VigilancePalette.DISABLED)
         }
 
         // TODO: Repeat these increases until the mouse is released!
@@ -96,7 +97,7 @@ class NumberComponent(initialValue: Int, private val min: Int, private val  max:
     private fun releaseControl(control: UIComponent) {
         changeOutlineColor(
             control,
-            if (isControlDisabled(control)) SettingsGui.DISABLED_COLOR else SettingsGui.GRAY_COLOR
+            if (isControlDisabled(control)) VigilancePalette.DISABLED else VigilancePalette.MID_TEXT
         )
     }
 

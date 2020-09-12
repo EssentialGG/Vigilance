@@ -7,7 +7,6 @@ import club.sk1er.elementa.constraints.RelativeConstraint
 import club.sk1er.elementa.constraints.SiblingConstraint
 import club.sk1er.elementa.dsl.*
 import club.sk1er.vigilance.data.Category
-import java.awt.Color
 
 class SettingsCategory(private val category: Category) : UIContainer() {
     init {
@@ -22,7 +21,7 @@ class SettingsCategory(private val category: Category) : UIContainer() {
         height = RelativeConstraint(1f)
     } childOf this
 
-    private val scrollBar = UIBlock(Color(45, 45, 45)).constrain {
+    private val scrollBar = UIBlock(VigilancePalette.SCROLL_BAR).constrain {
         x = SiblingConstraint() + 2.pixels()
         width = 3.pixels()
     } childOf this

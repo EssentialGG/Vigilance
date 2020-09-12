@@ -11,10 +11,11 @@ import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.elementa.effects.ScissorEffect
 import club.sk1er.vigilance.gui.SettingsGui
+import club.sk1er.vigilance.gui.VigilancePalette
 import net.minecraft.client.Minecraft
 import java.awt.Color
 
-class DropDown(initialSelection: Int, private val options: List<String>) : UIBlock(Color(33, 34, 38)) {
+class DropDown(initialSelection: Int, private val options: List<String>) : UIBlock(VigilancePalette.HIGHLIGHT) {
     private var selected = initialSelection
     private var onValueChange: (Int) -> Unit = { }
     private var active = false
@@ -22,7 +23,7 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
     private val currentSelectionText = UIText(options[selected]).constrain {
         x = 5.pixels()
         y = 6.pixels()
-        color = SettingsGui.GRAY_COLOR.asConstraint()
+        color = VigilancePalette.MID_TEXT.asConstraint()
     } childOf this
 
     private val dropDownArrow = SVGComponent(SettingComponent.DOWN_ARROW_SVG).constrain {
@@ -49,7 +50,7 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
             // TODO: Wrap this somehow
             UIText(opt).constrain {
                 y = SiblingConstraint(OPTION_PADDING)
-                color = SettingsGui.GRAY_COLOR.asConstraint()
+                color = VigilancePalette.MID_TEXT.asConstraint()
             }.onMouseEnter {
                 hoverText(this)
             }.onMouseLeave {
@@ -60,7 +61,7 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
             } childOf optionsHolder
         }
 
-        enableEffect(OutlineEffect(Color(80, 80, 80), 0.5f))
+        enableEffect(OutlineEffect(VigilancePalette.DARK_DIVIDER, 0.5f))
         val outlineContainer = UIContainer().constrain {
             x = (-1).pixels()
             y = (-1).pixels()
@@ -125,13 +126,13 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
 
     private fun hoverText(text: UIComponent) {
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.25f, Color.WHITE.asConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.BRIGHT_TEXT.asConstraint())
         }
     }
 
     private fun unHoverText(text: UIComponent) {
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.25f, SettingsGui.GRAY_COLOR.asConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.MID_TEXT.asConstraint())
         }
     }
 

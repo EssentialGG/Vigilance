@@ -12,7 +12,7 @@ import java.awt.Color
 
 class CategoryLabel(private val gui: SettingsGui, private val category: Category) : UIContainer() {
     private val text = UIText(category.name).constrain {
-        color = SettingsGui.GRAY_COLOR.asConstraint()
+        color = VigilancePalette.MID_TEXT.asConstraint()
         textScale = (1.5f).pixels()
     } childOf this
 
@@ -34,7 +34,7 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
         onMouseEnter {
             if (!isSelected) {
                 text.animate {
-                    setColorAnimation(Animations.OUT_EXP, 0.5f, Color(1, 200, 100).asConstraint())
+                    setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.ACCENT.asConstraint())
                 }
             }
         }
@@ -42,7 +42,7 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
         onMouseLeave {
             if (!isSelected) {
                 text.animate {
-                    setColorAnimation(Animations.OUT_EXP, 0.5f, Color(127, 127, 127).asConstraint())
+                    setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.MID_TEXT.asConstraint())
                 }
             }
         }
@@ -53,14 +53,14 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
 
         isSelected = true
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.5f, SettingsGui.ACCENT_COLOR.asConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.ACCENT.asConstraint())
         }
     }
 
     fun deselect() {
         isSelected = false
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.5f, Color(127, 127, 127).asConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.MID_TEXT.asConstraint())
         }
     }
 }

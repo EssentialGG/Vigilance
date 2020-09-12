@@ -12,6 +12,7 @@ import club.sk1er.elementa.constraints.YConstraint
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.mods.core.universal.UniversalGraphicsHandler
+import club.sk1er.vigilance.gui.VigilancePalette
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.lwjgl.opengl.GL11
@@ -34,7 +35,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     private var draggingHue = false
     private var draggingPicker = false
 
-    private val bigPickerBox = UIBlock(OUTLINE_COLOR).constrain {
+    private val bigPickerBox = UIBlock(VigilancePalette.DARK_DIVIDER).constrain {
         width = RelativeConstraint(0.8f)
         height = RelativeConstraint(if (allowAlpha) 0.8f else 1f)
     } childOf this
@@ -46,7 +47,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         height = 3.pixels()
     } effect OutlineEffect(Color.WHITE, 1f)
 
-    private val huePickerLine = UIBlock(OUTLINE_COLOR).constrain {
+    private val huePickerLine = UIBlock(VigilancePalette.DARK_DIVIDER).constrain {
         x = RelativeConstraint(0.85f)
         width = FillConstraint()
         height = RelativeConstraint(if (allowAlpha) 0.8f else 1f)
@@ -70,7 +71,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         x = RelativeConstraint(0.85f)
         y = CenterConstraint().to(alphaSlider) as YConstraint
         textScale = 0.5f.pixels()
-        color = Color.WHITE.asConstraint()
+        color = VigilancePalette.BRIGHT_TEXT.asConstraint()
     }
 
     init {
@@ -277,6 +278,5 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
     companion object {
         private val hueColorList: List<Color> = (0..49).map { i -> Color(Color.HSBtoRGB(i / 49f, 1f, 0.7f)) }
-        private val OUTLINE_COLOR = Color(50, 59, 77)
     }
 }

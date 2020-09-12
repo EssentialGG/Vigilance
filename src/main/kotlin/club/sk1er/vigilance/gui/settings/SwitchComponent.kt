@@ -6,6 +6,7 @@ import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.vigilance.gui.SettingsGui
+import club.sk1er.vigilance.gui.VigilancePalette
 
 class SwitchComponent(initialState: Boolean) : SettingComponent() {
     private var enabled = initialState
@@ -40,7 +41,7 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
 
     private fun getOutlineEffect() = OutlineEffect(getSwitchColor(), 0.5f)
 
-    private fun getSwitchColor() = if (enabled) SettingsGui.ACCENT_COLOR else SettingsGui.GRAY_COLOR
+    private fun getSwitchColor() = if (enabled) VigilancePalette.ACCENT else VigilancePalette.DIVIDER
 
     private fun getSwitchPosition() = if (enabled) 0.pixels(true) else 0.pixels()
 }

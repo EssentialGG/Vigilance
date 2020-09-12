@@ -9,10 +9,9 @@ import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.ScissorEffect
 import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.Category
-import java.awt.Color
 
 class SettingsGui(config: Vigilant) : WindowScreen() {
-    private val background = UIBlock(Color(22, 22, 24)).constrain {
+    private val background = UIBlock(VigilancePalette.BACKGROUND).constrain {
         width = RelativeConstraint(1f)
         height = RelativeConstraint(1f)
     } childOf window
@@ -45,12 +44,12 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         height = RelativeConstraint(1f)
     } childOf scrollContainer
 
-    private val categoryScrollBar = UIBlock(Color(45, 45, 45)).constrain {
+    private val categoryScrollBar = UIBlock(VigilancePalette.SCROLL_BAR).constrain {
         x = 7.5f.pixels(true)
         width = 3.pixels()
     } childOf scrollContainer
 
-    private val searchBox = UIBlock(Color(41, 42, 46)).constrain {
+    private val searchBox = UIBlock(VigilancePalette.HIGHLIGHT).constrain {
         x = 0.pixels(true)
         y = 5.pixels()
         width = 20.pixels()
@@ -142,7 +141,7 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         }
     }
 
-    private val splitter = UIBlock(Color(151, 151, 151)).constrain {
+    private val splitter = UIBlock(VigilancePalette.DIVIDER).constrain {
         x = SiblingConstraint()
         width = 1.pixels()
         height = RelativeConstraint(1f)
@@ -183,11 +182,5 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         searchBox.animate {
             setWidthAnimation(Animations.OUT_EXP, 1f, 20.pixels())
         }
-    }
-
-    companion object {
-        val ACCENT_COLOR = Color(1, 165, 82)
-        val GRAY_COLOR = Color(145, 145, 147)
-        val DISABLED_COLOR = Color(73, 73, 73)
     }
 }

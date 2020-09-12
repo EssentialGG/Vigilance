@@ -1,6 +1,7 @@
 package club.sk1er.vigilance.example
 
 import club.sk1er.elementa.effects.StencilEffect
+import club.sk1er.vigilance.gui.VigilancePalette
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraftforge.client.ClientCommandHandler
@@ -17,6 +18,7 @@ class ExampleMod {
         StencilEffect.enableStencil()
 
         ExampleConfig.preload()
+        VigilancePalette.preload()
 
         MinecraftForge.EVENT_BUS.register(this)
         ClientCommandHandler.instance.registerCommand(ExampleCommand())

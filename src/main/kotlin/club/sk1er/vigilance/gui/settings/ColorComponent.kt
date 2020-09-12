@@ -11,6 +11,7 @@ import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.elementa.effects.ScissorEffect
 import club.sk1er.vigilance.gui.SettingsGui
+import club.sk1er.vigilance.gui.VigilancePalette
 import java.awt.Color
 
 class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingComponent() {
@@ -20,7 +21,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         x = 5.pixels()
         y = 6.pixels()
         width = RelativeConstraint(1f) - 30.pixels()
-        color = SettingsGui.GRAY_COLOR.asConstraint()
+        color = VigilancePalette.MID_TEXT.asConstraint()
     } childOf this
 
     private val dropDownArrow = SVGComponent(DOWN_ARROW_SVG).constrain {
@@ -43,7 +44,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
             height = 20.pixels()
         }
 
-        enableEffect(OutlineEffect(Color(80, 80, 80), 0.5f))
+        enableEffect(OutlineEffect(VigilancePalette.DARK_DIVIDER, 0.5f))
         val outlineContainer = UIContainer().constrain {
             x = (-1).pixels()
             y = (-1).pixels()
@@ -159,13 +160,13 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
 
     private fun hoverText(text: UIComponent) {
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.25f, Color.WHITE.asConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.BRIGHT_TEXT.asConstraint())
         }
     }
 
     private fun unHoverText(text: UIComponent) {
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.25f, SettingsGui.GRAY_COLOR.asConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.MID_TEXT.asConstraint())
         }
     }
 

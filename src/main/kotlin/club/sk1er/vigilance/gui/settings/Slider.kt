@@ -8,6 +8,7 @@ import club.sk1er.elementa.constraints.RelativeConstraint
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.vigilance.gui.SettingsGui
+import club.sk1er.vigilance.gui.VigilancePalette
 import java.awt.Color
 
 class Slider(initialValue: Float) : UIContainer() {
@@ -21,9 +22,9 @@ class Slider(initialValue: Float) : UIContainer() {
         y = 1.pixels()
         width = RelativeConstraint(1f) - 2.pixels()
         height = RelativeConstraint(1f) - 2.pixels()
-    } childOf this effect OutlineEffect(SettingsGui.GRAY_COLOR, 0.5f)
+    } childOf this effect OutlineEffect(VigilancePalette.DIVIDER, 0.5f)
 
-    private val completionBox = UIBlock(SettingsGui.ACCENT_COLOR).constrain {
+    private val completionBox = UIBlock(VigilancePalette.ACCENT).constrain {
         x = (-0.5f).pixels()
         y = (-0.5f).pixels()
         width = RelativeConstraint(percentage)
@@ -32,7 +33,7 @@ class Slider(initialValue: Float) : UIContainer() {
 
     private val grabBoxCenterConstraint = basicXConstraint { it.parent.getLeft() + it.getWidth() / 2 }
 
-    val grabBox = UIBlock(SettingsGui.ACCENT_COLOR).constrain {
+    val grabBox = UIBlock(VigilancePalette.ACCENT).constrain {
         x = RelativeConstraint(percentage) - grabBoxCenterConstraint
         y = CenterConstraint()
         width = AspectConstraint(1f)
