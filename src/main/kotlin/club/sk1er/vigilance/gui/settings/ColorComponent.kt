@@ -171,6 +171,8 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
     }
 
     private fun getColorString(color: Color): String {
-        return if (allowAlpha) "#%08x".format(color.rgb) else "#%06x".format(color.rgb and 0xffffff)
+        return "#%06x".format(color.rgb and 0xffffff) + if (allowAlpha) {
+            "%02x".format(color.alpha)
+        } else ""
     }
 }
