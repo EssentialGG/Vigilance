@@ -5,6 +5,8 @@ import club.sk1er.vigilance.gui.SettingsGui
 import com.electronwill.nightconfig.core.file.FileConfig
 import java.awt.Color
 import java.io.File
+import java.lang.reflect.Field
+import java.util.function.Consumer
 import kotlin.concurrent.fixedRateTimer
 import kotlin.reflect.KProperty
 import kotlin.reflect.jvm.javaField
@@ -53,11 +55,15 @@ abstract class Vigilant @JvmOverloads constructor(
         propertyCollector.addProperty(prop)
     }
 
-    fun registerListener(field: KProperty<*>, listener: (Any?) -> Unit) {
+    fun <T> registerListener(field: KProperty<T>, listener: (T) -> Unit) {
+        registerListener<T>(field.javaField!!, Consumer { listener(it) })
+    }
+
+    fun <T> registerListener(field: Field, listener: Consumer<T>) {
         propertyCollector
             .getProperties()
-            .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field == field.javaField }
-            ?.action = listener
+            .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field == field }
+            ?.action = { obj -> listener.accept(obj as T) }
     }
 
     fun getCategories(): List<Category> {
