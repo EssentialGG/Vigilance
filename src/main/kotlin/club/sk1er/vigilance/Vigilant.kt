@@ -55,15 +55,21 @@ abstract class Vigilant @JvmOverloads constructor(
         propertyCollector.addProperty(prop)
     }
 
-    fun <T> registerListener(field: KProperty<T>, listener: (T) -> Unit) {
-        registerListener<T>(field.javaField!!, Consumer { listener(it) })
+    fun <T> registerListener(property: KProperty<T>, listener: (T) -> Unit) {
+        registerListener<T>(property.javaField!!, Consumer { listener(it) })
     }
 
     fun <T> registerListener(field: Field, listener: Consumer<T>) {
         propertyCollector
             .getProperties()
-            .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field == field }
-            ?.action = { obj -> listener.accept(obj as T) }
+            .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field == field }!!
+            .action = { obj -> listener.accept(obj as T) }
+    }
+
+    fun <T> registerListener(propertyName: String, listener: Consumer<T>) {
+        propertyCollector.getProperties()
+            .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field.name == propertyName }!!
+            .action = { obj -> listener.accept(obj as T) }
     }
 
     fun getCategories(): List<Category> {
