@@ -9,14 +9,7 @@ import club.sk1er.elementa.dsl.*
 import club.sk1er.vigilance.data.Category
 
 class SettingsCategory(private val category: Category) : UIContainer() {
-    init {
-        constrain {
-            width = RelativeConstraint(1f)
-            height = RelativeConstraint(1f)
-        }
-    }
-
-    private val scroller = ScrollComponent(innerPadding = 4f, emptyString = "No matching settings found :(").constrain {
+    private val scroller = ScrollComponent(innerPadding = 4.0, emptyString = "No matching settings found :(").constrain {
         width = RelativeConstraint(1f) - 5.pixels()
         height = RelativeConstraint(1f)
     } childOf this
@@ -27,6 +20,11 @@ class SettingsCategory(private val category: Category) : UIContainer() {
     } childOf this
 
     init {
+        constrain {
+            width = RelativeConstraint(1f)
+            height = RelativeConstraint(1f)
+        }
+
         category.items.forEach {
             it.toSettingsObject()?.childOf(scroller)
         }
