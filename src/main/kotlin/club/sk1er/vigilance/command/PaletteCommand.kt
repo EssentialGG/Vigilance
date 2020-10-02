@@ -1,34 +1,35 @@
-package club.sk1er.vigilance.example
+package club.sk1er.vigilance.command
+
+import club.sk1er.vigilance.Vigilance
+import club.sk1er.vigilance.gui.VigilancePalette
 
 //#if MC<=11202
-import com.example.examplemod.ExampleMod
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 //#if MC>=11202
 //$$ import net.minecraft.server.MinecraftServer
 //#endif
 
-class ExampleCommand : CommandBase() {
+class PaletteCommand : CommandBase() {
     //#if MC<=10809
-    override fun getCommandName() = "config"
+    override fun getCommandName() = "vigilance"
 
-    override fun getCommandUsage(sender: ICommandSender?) = "/config - open example gui"
+    override fun getCommandUsage(sender: ICommandSender?) = "/vigilance - opens Vigilance settings"
 
     override fun getRequiredPermissionLevel() = 0
 
     override fun processCommand(sender: ICommandSender?, args: Array<String>) {
-        ExampleMod.gui = ExampleConfig.gui()
+        Vigilance.gui = VigilancePalette.gui()
     }
     //#else
     //$$ override fun getName() = "config"
     //$$
-    //$$ override fun getUsage(sender: ICommandSender) = "/config - open example gui"
+    //$$ override fun getUsage(sender: ICommandSender) = "/vigilance - opens Vigilance settings"
     //$$
     //$$ override fun getRequiredPermissionLevel() = 0
     //$$
     //$$ override fun execute(server: MinecraftServer, sender: ICommandSender, args: Array<String>) {
-    //$$     // ExampleConfig.randomData = UUID.randomUUID().toString()
-    //$$     ExampleMod.gui = ExampleConfig.gui()
+    //$$     Vigilance.gui = VigilancePalette.gui()
     //$$ }
     //#endif
 }
@@ -40,21 +41,20 @@ class ExampleCommand : CommandBase() {
 //$$ import net.minecraft.server.command.ServerCommandSource
 //$$ import net.minecraft.server.command.CommandManager
 //$$
-//$$ object ExampleCommand {
+//$$ object PaletteCommand {
 //$$     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
 //$$         dispatcher.register(CommandManager.literal("config")
 //#else
 //$$ import net.minecraft.command.CommandSource
 //$$ import net.minecraft.command.Commands
 //$$
-//$$ object ExampleCommand {
+//$$ object PaletteCommand {
 //$$     fun register(dispatcher: CommandDispatcher<CommandSource?>) {
 //$$         dispatcher.register(Commands.literal("config")
 //#endif
 //$$             .requires { it.hasPermissionLevel(0) }
 //$$             .executes {
-//$$                 // ExampleConfig.randomData = UUID.randomUUID().toString()
-//$$                 ExampleMod.gui = ExampleConfig.gui()
+//$$                 Vigilance.gui = VigilancePalette.gui()
 //$$                 1
 //$$             })
 //$$     }
