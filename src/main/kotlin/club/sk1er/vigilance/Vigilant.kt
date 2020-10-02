@@ -211,9 +211,10 @@ abstract class Vigilant @JvmOverloads constructor(
             options: List<String> = listOf(),
             allowAlpha: Boolean = true,
             placeholder: String = "",
-            hidden: Boolean = false
+            hidden: Boolean = false,
+            action: ((T) -> Unit)? = null
         ) {
-            properties.add(PropertyData(
+            val data = PropertyData(
                 PropertyAttributes(
                     type,
                     name,
@@ -229,16 +230,23 @@ abstract class Vigilant @JvmOverloads constructor(
                 ),
                 KPropertyBackedPropertyValue(field),
                 instance
-            ))
+            )
+
+            if (action != null) {
+                data.action = { action(it as T) }
+            }
+
+            properties.add(data)
         }
 
         fun switch(
             field: KMutableProperty0<Boolean>,
             name: String = field.name,
             description: String = "",
-            hidden: Boolean = false
+            hidden: Boolean = false,
+            action: ((Boolean) -> Unit)? = null
         ) {
-            property(field, PropertyType.SWITCH, name, description, hidden = hidden)
+            property(field, PropertyType.SWITCH, name, description, hidden = hidden, action = action)
         }
 
         fun text(
@@ -246,9 +254,10 @@ abstract class Vigilant @JvmOverloads constructor(
             name: String = field.name,
             description: String = "",
             placeholder: String = "",
-            hidden: Boolean = false
+            hidden: Boolean = false,
+            action: ((String) -> Unit)? = null
         ) {
-            property(field, PropertyType.TEXT, name, description, placeholder = placeholder, hidden = hidden)
+            property(field, PropertyType.TEXT, name, description, placeholder = placeholder, hidden = hidden, action = action)
         }
 
         fun paragraph(
@@ -256,18 +265,20 @@ abstract class Vigilant @JvmOverloads constructor(
             name: String = field.name,
             description: String = "",
             placeholder: String = "",
-            hidden: Boolean = false
+            hidden: Boolean = false,
+            action: ((String) -> Unit)? = null
         ) {
-            property(field, PropertyType.PARAGRAPH, name, description, placeholder = placeholder, hidden = hidden)
+            property(field, PropertyType.PARAGRAPH, name, description, placeholder = placeholder, hidden = hidden, action = action)
         }
 
         fun percentSlider(
             field: KMutableProperty0<Float>,
             name: String = field.name,
             description: String = "",
-            hidden: Boolean = false
+            hidden: Boolean = false,
+            action: ((Float) -> Unit)? = null
         ) {
-            property(field, PropertyType.PERCENT_SLIDER, name, description, hidden = hidden)
+            property(field, PropertyType.PERCENT_SLIDER, name, description, hidden = hidden, action = action)
         }
 
         fun slider(
@@ -276,9 +287,10 @@ abstract class Vigilant @JvmOverloads constructor(
             description: String = "",
             min: Int = 0,
             max: Int = 0,
-            hidden: Boolean = false
+            hidden: Boolean = false,
+            action: ((Int) -> Unit)? = null
         ) {
-            property(field, PropertyType.SLIDER, name, description, min, max, hidden = hidden)
+            property(field, PropertyType.SLIDER, name, description, min, max, hidden = hidden, action = action)
         }
 
         fun number(
@@ -287,9 +299,10 @@ abstract class Vigilant @JvmOverloads constructor(
             description: String = "",
             min: Int = 0,
             max: Int = 0,
-            hidden: Boolean = false
+            hidden: Boolean = false,
+            action: ((Int) -> Unit)? = null
         ) {
-            property(field, PropertyType.NUMBER, name, description, min, max, hidden = hidden)
+            property(field, PropertyType.NUMBER, name, description, min, max, hidden = hidden, action = action)
         }
 
         fun color(
@@ -297,9 +310,10 @@ abstract class Vigilant @JvmOverloads constructor(
             name: String = field.name,
             description: String = "",
             allowAlpha: Boolean = true,
-            hidden: Boolean = false
+            hidden: Boolean = false,
+            action: ((Color) -> Unit)? = null
         ) {
-            property(field, PropertyType.COLOR, name, description, allowAlpha = allowAlpha, hidden = hidden)
+            property(field, PropertyType.COLOR, name, description, allowAlpha = allowAlpha, hidden = hidden, action = action)
         }
 
         fun selector(
@@ -307,9 +321,10 @@ abstract class Vigilant @JvmOverloads constructor(
             name: String = field.name,
             description: String = "",
             options: List<String> = listOf(),
-            hidden: Boolean = false
+            hidden: Boolean = false,
+            action: ((Int) -> Unit)? = null
         ) {
-            property(field, PropertyType.SELECTOR, name, description, options = options, hidden = hidden)
+            property(field, PropertyType.SELECTOR, name, description, options = options, hidden = hidden, action = action)
         }
     }
 }

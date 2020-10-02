@@ -347,5 +347,9 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
 
     init {
         initialize()
+
+        registerListener(::colorWithAlpha) {
+            println("colorWithAlpha listener activated! New color: $it")
+        }
     }
 }
