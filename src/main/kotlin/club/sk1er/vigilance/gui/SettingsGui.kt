@@ -3,6 +3,7 @@ package club.sk1er.vigilance.gui
 import club.sk1er.elementa.WindowScreen
 import club.sk1er.elementa.components.*
 import club.sk1er.elementa.components.input.UITextInput
+import club.sk1er.elementa.components.inspector.Inspector
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
@@ -129,7 +130,7 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
             currentCategory.closePopups()
         }
 
-        categoryScroller.setScrollBarComponent(categoryScrollBar, true)
+        categoryScroller.setVerticalScrollBarComponent(categoryScrollBar, true)
     }
 
     private val categories = config.getCategories().associateWith(::SettingsCategory)

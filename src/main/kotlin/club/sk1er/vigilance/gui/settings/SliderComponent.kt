@@ -14,13 +14,13 @@ class SliderComponent(initialValue: Int, min: Int, max: Int) : SettingComponent(
     } childOf this
 
     private val slider = Slider(initialValue.toFloat() / (max - min)).constrain {
-        x = SiblingConstraint(PADDING)
+        x = SiblingConstraint()
         width = 60.pixels()
         height = 10.pixels()
     } childOf this
 
     private val maxText = UIText(max.toString()).constrain {
-        x = SiblingConstraint(PADDING)
+        x = SiblingConstraint()
         y = CenterConstraint()
         color = VigilancePalette.MID_TEXT.asConstraint()
     } childOf this
@@ -33,7 +33,7 @@ class SliderComponent(initialValue: Int, min: Int, max: Int) : SettingComponent(
 
     init {
         constrain {
-            width = ChildBasedSizeConstraint(PADDING)
+            width = ChildBasedSizeConstraint()
             height = ChildBasedMaxSizeConstraint()
         }
 
@@ -42,9 +42,5 @@ class SliderComponent(initialValue: Int, min: Int, max: Int) : SettingComponent(
             changeValue(newValue)
             currentValueText.setText(newValue.toString())
         }
-    }
-
-    companion object {
-        private const val PADDING = 7f
     }
 }

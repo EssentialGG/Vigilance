@@ -2,12 +2,9 @@ package club.sk1er.vigilance.gui.settings
 
 import club.sk1er.elementa.components.UIBlock
 import club.sk1er.elementa.components.UIContainer
-import club.sk1er.elementa.constraints.AspectConstraint
-import club.sk1er.elementa.constraints.CenterConstraint
-import club.sk1er.elementa.constraints.RelativeConstraint
+import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
-import club.sk1er.vigilance.gui.SettingsGui
 import club.sk1er.vigilance.gui.VigilancePalette
 import java.awt.Color
 
@@ -18,9 +15,13 @@ class Slider(initialValue: Float) : UIContainer() {
     private var grabOffset = 0f
 
     private val outerBox = UIContainer().constrain {
-        x = 1.pixels()
+        x = basicXConstraint {
+            this@Slider.getLeft() + 1f + this@Slider.getHeight() * 0.75f
+        }
         y = 1.pixels()
-        width = RelativeConstraint(1f) - 2.pixels()
+        width = basicWidthConstraint {
+            this@Slider.getWidth() - 2f - this@Slider.getHeight() * 1.5f
+        }
         height = RelativeConstraint(1f) - 2.pixels()
     } childOf this effect OutlineEffect(VigilancePalette.DIVIDER, 0.5f)
 
@@ -31,14 +32,12 @@ class Slider(initialValue: Float) : UIContainer() {
         height = RelativeConstraint(1f) + 1.pixels()
     } childOf outerBox
 
-    private val grabBoxCenterConstraint = basicXConstraint { it.parent.getLeft() + it.getWidth() / 2 }
-
     val grabBox = UIBlock(VigilancePalette.ACCENT).constrain {
-        x = RelativeConstraint(percentage) - grabBoxCenterConstraint
-        y = CenterConstraint()
+        x = basicXConstraint { completionBox.getRight() - it.getWidth() / 2f }
+        y = CenterConstraint().to(outerBox) as YConstraint
         width = AspectConstraint(1f)
-        height = RelativeConstraint(1.5f)
-    } childOf outerBox effect OutlineEffect(Color.BLACK, 0.5f)
+        height = RelativeConstraint(1.5f).to(outerBox) as HeightConstraint
+    } childOf this effect OutlineEffect(Color.BLACK, 0.5f)
 
     init {
         grabBox.onMouseClick { event ->
@@ -72,7 +71,6 @@ class Slider(initialValue: Float) : UIContainer() {
     fun setCurrentPercentage(newPercentage: Float, callListener: Boolean = true) {
         percentage = newPercentage.coerceIn(0f..1f)
 
-        grabBox.setX(RelativeConstraint(percentage) - grabBoxCenterConstraint)
         completionBox.setWidth(RelativeConstraint(percentage))
 
         if (callListener) {
