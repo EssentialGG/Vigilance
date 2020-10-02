@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package club.sk1er.vigilance.example
 
 import club.sk1er.vigilance.Vigilant
@@ -6,310 +8,342 @@ import club.sk1er.vigilance.data.PropertyType
 import java.awt.Color
 import java.io.File
 
+/**
+ * An example configuration which gives an overview of all property types,
+ * as well as a visual demonstration of each option. Also demos some
+ * aspects such as fields with different initial values.
+ */
 object ExampleConfig : Vigilant(File("./config/example.toml")) {
     @Property(
-        type = PropertyType.TEXT,
-        name = "text",
-        description = "example of text input that does not wrap the text",
-        category = "General",
-        subcategory = "Category",
-        placeholder = "Empty... :("
+        type = PropertyType.SWITCH,
+        name = "Switch",
+        description = "This is a switch property. It stores a boolean value.",
+        category = "Property Overview"
     )
-    var textInput = ""
+    var demoSwitch = false
+
+    @Property(
+        type = PropertyType.TEXT,
+        name = "Text",
+        description = "This is a text property. It stores a single line of continuous text.",
+        category = "Property Overview"
+    )
+    var demoText = ""
 
     @Property(
         type = PropertyType.PARAGRAPH,
         name = "Paragraph",
-        description = "example of text input that do wrap the text",
-        category = "General",
-        subcategory = "Category",
-        placeholder = "Empty... :("
+        description = "This is a paragraph property. It stores a multi-line piece of text, and expands as the user writes more text",
+        category = "Property Overview"
     )
-    var bigParagraph = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at imperdiet tortor. Quisque et accumsan metus, quis rutrum nulla. Vivamus metus lacus, tristique at tristique sit amet, pretium vel dui. Curabitur pharetra blandit dapibus. Donec ac nibh vel nisi laoreet mollis. Vivamus at metus quis diam consequat fermentum. Vivamus ut cursus eros. Vivamus maximus nulla nibh, vel interdum risus varius in."
-
-    @Property(
-        type = PropertyType.SELECTOR,
-        name = "selector",
-        description = "String Selector",
-        category = "General",
-        subcategory = "Category",
-        options = ["test 1", "test 2 but my text is really long", "test 3 medium len"]
-    )
-    var selector = 1
-
-    @Property(
-        type = PropertyType.COLOR,
-        name = "Color Picker",
-        description = "Pick a color! (hopefully...)",
-        category = "General",
-        subcategory = "Category"
-    )
-    var myColor = Color.BLUE
-
-    @Property(
-        type = PropertyType.COLOR,
-        name = "Color Picker wit no alpha",
-        description = "Pick a color, but alpha headed out",
-        category = "General",
-        subcategory = "Category",
-        allowAlpha = false
-    )
-    var alphaless = Color.MAGENTA
-
-    @Property(
-        type = PropertyType.SLIDER,
-        name = "Slider",
-        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd ",
-        category = "General",
-        subcategory = "General Settings",
-        min = 1000,
-        max = 1000000
-    )
-    var slide = 5
+    var demoParagraph = ""
 
     @Property(
         type = PropertyType.PERCENT_SLIDER,
         name = "Percent Slider",
-        description = "A slider with a range of 0.0-1.0",
-        category = "General",
-        subcategory = "General Settings"
+        description = "This is a percent slider property. It stores a floating-point number between 0.0 and 1.0.",
+        category = "Property Overview"
     )
-    var percentSlide = 0.5f
+    var demoPercentSlider = 0f
+
+    @Property(
+        type = PropertyType.SLIDER,
+        name = "Slider",
+        description = "This is a slider property. It stores an integer between a defined minimum and maximum integer.",
+        category = "Property Overview",
+        min = 0,
+        max = 10
+    )
+    var demoSlider = 0
 
     @Property(
         type = PropertyType.NUMBER,
-        name = "A number!",
-        description = "A number that can be incremented & decremented using button controls!",
-        category = "General",
-        subcategory = "General Settings",
-        min = 5,
-        max = 100
+        name = "Number",
+        description = "This is a number property. It stores an integer between a defined minimum and maximum integer.",
+        category = "Property Overview",
+        min = 0,
+        max = 10
     )
-    var number = 10
+    var demoNumber = 0
+
+    @Property(
+        type = PropertyType.COLOR,
+        name = "Color",
+        description = "This is a color property. It stores a color.",
+        category = "Property Overview"
+    )
+    var demoColor: Color = Color.WHITE
+
+    @Property(
+        type = PropertyType.SELECTOR,
+        name = "Selector",
+        description = "This is a selector property. It stores a specific item in a list of strings. The property will store the index of the list, not the string.",
+        category = "Property Overview",
+        options = ["Option 1", "Option 2", "Option 3"]
+    )
+    var demoSelector = 0
 
     @Property(
         type = PropertyType.SWITCH,
-        name = "General 1",
-        description = "This toggles something",
-        category = "General",
-        subcategory = "General Settings"
+        name = "Initially off switch",
+        description = "Switch that starts in the off position",
+        category = "Property Deep-Dive",
+        subcategory = "Switches"
     )
-    var toggle1 = true
+    var offSwitch = false
 
     @Property(
         type = PropertyType.SWITCH,
-        name = "General 2",
-        description = "This toggles something",
-        category = "General",
-        subcategory = "General Settings",
+        name = "Initially on switch",
+        description = "Switch that starts in the on position",
+        category = "Property Deep-Dive",
+        subcategory = "Switches"
+    )
+    var onSwitch = true
+
+    @Property(
+        type = PropertyType.TEXT,
+        name = "Empty text",
+        description = "A text property with no initial text or placeholder",
+        category = "Property Deep-Dive",
+        subcategory = "Texts"
+    )
+    var emptyText = ""
+
+    @Property(
+        type = PropertyType.TEXT,
+        name = "Text with initial value",
+        description = "A text property with some initial value but no placeholder",
+        category = "Property Deep-Dive",
+        subcategory = "Texts"
+    )
+    var textWithInitialValue = "I am a text property!"
+
+    @Property(
+        type = PropertyType.TEXT,
+        name = "Text with placeholder",
+        description = "A text property with a placeholder but no initial value",
+        category = "Property Deep-Dive",
+        subcategory = "Texts",
+        placeholder = "Type some text!"
+    )
+    var textWithPlaceholder = ""
+
+    @Property(
+        type = PropertyType.TEXT,
+        name = "Text with placeholder and initial value",
+        description = "A text property with a placeholder and initial value. The placeholder does not appear unless the text is deleted by the user.",
+        category = "Property Deep-Dive",
+        subcategory = "Texts",
+        placeholder = "Type some text!"
+    )
+    var textWithPlaceholderAndInitialValue = "I am a text property!"
+
+    @Property(
+        type = PropertyType.PARAGRAPH,
+        name = "Empty paragraph",
+        description = "A paragraph property with no initial text or placeholder",
+        category = "Property Deep-Dive",
+        subcategory = "Paragraphs"
+    )
+    var emptyParagraph = ""
+
+    @Property(
+        type = PropertyType.PARAGRAPH,
+        name = "Paragraph with initial value",
+        description = "A paragraph property with some initial value but no placeholder",
+        category = "Property Deep-Dive",
+        subcategory = "Paragraphs"
+    )
+    var paragraphWithInitialValue = "I am a paragraph! I can have text that is much, much longer than the regular text property. I also use Elementa's multiline text input component, which supports features like coyp paste, cursor navigation, click selection, and more :)"
+
+    @Property(
+        type = PropertyType.PARAGRAPH,
+        name = "Paragraph with placeholder",
+        description = "A paragraph property with a placeholder but no initial value",
+        category = "Property Deep-Dive",
+        subcategory = "Paragraphs",
+        placeholder = "Type some text!"
+    )
+    var paragraphWithPlaceholder = ""
+
+    @Property(
+        type = PropertyType.PARAGRAPH,
+        name = "Paragraph with placeholder and initial value",
+        description = "A paragraph property with a placeholder and initial value. The placeholder does not appear unless the text is deleted by the user.",
+        category = "Property Deep-Dive",
+        subcategory = "Paragraphs",
+        placeholder = "Type some text!"
+    )
+    var paragraphWithPlaceholderAndInitialValue = "I am a paragraph! I can have text that is much, much longer than the regular text property. I also use Elementa's multiline text input component, which supports features like coyp paste, cursor navigation, click selection, and more :)"
+
+    @Property(
+        type = PropertyType.PERCENT_SLIDER,
+        name = "Percent slider",
+        description = "A percent slider property with a starting value of 0.0 (0%).",
+        category = "Property Deep-Dive",
+        subcategory = "Percent Sliders"
+    )
+    var percentSliderAtZero = 0.0f
+
+    @Property(
+        type = PropertyType.PERCENT_SLIDER,
+        name = "Percent slider at half",
+        description = "A percent slider property with a starting value of 0.5 (50%).",
+        category = "Property Deep-Dive",
+        subcategory = "Percent Sliders"
+    )
+    var percentSliderAtHalf = 0.5f
+
+    @Property(
+        type = PropertyType.SLIDER,
+        name = "Slider starting in middle",
+        description = "A slider property initially in the middle.",
+        category = "Property Deep-Dive",
+        subcategory = "Sliders",
+        min = 0,
+        max = 10
+    )
+    var sliderMiddle = 5
+
+    @Property(
+        type = PropertyType.SLIDER,
+        name = "Slider with negative values",
+        description = "A slider property with negative numbers in its range",
+        category = "Property Deep-Dive",
+        subcategory = "Sliders",
+        min = -10,
+        max = 10
+    )
+    var negativeSlider = 0
+
+    @Property(
+        type = PropertyType.SLIDER,
+        name = "Slider with huge range",
+        description = "A slider property with a huge range (0 to 1,000,000)",
+        category = "Property Deep-Dive",
+        subcategory = "Sliders",
+        min = 0,
+        max = 1_000_000
+    )
+    var hugeSlider = 0
+
+    @Property(
+        type = PropertyType.NUMBER,
+        name = "Number with initial value",
+        description = "A number property with an initial value starting in the middle of its range.",
+        category = "Property Deep-Dive",
+        subcategory = "Numbers",
+        min = 0,
+        max = 10
+    )
+    var numberMiddle = 5
+
+    @Property(
+        type = PropertyType.NUMBER,
+        name = "Number with huge range",
+        description = "A number property with a huge range (0 to 1,000,000).",
+        category = "Property Deep-Dive",
+        subcategory = "Numbers",
+        min = 0,
+        max = 1_000_000
+    )
+    var hugeNumber = 0
+
+    @Property(
+        type = PropertyType.COLOR,
+        name = "Color with an initial, non-white value",
+        description = "A color property with an initial value of a non-white color.",
+        category = "Property Deep-Dive",
+        subcategory = "Colors",
+        allowAlpha = false
+    )
+    var nonWhiteColor = Color(20, 190, 240)
+
+    @Property(
+        type = PropertyType.COLOR,
+        name = "Color with alpha",
+        description = "A color property which allows the selection of alpha",
+        category = "Property Deep-Dive",
+        subcategory = "Colors",
+        allowAlpha = true
+    )
+    var colorWithAlpha = Color(20, 190, 240, 255 / 2)
+
+    @Property(
+        type = PropertyType.SELECTOR,
+        name = "Selector with initial non-zero value",
+        description = "A selector property whose initially-selected value is not the first item.",
+        category = "Property Deep-Dive",
+        subcategory = "Selectors",
+        options = ["Option 1", "Option 2", "Option 3", "Option 4"]
+    )
+    var selectorInitialValue = 2
+
+    @Property(
+        type = PropertyType.SELECTOR,
+        name = "Selector with many options",
+        description = "A selector property which has a large number of options",
+        category = "Property Deep-Dive",
+        subcategory = "Selectors",
+        options = [
+            "Option 1",
+            "Option 2",
+            "Option 3",
+            "Option 4",
+            "Option 5",
+            "Option 6",
+            "Option 7",
+            "Option 8",
+            "Option 9",
+            "Option 10",
+            "Option 11",
+            "Option 12",
+            "Option 13",
+            "Option 14",
+            "Option 15",
+            "Option 16",
+            "Option 17",
+            "Option 18",
+            "Option 19",
+            "Option 20",
+            "Option 21",
+            "Option 22",
+            "Option 23",
+            "Option 24",
+            "Option 25",
+            "Option 26",
+            "Option 27",
+            "Option 28",
+            "Option 29",
+            "Option 30"
+        ]
+    )
+    var largeSelector = 0
+
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "This is a switch property with a very long name. It is recommended to use the description for lengthy property text, however this is still supported",
+        category = "Meta"
+    )
+    var switchWithLongName = false
+
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Property with long description",
+        description = "This is a property with a very long description. As the above property says, the description is the preferred place for lengthy instruction text within a property. However, long text here is still not recommended -- try to keep descriptions as concise as possible!",
+        category = "Meta"
+    )
+    var switchWithLongDescription = false
+
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Hidden switch",
+        description = "This is a hidden property. It will not appear in the in-game GUI, but will still be managed by Vigilance (i.e. saved to a file, and changeable via code).",
+        category = "Hidden",
         hidden = true
     )
-    var toggle2 = true
-
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "General 3",
-        description = "This toggles something",
-        category = "General",
-        subcategory = "General Settings"
-    )
-    var toggle3 = true
-
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "General 4",
-        description = "This toggles something",
-        category = "General",
-        subcategory = "General Settings"
-    )
-    var toggle4 = false
-
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "General 5",
-        description = "This toggles something",
-        category = "General",
-        subcategory = "Category"
-    )
-    var toggle5 = true
-
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "General 6",
-        description = "This toggles something",
-        category = "General",
-        subcategory = "Category"
-    )
-    var toggle6 = true
-
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Some kind of really long name",
-        description = "This toggles something. This description is going to be really long, so hopefully it will wrap on to the next couple of lines making vigilance look cool!",
-        category = "General",
-        subcategory = "Category"
-    )
-    var toggle7 = false
-
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "General 8",
-        description = "This toggles something",
-        category = "General",
-        subcategory = "Category"
-    )
-    var toggle8 = true
-
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Color 1",
-        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
-        category = "Color",
-        subcategory = "General Settings"
-    )
-    var toggle10 = true
-
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Color 1",
-        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
-        category = "Color",
-        subcategory = "General Settings"
-    )
-    var toggle11 = true
-
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Color 1",
-        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
-        category = "Color",
-        subcategory = "General Settings"
-    )
-    var toggle12 = true
-
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Color 1",
-        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
-        category = "Color",
-        subcategory = "General Settings"
-    )
-    var toggle13 = true
-
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Color 1",
-        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
-        category = "Color",
-        subcategory = "General Settings"
-    )
-    var toggle14 = true
-
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Color 1",
-        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
-        category = "Color",
-        subcategory = "General Settings"
-    )
-    var toggle15 = true
-
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Color 1",
-        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
-        category = "Color",
-        subcategory = "General Settings"
-    )
-    var toggle16 = true
-
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Color 1",
-        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
-        category = "Color",
-        subcategory = "General Settings"
-    )
-    var toggle17 = true
-
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Color 1",
-        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
-        category = "Color",
-        subcategory = "General Settings"
-    )
-    var toggle18 = true
-
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Color 1",
-        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
-        category = "Color",
-        subcategory = "General Settings"
-    )
-    var toggle20 = true
-
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Color 1",
-        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
-        category = "Color",
-        subcategory = "General Settings"
-    )
-    var toggle21 = true
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Color 1",
-        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
-        category = "Color",
-        subcategory = "General Settings"
-    )
-    var toggle22 = true
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Color 1",
-        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
-        category = "Color",
-        subcategory = "General Settings"
-    )
-    var toggle23 = true
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Color 1",
-        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
-        category = "Color",
-        subcategory = "General Settings"
-    )
-    var toggle24 = true
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Color 1",
-        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
-        category = "Color",
-        subcategory = "General Settings"
-    )
-    var toggle25 = true
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Color 1",
-        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
-        category = "Color",
-        subcategory = "General Settings"
-    )
-    var toggle26 = true
-    @Property(
-        type = PropertyType.SWITCH,
-        name = "Color 1",
-        description = "This toggles something. I also have a pretty long description. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE EEEEEEEEEEEEEEEE  EEEEEEE  wadawd awd awd  ",
-        category = "Color",
-        subcategory = "General Settings"
-    )
-    var toggle27 = true
-
-//
-//    @Data
-//    var randomData: String by watched("Initial")
+    var hiddenProperty = false
 
     init {
         initialize()
