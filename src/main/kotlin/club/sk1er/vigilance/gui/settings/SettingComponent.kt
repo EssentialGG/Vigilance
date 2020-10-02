@@ -9,6 +9,7 @@ import club.sk1er.vigilance.gui.DataBackedSetting
 
 abstract class SettingComponent : UIContainer() {
     private var onValueChange: (Any?) -> Unit = {}
+    private var lastValue: Any? = null
 
     init {
         constrain {
@@ -22,7 +23,10 @@ abstract class SettingComponent : UIContainer() {
     }
 
     fun changeValue(newValue: Any?, callListener: Boolean = true) {
-        this.onValueChange(newValue)
+        if (newValue != lastValue) {
+            lastValue = newValue
+            this.onValueChange(newValue)
+        }
     }
 
     open fun closePopups() { }
