@@ -74,8 +74,10 @@ abstract class Vigilant @JvmOverloads constructor(
     }
 
     fun getCategories(): List<Category> {
-        val groupedByCategory = propertyCollector.getProperties().groupBy { it.property.category }
-        return groupedByCategory.map { Category(it.key, it.value.splitBySubcategory()) }
+        return propertyCollector.getProperties()
+            .filter { !it.property.hidden }
+            .groupBy { it.property.category }
+            .map { Category(it.key, it.value.splitBySubcategory()) }
     }
 
     fun getCategoryFromSearch(term: String): Category {
