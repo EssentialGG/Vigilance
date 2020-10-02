@@ -183,7 +183,9 @@ object ExampleConfigDSL : Vigilant(File("./config/example.toml")) {
                     "A color property with an initial value of a non-white color.",
                     allowAlpha = false
                 )
-                color(::colorWithAlpha, "Color with alpha", "A color property which allows the selection of alpha.")
+                color(::colorWithAlpha, "Color with alpha", "A color property which allows the selection of alpha.") {
+                    println("colorWithAlpha listener activated! New color: $it")
+                }
             }
 
             subcategory("Selectors") {
