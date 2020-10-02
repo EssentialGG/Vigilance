@@ -15,7 +15,13 @@ import club.sk1er.vigilance.gui.VigilancePalette
 import net.minecraft.client.Minecraft
 import java.awt.Color
 
-class DropDown(initialSelection: Int, private val options: List<String>) : UIBlock(VigilancePalette.HIGHLIGHT) {
+class DropDown(
+    initialSelection: Int,
+    private val options: List<String>,
+    backgroundColor: Color = VigilancePalette.HIGHLIGHT,
+    outlineEffect: OutlineEffect? = OutlineEffect(VigilancePalette.DARK_DIVIDER, 0.5f),
+    optionPadding: Float = 5f
+) : UIBlock(backgroundColor) {
     private var selected = initialSelection
     private var onValueChange: (Int) -> Unit = { }
     private var active = false
@@ -37,7 +43,7 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
         x = 5.pixels()
         y = 22.pixels()
         width = ChildBasedMaxSizeConstraint()
-        height = ChildBasedSizeConstraint(OPTION_PADDING) + OPTION_PADDING.pixels()
+        height = ChildBasedSizeConstraint(optionPadding) + optionPadding.pixels()
     } childOf this
 
     init {
@@ -49,7 +55,7 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
         options.forEachIndexed { index, opt ->
             // TODO: Wrap this somehow
             UIText(opt).constrain {
-                y = SiblingConstraint(OPTION_PADDING)
+                y = SiblingConstraint(optionPadding)
                 color = VigilancePalette.MID_TEXT.asConstraint()
             }.onMouseEnter {
                 hoverText(this)
@@ -61,7 +67,8 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
             } childOf optionsHolder
         }
 
-        enableEffect(OutlineEffect(VigilancePalette.DARK_DIVIDER, 0.5f))
+        outlineEffect?.let(::enableEffect)
+
         val outlineContainer = UIContainer().constrain {
             x = (-1).pixels()
             y = (-1).pixels()
@@ -141,8 +148,4 @@ class DropDown(initialSelection: Int, private val options: List<String>) : UIBlo
     }
 
     fun getValue() = selected
-
-    companion object {
-        private const val OPTION_PADDING = 5f
-    }
 }
