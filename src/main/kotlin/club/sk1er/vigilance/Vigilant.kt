@@ -8,6 +8,7 @@ import java.io.File
 import java.lang.reflect.Field
 import java.util.function.Consumer
 import kotlin.concurrent.fixedRateTimer
+import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KProperty
 import kotlin.reflect.jvm.javaField
 
@@ -174,4 +175,139 @@ abstract class Vigilant @JvmOverloads constructor(
     //             dirty = true
     //         }
     //     }
+
+    /**
+     * Property DSL
+     */
+
+    fun category(name: String, builder: CategoryPropertyBuilder.() -> Unit) {
+        val categoryBuilder = CategoryPropertyBuilder(name, "", this)
+        categoryBuilder.apply(builder)
+        categoryBuilder.properties.forEach(propertyCollector::addProperty)
+    }
+
+    class CategoryPropertyBuilder(
+        private val category: String,
+        private val subcategory: String,
+        private val instance: Vigilant
+    ) {
+        internal val properties = mutableListOf<PropertyData>()
+
+        fun subcategory(subcategory: String, builder: CategoryPropertyBuilder.() -> Unit) {
+            val categoryBuilder = CategoryPropertyBuilder(category, subcategory, instance)
+            categoryBuilder.apply(builder)
+            properties.addAll(categoryBuilder.properties)
+        }
+
+        fun <T> property(
+            field: KMutableProperty0<T>,
+            type: PropertyType,
+            name: String = field.name,
+            description: String = "",
+            min: Int = 0,
+            max: Int = 0,
+            options: List<String> = listOf(),
+            allowAlpha: Boolean = true,
+            placeholder: String = "",
+            hidden: Boolean = false
+        ) {
+            properties.add(PropertyData(
+                PropertyAttributes(
+                    type,
+                    name,
+                    category,
+                    subcategory,
+                    description,
+                    min,
+                    max,
+                    options,
+                    allowAlpha,
+                    placeholder,
+                    hidden
+                ),
+                KPropertyBackedPropertyValue(field),
+                instance
+            ))
+        }
+
+        fun switch(
+            field: KMutableProperty0<Boolean>,
+            name: String = field.name,
+            description: String = "",
+            hidden: Boolean = false
+        ) {
+            property(field, PropertyType.SWITCH, name, description, hidden = hidden)
+        }
+
+        fun text(
+            field: KMutableProperty0<String>,
+            name: String = field.name,
+            description: String = "",
+            placeholder: String = "",
+            hidden: Boolean = false
+        ) {
+            property(field, PropertyType.TEXT, name, description, placeholder = placeholder, hidden = hidden)
+        }
+
+        fun paragraph(
+            field: KMutableProperty0<String>,
+            name: String = field.name,
+            description: String = "",
+            placeholder: String = "",
+            hidden: Boolean = false
+        ) {
+            property(field, PropertyType.PARAGRAPH, name, description, placeholder = placeholder, hidden = hidden)
+        }
+
+        fun percentSlider(
+            field: KMutableProperty0<Float>,
+            name: String = field.name,
+            description: String = "",
+            hidden: Boolean = false
+        ) {
+            property(field, PropertyType.PERCENT_SLIDER, name, description, hidden = hidden)
+        }
+
+        fun slider(
+            field: KMutableProperty0<Int>,
+            name: String = field.name,
+            description: String = "",
+            min: Int = 0,
+            max: Int = 0,
+            hidden: Boolean = false
+        ) {
+            property(field, PropertyType.SLIDER, name, description, min, max, hidden = hidden)
+        }
+
+        fun number(
+            field: KMutableProperty0<Int>,
+            name: String = field.name,
+            description: String = "",
+            min: Int = 0,
+            max: Int = 0,
+            hidden: Boolean = false
+        ) {
+            property(field, PropertyType.NUMBER, name, description, min, max, hidden = hidden)
+        }
+
+        fun color(
+            field: KMutableProperty0<Color>,
+            name: String = field.name,
+            description: String = "",
+            allowAlpha: Boolean = true,
+            hidden: Boolean = false
+        ) {
+            property(field, PropertyType.COLOR, name, description, allowAlpha = allowAlpha, hidden = hidden)
+        }
+
+        fun selector(
+            field: KMutableProperty0<Int>,
+            name: String = field.name,
+            description: String = "",
+            options: List<String> = listOf(),
+            hidden: Boolean = false
+        ) {
+            property(field, PropertyType.SELECTOR, name, description, options = options, hidden = hidden)
+        }
+    }
 }
