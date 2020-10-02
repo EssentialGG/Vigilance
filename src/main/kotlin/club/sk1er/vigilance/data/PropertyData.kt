@@ -3,6 +3,7 @@ package club.sk1er.vigilance.data
 import club.sk1er.vigilance.Vigilant
 import java.lang.reflect.Field
 import java.util.function.Consumer
+import kotlin.reflect.KMutableProperty0
 
 data class PropertyData(val property: PropertyAttributes, val value: PropertyValue, val instance: Vigilant) {
     fun getDataType() = property.type
@@ -83,5 +84,13 @@ class ValueBackedPropertyValue(private var obj: Any?) : PropertyValue() {
 
     override fun setValue(value: Any?, instance: Vigilant) {
         obj = value
+    }
+}
+
+class KPropertyBackedPropertyValue<T>(private val property: KMutableProperty0<T>) : PropertyValue() {
+    override fun getValue(instance: Vigilant) = property.get()
+
+    override fun setValue(value: Any?, instance: Vigilant) {
+        property.set(value as T)
     }
 }
