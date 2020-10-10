@@ -46,26 +46,28 @@ class DropDown(
         height = ChildBasedSizeConstraint(optionPadding) + optionPadding.pixels()
     } childOf this
 
+    private val mappedOptions = options.mapIndexed { index, option ->
+        // TODO: Wrap this somehow
+        UIText(option).constrain {
+            y = SiblingConstraint(optionPadding)
+            color = VigilancePalette.MID_TEXT.asConstraint()
+        }.onMouseEnter {
+            hoverText(this)
+        }.onMouseLeave {
+            unHoverText(this)
+        }.onMouseClick { event ->
+            event.stopPropagation()
+            select(index)
+        }
+    }
+
     init {
         constrain {
             width = 22.pixels() + ChildBasedMaxSizeConstraint().to(optionsHolder)
             height = 20.pixels()
         }
 
-        options.forEachIndexed { index, opt ->
-            // TODO: Wrap this somehow
-            UIText(opt).constrain {
-                y = SiblingConstraint(optionPadding)
-                color = VigilancePalette.MID_TEXT.asConstraint()
-            }.onMouseEnter {
-                hoverText(this)
-            }.onMouseLeave {
-                unHoverText(this)
-            }.onMouseClick { event ->
-                event.stopPropagation()
-                select(index)
-            } childOf optionsHolder
-        }
+        readdOptionComponents()
 
         outlineEffect?.let(::enableEffect)
 
@@ -105,7 +107,14 @@ class DropDown(
         onValueChange(index)
         currentSelectionText.setText(options[index])
         collapse()
+        readdOptionComponents()
     }
+
+    fun onValueChange(listener: (Int) -> Unit) {
+        onValueChange = listener
+    }
+
+    fun getValue() = selected
 
     private fun expand() {
         active = true
@@ -143,9 +152,11 @@ class DropDown(
         }
     }
 
-    fun onValueChange(listener: (Int) -> Unit) {
-        onValueChange = listener
+    private fun readdOptionComponents() {
+        optionsHolder.clearChildren()
+        mappedOptions.forEachIndexed { index, component ->
+            if (index != selected)
+                component childOf optionsHolder
+        }
     }
-
-    fun getValue() = selected
 }
