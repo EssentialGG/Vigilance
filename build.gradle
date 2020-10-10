@@ -174,7 +174,7 @@ dependencies {
     implementation ("club.sk1er:Elementa:147-$mcVersion-SNAPSHOT") {
         exclude group: 'UniversalCraft'
     }
-    implementation "club.sk1er:UniversalCraft:77-$mcVersion-SNAPSHOT"
+    implementation "club.sk1er:UniversalCraft:74-$mcVersion-SNAPSHOT"
 
     testImplementation "io.mockk:mockk:1.9.3"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
