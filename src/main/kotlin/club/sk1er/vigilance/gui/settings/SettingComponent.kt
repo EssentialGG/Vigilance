@@ -32,7 +32,7 @@ abstract class SettingComponent : UIContainer() {
     open fun closePopups() { }
 
     companion object {
-        val DOWN_ARROW_SVG = SVGParser.parseFromResource("/vigilance/chevron-down.svg")
-        val UP_ARROW_SVG = SVGParser.parseFromResource("/vigilance/chevron-up.svg")
+        const val DOWN_ARROW_PNG = "/vigilance/arrow-down.png"
+        const val UP_ARROW_PNG = "/vigilance/arrow-up.png"
     }
 }

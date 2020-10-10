@@ -2,17 +2,12 @@ package club.sk1er.vigilance.gui.settings
 
 import club.sk1er.elementa.UIComponent
 import club.sk1er.elementa.components.*
-import club.sk1er.elementa.constraints.ChildBasedMaxSizeConstraint
-import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
-import club.sk1er.elementa.constraints.RelativeConstraint
-import club.sk1er.elementa.constraints.SiblingConstraint
+import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.elementa.effects.ScissorEffect
-import club.sk1er.vigilance.gui.SettingsGui
 import club.sk1er.vigilance.gui.VigilancePalette
-import net.minecraft.client.Minecraft
 import java.awt.Color
 
 class DropDown(
@@ -32,12 +27,19 @@ class DropDown(
         color = VigilancePalette.MID_TEXT.asConstraint()
     } childOf this
 
-    private val dropDownArrow = SVGComponent(SettingComponent.DOWN_ARROW_SVG).constrain {
+    private val downArrow = UIImage.ofResource(SettingComponent.DOWN_ARROW_PNG).constrain {
         x = 5.pixels(true)
-        y = 5.pixels()
-        width = 10.pixels()
-        height = 10.pixels()
+        y = 7.5.pixels()
+        width = 9.pixels()
+        height = 5.pixels()
     } childOf this
+
+    private val upArrow = UIImage.ofResource(SettingComponent.UP_ARROW_PNG).constrain {
+        x = 5.pixels(true)
+        y = 7.5.pixels()
+        width = 9.pixels()
+        height = 5.pixels()
+    }
 
     private val optionsHolder = UIContainer().constrain {
         x = 5.pixels()
@@ -123,7 +125,7 @@ class DropDown(
             setHeightAnimation(Animations.IN_SIN, 0.35f, 20.pixels() + RelativeConstraint(1f).to(optionsHolder))
         }
 
-        dropDownArrow.setSVG(SettingComponent.UP_ARROW_SVG)
+        replaceChild(upArrow, downArrow)
     }
 
     fun collapse(unHover: Boolean = false) {
@@ -137,7 +139,7 @@ class DropDown(
             unHoverText(currentSelectionText)
         }
 
-        dropDownArrow.setSVG(SettingComponent.DOWN_ARROW_SVG)
+        replaceChild(downArrow, upArrow)
     }
 
     private fun hoverText(text: UIComponent) {
