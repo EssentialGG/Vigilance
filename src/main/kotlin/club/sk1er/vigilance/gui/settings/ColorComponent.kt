@@ -3,14 +3,16 @@ package club.sk1er.vigilance.gui.settings
 import club.sk1er.elementa.UIComponent
 import club.sk1er.elementa.components.SVGComponent
 import club.sk1er.elementa.components.UIContainer
+import club.sk1er.elementa.components.UIImage
 import club.sk1er.elementa.components.input.UITextInput
 import club.sk1er.elementa.constraints.CenterConstraint
+import club.sk1er.elementa.constraints.ChildBasedMaxSizeConstraint
+import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
 import club.sk1er.elementa.constraints.RelativeConstraint
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.elementa.effects.ScissorEffect
-import club.sk1er.vigilance.gui.SettingsGui
 import club.sk1er.vigilance.gui.VigilancePalette
 import java.awt.Color
 
@@ -24,12 +26,19 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         color = VigilancePalette.MID_TEXT.asConstraint()
     } childOf this
 
-    private val dropDownArrow = SVGComponent(DOWN_ARROW_SVG).constrain {
+    private val downArrow = UIImage.ofResource(DOWN_ARROW_PNG).constrain {
         x = 5.pixels(true)
-        y = 5.pixels()
-        width = 10.pixels()
-        height = 10.pixels()
+        y = 7.5.pixels()
+        width = 9.pixels()
+        height = 5.pixels()
     } childOf this
+
+    private val upArrow = UIImage.ofResource(UP_ARROW_PNG).constrain {
+        x = 5.pixels(true)
+        y = 7.5.pixels()
+        width = 9.pixels()
+        height = 5.pixels()
+    }
 
     private val colorPicker = ColorPicker(initial, allowAlpha).constrain {
         x = CenterConstraint()
@@ -139,7 +148,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
             setHeightAnimation(Animations.IN_SIN, 0.35f, 25.pixels() + RelativeConstraint(1f).to(colorPicker))
         }
 
-        dropDownArrow.setSVG(UP_ARROW_SVG)
+        replaceChild(upArrow, downArrow)
     }
 
     private fun collapse(unHover: Boolean = false) {
@@ -154,8 +163,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         }
 
         currentColorHex.setActive(false)
-
-        dropDownArrow.setSVG(DOWN_ARROW_SVG)
+        replaceChild(downArrow, upArrow)
     }
 
     private fun hoverText(text: UIComponent) {

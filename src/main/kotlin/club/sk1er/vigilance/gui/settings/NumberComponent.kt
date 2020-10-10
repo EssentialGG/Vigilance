@@ -3,6 +3,7 @@ package club.sk1er.vigilance.gui.settings
 import club.sk1er.elementa.UIComponent
 import club.sk1er.elementa.components.SVGComponent
 import club.sk1er.elementa.components.UIContainer
+import club.sk1er.elementa.components.UIImage
 import club.sk1er.elementa.components.UIText
 import club.sk1er.elementa.constraints.CenterConstraint
 import club.sk1er.elementa.constraints.ChildBasedMaxSizeConstraint
@@ -10,7 +11,6 @@ import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
 import club.sk1er.elementa.constraints.SiblingConstraint
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
-import club.sk1er.vigilance.gui.SettingsGui
 import club.sk1er.vigilance.gui.VigilancePalette
 import java.awt.Color
 
@@ -35,11 +35,11 @@ class NumberComponent(initialValue: Int, private val min: Int, private val  max:
         height = CONTROL_HEIGHT.pixels()
     } childOf controlContainer
 
-    private val incrementIcon = SVGComponent(UP_ARROW_SVG).constrain {
+    private val incrementImage = UIImage.ofResource(UP_ARROW_PNG).constrain {
         x = CenterConstraint()
         y = CenterConstraint()
-        width = (CONTROL_WIDTH * 0.8f).pixels()
-        height = (CONTROL_HEIGHT * 0.8f).pixels()
+        width = 9.pixels()
+        height = 5.pixels()
     } childOf incrementControl
 
     private val decrementControl = UIContainer().constrain {
@@ -48,11 +48,11 @@ class NumberComponent(initialValue: Int, private val min: Int, private val  max:
         height = CONTROL_HEIGHT.pixels()
     } childOf controlContainer
 
-    private val decrementIcon = SVGComponent(DOWN_ARROW_SVG).constrain {
+    private val decrementIcon = UIImage.ofResource(DOWN_ARROW_PNG).constrain {
         x = CenterConstraint()
         y = CenterConstraint()
-        width = (CONTROL_WIDTH * 0.8f).pixels()
-        height = (CONTROL_HEIGHT * 0.8f).pixels()
+        width = 9.pixels()
+        height = 5.pixels()
     } childOf decrementControl
 
     init {
