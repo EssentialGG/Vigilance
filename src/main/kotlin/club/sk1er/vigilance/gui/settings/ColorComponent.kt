@@ -5,10 +5,7 @@ import club.sk1er.elementa.components.SVGComponent
 import club.sk1er.elementa.components.UIContainer
 import club.sk1er.elementa.components.UIImage
 import club.sk1er.elementa.components.input.UITextInput
-import club.sk1er.elementa.constraints.CenterConstraint
-import club.sk1er.elementa.constraints.ChildBasedMaxSizeConstraint
-import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
-import club.sk1er.elementa.constraints.RelativeConstraint
+import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
@@ -44,12 +41,12 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         x = CenterConstraint()
         y = 22.pixels()
         width = RelativeConstraint(0.9f)
-        height = 70.pixels()
+        height = (if (allowAlpha) 78 else 62).pixels()
     } childOf this
 
     init {
         constrain {
-            width = 80.pixels()
+            width = 85.pixels()
             height = 20.pixels()
         }
 

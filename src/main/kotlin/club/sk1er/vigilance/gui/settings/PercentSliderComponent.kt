@@ -18,7 +18,7 @@ class PercentSliderComponent(initialValue: Float) : SettingComponent() {
     private val slider = Slider(initialValue).constrain {
         x = SiblingConstraint()
         width = 60.pixels()
-        height = 10.pixels()
+        height = 12.pixels()
     } childOf this
 
     init {

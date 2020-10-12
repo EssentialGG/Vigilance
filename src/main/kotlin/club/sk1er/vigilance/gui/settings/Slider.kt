@@ -22,7 +22,7 @@ class Slider(initialValue: Float) : UIContainer() {
         width = basicWidthConstraint {
             this@Slider.getWidth() - 2f - this@Slider.getHeight() * 1.5f
         }
-        height = RelativeConstraint(1f) - 2.pixels()
+        height = RelativeConstraint(0.5f)
     } childOf this effect OutlineEffect(VigilancePalette.DIVIDER, 0.5f)
 
     private val completionBox = UIBlock(VigilancePalette.ACCENT).constrain {
@@ -36,7 +36,7 @@ class Slider(initialValue: Float) : UIContainer() {
         x = basicXConstraint { completionBox.getRight() - it.getWidth() / 2f }
         y = CenterConstraint().to(outerBox) as YConstraint
         width = AspectConstraint(1f)
-        height = RelativeConstraint(1.5f).to(outerBox) as HeightConstraint
+        height = 100.percent()
     } childOf this effect OutlineEffect(Color.BLACK, 0.5f)
 
     init {
