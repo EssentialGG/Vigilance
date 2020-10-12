@@ -71,6 +71,8 @@ class FieldBackedPropertyValue(internal val field: Field) : PropertyValue() {
     override fun setValue(value: Any?, instance: Vigilant) {
         if (value is Double && field.type == Float::class.java) {
             field.set(instance, value.toFloat())
+        } else if (value is Float && field.type == Double::class.java) {
+            field.set(instance, value.toDouble())
         } else {
             field.set(instance, value)
         }

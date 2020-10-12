@@ -5,10 +5,7 @@ import club.sk1er.elementa.components.SVGComponent
 import club.sk1er.elementa.components.UIBlock
 import club.sk1er.elementa.components.UIContainer
 import club.sk1er.elementa.components.UIText
-import club.sk1er.elementa.constraints.CenterConstraint
-import club.sk1er.elementa.constraints.FillConstraint
-import club.sk1er.elementa.constraints.RelativeConstraint
-import club.sk1er.elementa.constraints.YConstraint
+import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.mods.core.universal.UniversalGraphicsHandler
@@ -16,6 +13,7 @@ import club.sk1er.vigilance.gui.VigilancePalette
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.lwjgl.opengl.GL11
 import java.awt.Color
+import kotlin.math.roundToInt
 
 class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     private var currentHue: Float
@@ -60,16 +58,16 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     }
 
     private val alphaSlider = Slider(currentAlpha).constrain {
-        x = RelativeConstraint(0.05f)
-        y = RelativeConstraint(0.85f)
-        width = RelativeConstraint(0.7f)
+        x = CenterConstraint().to(bigPickerBox) as XConstraint
+        y = SiblingConstraint(5f)
+        width = RelativeConstraint(0.8f)
         height = FillConstraint()
     }
 
     private val alphaText = UIText(getFormattedAlpha()).constrain {
         x = RelativeConstraint(0.85f)
         y = CenterConstraint().to(alphaSlider) as YConstraint
-        textScale = 0.5f.pixels()
+        textScale = (2f / 3f).pixels()
         color = VigilancePalette.BRIGHT_TEXT.asConstraint()
     }
 
@@ -155,7 +153,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
     fun getCurrentColor(): Color {
         return Color(
-            (Color.HSBtoRGB(currentHue, currentSaturation, currentBrightness) and 0xffffff) or ((currentAlpha * 255f).toInt() shl 24),
+            (Color.HSBtoRGB(currentHue, currentSaturation, currentBrightness) and 0xffffff) or ((currentAlpha * 255f).roundToInt() shl 24),
             true
         )
     }
