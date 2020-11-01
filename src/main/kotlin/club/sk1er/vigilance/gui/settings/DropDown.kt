@@ -15,7 +15,7 @@ class DropDown(
     private val options: List<String>,
     backgroundColor: Color = VigilancePalette.HIGHLIGHT,
     outlineEffect: OutlineEffect? = OutlineEffect(VigilancePalette.DARK_DIVIDER, 0.5f),
-    optionPadding: Float = 5f
+    optionPadding: Float = 6f
 ) : UIBlock(backgroundColor) {
     private var selected = initialSelection
     private var onValueChange: (Int) -> Unit = { }
@@ -43,7 +43,7 @@ class DropDown(
 
     private val optionsHolder = UIContainer().constrain {
         x = 5.pixels()
-        y = 22.pixels()
+        y = SiblingConstraint().to(currentSelectionText) as YConstraint
         width = ChildBasedMaxSizeConstraint()
         height = ChildBasedSizeConstraint(optionPadding) + optionPadding.pixels()
     } childOf this
@@ -51,7 +51,7 @@ class DropDown(
     private val mappedOptions = options.mapIndexed { index, option ->
         // TODO: Wrap this somehow
         UIText(option).constrain {
-            y = SiblingConstraint(optionPadding)
+            y = SiblingConstraint() + optionPadding.pixels()
             color = VigilancePalette.MID_TEXT.asConstraint()
         }.onMouseEnter {
             hoverText(this)
