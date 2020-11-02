@@ -7,11 +7,14 @@ import java.awt.Color
 import java.io.File
 
 object VigilancePalette : Vigilant(File("./config/vigilance.toml")) {
-    @Property(PropertyType.COLOR, "Dark Divider", "Color Scheme")
-    var DARK_DIVIDER = Color(80, 80, 80)
-
     @Property(PropertyType.COLOR, "Divider", "Color Scheme")
-    var DIVIDER = Color(151, 151, 151)
+    var BRIGHT_DIVIDER = Color(151, 151, 151)
+
+    @Property(PropertyType.COLOR, "Dark Divider", "Color Scheme")
+    var DIVIDER = Color(80, 80, 80)
+
+    @Property(PropertyType.COLOR, "Dark Divider", "Color Scheme")
+    var DARK_DIVIDER = Color(50, 50, 50)
 
     @Property(PropertyType.COLOR, "Scroll Bar", "Color Scheme")
     var SCROLL_BAR = Color(70, 70, 70)
@@ -23,10 +26,10 @@ object VigilancePalette : Vigilant(File("./config/vigilance.toml")) {
     var HIGHLIGHT = Color(33, 34, 38)
 
     @Property(PropertyType.COLOR, "Dark Highlight", "Color Scheme")
-    var DARK_HIGHLIGHT = Color(29, 29, 32)
+    var DARK_HIGHLIGHT = Color(27, 28, 33)
 
     @Property(PropertyType.COLOR, "Background", "Color Scheme")
-    var BACKGROUND = Color(22, 22, 24)
+    var BACKGROUND = Color(14, 14, 17)
 
     @Property(PropertyType.COLOR, "Dark Background", "Color Scheme")
     var DARK_BACKGROUND = Color(10, 10, 11)

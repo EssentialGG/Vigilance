@@ -13,8 +13,8 @@ import java.awt.Color
 class DropDown(
     initialSelection: Int,
     private val options: List<String>,
-    backgroundColor: Color = VigilancePalette.HIGHLIGHT,
-    outlineEffect: OutlineEffect? = OutlineEffect(VigilancePalette.DARK_DIVIDER, 0.5f),
+    backgroundColor: Color = VigilancePalette.DARK_HIGHLIGHT,
+    outlineEffect: OutlineEffect? = OutlineEffect(VigilancePalette.DIVIDER, 0.5f),
     optionPadding: Float = 6f
 ) : UIBlock(backgroundColor) {
     private var selected = initialSelection

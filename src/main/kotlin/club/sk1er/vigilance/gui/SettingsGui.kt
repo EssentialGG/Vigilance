@@ -18,24 +18,23 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
     } childOf window
 
     private val outerContainer = UIContainer().constrain {
-        x = RelativeConstraint(0.1f)
+        x = RelativeConstraint(0.12f)
         y = RelativeConstraint(0.1f)
-        width = RelativeConstraint(0.8f)
+        width = RelativeConstraint(0.78f)
         height = RelativeConstraint(0.8f)
     } childOf window
 
     private val sidebar = UIContainer().constrain {
-        width = RelativeConstraint(0.3f)
+        width = RelativeConstraint(0.25f)
         height = RelativeConstraint(1f)
     } childOf outerContainer
 
     private val titleLabel = UIText("Settings", shadow = false).constrain {
-        x = CenterConstraint() - 10.pixels()
         textScale = 2f.pixels()
     } childOf sidebar
 
     private val scrollContainer = UIContainer().constrain {
-        y = SiblingConstraint() + 20.pixels()
+        y = SiblingConstraint() + 40.pixels()
         width = RelativeConstraint(1f) - 10.pixels()
         height = FillConstraint()
     } childOf sidebar
@@ -50,7 +49,7 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         width = 3.pixels()
     } childOf scrollContainer
 
-    private val searchBox = UIBlock(VigilancePalette.HIGHLIGHT).constrain {
+    private val searchBox = UIBlock(VigilancePalette.DARK_HIGHLIGHT).constrain {
         x = 0.pixels(true)
         y = 5.pixels()
         width = 20.pixels()
@@ -142,7 +141,7 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         }
     }
 
-    private val splitter = UIBlock(VigilancePalette.DIVIDER).constrain {
+    private val splitter = UIBlock(VigilancePalette.DARK_DIVIDER).constrain {
         x = SiblingConstraint()
         width = 1.pixels()
         height = RelativeConstraint(1f)

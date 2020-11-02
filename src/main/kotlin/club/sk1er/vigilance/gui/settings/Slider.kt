@@ -23,7 +23,7 @@ class Slider(initialValue: Float) : UIContainer() {
             this@Slider.getWidth() - 2f - this@Slider.getHeight() * 1.5f
         }
         height = RelativeConstraint(0.5f)
-    } childOf this effect OutlineEffect(VigilancePalette.DIVIDER, 0.5f)
+    } childOf this effect OutlineEffect(VigilancePalette.BRIGHT_DIVIDER, 0.5f)
 
     private val completionBox = UIBlock(VigilancePalette.ACCENT).constrain {
         x = (-0.5f).pixels()
