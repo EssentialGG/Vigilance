@@ -15,6 +15,7 @@ class DataBackedSetting(data: PropertyData, private val component: SettingCompon
         x = 1.pixels()
         y = 1.pixels()
         width = RelativeConstraint(1f) - 10.pixels()
+        height = ChildBasedMaxSizeConstraint() + (INNER_PADDING * 2).pixels()
     } childOf this effect OutlineEffect(VigilancePalette.DIVIDER, 1f)
 
     private val textBoundingBox = UIContainer().constrain {
@@ -24,7 +25,7 @@ class DataBackedSetting(data: PropertyData, private val component: SettingCompon
             val endPos = ((boundingBox.children - component).map { it.getLeft() }.min() ?: boundingBox.getRight())
             endPos - component.getLeft() - 10f
         }
-        height = ChildBasedSizeConstraint(3f) + INNER_PADDING.pixels()
+        height = ChildBasedRangeConstraint()
     } childOf boundingBox
 
     private val settingName = UIWrappedText(data.property.name).constrain {
@@ -40,10 +41,6 @@ class DataBackedSetting(data: PropertyData, private val component: SettingCompon
     } childOf textBoundingBox
 
     init {
-        boundingBox.constrain {
-            height = (RelativeConstraint(1f).to(textBoundingBox) min RelativeConstraint(1f).to(component)) + 10.pixels()
-        }
-
         onMouseEnter {
             settingName.animate {
                 setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.ACCENT.asConstraint())
@@ -67,6 +64,6 @@ class DataBackedSetting(data: PropertyData, private val component: SettingCompon
     }
 
     companion object {
-        const val INNER_PADDING = 10f
+        const val INNER_PADDING = 15f
     }
 }
