@@ -13,14 +13,14 @@ class Divider(name: String) : Setting() {
         y = 5.pixels()
     } childOf this
 
-    private val leftLine = UIBlock(VigilancePalette.DIVIDER).constrain {
+    private val leftLine = UIBlock(VigilancePalette.DARK_DIVIDER).constrain {
         x = 0.pixels()
         y = CenterConstraint()
         width = basicWidthConstraint { label.getLeft() - getLeft() - 10f }
         height = 1.pixels()
     } childOf this
 
-    private val rightLine = UIBlock(VigilancePalette.DIVIDER).constrain {
+    private val rightLine = UIBlock(VigilancePalette.DARK_DIVIDER).constrain {
         x = basicXConstraint { label.getRight() + 10f }
         y = CenterConstraint()
         width = FillConstraint()

@@ -3,9 +3,7 @@ package club.sk1er.vigilance.gui
 import club.sk1er.elementa.components.UIBlock
 import club.sk1er.elementa.components.UIContainer
 import club.sk1er.elementa.components.UIWrappedText
-import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
-import club.sk1er.elementa.constraints.RelativeConstraint
-import club.sk1er.elementa.constraints.SiblingConstraint
+import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
@@ -13,11 +11,11 @@ import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.settings.SettingComponent
 
 class DataBackedSetting(data: PropertyData, private val component: SettingComponent) : Setting() {
-    protected val boundingBox = UIBlock(VigilancePalette.HIGHLIGHT).constrain {
+    protected val boundingBox = UIBlock(VigilancePalette.DARK_HIGHLIGHT).constrain {
         x = 1.pixels()
         y = 1.pixels()
-        width = RelativeConstraint(1f) - 4.pixels()
-    } childOf this effect OutlineEffect(VigilancePalette.DARK_DIVIDER, 1f)
+        width = RelativeConstraint(1f) - 10.pixels()
+    } childOf this effect OutlineEffect(VigilancePalette.DIVIDER, 1f)
 
     private val textBoundingBox = UIContainer().constrain {
         x = INNER_PADDING.pixels()

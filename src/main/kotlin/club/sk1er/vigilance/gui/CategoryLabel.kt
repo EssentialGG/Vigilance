@@ -13,14 +13,14 @@ import java.awt.Color
 class CategoryLabel(private val gui: SettingsGui, private val category: Category) : UIContainer() {
     private val text = UIText(category.name).constrain {
         color = VigilancePalette.MID_TEXT.asConstraint()
-        textScale = (1.5f).pixels()
+        textScale = 1.pixels()
     } childOf this
 
     var isSelected = false
 
     init {
         constrain {
-            y = SiblingConstraint(5f)
+            y = SiblingConstraint(15f)
             width = ChildBasedMaxSizeConstraint()
             height = ChildBasedSizeConstraint()
         }

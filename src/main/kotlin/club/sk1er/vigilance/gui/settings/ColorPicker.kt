@@ -32,7 +32,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     private var draggingHue = false
     private var draggingPicker = false
 
-    private val bigPickerBox = UIBlock(VigilancePalette.DARK_DIVIDER).constrain {
+    private val bigPickerBox = UIBlock(VigilancePalette.DIVIDER).constrain {
         width = RelativeConstraint(0.8f)
         height = RelativeConstraint(if (allowAlpha) 0.8f else 1f)
     } childOf this
@@ -44,7 +44,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         height = 3.pixels()
     } effect OutlineEffect(Color.WHITE, 1f)
 
-    private val huePickerLine = UIBlock(VigilancePalette.DARK_DIVIDER).constrain {
+    private val huePickerLine = UIBlock(VigilancePalette.DIVIDER).constrain {
         x = RelativeConstraint(0.85f)
         width = FillConstraint()
         height = RelativeConstraint(if (allowAlpha) 0.8f else 1f)

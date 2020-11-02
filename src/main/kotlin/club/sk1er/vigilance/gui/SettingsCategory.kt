@@ -8,7 +8,7 @@ import club.sk1er.elementa.constraints.SiblingConstraint
 import club.sk1er.elementa.dsl.*
 import club.sk1er.vigilance.data.Category
 
-class SettingsCategory(private val category: Category) : UIContainer() {
+class SettingsCategory(category: Category) : UIContainer() {
     private val scroller = ScrollComponent(innerPadding = 4f, emptyString = "No matching settings found :(").constrain {
         width = RelativeConstraint(1f) - 5.pixels()
         height = RelativeConstraint(1f)

@@ -41,7 +41,7 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
 
     private fun getOutlineEffect() = OutlineEffect(getSwitchColor(), 0.5f)
 
-    private fun getSwitchColor() = if (enabled) VigilancePalette.ACCENT else VigilancePalette.DIVIDER
+    private fun getSwitchColor() = if (enabled) VigilancePalette.ACCENT else VigilancePalette.BRIGHT_DIVIDER
 
     private fun getSwitchPosition() = if (enabled) 0.pixels(true) else 0.pixels()
 }

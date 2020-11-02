@@ -11,10 +11,10 @@ import club.sk1er.vigilance.gui.VigilancePalette
 import java.awt.Color
 
 class TextComponent(private val initial: String, placeholder: String, wrap: Boolean) : SettingComponent() {
-    private val textHolder = UIBlock(VigilancePalette.HIGHLIGHT).constrain {
+    private val textHolder = UIBlock(VigilancePalette.DARK_HIGHLIGHT).constrain {
         width = ChildBasedSizeConstraint() + 6.pixels()
         height = ChildBasedSizeConstraint() + 6.pixels()
-    } childOf this effect OutlineEffect(VigilancePalette.DARK_DIVIDER, 0.5f)
+    } childOf this effect OutlineEffect(VigilancePalette.DIVIDER, 0.5f)
 
     private val textInput: AbstractTextInput = if (wrap) {
         UIMultilineTextInput(placeholder).constrain {
