@@ -1,7 +1,6 @@
 package club.sk1er.vigilance.example
 
 //#if MC<=11202
-import com.example.examplemod.ExampleMod
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 //#if MC>=11202
