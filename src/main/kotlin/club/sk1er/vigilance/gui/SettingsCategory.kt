@@ -9,9 +9,19 @@ import club.sk1er.elementa.dsl.*
 import club.sk1er.vigilance.data.Category
 
 class SettingsCategory(category: Category) : UIContainer() {
-    private val scroller = ScrollComponent(innerPadding = 4f, emptyString = "No matching settings found :(").constrain {
+    private val scrollerBoundingBox = UIContainer().constrain {
         width = RelativeConstraint(1f) - 5.pixels()
         height = RelativeConstraint(1f)
+    } childOf this
+
+    private val scroller = ScrollComponent(
+        "No matching settings found :(",
+        innerPadding = 4f,
+        customScissorBoundingBox = scrollerBoundingBox
+    ).constrain {
+        y = 50.pixels(alignOpposite = true)
+        width = RelativeConstraint(1f) - 5.pixels()
+        height = RelativeConstraint(1f) - 50.pixels()
     } childOf this
 
     private val scrollBar = UIBlock(VigilancePalette.SCROLL_BAR).constrain {
@@ -30,6 +40,18 @@ class SettingsCategory(category: Category) : UIContainer() {
         }
 
         scroller.setVerticalScrollBarComponent(scrollBar, true)
+
+        GradientBlock(VigilancePalette.BACKGROUND.withAlpha(0), VigilancePalette.BACKGROUND).constrain {
+            y = 0.pixels(alignOpposite = true)
+            width = 100.percent() - 10.pixels()
+            height = 50.pixels()
+        }.onMouseClick {
+            it.stopPropagation()
+            scroller.mouseClick(it.absoluteX.toDouble(), it.absoluteY.toDouble(), it.mouseButton)
+        }.onMouseScroll {
+            it.stopPropagation()
+            scroller.mouseScroll(it.delta)
+        } childOf this
     }
 
     fun closePopups() {
