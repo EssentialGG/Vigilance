@@ -68,4 +68,10 @@ object VigilancePalette : Vigilant(File("./config/vigilance.toml")) {
 }
 
 fun Color.withAlpha(alpha: Int) = Color(this.red, this.green, this.blue, alpha)
+fun Color.withAlpha(alpha: Float) = Color(this.red, this.green, this.blue, (alpha * 255).toInt())
+operator fun Color.component1() = this.red
+operator fun Color.component2() = this.green
+operator fun Color.component3() = this.blue
+operator fun Color.component4() = this.alpha
+
 fun Color.invisible() = withAlpha(0)
