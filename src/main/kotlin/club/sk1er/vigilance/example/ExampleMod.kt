@@ -3,6 +3,7 @@ package club.sk1er.vigilance.example
 import club.sk1er.elementa.effects.StencilEffect
 import club.sk1er.mods.core.universal.UniversalMinecraft
 import club.sk1er.mods.core.universal.UniversalScreen
+import club.sk1er.vigilance.Vigilance
 
 //#if FORGE
 //#if MC<=11202
@@ -44,7 +45,7 @@ class ExampleMod {
     //#endif
     //#if FABRIC
     //$$ override fun onInitialize() {
-    //$$     StencilEffect.enableStencil()
+    //$$     Vigilance.initialize()
     //$$     ExampleConfig.preload()
     //$$     MinecraftForge.EVENT_BUS.register(this)
     //$$     ClientCommandHandler.instance.registerCommand(ExampleCommand())
@@ -53,14 +54,14 @@ class ExampleMod {
     //#if MC<=11202
     @EventHandler
     fun init(event: FMLInitializationEvent) {
-        StencilEffect.enableStencil()
+        Vigilance.initialize()
         ExampleConfig.preload()
         MinecraftForge.EVENT_BUS.register(this)
         ClientCommandHandler.instance.registerCommand(ExampleCommand())
     }
     //#else
     //$$ init {
-    //$$     StencilEffect.enableStencil()
+    //$$     Vigilance.initialize()
     //$$     ExampleConfig.preload()
     //$$     MinecraftForge.EVENT_BUS.register(this)
     //$$ }

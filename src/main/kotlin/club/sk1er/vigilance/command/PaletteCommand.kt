@@ -22,7 +22,7 @@ class PaletteCommand : CommandBase() {
         Vigilance.gui = VigilancePalette.gui()
     }
     //#else
-    //$$ override fun getName() = "config"
+    //$$ override fun getName() = "vigilance"
     //$$
     //$$ override fun getUsage(sender: ICommandSender) = "/vigilance - opens Vigilance settings"
     //$$
@@ -43,14 +43,14 @@ class PaletteCommand : CommandBase() {
 //$$
 //$$ object PaletteCommand {
 //$$     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
-//$$         dispatcher.register(CommandManager.literal("config")
+//$$         dispatcher.register(CommandManager.literal("vigilance")
 //#else
 //$$ import net.minecraft.command.CommandSource
 //$$ import net.minecraft.command.Commands
 //$$
 //$$ object PaletteCommand {
 //$$     fun register(dispatcher: CommandDispatcher<CommandSource?>) {
-//$$         dispatcher.register(Commands.literal("config")
+//$$         dispatcher.register(Commands.literal("vigilance")
 //#endif
 //$$             .requires { it.hasPermissionLevel(0) }
 //$$             .executes {

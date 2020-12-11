@@ -10,7 +10,6 @@ import club.sk1er.vigilance.gui.VigilancePalette
 //#if MC<=11202
 import net.minecraftforge.client.ClientCommandHandler
 import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.Mod.EventHandler
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -19,7 +18,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 //$$ import net.minecraftforge.eventbus.api.SubscribeEvent
 //$$ import net.minecraftforge.event.TickEvent
 //$$ import net.minecraftforge.common.MinecraftForge
-//$$ import net.minecraftforge.fml.common.Mod
 //$$
 //#if MC>=11602
 //$$ import net.minecraftforge.event.RegisterCommandsEvent
@@ -29,55 +27,39 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 //#endif
 //#else
 //#if FABRIC
-//$$ import net.fabricmc.api.ModInitializer
 //$$ import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
 //#endif
 //#endif
 
-//#if MC<=11202
-@Mod(modid = Vigilance.MOD_ID, version = Vigilance.MOD_VERSION)
-//#else
-//$$ @Mod(value = Vigilance.MOD_ID)
-//#endif
-//#if FABRIC
-//$$ class Vigilance implements ModInitializer {
-//#else
-class Vigilance {
-    //#endif
-    //#if FABRIC
-    //$$ override fun onInitialize() {
-    //$$     StencilEffect.enableStencil()
-    //$$     VigilancePalette.preload()
-    //$$     MinecraftForge.EVENT_BUS.register(this)
-    //$$     ClientCommandHandler.instance.registerCommand(PaletteCommand())
-    //$$ }
-    //#else
-    //#if MC<=11202
-    @EventHandler
-    fun init(event: FMLInitializationEvent) {
+object Vigilance {
+    private var initialized = false
+    internal var gui: UniversalScreen? = null
+
+    @JvmStatic
+    fun initialize() {
+        if (initialized)
+            return
+
+        initialized = true
         StencilEffect.enableStencil()
         VigilancePalette.preload()
         MinecraftForge.EVENT_BUS.register(this)
+        //#if FABRIC || MC<=11202
         ClientCommandHandler.instance.registerCommand(PaletteCommand())
+        //#endif
     }
-    //#else
-    //$$ init {
-    //$$     StencilEffect.enableStencil()
-    //$$     VigilancePalette.preload()
-    //$$     MinecraftForge.EVENT_BUS.register(this)
-    //$$ }
-    //$$
+
+    //#if FORGE
     //#if MC>=11602
     //$$ @SubscribeEvent
     //$$ fun registerCommands(event: RegisterCommandsEvent) {
     //$$     PaletteCommand.register(event.dispatcher)
     //$$ }
-    //#else
+    //#elseif MC>=11502
     //$$ @SubscribeEvent
     //$$ fun serverStarting(event: FMLServerStartingEvent) {
     //$$     PaletteCommand.register(event.commandDispatcher)
     //$$ }
-    //#endif
     //#endif
     //#endif
 
@@ -91,11 +73,5 @@ class Vigilance {
             }
             gui = null
         }
-    }
-
-    companion object {
-        const val MOD_ID = "vigilance"
-        const val MOD_VERSION = "1.0"
-        var gui: UniversalScreen? = null
     }
 }
