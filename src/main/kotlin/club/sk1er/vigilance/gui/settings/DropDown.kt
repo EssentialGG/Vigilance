@@ -52,7 +52,7 @@ class DropDown(
         // TODO: Wrap this somehow
         UIText(option).constrain {
             y = SiblingConstraint() + optionPadding.pixels()
-            color = VigilancePalette.MID_TEXT.asConstraint()
+            color = Color(0, 0, 0, 0).asConstraint()
         }.onMouseEnter {
             hoverText(this)
         }.onMouseLeave {
@@ -120,6 +120,9 @@ class DropDown(
 
     private fun expand() {
         active = true
+        mappedOptions.forEach {
+            it.setColor(VigilancePalette.MID_TEXT.asConstraint())
+        }
 
         animate {
             setHeightAnimation(Animations.IN_SIN, 0.35f, 20.pixels() + RelativeConstraint(1f).to(optionsHolder))
@@ -133,6 +136,12 @@ class DropDown(
 
         animate {
             setHeightAnimation(Animations.OUT_SIN, 0.35f, 20.pixels())
+
+            onComplete {
+                mappedOptions.forEach {
+                    it.setColor(Color(0, 0, 0, 0).asConstraint())
+                }
+            }
         }
 
         if (unHover) {
