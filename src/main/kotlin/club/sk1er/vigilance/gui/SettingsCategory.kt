@@ -17,6 +17,7 @@ class SettingsCategory(category: Category) : UIContainer() {
     private val scroller = ScrollComponent(
         "No matching settings found :(",
         innerPadding = 4f,
+        pixelsPerScroll = 25f,
         customScissorBoundingBox = scrollerBoundingBox
     ).constrain {
         y = 50.pixels(alignOpposite = true)

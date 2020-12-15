@@ -38,7 +38,7 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         height = FillConstraint()
     } childOf sidebar
 
-    private val categoryScroller = ScrollComponent().constrain {
+    private val categoryScroller = ScrollComponent(pixelsPerScroll = 25f).constrain {
         width = RelativeConstraint(1f)
         height = RelativeConstraint(1f)
     } childOf scrollContainer
