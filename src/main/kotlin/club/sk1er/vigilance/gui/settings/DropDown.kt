@@ -132,6 +132,8 @@ class DropDown(
     }
 
     fun collapse(unHover: Boolean = false) {
+        if (active)
+            replaceChild(downArrow, upArrow)
         active = false
 
         animate {
@@ -144,11 +146,8 @@ class DropDown(
             }
         }
 
-        if (unHover) {
+        if (unHover)
             unHoverText(currentSelectionText)
-        }
-
-        replaceChild(downArrow, upArrow)
     }
 
     private fun hoverText(text: UIComponent) {

@@ -149,6 +149,8 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
     }
 
     private fun collapse(unHover: Boolean = false) {
+        if (active)
+            replaceChild(downArrow, upArrow)
         active = false
 
         animate {
@@ -160,7 +162,6 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         }
 
         currentColorHex.setActive(false)
-        replaceChild(downArrow, upArrow)
     }
 
     private fun hoverText(text: UIComponent) {
