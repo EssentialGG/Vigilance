@@ -30,6 +30,12 @@ annotation class Property(
      * Reserved for [PropertyType.TEXT] and [PropertyType.PARAGRAPH]
      */
     val placeholder: String = "",
+    /**
+     * Whether or not this property's action should be triggered with it's initial
+     * value when the configuration is initialized. Useful when you only want to
+     * react to changes by the user.
+     */
+    val triggerActionOnInitialization: Boolean = true,
 
     val hidden: Boolean = false
 )
@@ -60,6 +66,12 @@ data class PropertyAttributes(
      * Reserved for [PropertyType.TEXT] and [PropertyType.PARAGRAPH]
      */
     val placeholder: String = "",
+    /**
+     * Whether or not this property's action should be triggered with it's initial
+     * value when the configuration is initialized. Useful when you only want to
+     * react to changes by the user.
+     */
+    val triggerActionOnInitialization: Boolean = true,
 
     val hidden: Boolean = false
 ) {
@@ -76,6 +88,7 @@ data class PropertyAttributes(
                 property.options.toList(),
                 property.allowAlpha,
                 property.placeholder,
+                property.triggerActionOnInitialization,
                 property.hidden
             )
         }
