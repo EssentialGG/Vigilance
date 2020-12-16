@@ -9,7 +9,9 @@ import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.vigilance.data.PropertyData
+import club.sk1er.vigilance.gui.ClickEffect
 import club.sk1er.vigilance.gui.VigilancePalette
+import club.sk1er.vigilance.gui.withAlpha
 
 class ButtonComponent(private val data: PropertyData) : SettingComponent() {
     private val buttonText = data.property.placeholder.let {
@@ -44,6 +46,8 @@ class ButtonComponent(private val data: PropertyData) : SettingComponent() {
             height = ChildBasedSizeConstraint()
         }
 
+        enableEffect(ClickEffect(VigilancePalette.ACCENT.withAlpha(0.5f)))
+
         container.onMouseEnter {
             container.animate {
                 setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.ACCENT.asConstraint())
@@ -56,7 +60,7 @@ class ButtonComponent(private val data: PropertyData) : SettingComponent() {
             data.action.let {
                 if (it == null)
                     throw IllegalStateException("Expected button property \"${data.property.name}\" to have an action")
-                it(null)
+                it(0)
             }
         }
     }

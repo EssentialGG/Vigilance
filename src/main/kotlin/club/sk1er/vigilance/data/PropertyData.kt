@@ -21,6 +21,11 @@ data class PropertyData(val property: PropertyAttributes, val value: PropertyVal
     fun <T> getAs(clazz: Class<T>) = clazz.cast(getAsAny())
 
     fun setValue(value: Any?) {
+        if (value == null) {
+            println("null value assigned to property ${property.name}, but Vigilance does not support null values")
+            return
+        }
+
         if (property.triggerActionOnInitialization || this.value.initialized)
             action?.invoke(value)
 
