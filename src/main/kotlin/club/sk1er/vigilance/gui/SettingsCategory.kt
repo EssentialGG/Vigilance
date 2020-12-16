@@ -60,4 +60,8 @@ class SettingsCategory(category: Category) : UIContainer() {
             it.closePopups()
         }
     }
+
+    fun scrollToTop() {
+        scroller.scrollToTop(smoothScroll = false)
+    }
 }

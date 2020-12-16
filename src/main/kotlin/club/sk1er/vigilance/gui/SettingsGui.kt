@@ -172,6 +172,7 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
 
         currentCategory.hide()
         newCategory.unhide()
+        newCategory.scrollToTop()
         currentCategory = newCategory
 
         categoryScroller.allChildren.filterIsInstance<CategoryLabel>().firstOrNull { it.isSelected }?.deselect()
