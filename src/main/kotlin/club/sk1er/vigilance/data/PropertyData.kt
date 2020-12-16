@@ -2,7 +2,9 @@ package club.sk1er.vigilance.data
 
 import club.sk1er.vigilance.Vigilant
 import java.lang.reflect.Field
+import java.lang.reflect.Method
 import java.util.function.Consumer
+import kotlin.reflect.KFunction
 import kotlin.reflect.KMutableProperty0
 
 data class PropertyData(val property: PropertyAttributes, val value: PropertyValue, val instance: Vigilant) {
@@ -56,6 +58,14 @@ data class PropertyData(val property: PropertyAttributes, val value: PropertyVal
             )
         }
 
+        fun fromMethod(propertyAttributes: Property, method: Method, instance: Vigilant): PropertyData {
+            return PropertyData(
+                PropertyAttributes.fromPropertyAnnotation(propertyAttributes),
+                MethodBackedPropertyValue(method),
+                instance
+            )
+        }
+
         fun withValue(property: Property, obj: Any?, instance: Vigilant): PropertyData {
             return PropertyData(
                 PropertyAttributes.fromPropertyAnnotation(property),
@@ -68,6 +78,8 @@ data class PropertyData(val property: PropertyAttributes, val value: PropertyVal
 
 abstract class PropertyValue {
     var initialized = false
+
+    open val writeDataToFile = true
 
     abstract fun getValue(instance: Vigilant): Any?
     abstract fun setValue(value: Any?, instance: Vigilant)
@@ -107,8 +119,18 @@ class KPropertyBackedPropertyValue<T>(private val property: KMutableProperty0<T>
     }
 }
 
-object DummyPropertyValue : PropertyValue() {
-    override fun getValue(instance: Vigilant): Any? = null
+class MethodBackedPropertyValue(val method: Method) : PropertyValue() {
+    override val writeDataToFile = false
 
-    override fun setValue(value: Any?, instance: Vigilant) { }
+    override fun getValue(instance: Vigilant): Nothing = throw IllegalStateException()
+
+    override fun setValue(value: Any?, instance: Vigilant): Nothing = throw IllegalStateException()
+}
+
+class KFunctionBackedPropertyValue(val kFunction: () -> Unit) : PropertyValue() {
+    override val writeDataToFile = false
+
+    override fun getValue(instance: Vigilant): Nothing = throw IllegalStateException()
+
+    override fun setValue(value: Any?, instance: Vigilant): Nothing = throw IllegalStateException()
 }

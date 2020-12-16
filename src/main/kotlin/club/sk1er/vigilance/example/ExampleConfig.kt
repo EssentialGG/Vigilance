@@ -90,7 +90,9 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         description = "This is a button property. It runs an action when clicked.",
         category = "Property Overview"
     )
-    var demoButton = 0
+    fun demoButton() {
+        UniversalChat.chat("demoButton clicked!")
+    }
 
     @Property(
         type = PropertyType.SWITCH,
@@ -333,11 +335,13 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
     @Property(
         type = PropertyType.BUTTON,
         name = "Normal button",
-        description = "A normal button. Buttons use the placeholder property for their text. If no placeholder is provided (or it is empty), it will be \"Activate\". Button field values do not matter, but they cannot be null.",
+        description = "A normal button. Buttons use the placeholder property for their text. If no placeholder is provided (or it is empty), it will be \"Activate\".",
         category = "Property Deep-Dive",
         subcategory = "Buttons"
     )
-    var normalButton = 0
+    fun normalButtonAction() {
+        UniversalChat.chat("normalButton clicked!")
+    }
 
     @Property(
         type = PropertyType.BUTTON,
@@ -347,7 +351,9 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         category = "Property Deep-Dive",
         subcategory = "Buttons"
     )
-    var customButton = 0
+    fun customButtonAction() {
+        UniversalChat.chat("customButton clicked!")
+    }
 
     @Property(
         type = PropertyType.SWITCH,
@@ -378,18 +384,6 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
 
         registerListener(::colorWithAlpha) {
             UniversalChat.chat("colorWithAlpha listener activated! New color: $it")
-        }
-
-        registerListener(::demoButton) {
-            UniversalChat.chat("demoButton clicked!")
-        }
-
-        registerListener(::normalButton) {
-            UniversalChat.chat("normalButton clicked!")
-        }
-
-        registerListener(::customButton) {
-            UniversalChat.chat("customButton clicked!")
         }
     }
 }

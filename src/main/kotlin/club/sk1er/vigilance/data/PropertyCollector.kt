@@ -20,7 +20,7 @@ abstract class PropertyCollector {
 
 class JVMAnnotationPropertyCollector : PropertyCollector() {
     override fun collectProperties(instance: Vigilant): List<PropertyData> {
-        return instance::class.java.declaredFields
+        val fieldPropertyData = instance::class.java.declaredFields
             .filter { it.isAnnotationPresent(Property::class.java) }
             .map {
                 PropertyData.fromField(
@@ -29,5 +29,17 @@ class JVMAnnotationPropertyCollector : PropertyCollector() {
                     instance
                 )
             }
+
+        val methodPropertyData = instance::class.java.declaredMethods
+            .filter { it.isAnnotationPresent(Property::class.java) }
+            .map {
+                PropertyData.fromMethod(
+                    it.getAnnotation(Property::class.java),
+                    it.apply { it.isAccessible = true },
+                    instance
+                )
+            }
+
+        return fieldPropertyData + methodPropertyData
     }
 }

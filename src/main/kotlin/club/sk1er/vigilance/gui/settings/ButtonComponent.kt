@@ -7,6 +7,8 @@ import club.sk1er.elementa.constraints.CenterConstraint
 import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
+import club.sk1er.vigilance.data.KFunctionBackedPropertyValue
+import club.sk1er.vigilance.data.MethodBackedPropertyValue
 import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.ExpandingClickEffect
 import club.sk1er.vigilance.gui.VigilancePalette
@@ -66,10 +68,10 @@ class ButtonComponent(private val data: PropertyData) : SettingComponent() {
                 setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.OUTLINE.asConstraint())
             }
         }.onMouseClick {
-            data.action.let {
-                if (it == null)
-                    throw IllegalStateException("Expected button property \"${data.property.name}\" to have an action")
-                it(0)
+            when (val value = data.value) {
+                is MethodBackedPropertyValue -> value.method.invoke(data.instance)
+                is KFunctionBackedPropertyValue -> value.kFunction()
+                else -> throw IllegalStateException()
             }
         }
     }

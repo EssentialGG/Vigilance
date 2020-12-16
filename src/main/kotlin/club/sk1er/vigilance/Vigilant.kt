@@ -103,7 +103,7 @@ abstract class Vigilant @JvmOverloads constructor(
     private fun readData() {
         fileConfig.load()
 
-        propertyCollector.getProperties().forEach {
+        propertyCollector.getProperties().filter { it.value.writeDataToFile }.forEach {
             val fullPath = it.property.fullPropertyPath()
 
             var oldValue: Any? = fileConfig.get(fullPath)
@@ -132,7 +132,7 @@ abstract class Vigilant @JvmOverloads constructor(
     fun writeData() {
         if (!dirty) return
 
-        propertyCollector.getProperties().forEach {
+        propertyCollector.getProperties().filter { it.value.writeDataToFile }.forEach {
             val fullPath = it.property.fullPropertyPath()
 
             var toSet = it.getAsAny()
@@ -447,17 +447,17 @@ abstract class Vigilant @JvmOverloads constructor(
             buttonText: String = "",
             triggerActionOnInitialization: Boolean = true,
             hidden: Boolean = false,
-            action: ((Int) -> Unit)? = null
+            action: (() -> Unit)
         ) {
-            property(
-                DummyPropertyValue,
+            property<Nothing>(
+                KFunctionBackedPropertyValue(action),
                 PropertyType.BUTTON,
                 name,
                 description,
                 placeholder = buttonText,
                 triggerActionOnInitialization = triggerActionOnInitialization,
                 hidden = hidden,
-                action = action
+                action = null
             )
         }
     }

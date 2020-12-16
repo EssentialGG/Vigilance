@@ -3,7 +3,7 @@ package club.sk1er.vigilance.data
 import java.util.*
 
 @Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.FIELD)
+@Target(AnnotationTarget.FIELD, AnnotationTarget.FUNCTION)
 annotation class Property(
     val type: PropertyType,
     val name: String,
