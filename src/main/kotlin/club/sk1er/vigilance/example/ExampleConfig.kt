@@ -90,7 +90,7 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         description = "This is a button property. It runs an action when clicked.",
         category = "Property Overview"
     )
-    var demoButton = null
+    var demoButton = 0
 
     @Property(
         type = PropertyType.SWITCH,
@@ -333,11 +333,11 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
     @Property(
         type = PropertyType.BUTTON,
         name = "Normal button",
-        description = "A normal button. Buttons use the placeholder property for their text. If no placeholder is provided (or it is empty), it will be \"Activate\". Button field values do not matter.",
+        description = "A normal button. Buttons use the placeholder property for their text. If no placeholder is provided (or it is empty), it will be \"Activate\". Button field values do not matter, but they cannot be null.",
         category = "Property Deep-Dive",
         subcategory = "Buttons"
     )
-    var normalButton = null
+    var normalButton = 0
 
     @Property(
         type = PropertyType.BUTTON,
@@ -347,7 +347,7 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         category = "Property Deep-Dive",
         subcategory = "Buttons"
     )
-    var customButton = null
+    var customButton = 0
 
     @Property(
         type = PropertyType.SWITCH,

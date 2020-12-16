@@ -240,7 +240,7 @@ object ExampleConfigDSL : Vigilant(File("./config/example.toml")) {
             }
 
             subcategory("Buttons") {
-                button("Normal button", "A normal button. Buttons use the placeholder property for their text. If no placeholder is provided (or it is empty), it will be \"Activate\". Button field values do not matter.") {
+                button("Normal button", "A normal button. Buttons use the placeholder property for their text. If no placeholder is provided (or it is empty), it will be \"Activate\". Button field values do not matter, but they cannot be null.") {
                     UniversalChat.chat("normalButton clicked!")
                 }
                 button("Button with text", "A button that has a custom placeholder, giving it different text") {
