@@ -4,29 +4,32 @@ import java.awt.Color
 import java.lang.reflect.Field
 
 enum class PropertyType {
-    SWITCH() {
+    SWITCH {
         override fun isFieldValid(field: Field) = field.type == Boolean::class.java
     },
-    TEXT() {
+    TEXT {
         override fun isFieldValid(field: Field) = field.type == String::class.java
     },
-    PARAGRAPH() {
+    PARAGRAPH {
         override fun isFieldValid(field: Field) = field.type == String::class.java
     },
-    PERCENT_SLIDER() {
+    PERCENT_SLIDER {
         override fun isFieldValid(field: Field) = field.type == Float::class.java
     },
-    SLIDER() {
+    SLIDER {
         override fun isFieldValid(field: Field) = field.type == Int::class.java
     },
-    NUMBER() {
+    NUMBER {
         override fun isFieldValid(field: Field) = field.type == Int::class.java
     },
-    COLOR() {
+    COLOR {
         override fun isFieldValid(field: Field) = field.type == Color::class.java
     },
-    SELECTOR() {
+    SELECTOR {
         override fun isFieldValid(field: Field) = field.type == Int::class.java
+    },
+    BUTTON {
+        override fun isFieldValid(field: Field) = true
     };
 
     abstract fun isFieldValid(field: Field): Boolean

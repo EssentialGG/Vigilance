@@ -101,3 +101,9 @@ class KPropertyBackedPropertyValue<T>(private val property: KMutableProperty0<T>
         property.set(value as T)
     }
 }
+
+object DummyPropertyValue : PropertyValue() {
+    override fun getValue(instance: Vigilant): Any? = null
+
+    override fun setValue(value: Any?, instance: Vigilant) { }
+}

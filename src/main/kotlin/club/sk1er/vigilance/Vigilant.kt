@@ -204,9 +204,9 @@ abstract class Vigilant @JvmOverloads constructor(
         }
 
         fun <T> property(
-            field: KMutableProperty0<T>,
+            value: PropertyValue,
             type: PropertyType,
-            name: String = field.name,
+            name: String,
             description: String = "",
             min: Int = 0,
             max: Int = 0,
@@ -232,7 +232,7 @@ abstract class Vigilant @JvmOverloads constructor(
                     triggerActionOnInitialization,
                     hidden
                 ),
-                KPropertyBackedPropertyValue(field),
+                value,
                 instance
             )
 
@@ -241,6 +241,36 @@ abstract class Vigilant @JvmOverloads constructor(
             }
 
             properties.add(data)
+        }
+
+        fun <T> property(
+            field: KMutableProperty0<T>,
+            type: PropertyType,
+            name: String = field.name,
+            description: String = "",
+            min: Int = 0,
+            max: Int = 0,
+            options: List<String> = listOf(),
+            allowAlpha: Boolean = true,
+            placeholder: String = "",
+            triggerActionOnInitialization: Boolean = true,
+            hidden: Boolean = false,
+            action: ((T) -> Unit)? = null
+        ) {
+            property(
+                KPropertyBackedPropertyValue(field),
+                type,
+                name,
+                description,
+                min,
+                max,
+                options,
+                allowAlpha,
+                placeholder,
+                triggerActionOnInitialization,
+                hidden,
+                action
+            )
         }
 
         fun switch(
@@ -258,9 +288,8 @@ abstract class Vigilant @JvmOverloads constructor(
                 description,
                 triggerActionOnInitialization = triggerActionOnInitialization,
                 hidden = hidden,
-                action = action)
-
-
+                action = action
+            )
         }
 
         fun text(
@@ -406,6 +435,26 @@ abstract class Vigilant @JvmOverloads constructor(
                 name,
                 description,
                 options = options,
+                triggerActionOnInitialization = triggerActionOnInitialization,
+                hidden = hidden,
+                action = action
+            )
+        }
+
+        fun button(
+            name: String,
+            description: String = "",
+            buttonText: String = "",
+            triggerActionOnInitialization: Boolean = true,
+            hidden: Boolean = false,
+            action: ((Int) -> Unit)? = null
+        ) {
+            property(
+                DummyPropertyValue,
+                PropertyType.BUTTON,
+                name,
+                description,
+                placeholder = buttonText,
                 triggerActionOnInitialization = triggerActionOnInitialization,
                 hidden = hidden,
                 action = action

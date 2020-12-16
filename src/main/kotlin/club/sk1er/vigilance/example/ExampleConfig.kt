@@ -2,6 +2,7 @@
 
 package club.sk1er.vigilance.example
 
+import club.sk1er.mods.core.universal.UniversalChat
 import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.Property
 import club.sk1er.vigilance.data.PropertyType
@@ -82,6 +83,14 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         options = ["Option 1", "Option 2", "Option 3"]
     )
     var demoSelector = 0
+
+    @Property(
+        type = PropertyType.BUTTON,
+        name = "Button",
+        description = "This is a button property. It runs an action when clicked.",
+        category = "Property Overview"
+    )
+    var demoButton = null
 
     @Property(
         type = PropertyType.SWITCH,
@@ -322,6 +331,25 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
     var largeSelector = 0
 
     @Property(
+        type = PropertyType.BUTTON,
+        name = "Normal button",
+        description = "A normal button. Buttons use the placeholder property for their text. If no placeholder is provided (or it is empty), it will be \"Activate\". Button field values do not matter.",
+        category = "Property Deep-Dive",
+        subcategory = "Buttons"
+    )
+    var normalButton = null
+
+    @Property(
+        type = PropertyType.BUTTON,
+        name = "Button with text",
+        description = "A button that has a custom placeholder, giving it different text",
+        placeholder = "Click Me!",
+        category = "Property Deep-Dive",
+        subcategory = "Buttons"
+    )
+    var customButton = null
+
+    @Property(
         type = PropertyType.SWITCH,
         name = "This is a switch property with a very long name. It is recommended to use the description for lengthy property text, however this is still supported",
         category = "Meta"
@@ -349,7 +377,19 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         initialize()
 
         registerListener(::colorWithAlpha) {
-            println("colorWithAlpha listener activated! New color: $it")
+            UniversalChat.chat("colorWithAlpha listener activated! New color: $it")
+        }
+
+        registerListener(::demoButton) {
+            UniversalChat.chat("demoButton clicked!")
+        }
+
+        registerListener(::normalButton) {
+            UniversalChat.chat("normalButton clicked!")
+        }
+
+        registerListener(::customButton) {
+            UniversalChat.chat("customButton clicked!")
         }
     }
 }

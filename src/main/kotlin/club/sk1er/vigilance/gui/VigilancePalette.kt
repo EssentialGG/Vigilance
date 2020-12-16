@@ -16,6 +16,9 @@ object VigilancePalette : Vigilant(File("./config/vigilance.toml")) {
     @Property(PropertyType.COLOR, "Dark Divider", "Color Scheme")
     var DARK_DIVIDER = Color(50, 50, 50)
 
+    @Property(PropertyType.COLOR, "Outline", "Color Scheme")
+    var OUTLINE = Color(48, 48, 49)
+
     @Property(PropertyType.COLOR, "Scroll Bar", "Color Scheme")
     var SCROLL_BAR = Color(45, 45, 45)
 

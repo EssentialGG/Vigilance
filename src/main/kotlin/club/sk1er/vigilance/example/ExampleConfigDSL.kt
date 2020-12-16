@@ -2,6 +2,7 @@
 
 package club.sk1er.vigilance.example
 
+import club.sk1er.mods.core.universal.UniversalChat
 import club.sk1er.vigilance.Vigilant
 import java.awt.Color
 import java.io.File
@@ -84,6 +85,9 @@ object ExampleConfigDSL : Vigilant(File("./config/example.toml")) {
                 "This is a selector property. It stores a specific item in a list of strings. The property will store the index of the list, not the string.",
                 options = listOf("Option 1", "Option 2", "Option 3")
             )
+            button("Button", "This is a button property. It runs an action when clicked.") {
+                UniversalChat.chat("demoButton clicked!")
+            }
         }
 
         category("Property Deep-Dive") {
@@ -233,6 +237,15 @@ object ExampleConfigDSL : Vigilant(File("./config/example.toml")) {
                         "Option 30"
                     )
                 )
+            }
+
+            subcategory("Buttons") {
+                button("Normal button", "A normal button. Buttons use the placeholder property for their text. If no placeholder is provided (or it is empty), it will be \"Activate\". Button field values do not matter.") {
+                    UniversalChat.chat("normalButton clicked!")
+                }
+                button("Button with text", "A button that has a custom placeholder, giving it different text") {
+                    UniversalChat.chat("customButton clicked!")
+                }
             }
         }
 

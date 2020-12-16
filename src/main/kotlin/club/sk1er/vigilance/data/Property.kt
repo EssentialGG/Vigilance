@@ -63,7 +63,7 @@ data class PropertyAttributes(
      */
     val allowAlpha: Boolean = true,
     /**
-     * Reserved for [PropertyType.TEXT] and [PropertyType.PARAGRAPH]
+     * Reserved for [PropertyType.TEXT], [PropertyType.PARAGRAPH], and [PropertyType.BUTTON]
      */
     val placeholder: String = "",
     /**

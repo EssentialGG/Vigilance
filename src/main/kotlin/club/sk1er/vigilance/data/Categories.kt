@@ -34,6 +34,7 @@ class PropertyItem(val data: PropertyData) : CategoryItem() {
             PropertyType.COLOR -> ColorComponent(data.getValue(), data.property.allowAlpha)
             PropertyType.TEXT -> TextComponent(data.getValue(), data.property.placeholder, false)
             PropertyType.PARAGRAPH -> TextComponent(data.getValue(), data.property.placeholder, true)
+            PropertyType.BUTTON -> ButtonComponent(data)
         }
 
         return DataBackedSetting(data, component)
