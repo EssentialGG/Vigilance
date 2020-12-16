@@ -49,17 +49,17 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
     } childOf scrollContainer
 
     private val searchBox = UIBlock(VigilancePalette.DARK_HIGHLIGHT).constrain {
-        x = 0.pixels(true)
+        x = 5.pixels(true)
         y = 5.pixels()
         width = 20.pixels()
         height = 20.pixels()
     } childOf window effect ScissorEffect()
 
-    private val searchIcon = SVGComponent.ofResource("/vigilance/search.svg").constrain {
+    private val searchIcon = UIImage.ofResource("/vigilance/search.png").constrain {
         x = 4.pixels()
         y = CenterConstraint()
-        width = 12.pixels()
-        height = 12.pixels()
+        width = 16.pixels()
+        height = 16.pixels()
     } childOf searchBox
 
     private val searchContainer = UIContainer().constrain {
