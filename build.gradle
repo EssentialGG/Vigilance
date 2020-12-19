@@ -171,7 +171,7 @@ dependencies {
     implementation 'com.electronwill.night-config:toml:3.6.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation ("club.sk1er:Elementa:179-$mcVersion-SNAPSHOT") {
+    implementation ("club.sk1er:Elementa:180-$mcVersion-SNAPSHOT") {
         exclude group: 'UniversalCraft'
     }
     implementation "club.sk1er:UniversalCraft:90-$mcVersion-SNAPSHOT"
