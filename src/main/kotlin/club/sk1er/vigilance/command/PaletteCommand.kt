@@ -28,7 +28,7 @@ class PaletteCommand : CommandBase() {
     //$$
     //$$ override fun getRequiredPermissionLevel() = 0
     //$$
-    //$$ override fun execute(server: MinecraftServer, sender: ICommandSender, args: Array<String>) {
+    //$$ override fun execute(server: MinecraftServer?, sender: ICommandSender, args: Array<String>) {
     //$$     Vigilance.gui = VigilancePalette.gui()
     //$$ }
     //#endif
