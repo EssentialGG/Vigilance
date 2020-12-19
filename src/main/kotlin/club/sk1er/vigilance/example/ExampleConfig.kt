@@ -2,7 +2,7 @@
 
 package club.sk1er.vigilance.example
 
-import club.sk1er.mods.core.universal.UniversalChat
+import club.sk1er.mods.core.universal.UChat
 import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.Property
 import club.sk1er.vigilance.data.PropertyType
@@ -91,7 +91,7 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         category = "Property Overview"
     )
     fun demoButton() {
-        UniversalChat.chat("demoButton clicked!")
+        UChat.chat("demoButton clicked!")
     }
 
     @Property(
@@ -340,7 +340,7 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         subcategory = "Buttons"
     )
     fun normalButtonAction() {
-        UniversalChat.chat("normalButton clicked!")
+        UChat.chat("normalButton clicked!")
     }
 
     @Property(
@@ -352,7 +352,7 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         subcategory = "Buttons"
     )
     fun customButtonAction() {
-        UniversalChat.chat("customButton clicked!")
+        UChat.chat("customButton clicked!")
     }
 
     @Property(
@@ -383,7 +383,7 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         initialize()
 
         registerListener(::colorWithAlpha) {
-            UniversalChat.chat("colorWithAlpha listener activated! New color: $it")
+            UChat.chat("colorWithAlpha listener activated! New color: $it")
         }
     }
 }

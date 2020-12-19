@@ -1,8 +1,8 @@
 package club.sk1er.vigilance
 
 import club.sk1er.elementa.effects.StencilEffect
-import club.sk1er.mods.core.universal.UniversalMinecraft
-import club.sk1er.mods.core.universal.UniversalScreen
+import club.sk1er.mods.core.universal.UMinecraft
+import club.sk1er.mods.core.universal.UScreen
 import club.sk1er.vigilance.command.PaletteCommand
 import club.sk1er.vigilance.gui.VigilancePalette
 
@@ -33,7 +33,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 
 object Vigilance {
     private var initialized = false
-    internal var gui: UniversalScreen? = null
+    internal var gui: UScreen? = null
 
     @JvmStatic
     fun initialize() {
@@ -67,7 +67,7 @@ object Vigilance {
     fun tick(event: TickEvent.ClientTickEvent) {
         if (gui != null) {
             try {
-                UniversalMinecraft.getMinecraft().displayGuiScreen(gui)
+                UMinecraft.getMinecraft().displayGuiScreen(gui)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

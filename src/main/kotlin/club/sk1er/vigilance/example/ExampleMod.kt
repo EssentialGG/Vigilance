@@ -1,8 +1,8 @@
 package club.sk1er.vigilance.example
 
 import club.sk1er.elementa.effects.StencilEffect
-import club.sk1er.mods.core.universal.UniversalMinecraft
-import club.sk1er.mods.core.universal.UniversalScreen
+import club.sk1er.mods.core.universal.UMinecraft
+import club.sk1er.mods.core.universal.UScreen
 import club.sk1er.vigilance.Vigilance
 
 //#if FORGE
@@ -84,7 +84,7 @@ class ExampleMod {
     fun tick(event: TickEvent.ClientTickEvent) {
         if (gui != null) {
             try {
-                UniversalMinecraft.getMinecraft().displayGuiScreen(gui)
+                UMinecraft.getMinecraft().displayGuiScreen(gui)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -95,6 +95,6 @@ class ExampleMod {
     companion object {
         const val MOD_ID = "vigilance_examplemod"
         const val MOD_VERSION = "1.0"
-        var gui: UniversalScreen? = null
+        var gui: UScreen? = null
     }
 }

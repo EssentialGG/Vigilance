@@ -8,7 +8,7 @@ import club.sk1er.elementa.components.UIText
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
-import club.sk1er.mods.core.universal.UniversalGraphicsHandler
+import club.sk1er.mods.core.universal.UGraphics
 import club.sk1er.vigilance.gui.VigilancePalette
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.lwjgl.opengl.GL11
@@ -185,7 +185,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         val bottom = (bigPickerBox.getBottom() - 1f).toDouble()
 
         setupDraw()
-        val graphics = UniversalGraphicsHandler.getFromTessellator()
+        val graphics = UGraphics.getFromTessellator()
         graphics.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR)
 
         val height = bottom - top
@@ -225,7 +225,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         val height = (huePickerLine.getHeight() - 1f).toDouble()
 
         setupDraw()
-        val graphics = UniversalGraphicsHandler.getFromTessellator()
+        val graphics = UGraphics.getFromTessellator()
 
         graphics.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR)
 
@@ -247,22 +247,22 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     }
 
     private fun setupDraw() {
-        UniversalGraphicsHandler.disableTexture2D()
-        UniversalGraphicsHandler.enableBlend()
-        UniversalGraphicsHandler.disableAlpha()
-        UniversalGraphicsHandler.tryBlendFuncSeparate(770, 771, 1, 0)
-        UniversalGraphicsHandler.shadeModel(7425)
+        UGraphics.disableTexture2D()
+        UGraphics.enableBlend()
+        UGraphics.disableAlpha()
+        UGraphics.tryBlendFuncSeparate(770, 771, 1, 0)
+        UGraphics.shadeModel(7425)
     }
 
     private fun cleanupDraw() {
-        UniversalGraphicsHandler.draw()
-        UniversalGraphicsHandler.shadeModel(7424)
-        UniversalGraphicsHandler.disableBlend()
-        UniversalGraphicsHandler.enableAlpha()
-        UniversalGraphicsHandler.enableTexture2D()
+        UGraphics.draw()
+        UGraphics.shadeModel(7424)
+        UGraphics.disableBlend()
+        UGraphics.enableAlpha()
+        UGraphics.enableTexture2D()
     }
 
-    private fun drawVertex(graphics: UniversalGraphicsHandler, x: Double, y: Double, color: Color) {
+    private fun drawVertex(graphics: UGraphics, x: Double, y: Double, color: Color) {
         graphics
             .pos(x, y, 0.0)
             .color(color.red.toFloat() / 255f, color.green.toFloat() / 255f, color.blue.toFloat() / 255f, 1f)
