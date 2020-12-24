@@ -7,10 +7,10 @@ import java.awt.Color
 import java.io.File
 
 object VigilancePalette : Vigilant(File("./config/vigilance.toml")) {
-    @Property(PropertyType.COLOR, "Divider", "Color Scheme")
+    @Property(PropertyType.COLOR, "Bright Divider", "Color Scheme")
     var BRIGHT_DIVIDER = Color(151, 151, 151)
 
-    @Property(PropertyType.COLOR, "Dark Divider", "Color Scheme")
+    @Property(PropertyType.COLOR, "Divider", "Color Scheme")
     var DIVIDER = Color(80, 80, 80)
 
     @Property(PropertyType.COLOR, "Dark Divider", "Color Scheme")
