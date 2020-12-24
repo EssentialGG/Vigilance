@@ -385,5 +385,21 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         registerListener(::colorWithAlpha) {
             UChat.chat("colorWithAlpha listener activated! New color: $it")
         }
+
+        setCategoryDescription(
+            "Property Overview",
+            "This category is a quick overview of all of the components. For a deep-dive into the component, check their specific subcategories."
+        )
+
+        setCategoryDescription(
+            "Property Deep-Dive",
+            "This category will go in depth into every component, and show off some of the customization options available in Vigilance. It contains a subcategory for every single property type available."
+        )
+
+        setSubcategoryDescription(
+            "Property Deep-Dive",
+            "Buttons",
+            "Buttons are a great way for the user to run an action. Buttons don't have any associated state, and as such their annotation target has to be a method."
+        )
     }
 }

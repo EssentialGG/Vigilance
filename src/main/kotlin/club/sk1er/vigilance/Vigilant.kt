@@ -16,10 +16,6 @@ abstract class Vigilant @JvmOverloads constructor(
     file: File,
     private val propertyCollector: PropertyCollector = JVMAnnotationPropertyCollector()
 ) {
-    init {
-        propertyCollector.initialize(this)
-    }
-
     /*
     TODO: Fix this in production
     private val miscData = (this::class as KClass<Vigilant>).memberProperties
@@ -28,7 +24,12 @@ abstract class Vigilant @JvmOverloads constructor(
     */
 
     private val fileConfig = FileConfig.of(file)
+    private val categoryDescription = mutableMapOf<String, CategoryDescription>()
     private var dirty = false
+
+    init {
+        propertyCollector.initialize(this)
+    }
 
     fun initialize() {
         Vigilance.initialize()
@@ -75,11 +76,29 @@ abstract class Vigilant @JvmOverloads constructor(
             .action = { obj -> listener.accept(obj as T) }
     }
 
+    fun setCategoryDescription(category: String, description: String) {
+        val current = categoryDescription[category]
+        if (current != null) {
+            current.description = description
+        } else {
+            categoryDescription[category] = CategoryDescription(description)
+        }
+    }
+
+    fun setSubcategoryDescription(category: String, subcategory: String, description: String) {
+        val current = categoryDescription[category]
+        if (current != null) {
+            current.subcategoryDescriptions[subcategory] = description
+        } else {
+            categoryDescription[category] = CategoryDescription(null, mutableMapOf(subcategory to description))
+        }
+    }
+
     fun getCategories(): List<Category> {
         return propertyCollector.getProperties()
             .filter { !it.property.hidden }
             .groupBy { it.property.category }
-            .map { Category(it.key, it.value.splitBySubcategory()) }
+            .map { Category(it.key, it.value.splitBySubcategory(), categoryDescription[it.key]?.description) }
     }
 
     fun getCategoryFromSearch(term: String): Category {
@@ -91,7 +110,7 @@ abstract class Vigilant @JvmOverloads constructor(
                     .contains(term, ignoreCase = true))
             }
 
-        return Category("", sorted.splitBySubcategory())
+        return Category("", sorted.splitBySubcategory(), null)
     }
 
     fun markDirty() {
@@ -164,7 +183,8 @@ abstract class Vigilant @JvmOverloads constructor(
         for (item in sorted) {
             if (item.data.property.subcategory != currentSubcategory) {
                 currentSubcategory = item.data.property.subcategory
-                withSubcategory.add(DividerItem(currentSubcategory))
+                val subcategoryInfo = categoryDescription[item.data.property.category]?.subcategoryDescriptions?.get(currentSubcategory)
+                withSubcategory.add(DividerItem(currentSubcategory, subcategoryInfo))
             }
             withSubcategory.add(item)
         }
@@ -179,6 +199,11 @@ abstract class Vigilant @JvmOverloads constructor(
     //             dirty = true
     //         }
     //     }
+
+    data class CategoryDescription(
+        var description: String?,
+        val subcategoryDescriptions: MutableMap<String, String> = mutableMapOf()
+    )
 
     /**
      * Property DSL
