@@ -1,7 +1,6 @@
 package club.sk1er.vigilance.gui.settings
 
 import club.sk1er.elementa.UIComponent
-import club.sk1er.elementa.components.SVGComponent
 import club.sk1er.elementa.components.UIContainer
 import club.sk1er.elementa.components.UIImage
 import club.sk1er.elementa.components.input.UITextInput
@@ -10,10 +9,13 @@ import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.elementa.effects.ScissorEffect
+import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.VigilancePalette
 import java.awt.Color
 
-class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingComponent() {
+class ColorComponent(propertyData: PropertyData) : SettingComponent(propertyData) {
+    private val initialColor = propertyData.getValue<Color>()
+    private val allowAlpha = propertyData.attributes.allowAlpha
     private var active = false
 
     private val currentColorHex = UITextInput().constrain {
@@ -37,7 +39,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         height = 5.pixels()
     }
 
-    private val colorPicker = ColorPicker(initial, allowAlpha).constrain {
+    private val colorPicker = ColorPicker(initialColor, allowAlpha).constrain {
         x = CenterConstraint()
         y = 22.pixels()
         width = RelativeConstraint(0.9f)
@@ -81,7 +83,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
             }
         }
 
-        currentColorHex.setText(getColorString(initial))
+        currentColorHex.setText(getColorString(initialColor))
 
         currentColorHex.onMouseClick { event ->
             if (!active) return@onMouseClick
@@ -132,6 +134,14 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         colorPicker.onMouseClick { event ->
             event.stopPropagation()
         }
+    }
+
+    override fun externalSetValue(newValue: Any?) {
+        if (newValue !is Color)
+            throw IllegalArgumentException("ColorComponent externalSetValue expected a Color type, found ${newValue?.javaClass?.simpleName}")
+        val hsb = Color.RGBtoHSB(newValue.red, newValue.green, newValue.blue, null)
+        colorPicker.setHSB(hsb[0], hsb[1], hsb[2])
+        currentColorHex.setText(getColorString(newValue))
     }
 
     override fun closePopups() {

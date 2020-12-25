@@ -3,11 +3,15 @@ package club.sk1er.vigilance.gui.settings
 import club.sk1er.elementa.components.UIText
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.dsl.*
-import club.sk1er.vigilance.gui.SettingsGui
+import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.VigilancePalette
 import kotlin.math.roundToInt
 
-class SliderComponent(initialValue: Int, min: Int, max: Int) : SettingComponent() {
+class SliderComponent(propertyData: PropertyData) : SettingComponent(propertyData) {
+    private val initialValue = propertyData.getValue<Int>()
+    private val min = propertyData.attributes.min
+    private val max = propertyData.attributes.max
+
     private val minText = UIText(min.toString()).constrain {
         y = CenterConstraint()
         color = VigilancePalette.MID_TEXT.asConstraint()
@@ -42,5 +46,13 @@ class SliderComponent(initialValue: Int, min: Int, max: Int) : SettingComponent(
             changeValue(newValue)
             currentValueText.setText(newValue.toString())
         }
+    }
+
+    override fun externalSetValue(newValue: Any?) {
+        if (newValue !is Int)
+            throw IllegalArgumentException("SliderComponent externalSetValue expected an Int type, found ${newValue?.javaClass?.simpleName}")
+        val newPercentage = (newValue.toFloat() - min) / (max - min)
+        slider.setCurrentPercentage(newPercentage)
+        currentValueText.setText(newValue.toString())
     }
 }

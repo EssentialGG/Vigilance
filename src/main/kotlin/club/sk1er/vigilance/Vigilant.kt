@@ -49,8 +49,18 @@ abstract class Vigilant @JvmOverloads constructor(
 
     fun gui() = SettingsGui(this)
 
+    fun <T> setPropertyValue(property: KProperty<T>, value: T) {
+        setPropertyValue(property.javaField!!, value)
+    }
+
+    fun <T> setPropertyValue(field: Field, value: T) {
+        val property = propertyCollector.getProperties()
+            .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field == field }!!
+            .setValue(value)
+    }
+
     fun registerProperty(prop: PropertyData) {
-        val fullPath = prop.property.fullPropertyPath()
+        val fullPath = prop.attributes.fullPropertyPath()
 
         val oldValue: Any? = fileConfig.get(fullPath) ?: prop.getAsAny()
 
@@ -64,15 +74,13 @@ abstract class Vigilant @JvmOverloads constructor(
     }
 
     fun <T> registerListener(field: Field, listener: Consumer<T>) {
-        propertyCollector
-            .getProperties()
+        propertyCollector.getProperties()
             .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field == field }!!
             .action = { obj -> listener.accept(obj as T) }
     }
 
     fun <T> registerListener(propertyName: String, listener: Consumer<T>) {
-        propertyCollector.getProperties()
-            .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field.name == propertyName }!!
+        propertyCollector.getProperties().firstOrNull { it.value is FieldBackedPropertyValue && it.value.field.name == propertyName }!!
             .action = { obj -> listener.accept(obj as T) }
     }
 
@@ -96,17 +104,17 @@ abstract class Vigilant @JvmOverloads constructor(
 
     fun getCategories(): List<Category> {
         return propertyCollector.getProperties()
-            .filter { !it.property.hidden }
-            .groupBy { it.property.category }
+            .filter { !it.attributes.hidden }
+            .groupBy { it.attributes.category }
             .map { Category(it.key, it.value.splitBySubcategory(), categoryDescription[it.key]?.description) }
     }
 
     fun getCategoryFromSearch(term: String): Category {
         val sorted = propertyCollector
             .getProperties()
-            .sortedBy { it.property.subcategory }
+            .sortedBy { it.attributes.subcategory }
             .filter {
-                !it.property.hidden && (it.property.name.contains(term, ignoreCase = true) || it.property.description
+                !it.attributes.hidden && (it.attributes.name.contains(term, ignoreCase = true) || it.attributes.description
                     .contains(term, ignoreCase = true))
             }
 
@@ -123,11 +131,11 @@ abstract class Vigilant @JvmOverloads constructor(
         fileConfig.load()
 
         propertyCollector.getProperties().filter { it.value.writeDataToFile }.forEach {
-            val fullPath = it.property.fullPropertyPath()
+            val fullPath = it.attributes.fullPropertyPath()
 
             var oldValue: Any? = fileConfig.get(fullPath)
 
-            if (it.property.type == PropertyType.COLOR) {
+            if (it.attributes.type == PropertyType.COLOR) {
                 oldValue = if (oldValue is String) {
                     val split = oldValue.split(",").map(String::toInt)
                     if (split.size == 4) Color(split[1], split[2], split[3], split[0]) else null
@@ -152,7 +160,7 @@ abstract class Vigilant @JvmOverloads constructor(
         if (!dirty) return
 
         propertyCollector.getProperties().filter { it.value.writeDataToFile }.forEach {
-            val fullPath = it.property.fullPropertyPath()
+            val fullPath = it.attributes.fullPropertyPath()
 
             var toSet = it.getAsAny()
 
@@ -176,14 +184,14 @@ abstract class Vigilant @JvmOverloads constructor(
     }
 
     private fun List<PropertyData>.splitBySubcategory(): List<CategoryItem> {
-        val sorted = this.sortedBy { it.property.subcategory }.map { PropertyItem(it) }
+        val sorted = this.sortedBy { it.attributes.subcategory }.map { PropertyItem(it) }
         val withSubcategory = mutableListOf<CategoryItem>()
 
         var currentSubcategory = ""
         for (item in sorted) {
-            if (item.data.property.subcategory != currentSubcategory) {
-                currentSubcategory = item.data.property.subcategory
-                val subcategoryInfo = categoryDescription[item.data.property.category]?.subcategoryDescriptions?.get(currentSubcategory)
+            if (item.data.attributes.subcategory != currentSubcategory) {
+                currentSubcategory = item.data.attributes.subcategory
+                val subcategoryInfo = categoryDescription[item.data.attributes.category]?.subcategoryDescriptions?.get(currentSubcategory)
                 withSubcategory.add(DividerItem(currentSubcategory, subcategoryInfo))
             }
             withSubcategory.add(item)

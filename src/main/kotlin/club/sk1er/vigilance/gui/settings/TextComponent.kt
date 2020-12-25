@@ -7,10 +7,13 @@ import club.sk1er.elementa.components.input.UITextInput
 import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
+import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.VigilancePalette
 import java.awt.Color
 
-class TextComponent(private val initial: String, placeholder: String, wrap: Boolean) : SettingComponent() {
+class TextComponent(propertyData: PropertyData, wrap: Boolean) : SettingComponent(propertyData) {
+    private val placeholder = propertyData.attributes.placeholder
+
     private val textHolder = UIBlock(VigilancePalette.DARK_HIGHLIGHT).constrain {
         width = ChildBasedSizeConstraint() + 6.pixels()
         height = ChildBasedSizeConstraint() + 6.pixels()
@@ -53,11 +56,17 @@ class TextComponent(private val initial: String, placeholder: String, wrap: Bool
         }
     }
 
+    override fun externalSetValue(newValue: Any?) {
+        if (newValue !is String)
+            throw IllegalArgumentException("TextComponent externalSetValue expected a String type, found ${newValue?.javaClass?.simpleName}")
+        textInput.setText(newValue)
+    }
+
     override fun animationFrame() {
         super.animationFrame()
 
         if (!hasSetInitialText) {
-            textInput.setText(initial)
+            textInput.setText(propertyData.getValue())
             hasSetInitialText = true
         }
     }

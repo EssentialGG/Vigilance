@@ -11,11 +11,14 @@ import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
 import club.sk1er.elementa.constraints.SiblingConstraint
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
+import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.VigilancePalette
 import java.awt.Color
 
-class NumberComponent(initialValue: Int, private val min: Int, private val  max: Int) : SettingComponent() {
-    private var value = initialValue
+class NumberComponent(propertyData: PropertyData) : SettingComponent(propertyData) {
+    private val min = propertyData.attributes.min
+    private val max = propertyData.attributes.max
+    private var value = propertyData.getValue<Int>()
 
     private val valueText = UIText(value.toString()).constrain {
         y = CenterConstraint()
@@ -77,6 +80,13 @@ class NumberComponent(initialValue: Int, private val min: Int, private val  max:
         }.onMouseRelease {
             releaseControl(this)
         }
+    }
+
+    override fun externalSetValue(newValue: Any?) {
+        if (newValue !is Int)
+            throw IllegalArgumentException("NumberComponent externalSetValue expected an Int type, found ${newValue?.javaClass?.simpleName}")
+        value = newValue
+        valueText.setText(newValue.toString())
     }
 
     private fun clickControl(control: UIComponent) {

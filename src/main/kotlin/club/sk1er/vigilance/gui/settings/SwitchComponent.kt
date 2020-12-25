@@ -5,11 +5,12 @@ import club.sk1er.elementa.constraints.RelativeConstraint
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
+import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.SettingsGui
 import club.sk1er.vigilance.gui.VigilancePalette
 
-class SwitchComponent(initialState: Boolean) : SettingComponent() {
-    private var enabled = initialState
+class SwitchComponent(propertyData: PropertyData) : SettingComponent(propertyData) {
+    private var enabled = propertyData.getValue<Boolean>()
 
     private val switchBox = UIBlock(getSwitchColor()).constrain {
         x = getSwitchPosition()
@@ -26,16 +27,26 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
         effect(getOutlineEffect())
 
         onMouseClick {
-            enabled = !enabled
-            changeValue(enabled)
+            changeValue(!enabled)
+            setEnabled(!enabled)
+        }
+    }
 
-            removeEffect<OutlineEffect>()
-            enableEffect(getOutlineEffect())
+    override fun externalSetValue(newValue: Any?) {
+        if (newValue !is Boolean)
+            throw IllegalArgumentException("SwitchComponent externalSetValue expected a Boolean type, found ${newValue?.javaClass?.simpleName}")
+        setEnabled(newValue)
+    }
 
-            switchBox.setColor(getSwitchColor().asConstraint())
-            switchBox.animate {
-                setXAnimation(Animations.OUT_EXP, 0.5f, getSwitchPosition())
-            }
+    private fun setEnabled(enabled: Boolean) {
+        this.enabled = enabled
+
+        removeEffect<OutlineEffect>()
+        enableEffect(getOutlineEffect())
+
+        switchBox.setColor(getSwitchColor().asConstraint())
+        switchBox.animate {
+            setXAnimation(Animations.OUT_EXP, 0.5f, getSwitchPosition())
         }
     }
 
