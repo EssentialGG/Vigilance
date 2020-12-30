@@ -29,7 +29,7 @@ enum class PropertyType {
         override fun isFieldValid(field: Field) = field.type == Int::class.java
     },
     BUTTON {
-        override fun isFieldValid(field: Field) = true
+        override fun isFieldValid(field: Field) = false
     };
 
     abstract fun isFieldValid(field: Field): Boolean

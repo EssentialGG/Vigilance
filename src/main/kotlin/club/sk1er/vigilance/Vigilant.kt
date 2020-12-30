@@ -1,5 +1,6 @@
 package club.sk1er.vigilance
 
+import club.sk1er.mods.core.universal.UChat
 import club.sk1er.vigilance.data.*
 import club.sk1er.vigilance.gui.SettingsGui
 import com.electronwill.nightconfig.core.file.FileConfig
@@ -26,9 +27,15 @@ abstract class Vigilant @JvmOverloads constructor(
     private val fileConfig = FileConfig.of(file)
     private val categoryDescription = mutableMapOf<String, CategoryDescription>()
     private var dirty = false
+    private var hasError = false
 
     init {
-        propertyCollector.initialize(this)
+        try {
+            propertyCollector.initialize(this)
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            hasError = true
+        }
     }
 
     fun initialize() {
@@ -47,15 +54,22 @@ abstract class Vigilant @JvmOverloads constructor(
         Runtime.getRuntime().addShutdownHook(Thread { writeData() })
     }
 
-    fun gui() = SettingsGui(this)
+    fun gui(): SettingsGui? {
+        return if (hasError) {
+            UChat.chat("&c[Vigilance] Error while creating config screen; check your logs for more information")
+            null
+        } else SettingsGui(this)
+    }
 
     fun <T> setPropertyValue(property: KProperty<T>, value: T) {
         setPropertyValue(property.javaField!!, value)
     }
 
     fun <T> setPropertyValue(field: Field, value: T) {
-        val property = propertyCollector.getProperties()
-            .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field == field }!!
+        if (hasError) return
+        
+        propertyCollector.getProperties()
+            .first { it.value is FieldBackedPropertyValue && it.value.field == field }
             .setValue(value)
     }
 
@@ -73,14 +87,20 @@ abstract class Vigilant @JvmOverloads constructor(
         registerListener<T>(property.javaField!!, Consumer { listener(it) })
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun <T> registerListener(field: Field, listener: Consumer<T>) {
+        if (hasError) return
+
         propertyCollector.getProperties()
-            .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field == field }!!
+            .first { it.value is FieldBackedPropertyValue && it.value.field == field }
             .action = { obj -> listener.accept(obj as T) }
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun <T> registerListener(propertyName: String, listener: Consumer<T>) {
-        propertyCollector.getProperties().firstOrNull { it.value is FieldBackedPropertyValue && it.value.field.name == propertyName }!!
+        if (hasError) return
+
+        propertyCollector.getProperties().first { it.value is FieldBackedPropertyValue && it.value.field.name == propertyName }
             .action = { obj -> listener.accept(obj as T) }
     }
 
