@@ -5,10 +5,9 @@ import club.sk1er.elementa.constraints.CenterConstraint
 import club.sk1er.elementa.dsl.constrain
 import club.sk1er.elementa.dsl.pixels
 import club.sk1er.elementa.svg.SVGParser
-import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.DataBackedSetting
 
-abstract class SettingComponent(protected val propertyData: PropertyData) : UIContainer() {
+abstract class SettingComponent : UIContainer() {
     private var onValueChange: (Any?) -> Unit = {}
     private var lastValue: Any? = null
 
@@ -23,25 +22,14 @@ abstract class SettingComponent(protected val propertyData: PropertyData) : UICo
         this.onValueChange = listener
     }
 
-    fun changeValue(newValue: Any?) {
+    fun changeValue(newValue: Any?, callListener: Boolean = true) {
         if (newValue != lastValue) {
             lastValue = newValue
             this.onValueChange(newValue)
         }
     }
 
-    abstract fun externalSetValue(newValue: Any?)
-
     open fun closePopups() { }
-
-    override fun draw() {
-        if (propertyData.dirty) {
-            propertyData.dirty = false
-            externalSetValue(propertyData.getAsAny())
-        }
-
-        super.draw()
-    }
 
     companion object {
         const val DOWN_ARROW_PNG = "/vigilance/arrow-down.png"

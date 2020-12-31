@@ -4,13 +4,13 @@ import club.sk1er.vigilance.Vigilant
 import java.lang.reflect.Field
 import java.lang.reflect.Method
 import java.util.function.Consumer
+import kotlin.reflect.KFunction
 import kotlin.reflect.KMutableProperty0
 
-data class PropertyData(val attributes: PropertyAttributes, val value: PropertyValue, val instance: Vigilant) {
+data class PropertyData(val property: PropertyAttributes, val value: PropertyValue, val instance: Vigilant) {
     var action: ((Any?) -> Unit)? = null
-    var dirty = false
 
-    fun getDataType() = attributes.type
+    fun getDataType() = property.type
 
     inline fun <reified T> getValue(): T {
         return value.getValue(instance) as T
@@ -24,14 +24,13 @@ data class PropertyData(val attributes: PropertyAttributes, val value: PropertyV
 
     fun setValue(value: Any?) {
         if (value == null) {
-            println("null value assigned to property ${attributes.name}, but Vigilance does not support null values")
+            println("null value assigned to property ${property.name}, but Vigilance does not support null values")
             return
         }
 
-        if (attributes.triggerActionOnInitialization || this.value.initialized)
+        if (property.triggerActionOnInitialization || this.value.initialized)
             action?.invoke(value)
 
-        dirty = true
         this.value.initialized = true
         this.value.setValue(value, instance)
 

@@ -6,14 +6,10 @@ import club.sk1er.elementa.constraints.ChildBasedMaxSizeConstraint
 import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
 import club.sk1er.elementa.constraints.SiblingConstraint
 import club.sk1er.elementa.dsl.*
-import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.SettingsGui
 import club.sk1er.vigilance.gui.VigilancePalette
-import java.awt.Color
 
-class PercentSliderComponent(propertyData: PropertyData) : SettingComponent(propertyData) {
-    val initialValue = propertyData.getValue<Float>()
-
+class PercentSliderComponent(initialValue: Float) : SettingComponent() {
     private val percentageText = UIText(getFormattedPercent(initialValue)).constrain {
         y = CenterConstraint()
         color = VigilancePalette.MID_TEXT.asConstraint()
@@ -35,13 +31,6 @@ class PercentSliderComponent(propertyData: PropertyData) : SettingComponent(prop
             changeValue(newPercentage)
             percentageText.setText(getFormattedPercent())
         }
-    }
-
-    override fun externalSetValue(newValue: Any?) {
-        if (newValue !is Float)
-            throw IllegalArgumentException("PercentSliderComponent externalSetValue expected a Float type, found ${newValue?.javaClass?.simpleName}")
-        slider.setCurrentPercentage(newValue)
-        percentageText.setText(getFormattedPercent())
     }
 
     private fun getFormattedPercent(value: Float? = null): String {

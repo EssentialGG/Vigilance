@@ -14,8 +14,8 @@ import club.sk1er.vigilance.gui.ExpandingClickEffect
 import club.sk1er.vigilance.gui.VigilancePalette
 import club.sk1er.vigilance.gui.withAlpha
 
-class ButtonComponent(propertyData: PropertyData) : SettingComponent(propertyData) {
-    private val buttonText = propertyData.attributes.placeholder.let {
+class ButtonComponent(private val data: PropertyData) : SettingComponent() {
+    private val buttonText = data.property.placeholder.let {
         if (it.isEmpty()) "Activate" else it
     }
 
@@ -68,13 +68,15 @@ class ButtonComponent(propertyData: PropertyData) : SettingComponent(propertyDat
                 setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.OUTLINE.asConstraint())
             }
         }.onMouseClick {
-            when (val value = propertyData.value) {
-                is MethodBackedPropertyValue -> value.method.invoke(propertyData.instance)
+            when (val value = data.value) {
+                is MethodBackedPropertyValue -> value.method.invoke(data.instance)
                 is KFunctionBackedPropertyValue -> value.kFunction()
                 else -> throw IllegalStateException()
             }
         }
     }
 
-    override fun externalSetValue(newValue: Any?) { }
+    override fun draw() {
+        super.draw()
+    }
 }
