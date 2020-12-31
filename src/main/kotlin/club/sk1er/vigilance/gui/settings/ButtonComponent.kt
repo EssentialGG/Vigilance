@@ -15,7 +15,7 @@ import club.sk1er.vigilance.gui.VigilancePalette
 import club.sk1er.vigilance.gui.withAlpha
 
 class ButtonComponent(private val data: PropertyData) : SettingComponent() {
-    private val buttonText = data.property.placeholder.let {
+    private val buttonText = data.attributes.placeholder.let {
         if (it.isEmpty()) "Activate" else it
     }
 
