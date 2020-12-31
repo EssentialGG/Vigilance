@@ -27,6 +27,7 @@ class PropertyItem(val data: PropertyData) : CategoryItem() {
     override fun toSettingsObject(): Setting {
         val component = when (data.getDataType()) {
             PropertyType.SWITCH -> SwitchComponent(data.getAsBoolean())
+            PropertyType.CHECKBOX -> CheckboxComponent(data.getAsBoolean())
             PropertyType.PERCENT_SLIDER -> PercentSliderComponent(data.getValue())
             PropertyType.SLIDER -> SliderComponent(data.getValue(), data.attributes.min, data.attributes.max)
             PropertyType.NUMBER -> NumberComponent(data.getValue(), data.attributes.min, data.attributes.max)

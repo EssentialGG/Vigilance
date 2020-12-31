@@ -11,6 +11,7 @@ import java.io.File
  * The same configuration as the ExampleConfig, but using the property DSL.
  */
 object ExampleConfigDSL : Vigilant(File("./config/example.toml")) {
+    var demoCheckbox = false
     var demoSwitch = false
     var demoText = ""
     var demoParagraph = ""
@@ -56,6 +57,7 @@ object ExampleConfigDSL : Vigilant(File("./config/example.toml")) {
     
     init {
         category("Property Overview") {
+            checkbox(::demoCheckbox, "Checkbox", "This is a checkbox property. It stores a boolean value.")
             switch(::demoSwitch, "Switch", "This is a switch property. It stores a boolean value.")
             text(::demoText, "Text", "This is a text property. It stores a single line of continuous text.")
             paragraph(::demoParagraph, "Paragraph")

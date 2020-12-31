@@ -7,6 +7,9 @@ enum class PropertyType {
     SWITCH {
         override fun isFieldValid(field: Field) = field.type == Boolean::class.java
     },
+    CHECKBOX {
+        override fun isFieldValid(field: Field) = field.type == Boolean::class.java
+    },
     TEXT {
         override fun isFieldValid(field: Field) = field.type == String::class.java
     },

@@ -312,6 +312,25 @@ abstract class Vigilant @JvmOverloads constructor(
             )
         }
 
+        fun checkbox(
+            field: KMutableProperty0<Boolean>,
+            name: String = field.name,
+            description: String = "",
+            triggerActionOnInitialization: Boolean = true,
+            hidden: Boolean = false,
+            action: ((Boolean) -> Unit)? = null
+        ) {
+            property(
+                field,
+                PropertyType.CHECKBOX,
+                name,
+                description,
+                triggerActionOnInitialization = triggerActionOnInitialization,
+                hidden = hidden,
+                action = action
+            )
+        }
+
         fun switch(
             field: KMutableProperty0<Boolean>,
             name: String = field.name,

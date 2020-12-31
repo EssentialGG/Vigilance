@@ -16,6 +16,14 @@ import java.io.File
  */
 object ExampleConfig : Vigilant(File("./config/example.toml")) {
     @Property(
+        type = PropertyType.CHECKBOX,
+        name = "Checkbox",
+        description = "This is a checkbox property. It stores a boolean value.",
+        category = "Property Overview"
+    )
+    var demoCheckbox = true
+
+    @Property(
         type = PropertyType.SWITCH,
         name = "Switch",
         description = "This is a switch property. It stores a boolean value.",
