@@ -43,7 +43,7 @@ class DropDown(
 
     private val optionsHolder = UIContainer().constrain {
         x = 5.pixels()
-        y = SiblingConstraint().to(currentSelectionText) as YConstraint
+        y = SiblingConstraint() boundTo currentSelectionText
         width = ChildBasedMaxSizeConstraint()
         height = ChildBasedSizeConstraint(optionPadding) + optionPadding.pixels()
     } childOf this
@@ -65,7 +65,7 @@ class DropDown(
 
     init {
         constrain {
-            width = 22.pixels() + ChildBasedMaxSizeConstraint().to(optionsHolder)
+            width = 22.pixels() + ChildBasedMaxSizeConstraint() boundTo optionsHolder
             height = 20.pixels()
         }
 
@@ -125,7 +125,7 @@ class DropDown(
         }
 
         animate {
-            setHeightAnimation(Animations.IN_SIN, 0.35f, 20.pixels() + RelativeConstraint(1f).to(optionsHolder))
+            setHeightAnimation(Animations.IN_SIN, 0.35f, 20.pixels() + RelativeConstraint(1f) boundTo optionsHolder)
         }
 
         replaceChild(upArrow, downArrow)

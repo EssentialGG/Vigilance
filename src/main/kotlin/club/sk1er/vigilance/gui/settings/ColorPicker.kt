@@ -38,8 +38,8 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     } childOf this
 
     private val pickerIndicator = UIContainer().constrain {
-        x = (RelativeConstraint(currentSaturation) - 3.5f.pixels()).minMax(2.pixels(), 2.pixels(true))
-        y = (RelativeConstraint(1f - currentBrightness) - 3.5f.pixels()).minMax(2.pixels(), 2.pixels(true))
+        x = (RelativeConstraint(currentSaturation) - 3.5f.pixels()).coerceIn(2.pixels(), 2.pixels(true))
+        y = (RelativeConstraint(1f - currentBrightness) - 3.5f.pixels()).coerceIn(2.pixels(), 2.pixels(true))
         width = 3.pixels()
         height = 3.pixels()
     } effect OutlineEffect(Color.WHITE, 1f)
@@ -58,7 +58,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     }
 
     private val alphaSlider = Slider(currentAlpha).constrain {
-        x = CenterConstraint().to(bigPickerBox) as XConstraint
+        x = CenterConstraint() boundTo bigPickerBox
         y = SiblingConstraint(5f)
         width = RelativeConstraint(0.8f)
         height = FillConstraint()
@@ -66,7 +66,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
     private val alphaText = UIText(getFormattedAlpha()).constrain {
         x = RelativeConstraint(0.85f)
-        y = CenterConstraint().to(alphaSlider) as YConstraint
+        y = CenterConstraint() boundTo alphaSlider
         textScale = (2f / 3f).pixels()
         color = VigilancePalette.BRIGHT_TEXT.asConstraint()
     }
@@ -138,10 +138,10 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
     private fun updatePickerIndicator() {
         pickerIndicator.setX(
-            (RelativeConstraint(currentSaturation) - 2.5f.pixels()).minMax(2.pixels(), 2.pixels(true))
+            (RelativeConstraint(currentSaturation) - 2.5f.pixels()).coerceIn(2.pixels(), 2.pixels(true))
         )
         pickerIndicator.setY(
-            (RelativeConstraint(1f - currentBrightness) - 2.5f.pixels()).minMax(2.pixels(), 2.pixels(true))
+            (RelativeConstraint(1f - currentBrightness) - 2.5f.pixels()).coerceIn(2.pixels(), 2.pixels(true))
         )
 
         recalculateColor()

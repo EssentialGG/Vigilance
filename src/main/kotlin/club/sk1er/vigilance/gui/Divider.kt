@@ -38,7 +38,7 @@ class Divider(name: String, description: String?) : Setting() {
 
             val textContainer = UIContainer().constrain {
                 x = DataBackedSetting.INNER_PADDING.pixels()
-                y = SiblingConstraint(DataBackedSetting.INNER_PADDING).to(label) as YConstraint
+                y = SiblingConstraint(DataBackedSetting.INNER_PADDING) boundTo label
                 width = 100.percent() - (DataBackedSetting.INNER_PADDING * 2f).pixels()
                 height = ChildBasedMaxSizeConstraint()
             } childOf this

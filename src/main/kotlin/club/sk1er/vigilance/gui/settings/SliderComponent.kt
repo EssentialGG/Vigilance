@@ -26,7 +26,7 @@ class SliderComponent(initialValue: Int, min: Int, max: Int) : SettingComponent(
     } childOf this
 
     private val currentValueText = UIText(initialValue.toString()).constrain {
-        x = CenterConstraint().to(slider.grabBox) as XConstraint
+        x = CenterConstraint() boundTo slider.grabBox
         y = RelativeConstraint(1.5f)
         color = VigilancePalette.MID_TEXT.asConstraint()
     } childOf slider
