@@ -65,7 +65,7 @@ class DropDown(
 
     init {
         constrain {
-            width = 22.pixels() + ChildBasedMaxSizeConstraint() boundTo optionsHolder
+            width = 22.pixels() + ChildBasedMaxSizeConstraint().boundTo(optionsHolder)
             height = 20.pixels()
         }
 
