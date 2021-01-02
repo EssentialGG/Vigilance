@@ -125,7 +125,7 @@ class DropDown(
         }
 
         animate {
-            setHeightAnimation(Animations.IN_SIN, 0.35f, 20.pixels() + RelativeConstraint(1f) boundTo optionsHolder)
+            setHeightAnimation(Animations.IN_SIN, 0.35f, 20.pixels() + RelativeConstraint(1f).boundTo(optionsHolder))
         }
 
         replaceChild(upArrow, downArrow)

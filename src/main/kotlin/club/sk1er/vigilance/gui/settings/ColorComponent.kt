@@ -142,7 +142,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         active = true
 
         animate {
-            setHeightAnimation(Animations.IN_SIN, 0.35f, 25.pixels() + RelativeConstraint(1f) boundTo colorPicker)
+            setHeightAnimation(Animations.IN_SIN, 0.35f, 25.pixels() + RelativeConstraint(1f).boundTo(colorPicker))
         }
 
         replaceChild(upArrow, downArrow)
