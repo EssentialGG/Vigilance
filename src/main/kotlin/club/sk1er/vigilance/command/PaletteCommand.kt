@@ -6,31 +6,32 @@ import club.sk1er.vigilance.gui.VigilancePalette
 //#if MC<=11202
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
+
 //#if MC>=11202
-//$$ import net.minecraft.server.MinecraftServer
+import net.minecraft.server.MinecraftServer
 //#endif
 
 class PaletteCommand : CommandBase() {
     //#if MC<=10809
-    override fun getCommandName() = "vigilance"
-
-    override fun getCommandUsage(sender: ICommandSender?) = "/vigilance - opens Vigilance settings"
-
-    override fun getRequiredPermissionLevel() = 0
-
-    override fun processCommand(sender: ICommandSender?, args: Array<String>) {
-        Vigilance.gui = VigilancePalette.gui()
-    }
-    //#else
-    //$$ override fun getName() = "vigilance"
+    //$$ override fun getCommandName() = "vigilance"
     //$$
-    //$$ override fun getUsage(sender: ICommandSender) = "/vigilance - opens Vigilance settings"
+    //$$ override fun getCommandUsage(sender: ICommandSender?) = "/vigilance - opens Vigilance settings"
     //$$
     //$$ override fun getRequiredPermissionLevel() = 0
     //$$
-    //$$ override fun execute(server: MinecraftServer?, sender: ICommandSender, args: Array<String>) {
+    //$$ override fun processCommand(sender: ICommandSender?, args: Array<String>) {
     //$$     Vigilance.gui = VigilancePalette.gui()
     //$$ }
+    //#else
+    override fun getName() = "vigilance"
+
+    override fun getUsage(sender: ICommandSender) = "/vigilance - opens Vigilance settings"
+
+    override fun getRequiredPermissionLevel() = 0
+
+    override fun execute(server: MinecraftServer?, sender: ICommandSender, args: Array<String>) {
+        Vigilance.gui = VigilancePalette.gui()
+    }
     //#endif
 }
 //#else
