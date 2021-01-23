@@ -31,25 +31,25 @@ class DataBackedSetting(data: PropertyData, private val component: SettingCompon
     private val settingName = UIWrappedText(data.attributes.name).constrain {
         width = RelativeConstraint(1f)
         textScale = 1.5f.pixels()
-        color = VigilancePalette.BRIGHT_TEXT.asConstraint()
+        color = VigilancePalette.BRIGHT_TEXT.toConstraint()
     } childOf textBoundingBox
 
     private val settingDescription = UIWrappedText(data.attributes.description).constrain {
         y = SiblingConstraint() + 3.pixels()
         width = RelativeConstraint(1f)
-        color = VigilancePalette.MID_TEXT.asConstraint()
+        color = VigilancePalette.MID_TEXT.toConstraint()
     } childOf textBoundingBox
 
     init {
         onMouseEnter {
             settingName.animate {
-                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.ACCENT.asConstraint())
+                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.ACCENT.toConstraint())
             }
         }
 
         onMouseLeave {
             settingName.animate {
-                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.BRIGHT_TEXT.asConstraint())
+                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.BRIGHT_TEXT.toConstraint())
             }
         }
 

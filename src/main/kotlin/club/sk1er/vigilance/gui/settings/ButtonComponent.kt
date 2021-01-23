@@ -20,7 +20,7 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
     private val container = UIRoundedRectangle(2f).constrain {
         width = ChildBasedSizeConstraint() + 2.pixels()
         height = ChildBasedSizeConstraint() + 2.pixels()
-        color = VigilancePalette.OUTLINE.asConstraint()
+        color = VigilancePalette.OUTLINE.toConstraint()
     } childOf this
 
     private val contentContainer = UIRoundedRectangle(2f).constrain {
@@ -28,7 +28,7 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
         y = 1.pixel()
         width = ChildBasedSizeConstraint()
         height = ChildBasedSizeConstraint() + 10.pixels()
-        color = VigilancePalette.LIGHT_BACKGROUND.asConstraint()
+        color = VigilancePalette.LIGHT_BACKGROUND.toConstraint()
     } childOf container
 
     private val text = UIWrappedText(buttonText, trimText = true).constrain {
@@ -36,7 +36,7 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
         y = CenterConstraint()
         width = basicWidthConstraint { (buttonText.width(getTextScale()) + 20f).coerceAtMost(300f) }
         height = 9.pixels()
-        color = VigilancePalette.MID_TEXT.asConstraint()
+        color = VigilancePalette.MID_TEXT.toConstraint()
     } childOf contentContainer
 
     init {
@@ -59,11 +59,11 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
 
         container.onMouseEnter {
             container.animate {
-                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.ACCENT.asConstraint())
+                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.ACCENT.toConstraint())
             }
         }.onMouseLeave {
             container.animate {
-                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.OUTLINE.asConstraint())
+                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.OUTLINE.toConstraint())
             }
         }.onMouseClick { callback() }
     }

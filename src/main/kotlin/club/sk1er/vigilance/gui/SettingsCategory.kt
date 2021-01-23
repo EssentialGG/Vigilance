@@ -48,7 +48,7 @@ class SettingsCategory(category: Category) : UIContainer() {
                 x = CenterConstraint()
                 y = SiblingConstraint() + 3.pixels()
                 width = 70.percent()
-                color = VigilancePalette.MID_TEXT.asConstraint()
+                color = VigilancePalette.MID_TEXT.toConstraint()
             } childOf textContainer
         }
 

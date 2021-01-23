@@ -19,7 +19,7 @@ class CheckboxComponent(initialValue: Boolean) : SettingComponent() {
         y = CenterConstraint()
         width = 16.pixels()
         height = 12.pixels()
-        color = getSettingColor().asConstraint()
+        color = getSettingColor().toConstraint()
     } childOf this
 
     init {

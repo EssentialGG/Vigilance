@@ -24,7 +24,7 @@ class DropDown(
     private val currentSelectionText = UIText(options[selected]).constrain {
         x = 5.pixels()
         y = 6.pixels()
-        color = VigilancePalette.MID_TEXT.asConstraint()
+        color = VigilancePalette.MID_TEXT.toConstraint()
     } childOf this
 
     private val downArrow = UIImage.ofResource(SettingComponent.DOWN_ARROW_PNG).constrain {
@@ -52,7 +52,7 @@ class DropDown(
         // TODO: Wrap this somehow
         UIText(option).constrain {
             y = SiblingConstraint() + optionPadding.pixels()
-            color = Color(0, 0, 0, 0).asConstraint()
+            color = Color(0, 0, 0, 0).toConstraint()
         }.onMouseEnter {
             hoverText(this)
         }.onMouseLeave {
@@ -121,7 +121,7 @@ class DropDown(
     private fun expand() {
         active = true
         mappedOptions.forEach {
-            it.setColor(VigilancePalette.MID_TEXT.asConstraint())
+            it.setColor(VigilancePalette.MID_TEXT.toConstraint())
         }
 
         animate {
@@ -141,7 +141,7 @@ class DropDown(
 
             onComplete {
                 mappedOptions.forEach {
-                    it.setColor(Color(0, 0, 0, 0).asConstraint())
+                    it.setColor(Color(0, 0, 0, 0).toConstraint())
                 }
             }
         }
@@ -152,13 +152,13 @@ class DropDown(
 
     private fun hoverText(text: UIComponent) {
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.BRIGHT_TEXT.asConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.BRIGHT_TEXT.toConstraint())
         }
     }
 
     private fun unHoverText(text: UIComponent) {
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.MID_TEXT.asConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.MID_TEXT.toConstraint())
         }
     }
 

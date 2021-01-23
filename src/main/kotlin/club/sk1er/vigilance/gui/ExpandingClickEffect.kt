@@ -57,7 +57,7 @@ class ExpandingClickEffect @JvmOverloads constructor(
             circle.constrain {
                 x = clickEvent.absoluteX.pixels()
                 y = clickEvent.absoluteY.pixels()
-                color = this@ExpandingClickEffect.color.asConstraint()
+                color = this@ExpandingClickEffect.color.toConstraint()
                 radius = 0.pixels()
             }
         }
@@ -89,7 +89,7 @@ class ExpandingClickEffect @JvmOverloads constructor(
                     radiusDelta = -1f
                     circle.hide(true)
                 } else {
-                    circle.setColor(currentColor.withAlpha(alpha).asConstraint())
+                    circle.setColor(currentColor.withAlpha(alpha).toConstraint())
                 }
             }
         }

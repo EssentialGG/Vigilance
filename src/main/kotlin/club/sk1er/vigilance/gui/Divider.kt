@@ -47,7 +47,7 @@ class Divider(name: String, description: String?) : Setting() {
                 x = CenterConstraint()
                 y = SiblingConstraint() + 3.pixels()
                 width = 70.percent()
-                color = VigilancePalette.MID_TEXT.asConstraint()
+                color = VigilancePalette.MID_TEXT.toConstraint()
             } childOf textContainer
         } else {
             constrain {

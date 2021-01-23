@@ -20,7 +20,7 @@ class NumberComponent(initialValue: Int, private val min: Int, private val  max:
     private val valueText = UIText(value.toString()).constrain {
         y = CenterConstraint()
         textScale = 1.5f.pixels()
-        color = VigilancePalette.ACCENT.asConstraint()
+        color = VigilancePalette.ACCENT.toConstraint()
     } childOf this
 
     private val controlContainer = UIContainer().constrain {

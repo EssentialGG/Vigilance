@@ -10,7 +10,7 @@ import kotlin.math.roundToInt
 class SliderComponent(initialValue: Int, min: Int, max: Int) : SettingComponent() {
     private val minText = UIText(min.toString()).constrain {
         y = CenterConstraint()
-        color = VigilancePalette.MID_TEXT.asConstraint()
+        color = VigilancePalette.MID_TEXT.toConstraint()
     } childOf this
 
     private val slider = Slider((initialValue.toFloat() - min) / (max - min)).constrain {
@@ -22,13 +22,13 @@ class SliderComponent(initialValue: Int, min: Int, max: Int) : SettingComponent(
     private val maxText = UIText(max.toString()).constrain {
         x = SiblingConstraint()
         y = CenterConstraint()
-        color = VigilancePalette.MID_TEXT.asConstraint()
+        color = VigilancePalette.MID_TEXT.toConstraint()
     } childOf this
 
     private val currentValueText = UIText(initialValue.toString()).constrain {
         x = CenterConstraint() boundTo slider.grabBox
         y = RelativeConstraint(1.5f)
-        color = VigilancePalette.MID_TEXT.asConstraint()
+        color = VigilancePalette.MID_TEXT.toConstraint()
     } childOf slider
 
     init {
