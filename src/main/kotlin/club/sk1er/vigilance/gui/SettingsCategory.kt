@@ -6,6 +6,7 @@ import club.sk1er.elementa.components.UIContainer
 import club.sk1er.elementa.components.UIWrappedText
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.dsl.*
+import club.sk1er.elementa.utils.withAlpha
 import club.sk1er.vigilance.data.Category
 
 class SettingsCategory(category: Category) : UIContainer() {

@@ -7,6 +7,7 @@ import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.Effect
 import club.sk1er.elementa.effects.ScissorEffect
 import club.sk1er.elementa.events.UIClickEvent
+import club.sk1er.elementa.utils.withAlpha
 import java.awt.Color
 import kotlin.math.max
 import kotlin.math.pow

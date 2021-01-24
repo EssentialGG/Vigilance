@@ -7,12 +7,12 @@ import club.sk1er.elementa.constraints.CenterConstraint
 import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
+import club.sk1er.elementa.utils.withAlpha
 import club.sk1er.vigilance.data.KFunctionBackedPropertyValue
 import club.sk1er.vigilance.data.MethodBackedPropertyValue
 import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.ExpandingClickEffect
 import club.sk1er.vigilance.gui.VigilancePalette
-import club.sk1er.vigilance.gui.withAlpha
 
 class ButtonComponent(placeholder: String? = null, private val callback: () -> Unit) : SettingComponent() {
     private val buttonText = placeholder ?: "Activate"
