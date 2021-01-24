@@ -3,12 +3,14 @@ package club.sk1er.vigilance.gui
 import club.sk1er.elementa.WindowScreen
 import club.sk1er.elementa.components.*
 import club.sk1er.elementa.components.input.UITextInput
+import club.sk1er.elementa.components.inspector.Inspector
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.ScissorEffect
 import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.Category
+import club.sk1er.vigilance.gui.modal.ConfirmationModal
 
 class SettingsGui(config: Vigilant) : WindowScreen() {
     private val background = UIBlock(VigilancePalette.BACKGROUND).constrain {
@@ -48,9 +50,36 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         width = 3.pixels()
     } childOf scrollContainer
 
-    private val searchBox = UIBlock(VigilancePalette.DARK_HIGHLIGHT).constrain {
+    private val resetBox = UIBlock(VigilancePalette.DARK_HIGHLIGHT).constrain {
         x = 5.pixels(true)
         y = 5.pixels()
+        width = 20.pixels()
+        height = 20.pixels()
+    } effect ScissorEffect() childOf window
+
+    private val resetIcon = UIImage.ofResource("/vigilance/trash.png").constrain {
+        x = 4.5.pixels()
+        y = CenterConstraint()
+        width = 15.pixels()
+        height = 15.pixels()
+        color = VigilancePalette.WARNING.toConstraint()
+    } childOf resetBox
+
+    private val resetTextContainer = UIContainer().constrain {
+        x = SiblingConstraint(4f)
+        y = CenterConstraint()
+        width = ChildBasedSizeConstraint()
+        height = 100.percent()
+    } childOf resetBox
+
+    private val resetText = UIText("Reset All Settings").constrain {
+        y = CenterConstraint()
+        color = VigilancePalette.WARNING.toConstraint()
+    } childOf resetTextContainer
+
+    private val searchBox = UIBlock(VigilancePalette.DARK_HIGHLIGHT).constrain {
+        x = 5.pixels(true)
+        y = SiblingConstraint(10f)
         width = 20.pixels()
         height = 20.pixels()
     } childOf window effect ScissorEffect()
@@ -126,6 +155,22 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
 
         window.onMouseClick {
             currentCategory.closePopups()
+        }
+
+        val resetConfirmationModal = ConfirmationModal("Are you sure you want to reset ALL settings?") {
+            // TODO: Reset settings
+        } childOf window
+
+        resetBox.onMouseClick {
+            resetConfirmationModal.fadeIn()
+        }.onMouseEnter {
+            resetBox.animate {
+                setWidthAnimation(Animations.OUT_EXP, 1f, ChildBasedSizeConstraint(4f) + 8.pixels())
+            }
+        }.onMouseLeave {
+            resetBox.animate {
+                setWidthAnimation(Animations.OUT_EXP, 1f, 20.pixels())
+            }
         }
 
         categoryScroller.setVerticalScrollBarComponent(categoryScrollBar, true)

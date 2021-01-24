@@ -46,7 +46,8 @@ open class Modal : UIBlock(VigilancePalette.MODAL_BACKGROUND.withAlpha(150)) {
             width = 100.percent() boundTo Window.of(this@Modal)
             height = 100.percent() boundTo Window.of(this@Modal)
         }
-        setFloating(true)
+
+        hide(instantly = true)
     }
 
     open fun fadeIn() {
