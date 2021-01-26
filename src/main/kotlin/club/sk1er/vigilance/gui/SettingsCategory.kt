@@ -6,6 +6,7 @@ import club.sk1er.elementa.components.UIContainer
 import club.sk1er.elementa.components.UIWrappedText
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.dsl.*
+import club.sk1er.elementa.state.toConstraint
 import club.sk1er.elementa.utils.withAlpha
 import club.sk1er.vigilance.data.Category
 
@@ -26,9 +27,10 @@ class SettingsCategory(category: Category) : UIContainer() {
         height = RelativeConstraint(1f) - 50.pixels()
     } childOf this
 
-    private val scrollBar = UIBlock(VigilancePalette.SCROLL_BAR).constrain {
+    private val scrollBar = UIBlock().constrain {
         x = SiblingConstraint() + 2.pixels()
         width = 3.pixels()
+        color = VigilancePalette.scrollBlockState.toConstraint()
     } childOf this
 
     init {
@@ -49,7 +51,7 @@ class SettingsCategory(category: Category) : UIContainer() {
                 x = CenterConstraint()
                 y = SiblingConstraint() + 3.pixels()
                 width = 70.percent()
-                color = VigilancePalette.MID_TEXT.toConstraint()
+                color = VigilancePalette.midTextState.toConstraint()
             } childOf textContainer
         }
 

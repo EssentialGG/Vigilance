@@ -7,16 +7,17 @@ import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.elementa.effects.ScissorEffect
+import club.sk1er.elementa.state.toConstraint
 import club.sk1er.vigilance.gui.VigilancePalette
 import java.awt.Color
 
 class DropDown(
     initialSelection: Int,
     private val options: List<String>,
-    backgroundColor: Color = VigilancePalette.DARK_HIGHLIGHT,
-    outlineEffect: OutlineEffect? = OutlineEffect(VigilancePalette.DIVIDER, 0.5f),
+    //backgroundColor: Color = VigilancePalette.DARK_HIGHLIGHT,
+    outlineEffect: OutlineEffect? = OutlineEffect(VigilancePalette.DIVIDER, 0.5f).bindColor(VigilancePalette.dividerState),
     optionPadding: Float = 6f
-) : UIBlock(backgroundColor) {
+) : UIBlock() {
     private var selected = initialSelection
     private var onValueChange: (Int) -> Unit = { }
     private var active = false
@@ -24,7 +25,7 @@ class DropDown(
     private val currentSelectionText = UIText(options[selected]).constrain {
         x = 5.pixels()
         y = 6.pixels()
-        color = VigilancePalette.MID_TEXT.toConstraint()
+        color = VigilancePalette.midTextState.toConstraint()
     } childOf this
 
     private val downArrow = UIImage.ofResource(SettingComponent.DOWN_ARROW_PNG).constrain {
@@ -67,6 +68,7 @@ class DropDown(
         constrain {
             width = 22.pixels() + ChildBasedMaxSizeConstraint().boundTo(optionsHolder)
             height = 20.pixels()
+            color = VigilancePalette.darkHighlightState.toConstraint()
         }
 
         readdOptionComponents()
@@ -121,7 +123,7 @@ class DropDown(
     private fun expand() {
         active = true
         mappedOptions.forEach {
-            it.setColor(VigilancePalette.MID_TEXT.toConstraint())
+            it.setColor(VigilancePalette.midTextState.toConstraint())
         }
 
         animate {
@@ -152,13 +154,13 @@ class DropDown(
 
     private fun hoverText(text: UIComponent) {
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.BRIGHT_TEXT.toConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.brightTextState.toConstraint())
         }
     }
 
     private fun unHoverText(text: UIComponent) {
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.MID_TEXT.toConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.midTextState.toConstraint())
         }
     }
 

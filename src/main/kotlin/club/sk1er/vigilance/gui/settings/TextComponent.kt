@@ -7,14 +7,16 @@ import club.sk1er.elementa.components.input.UITextInput
 import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
+import club.sk1er.elementa.state.toConstraint
 import club.sk1er.vigilance.gui.VigilancePalette
 import java.awt.Color
 
 class TextComponent(private val initial: String, placeholder: String, wrap: Boolean) : SettingComponent() {
-    private val textHolder = UIBlock(VigilancePalette.DARK_HIGHLIGHT).constrain {
+    private val textHolder = UIBlock().constrain {
         width = ChildBasedSizeConstraint() + 6.pixels()
         height = ChildBasedSizeConstraint() + 6.pixels()
-    } childOf this effect OutlineEffect(VigilancePalette.DIVIDER, 0.5f)
+        color = VigilancePalette.darkHighlightState.toConstraint()
+    } childOf this effect OutlineEffect(VigilancePalette.DIVIDER, 0.5f).bindColor(VigilancePalette.dividerState)
 
     private val textInput: AbstractTextInput = if (wrap) {
         UIMultilineTextInput(placeholder).constrain {

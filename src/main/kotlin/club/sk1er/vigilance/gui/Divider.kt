@@ -7,6 +7,7 @@ import club.sk1er.elementa.components.UIWrappedText
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
+import club.sk1er.elementa.state.toConstraint
 import club.sk1er.vigilance.Vigilant
 import java.awt.Color
 
@@ -47,7 +48,7 @@ class Divider(name: String, description: String?) : Setting() {
                 x = CenterConstraint()
                 y = SiblingConstraint() + 3.pixels()
                 width = 70.percent()
-                color = VigilancePalette.MID_TEXT.toConstraint()
+                color = VigilancePalette.midTextState.toConstraint()
             } childOf textContainer
         } else {
             constrain {

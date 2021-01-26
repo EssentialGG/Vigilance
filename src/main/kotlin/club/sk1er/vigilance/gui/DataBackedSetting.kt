@@ -7,16 +7,18 @@ import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
+import club.sk1er.elementa.state.toConstraint
 import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.settings.SettingComponent
 
 class DataBackedSetting(data: PropertyData, private val component: SettingComponent) : Setting() {
-    protected val boundingBox = UIBlock(VigilancePalette.DARK_HIGHLIGHT).constrain {
+    private val boundingBox = UIBlock().constrain {
         x = 1.pixels()
         y = 1.pixels()
         width = RelativeConstraint(1f) - 10.pixels()
         height = ChildBasedMaxSizeConstraint() + INNER_PADDING.pixels()
-    } childOf this effect OutlineEffect(VigilancePalette.DIVIDER, 1f)
+        color = VigilancePalette.darkHighlightState.toConstraint()
+    } childOf this effect OutlineEffect(VigilancePalette.DIVIDER, 1f).bindColor(VigilancePalette.dividerState)
 
     private val textBoundingBox = UIContainer().constrain {
         x = INNER_PADDING.pixels()
@@ -31,25 +33,25 @@ class DataBackedSetting(data: PropertyData, private val component: SettingCompon
     private val settingName = UIWrappedText(data.attributes.name).constrain {
         width = RelativeConstraint(1f)
         textScale = 1.5f.pixels()
-        color = VigilancePalette.BRIGHT_TEXT.toConstraint()
+        color = VigilancePalette.brightTextState.toConstraint()
     } childOf textBoundingBox
 
     private val settingDescription = UIWrappedText(data.attributes.description).constrain {
         y = SiblingConstraint() + 3.pixels()
         width = RelativeConstraint(1f)
-        color = VigilancePalette.MID_TEXT.toConstraint()
+        color = VigilancePalette.midTextState.toConstraint()
     } childOf textBoundingBox
 
     init {
         onMouseEnter {
             settingName.animate {
-                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.ACCENT.toConstraint())
+                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.accentState.toConstraint())
             }
         }
 
         onMouseLeave {
             settingName.animate {
-                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.BRIGHT_TEXT.toConstraint())
+                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.brightTextState.toConstraint())
             }
         }
 

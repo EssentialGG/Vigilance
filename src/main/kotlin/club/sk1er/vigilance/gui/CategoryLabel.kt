@@ -7,12 +7,13 @@ import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
 import club.sk1er.elementa.constraints.SiblingConstraint
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
+import club.sk1er.elementa.state.toConstraint
 import club.sk1er.vigilance.data.Category
 import java.awt.Color
 
 class CategoryLabel(private val gui: SettingsGui, private val category: Category) : UIContainer() {
     private val text = UIText(category.name).constrain {
-        color = VigilancePalette.MID_TEXT.toConstraint()
+        color = VigilancePalette.midTextState.toConstraint()
         textScale = 1.pixels()
     } childOf this
 
@@ -34,7 +35,7 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
         onMouseEnter {
             if (!isSelected) {
                 text.animate {
-                    setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.ACCENT.toConstraint())
+                    setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.accentState.toConstraint())
                 }
             }
         }
@@ -42,7 +43,7 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
         onMouseLeave {
             if (!isSelected) {
                 text.animate {
-                    setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.MID_TEXT.toConstraint())
+                    setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.midTextState.toConstraint())
                 }
             }
         }
@@ -53,14 +54,14 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
 
         isSelected = true
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.ACCENT.toConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.accentState.toConstraint())
         }
     }
 
     fun deselect() {
         isSelected = false
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.MID_TEXT.toConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.midTextState.toConstraint())
         }
     }
 }

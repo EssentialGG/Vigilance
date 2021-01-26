@@ -8,6 +8,7 @@ import club.sk1er.elementa.components.UIText
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
+import club.sk1er.elementa.state.toConstraint
 import club.sk1er.mods.core.universal.UGraphics
 import club.sk1er.vigilance.gui.VigilancePalette
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
@@ -32,9 +33,10 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     private var draggingHue = false
     private var draggingPicker = false
 
-    private val bigPickerBox = UIBlock(VigilancePalette.DIVIDER).constrain {
+    private val bigPickerBox = UIBlock().constrain {
         width = RelativeConstraint(0.8f)
         height = RelativeConstraint(if (allowAlpha) 0.8f else 1f)
+        color = VigilancePalette.dividerState.toConstraint()
     } childOf this
 
     private val pickerIndicator = UIContainer().constrain {
@@ -44,10 +46,11 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         height = 3.pixels()
     } effect OutlineEffect(Color.WHITE, 1f)
 
-    private val huePickerLine = UIBlock(VigilancePalette.DIVIDER).constrain {
+    private val huePickerLine = UIBlock().constrain {
         x = RelativeConstraint(0.85f)
         width = FillConstraint()
         height = RelativeConstraint(if (allowAlpha) 0.8f else 1f)
+        color = VigilancePalette.dividerState.toConstraint()
     } childOf this
 
     private val hueIndicator = SVGComponent.ofResource("/vigilance/chevron-left.svg").constrain {
@@ -68,7 +71,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         x = RelativeConstraint(0.85f)
         y = CenterConstraint() boundTo alphaSlider
         textScale = (2f / 3f).pixels()
-        color = VigilancePalette.BRIGHT_TEXT.toConstraint()
+        color = VigilancePalette.brightTextState.toConstraint()
     }
 
     init {

@@ -7,13 +7,15 @@ import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.ScissorEffect
+import club.sk1er.elementa.state.toConstraint
 import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.Category
 
 class SettingsGui(config: Vigilant) : WindowScreen() {
-    private val background = UIBlock(VigilancePalette.BACKGROUND).constrain {
+    private val background = UIBlock().constrain {
         width = RelativeConstraint(1f)
         height = RelativeConstraint(1f)
+        color = VigilancePalette.backgroundState.toConstraint()
     } childOf window
 
     private val outerContainer = UIContainer().constrain {
@@ -43,16 +45,18 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         height = RelativeConstraint(1f)
     } childOf scrollContainer
 
-    private val categoryScrollBar = UIBlock(VigilancePalette.SCROLL_BAR).constrain {
+    private val categoryScrollBar = UIBlock().constrain {
         x = 7.5f.pixels(true)
         width = 3.pixels()
+        color = VigilancePalette.scrollBlockState.toConstraint()
     } childOf scrollContainer
 
-    private val searchBox = UIBlock(VigilancePalette.DARK_HIGHLIGHT).constrain {
+    private val searchBox = UIBlock().constrain {
         x = 5.pixels(true)
         y = 5.pixels()
         width = 20.pixels()
         height = 20.pixels()
+        color = VigilancePalette.darkHighlightState.toConstraint()
     } childOf window effect ScissorEffect()
 
     private val searchIcon = UIImage.ofResource("/vigilance/search.png").constrain {

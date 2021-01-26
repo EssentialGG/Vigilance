@@ -5,6 +5,7 @@ import club.sk1er.elementa.components.UIContainer
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
+import club.sk1er.elementa.state.toConstraint
 import club.sk1er.vigilance.gui.VigilancePalette
 import java.awt.Color
 
@@ -23,20 +24,22 @@ class Slider(initialValue: Float) : UIContainer() {
             this@Slider.getWidth() - 2f - this@Slider.getHeight() * 1.5f
         }
         height = RelativeConstraint(0.5f)
-    } childOf this effect OutlineEffect(VigilancePalette.BRIGHT_DIVIDER, 0.5f)
+    } childOf this effect OutlineEffect(VigilancePalette.BRIGHT_DIVIDER, 0.5f).bindColor(VigilancePalette.brightDividerState)
 
-    private val completionBox = UIBlock(VigilancePalette.ACCENT).constrain {
+    private val completionBox = UIBlock().constrain {
         x = (-0.5f).pixels()
         y = (-0.5f).pixels()
         width = RelativeConstraint(percentage)
         height = RelativeConstraint(1f) + 1.pixels()
+        color = VigilancePalette.accentState.toConstraint()
     } childOf outerBox
 
-    val grabBox = UIBlock(VigilancePalette.ACCENT).constrain {
+    val grabBox = UIBlock().constrain {
         x = basicXConstraint { completionBox.getRight() - it.getWidth() / 2f }
         y = CenterConstraint() boundTo outerBox
         width = AspectConstraint(1f)
         height = 100.percent()
+        color = VigilancePalette.accentState.toConstraint()
     } childOf this effect OutlineEffect(Color.BLACK, 0.5f)
 
     init {

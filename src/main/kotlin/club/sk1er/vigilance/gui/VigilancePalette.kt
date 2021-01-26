@@ -1,5 +1,6 @@
 package club.sk1er.vigilance.gui
 
+import club.sk1er.elementa.state.BasicState
 import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.Property
 import club.sk1er.vigilance.data.PropertyType
@@ -69,5 +70,28 @@ object VigilancePalette : Vigilant(File("./config/vigilance.toml")) {
 
     init {
         initialize()
+
+        registerListener(::BRIGHT_DIVIDER) { brightDividerState.set(it) }
+        registerListener(::DIVIDER) { dividerState.set(it) }
+        registerListener(::OUTLINE) { accentState.set(it) }
+        registerListener(::SCROLL_BAR) { scrollBlockState.set(it) }
+        registerListener(::DARK_HIGHLIGHT) { darkHighlightState.set(it) }
+        registerListener(::LIGHT_BACKGROUND) { lightBackgroundState.set(it) }
+        registerListener(::ACCENT) { accentState.set(it) }
+        registerListener(::BRIGHT_TEXT) { accentState.set(it) }
+        registerListener(::MID_TEXT) { accentState.set(it) }
+        registerListener(::BACKGROUND) { backgroundState.set(it) }
     }
+
+    // these are marked as internal because ideally the user is only changing the colours in the settings gui
+    internal val brightDividerState = BasicState(BRIGHT_DIVIDER)
+    internal val dividerState = BasicState(DIVIDER)
+    internal val outlineState = BasicState(OUTLINE)
+    internal val scrollBlockState = BasicState(SCROLL_BAR)
+    internal val darkHighlightState = BasicState(DARK_HIGHLIGHT)
+    internal val lightBackgroundState = BasicState(LIGHT_BACKGROUND)
+    internal val backgroundState = BasicState(BACKGROUND)
+    internal val brightTextState = BasicState(BRIGHT_TEXT)
+    internal val midTextState = BasicState(MID_TEXT)
+    internal val accentState = BasicState(ACCENT)
 }

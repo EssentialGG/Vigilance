@@ -3,6 +3,7 @@ package club.sk1er.vigilance.gui.settings
 import club.sk1er.elementa.components.UIText
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.dsl.*
+import club.sk1er.elementa.state.toConstraint
 import club.sk1er.vigilance.gui.SettingsGui
 import club.sk1er.vigilance.gui.VigilancePalette
 import kotlin.math.roundToInt
@@ -10,7 +11,7 @@ import kotlin.math.roundToInt
 class SliderComponent(initialValue: Int, min: Int, max: Int) : SettingComponent() {
     private val minText = UIText(min.toString()).constrain {
         y = CenterConstraint()
-        color = VigilancePalette.MID_TEXT.toConstraint()
+        color = VigilancePalette.midTextState.toConstraint()
     } childOf this
 
     private val slider = Slider((initialValue.toFloat() - min) / (max - min)).constrain {
@@ -22,13 +23,13 @@ class SliderComponent(initialValue: Int, min: Int, max: Int) : SettingComponent(
     private val maxText = UIText(max.toString()).constrain {
         x = SiblingConstraint()
         y = CenterConstraint()
-        color = VigilancePalette.MID_TEXT.toConstraint()
+        color = VigilancePalette.midTextState.toConstraint()
     } childOf this
 
     private val currentValueText = UIText(initialValue.toString()).constrain {
         x = CenterConstraint() boundTo slider.grabBox
         y = RelativeConstraint(1.5f)
-        color = VigilancePalette.MID_TEXT.toConstraint()
+        color = VigilancePalette.midTextState.toConstraint()
     } childOf slider
 
     init {

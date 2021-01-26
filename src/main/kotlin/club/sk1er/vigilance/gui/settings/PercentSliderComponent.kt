@@ -6,13 +6,14 @@ import club.sk1er.elementa.constraints.ChildBasedMaxSizeConstraint
 import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
 import club.sk1er.elementa.constraints.SiblingConstraint
 import club.sk1er.elementa.dsl.*
+import club.sk1er.elementa.state.toConstraint
 import club.sk1er.vigilance.gui.SettingsGui
 import club.sk1er.vigilance.gui.VigilancePalette
 
 class PercentSliderComponent(initialValue: Float) : SettingComponent() {
     private val percentageText = UIText(getFormattedPercent(initialValue)).constrain {
         y = CenterConstraint()
-        color = VigilancePalette.MID_TEXT.toConstraint()
+        color = VigilancePalette.midTextState.toConstraint()
     } childOf this
 
     private val slider = Slider(initialValue).constrain {

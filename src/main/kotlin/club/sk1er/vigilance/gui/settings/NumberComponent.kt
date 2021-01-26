@@ -11,6 +11,7 @@ import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
 import club.sk1er.elementa.constraints.SiblingConstraint
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
+import club.sk1er.elementa.state.toConstraint
 import club.sk1er.vigilance.gui.VigilancePalette
 import java.awt.Color
 
@@ -20,7 +21,7 @@ class NumberComponent(initialValue: Int, private val min: Int, private val  max:
     private val valueText = UIText(value.toString()).constrain {
         y = CenterConstraint()
         textScale = 1.5f.pixels()
-        color = VigilancePalette.ACCENT.toConstraint()
+        color = VigilancePalette.accentState.toConstraint()
     } childOf this
 
     private val controlContainer = UIContainer().constrain {

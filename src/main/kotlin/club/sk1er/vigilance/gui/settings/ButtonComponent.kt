@@ -7,6 +7,7 @@ import club.sk1er.elementa.constraints.CenterConstraint
 import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
+import club.sk1er.elementa.state.toConstraint
 import club.sk1er.elementa.utils.withAlpha
 import club.sk1er.vigilance.data.KFunctionBackedPropertyValue
 import club.sk1er.vigilance.data.MethodBackedPropertyValue
@@ -20,7 +21,7 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
     private val container = UIRoundedRectangle(2f).constrain {
         width = ChildBasedSizeConstraint() + 2.pixels()
         height = ChildBasedSizeConstraint() + 2.pixels()
-        color = VigilancePalette.OUTLINE.toConstraint()
+        color = VigilancePalette.outlineState.toConstraint()
     } childOf this
 
     private val contentContainer = UIRoundedRectangle(2f).constrain {
@@ -28,7 +29,7 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
         y = 1.pixel()
         width = ChildBasedSizeConstraint()
         height = ChildBasedSizeConstraint() + 10.pixels()
-        color = VigilancePalette.LIGHT_BACKGROUND.toConstraint()
+        color = VigilancePalette.lightBackgroundState.toConstraint()
     } childOf container
 
     private val text = UIWrappedText(buttonText, trimText = true).constrain {
@@ -36,7 +37,7 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
         y = CenterConstraint()
         width = basicWidthConstraint { (buttonText.width(getTextScale()) + 20f).coerceAtMost(300f) }
         height = 9.pixels()
-        color = VigilancePalette.MID_TEXT.toConstraint()
+        color = VigilancePalette.midTextState.toConstraint()
     } childOf contentContainer
 
     init {
@@ -59,11 +60,11 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
 
         container.onMouseEnter {
             container.animate {
-                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.ACCENT.toConstraint())
+                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.accentState.toConstraint())
             }
         }.onMouseLeave {
             container.animate {
-                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.OUTLINE.toConstraint())
+                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.outlineState.toConstraint())
             }
         }.onMouseClick { callback() }
     }
