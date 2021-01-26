@@ -17,6 +17,7 @@ object ExampleConfigDSL : Vigilant(File("./config/example.toml")) {
     var demoParagraph = ""
     var demoPercentSlider = 0f
     var demoSlider = 0
+    var demoDecimalSlider = 0f
     var demoNumber = 0
     var demoColor: Color = Color.WHITE
     var demoSelector = 0
@@ -72,6 +73,14 @@ object ExampleConfigDSL : Vigilant(File("./config/example.toml")) {
                 "This is a slider property. It stores an integer between a defined minimum and maximum integer.",
                 min = 0,
                 max = 10
+            )
+            decimalSlider(
+                ::demoDecimalSlider,
+                "Decimal Slider",
+                "This is a decimal slider property. It stores a floating point number between a defined minimum and maximum.",
+                0f,
+                12f,
+                2
             )
             number(
                 ::demoNumber,

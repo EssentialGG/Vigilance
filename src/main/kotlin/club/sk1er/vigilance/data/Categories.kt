@@ -30,6 +30,12 @@ class PropertyItem(val data: PropertyData) : CategoryItem() {
             PropertyType.CHECKBOX -> CheckboxComponent(data.getAsBoolean())
             PropertyType.PERCENT_SLIDER -> PercentSliderComponent(data.getValue())
             PropertyType.SLIDER -> SliderComponent(data.getValue(), data.attributes.min, data.attributes.max)
+            PropertyType.DECIMAL_SLIDER -> DecimalSliderComponent(
+                data.getValue(),
+                data.attributes.minF,
+                data.attributes.maxF,
+                data.attributes.decimalPlaces
+            )
             PropertyType.NUMBER -> NumberComponent(data.getValue(), data.attributes.min, data.attributes.max)
             PropertyType.SELECTOR -> SelectorComponent(data.getValue(), data.attributes.options.toList())
             PropertyType.COLOR -> ColorComponent(data.getValue(), data.attributes.allowAlpha)

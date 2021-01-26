@@ -4,10 +4,11 @@ package club.sk1er.vigilance.example
 
 import club.sk1er.mods.core.universal.UChat
 import club.sk1er.vigilance.Vigilant
-import club.sk1er.vigilance.data.Property
-import club.sk1er.vigilance.data.PropertyType
+import club.sk1er.vigilance.data.*
+import club.sk1er.vigilance.data.IntRange
 import java.awt.Color
 import java.io.File
+import kotlin.math.PI
 
 /**
  * An example configuration which gives an overview of all property types,
@@ -54,6 +55,17 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         category = "Property Overview"
     )
     var demoPercentSlider = 0f
+
+    @Property(
+        type = PropertyType.DECIMAL_SLIDER,
+        name = "Decimal Slider",
+        description = "This is a decimal slider property. It stores a floating point number between a defined minimum and maximum.",
+        category = "Property Overview",
+        minF = 0f,
+        maxF = 12f,
+        decimalPlaces = 2
+    )
+    var decimalSlider = 1f
 
     @Property(
         type = PropertyType.SLIDER,
@@ -246,6 +258,30 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         max = 1_000_000
     )
     var hugeSlider = 0
+
+    @Property(
+        type = PropertyType.DECIMAL_SLIDER,
+        name = "Decimal Slider with small range",
+        description = "A decimal slider property with a small range (0 to 1)",
+        category = "Property Deep-Dive",
+        subcategory = "Decimal Sliders",
+        minF = 0f,
+        maxF = 1f,
+        decimalPlaces = 3
+    )
+    var smallRangeDecimalSlider = .5f
+
+    @Property(
+        type = PropertyType.DECIMAL_SLIDER,
+        name = "Decimal Slider with many decimal places",
+        description = "A decimal slider property with ten decimal places. Note that the value is a floating point number so it will get trimmed.",
+        category = "Property Deep-Dive",
+        subcategory = "Decimal Sliders",
+        minF = 1f,
+        maxF = 5f,
+        decimalPlaces = 10
+    )
+    var tenDecimalPlacesSlider = PI.toFloat()
 
     @Property(
         type = PropertyType.NUMBER,

@@ -249,6 +249,9 @@ abstract class Vigilant @JvmOverloads constructor(
             description: String = "",
             min: Int = 0,
             max: Int = 0,
+            minF: Float = 0f,
+            maxF: Float = 0f,
+            decimalPlaces: Int = 1,
             options: List<String> = listOf(),
             allowAlpha: Boolean = true,
             placeholder: String = "",
@@ -265,6 +268,9 @@ abstract class Vigilant @JvmOverloads constructor(
                     description,
                     min,
                     max,
+                    minF,
+                    maxF,
+                    decimalPlaces,
                     options,
                     allowAlpha,
                     placeholder,
@@ -289,6 +295,9 @@ abstract class Vigilant @JvmOverloads constructor(
             description: String = "",
             min: Int = 0,
             max: Int = 0,
+            minF: Float = 0f,
+            maxF: Float = 0f,
+            decimalPlaces: Int = 1,
             options: List<String> = listOf(),
             allowAlpha: Boolean = true,
             placeholder: String = "",
@@ -303,6 +312,9 @@ abstract class Vigilant @JvmOverloads constructor(
                 description,
                 min,
                 max,
+                minF,
+                maxF,
+                decimalPlaces,
                 options,
                 allowAlpha,
                 placeholder,
@@ -428,6 +440,31 @@ abstract class Vigilant @JvmOverloads constructor(
                 description,
                 min,
                 max,
+                triggerActionOnInitialization = triggerActionOnInitialization,
+                hidden = hidden,
+                action = action
+            )
+        }
+
+        fun decimalSlider(
+            field: KMutableProperty0<Float>,
+            name: String = field.name,
+            description: String = "",
+            min: Float = 0f,
+            max: Float = 0f,
+            decimalPlaces: Int = 1,
+            triggerActionOnInitialization: Boolean = true,
+            hidden: Boolean = false,
+            action: ((Float) -> Unit)? = null
+        ) {
+            property(
+                field,
+                PropertyType.DECIMAL_SLIDER,
+                name,
+                description,
+                minF = min,
+                maxF = max,
+                decimalPlaces = decimalPlaces,
                 triggerActionOnInitialization = triggerActionOnInitialization,
                 hidden = hidden,
                 action = action

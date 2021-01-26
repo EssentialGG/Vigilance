@@ -18,6 +18,21 @@ annotation class Property(
      * Reserved for [PropertyType.SLIDER] and [PropertyType.NUMBER]
      */
     val max: Int = 0,
+
+    /**
+     * Reserved for [PropertyType.DECIMAL_SLIDER]
+     */
+    val minF: Float = 0f,
+    /**
+     * Reserved for [PropertyType.DECIMAL_SLIDER]
+     */
+    val maxF: Float = 0f,
+
+    /**
+     * Reserved for [PropertyType.DECIMAL_SLIDER]
+     */
+    val decimalPlaces: Int = 1,
+
     /**
      * Reserved for [PropertyType.SELECTOR]
      */
@@ -55,6 +70,18 @@ data class PropertyAttributes(
      */
     val max: Int = 0,
     /**
+     * Reserved for [PropertyType.DECIMAL_SLIDER]
+     */
+    val minF: Float = 0f,
+    /**
+     * Reserved for [PropertyType.DECIMAL_SLIDER]
+     */
+    val maxF: Float = 0f,
+    /**
+     * Reserved for [PropertyType.DECIMAL_SLIDER]
+     */
+    val decimalPlaces: Int = 1,
+    /**
      * Reserved for [PropertyType.SELECTOR]
      */
     val options: List<String> = listOf(),
@@ -85,6 +112,9 @@ data class PropertyAttributes(
                 property.description,
                 property.min,
                 property.max,
+                property.minF,
+                property.maxF,
+                property.decimalPlaces,
                 property.options.toList(),
                 property.allowAlpha,
                 property.placeholder,
@@ -94,6 +124,9 @@ data class PropertyAttributes(
         }
     }
 }
+
+annotation class IntRange(val min: Int = 0, val max: Int = 0)
+annotation class FloatRange(val min: Float = 0f, val max: Float = 0f)
 
 fun PropertyAttributes.fullPropertyPath(): String {
     val sb = StringBuilder()

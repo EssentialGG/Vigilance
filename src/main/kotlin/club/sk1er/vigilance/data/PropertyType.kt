@@ -22,6 +22,9 @@ enum class PropertyType {
     SLIDER {
         override fun isFieldValid(field: Field) = field.type == Int::class.java
     },
+    DECIMAL_SLIDER {
+        override fun isFieldValid(field: Field) = field.type == Float::class.java
+    },
     NUMBER {
         override fun isFieldValid(field: Field) = field.type == Int::class.java
     },
