@@ -9,6 +9,7 @@ import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.state.toConstraint
 import club.sk1er.elementa.utils.withAlpha
+import club.sk1er.vigilance.data.CallablePropertyValue
 import club.sk1er.vigilance.data.KFunctionBackedPropertyValue
 import club.sk1er.vigilance.data.MethodBackedPropertyValue
 import club.sk1er.vigilance.data.PropertyData
@@ -73,15 +74,11 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
 
     companion object {
         private fun callbackFromPropertyData(data: PropertyData): () -> Unit {
-            return when (val value = data.value) {
-                is MethodBackedPropertyValue -> {{
-                    value.method.invoke(data.instance)
-                }}
-                is KFunctionBackedPropertyValue -> {{
-                    value.kFunction()
-                }}
-                else -> throw IllegalStateException()
-            }
+            val value = data.value
+            if (value !is CallablePropertyValue)
+                throw IllegalStateException()
+
+            return { value.invoke(data.instance) }
         }
     }
 }

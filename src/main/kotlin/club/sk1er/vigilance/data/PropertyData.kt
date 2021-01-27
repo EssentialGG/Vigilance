@@ -118,18 +118,24 @@ class KPropertyBackedPropertyValue<T>(private val property: KMutableProperty0<T>
     }
 }
 
-class MethodBackedPropertyValue(val method: Method) : PropertyValue() {
+abstract class CallablePropertyValue : PropertyValue() {
     override val writeDataToFile = false
 
     override fun getValue(instance: Vigilant): Nothing = throw IllegalStateException()
 
     override fun setValue(value: Any?, instance: Vigilant): Nothing = throw IllegalStateException()
+
+    abstract operator fun invoke(instance: Vigilant)
 }
 
-class KFunctionBackedPropertyValue(val kFunction: () -> Unit) : PropertyValue() {
-    override val writeDataToFile = false
+class MethodBackedPropertyValue(private val method: Method) : CallablePropertyValue() {
+    override fun invoke(instance: Vigilant) {
+        method.invoke(instance)
+    }
+}
 
-    override fun getValue(instance: Vigilant): Nothing = throw IllegalStateException()
-
-    override fun setValue(value: Any?, instance: Vigilant): Nothing = throw IllegalStateException()
+class KFunctionBackedPropertyValue(private val kFunction: () -> Unit) : CallablePropertyValue() {
+    override fun invoke(instance: Vigilant) {
+        kFunction()
+    }
 }
