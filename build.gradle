@@ -30,7 +30,6 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.17"
         if (fabric) {
@@ -63,7 +62,6 @@ if (FABRIC) {
     apply plugin: 'net.minecraftforge.gradle.forge'
 }
 
-apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'kotlin'
 apply plugin: 'maven-publish'
 apply plugin: 'com.replaymod.preprocess'
@@ -244,26 +242,6 @@ processResources {
     }
 }
 
-tasks.removeByName('shadowJar') // we want to base our shadowed jar on the reobfJar output, not the sourceSet output
-task shadowJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
-    from { (FABRIC ? tasks.remapJar : tasks.jar).archiveFile.get() }
-    dependsOn { FABRIC ? tasks.remapJar : (mcVersion >= 10800 ? tasks.reobfJar : tasks.reobf) }
-
-    manifest.inheritFrom tasks.jar.manifest
-
-    exclude 'META-INF/INDEX.LIST', 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'module-info.class'
-
-    exclude('com/example/examplemod/**')
-    exclude("META-INF/mods.toml")
-    exclude("mods.toml")
-    exclude("kotlin/**")
-
-    if (this.properties.getOrDefault("IS_CTJS", false)) {
-        relocate 'club.sk1er', 'club.sk1er.ctjs'
-    }
-}
-tasks.assemble.dependsOn tasks.shadowJar
-
 compileKotlin {
     kotlinOptions {
         jvmTarget = '1.8'
@@ -284,7 +262,13 @@ task wrapper(type: Wrapper) {
 }
 
 jar {
-    exclude('club/sk1er/vigilance/example/**')
+    exclude 'META-INF/INDEX.LIST', 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'module-info.class'
+
+    exclude('com/example/examplemod/**')
+    exclude("META-INF/mods.toml")
+    exclude("mods.toml")
+    exclude("kotlin/**")
+
     manifest {
         attributes(
             'FMLModType': 'LIBRARY'
