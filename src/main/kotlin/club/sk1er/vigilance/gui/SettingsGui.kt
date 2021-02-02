@@ -30,8 +30,9 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         height = RelativeConstraint(1f)
     } childOf outerContainer
 
-    private val titleLabel = UIText("Settings", shadow = false).constrain {
+    private val titleLabel = UIWrappedText(config.guiTitle, shadow = false).constrain {
         textScale = 2f.pixels()
+        width = 90.percent()
     } childOf sidebar
 
     private val scrollContainer = UIContainer().constrain {

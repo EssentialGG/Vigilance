@@ -5,7 +5,6 @@ package club.sk1er.vigilance.example
 import club.sk1er.mods.core.universal.UChat
 import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.*
-import club.sk1er.vigilance.data.IntRange
 import java.awt.Color
 import java.io.File
 import kotlin.math.PI

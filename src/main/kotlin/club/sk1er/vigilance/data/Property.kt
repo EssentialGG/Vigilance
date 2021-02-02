@@ -125,9 +125,6 @@ data class PropertyAttributes(
     }
 }
 
-annotation class IntRange(val min: Int = 0, val max: Int = 0)
-annotation class FloatRange(val min: Float = 0f, val max: Float = 0f)
-
 fun PropertyAttributes.fullPropertyPath(): String {
     val sb = StringBuilder()
 

@@ -7,7 +7,7 @@ import club.sk1er.vigilance.data.PropertyType
 import java.awt.Color
 import java.io.File
 
-object VigilancePalette : Vigilant(File("./config/vigilance.toml")) {
+object VigilancePalette : Vigilant(File("./config/vigilance.toml"), "Vigilance Palette") {
     @Property(PropertyType.COLOR, "Bright Divider", "Color Scheme")
     var BRIGHT_DIVIDER = Color(151, 151, 151)
 

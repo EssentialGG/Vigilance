@@ -15,6 +15,7 @@ import kotlin.reflect.jvm.javaField
 
 abstract class Vigilant @JvmOverloads constructor(
     file: File,
+    val guiTitle: String = "Settings",
     private val propertyCollector: PropertyCollector = JVMAnnotationPropertyCollector()
 ) {
     /*
