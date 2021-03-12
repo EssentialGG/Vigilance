@@ -8,6 +8,7 @@ import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.ScissorEffect
 import club.sk1er.elementa.state.toConstraint
+import club.sk1er.mods.core.universal.UKeyboard
 import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.Category
 
@@ -84,20 +85,26 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         y = CenterConstraint()
         width = 12.pixels()
         height = 12.pixels()
+        color = VigilancePalette.brightTextState.toConstraint()
     } childOf searchBox
 
     init {
-        window.onKeyType { typedChar, keyCode ->
-            if (typedChar.toInt() == 6)
-                searchInput.grabWindowFocus()
-            else
-                defaultKeyBehavior(typedChar, keyCode)
-        }
+        // this doesn't seem to work?
+        //window.onKeyType { typedChar, keyCode ->
+        //    if (typedChar.toInt() == 6)
+        //        searchInput.grabWindowFocus()
+        //    else
+        //        defaultKeyBehavior(typedChar, keyCode)
+        //}
 
         searchBox.onMouseClick { event ->
-            searchInput.grabWindowFocus()
-            searchBox.animate {
-                setWidthAnimation(Animations.OUT_EXP, 1f, ChildBasedSizeConstraint(4f) + 8.pixels())
+            if (event.mouseButton == 1 && searchInput.isActive()) {
+                hideSearch()
+            } else {
+                searchInput.grabWindowFocus()
+                searchBox.animate {
+                    setWidthAnimation(Animations.OUT_EXP, 1f, ChildBasedSizeConstraint(4f) + 8.pixels())
+                }
             }
             event.stopPropagation()
         }.onMouseEnter {
@@ -127,6 +134,14 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
             searchInput.setText("")
             searchInput.releaseWindowFocus()
             event.stopPropagation()
+        }.onMouseEnter {
+            animate {
+                setColorAnimation(Animations.OUT_EXP, .3f, VigilancePalette.warningState.toConstraint())
+            }
+        }.onMouseLeave {
+            animate {
+                setColorAnimation(Animations.OUT_EXP, .3f, VigilancePalette.brightTextState.toConstraint())
+            }
         }
 
         window.onMouseClick {
@@ -169,6 +184,14 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         }
 
         categoryScroller.allChildren.filterIsInstance<CategoryLabel>().first().select()
+    }
+
+    override fun onKeyPressed(keyCode: Int, typedChar: Char, modifiers: UKeyboard.Modifiers?) {
+        if (!searchInput.isActive() && keyCode != UKeyboard.KEY_ESCAPE) {
+            searchBox.mouseClick(searchBox.getLeft() + 2.0, searchBox.getTop() + 2.0, 0)
+            searchInput.setText("${searchInput.getText()}$typedChar")
+        }
+        super.onKeyPressed(keyCode, typedChar, modifiers)
     }
 
     fun selectCategory(category: Category) {

@@ -81,6 +81,7 @@ object VigilancePalette : Vigilant(File("./config/vigilance.toml"), "Vigilance P
         registerListener(::BRIGHT_TEXT) { accentState.set(it) }
         registerListener(::MID_TEXT) { accentState.set(it) }
         registerListener(::BACKGROUND) { backgroundState.set(it) }
+        registerListener(::WARNING) { warningState.set(it) }
     }
 
     // these are marked as internal because ideally the user is only changing the colours in the settings gui
@@ -94,4 +95,5 @@ object VigilancePalette : Vigilant(File("./config/vigilance.toml"), "Vigilance P
     internal val brightTextState = BasicState(BRIGHT_TEXT)
     internal val midTextState = BasicState(MID_TEXT)
     internal val accentState = BasicState(ACCENT)
+    internal val warningState = BasicState(WARNING)
 }
