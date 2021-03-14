@@ -184,14 +184,13 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         }
 
         categoryScroller.allChildren.filterIsInstance<CategoryLabel>().first().select()
-    }
 
-    override fun onKeyPressed(keyCode: Int, typedChar: Char, modifiers: UKeyboard.Modifiers?) {
-        if (!searchInput.isActive() && keyCode != UKeyboard.KEY_ESCAPE) {
-            searchBox.mouseClick(searchBox.getLeft() + 2.0, searchBox.getTop() + 2.0, 0)
-            searchInput.setText("${searchInput.getText()}$typedChar")
+        window.onKeyType { typedChar, keyCode ->
+            if (!searchInput.isActive() && keyCode != UKeyboard.KEY_ESCAPE) {
+                searchBox.mouseClick(searchBox.getLeft() + 2.0, searchBox.getTop() + 2.0, 0)
+                searchInput.setText("${searchInput.getText()}$typedChar")
+            }
         }
-        super.onKeyPressed(keyCode, typedChar, modifiers)
     }
 
     fun selectCategory(category: Category) {
