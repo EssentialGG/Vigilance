@@ -48,7 +48,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
     private val huePickerLine = UIBlock().constrain {
         x = RelativeConstraint(0.85f)
-        width = FillConstraint()
+        width = FillConstraint(false)
         height = RelativeConstraint(if (allowAlpha) 0.8f else 1f)
         color = VigilancePalette.dividerState.toConstraint()
     } childOf this
@@ -64,7 +64,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         x = CenterConstraint() boundTo bigPickerBox
         y = SiblingConstraint(5f)
         width = RelativeConstraint(0.8f)
-        height = FillConstraint()
+        height = FillConstraint(false)
     }
 
     private val alphaText = UIText(getFormattedAlpha()).constrain {
