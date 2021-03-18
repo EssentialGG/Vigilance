@@ -1,11 +1,14 @@
 package club.sk1er.vigilance.gui.settings
 
 import club.sk1er.elementa.components.UIText
-import club.sk1er.elementa.constraints.*
-import club.sk1er.elementa.dsl.*
+import club.sk1er.elementa.constraints.CenterConstraint
+import club.sk1er.elementa.constraints.RelativeConstraint
+import club.sk1er.elementa.constraints.SiblingConstraint
+import club.sk1er.elementa.dsl.boundTo
+import club.sk1er.elementa.dsl.childOf
+import club.sk1er.elementa.dsl.constrain
+import club.sk1er.elementa.dsl.pixels
 import club.sk1er.elementa.state.toConstraint
-import club.sk1er.mods.core.universal.UMouse
-import club.sk1er.vigilance.gui.SettingsGui
 import club.sk1er.vigilance.gui.VigilancePalette
 import kotlin.math.roundToInt
 
@@ -39,5 +42,7 @@ class SliderComponent(initialValue: Int, min: Int, max: Int) : AbstractSliderCom
             changeValue(newValue)
             currentValueText.setText(newValue.toString())
         }
+
+        sliderInit()
     }
 }

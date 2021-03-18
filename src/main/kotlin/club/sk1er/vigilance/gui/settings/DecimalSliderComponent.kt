@@ -47,5 +47,7 @@ class DecimalSliderComponent(
             changeValue(newValue.toFloat())
             currentValueText.setText(newValue)
         }
+
+        sliderInit()
     }
 }

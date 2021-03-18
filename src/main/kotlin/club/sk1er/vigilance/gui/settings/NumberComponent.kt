@@ -91,7 +91,6 @@ class NumberComponent(
 
     private fun clickControl(control: UIComponent) {
         changeOutlineColor(control, VigilancePalette.ACCENT)
-        println("$componentName: $inc")
 
         val flag = UKeyboard.isCtrlKeyDown()
         val change = if (control == incrementControl) {

@@ -27,6 +27,8 @@ class PercentSliderComponent(initialValue: Float) : AbstractSliderComponent() {
             changeValue(newPercentage)
             percentageText.setText(getFormattedPercent())
         }
+
+        sliderInit()
     }
 
     private fun getFormattedPercent(value: Float? = null): String {
