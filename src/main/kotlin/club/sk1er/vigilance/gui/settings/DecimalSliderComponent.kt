@@ -9,23 +9,31 @@ import club.sk1er.elementa.dsl.pixels
 import club.sk1er.elementa.state.toConstraint
 import club.sk1er.vigilance.gui.VigilancePalette
 
-class DecimalSliderComponent(initialValue: Float, min: Float, max: Float, decimalPlaces: Int = 1) : SettingComponent() {
-    private val minText = UIText(min.toString()).constrain {
-        y = CenterConstraint()
-        color = VigilancePalette.midTextState.toConstraint()
-    } childOf this
+class DecimalSliderComponent(
+    initialValue: Float,
+    min: Float,
+    max: Float, decimalPlaces: Int = 1
+) : AbstractSliderComponent() {
+    init {
+        UIText(min.toString()).constrain {
+            y = CenterConstraint()
+            color = VigilancePalette.midTextState.toConstraint()
+        } childOf this
+    }
 
-    private val slider = Slider((initialValue - min) / (max - min)).constrain {
+    override val slider = Slider((initialValue - min) / (max - min)).constrain {
         x = SiblingConstraint()
         width = 60.pixels()
         height = 12.pixels()
     } childOf this
 
-    private val maxText = UIText(max.toString()).constrain {
-        x = SiblingConstraint()
-        y = CenterConstraint()
-        color = VigilancePalette.midTextState.toConstraint()
-    } childOf this
+    init {
+        UIText(max.toString()).constrain {
+            x = SiblingConstraint()
+            y = CenterConstraint()
+            color = VigilancePalette.midTextState.toConstraint()
+        } childOf this
+    }
 
     private val currentValueText = UIText(initialValue.toString()).constrain {
         x = CenterConstraint() boundTo slider.grabBox
@@ -34,11 +42,6 @@ class DecimalSliderComponent(initialValue: Float, min: Float, max: Float, decima
     } childOf slider
 
     init {
-        constrain {
-            width = ChildBasedSizeConstraint()
-            height = ChildBasedMaxSizeConstraint()
-        }
-
         slider.onValueChange { newPercentage ->
             val newValue = "%.${decimalPlaces}f".format(min + (newPercentage * (max - min)))
             changeValue(newValue.toFloat())

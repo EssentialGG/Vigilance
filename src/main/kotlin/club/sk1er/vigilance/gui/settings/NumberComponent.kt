@@ -12,6 +12,8 @@ import club.sk1er.elementa.constraints.SiblingConstraint
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.elementa.state.toConstraint
+import club.sk1er.mods.core.universal.UKeyboard
+import club.sk1er.mods.core.universal.UMouse
 import club.sk1er.vigilance.gui.VigilancePalette
 import java.awt.Color
 
@@ -66,14 +68,12 @@ class NumberComponent(initialValue: Int, private val min: Int, private val  max:
         releaseControl(decrementControl)
 
         incrementControl.onMouseClick {
-            // TODO: Enabled increases by 5/10 when holding shift, etc.
             clickControl(this)
         }.onMouseRelease {
             releaseControl(this)
         }
 
         decrementControl.onMouseClick {
-            // TODO: Enabled increases by 5/10 when holding shift, etc.
             clickControl(this)
         }.onMouseRelease {
             releaseControl(this)
@@ -83,7 +83,7 @@ class NumberComponent(initialValue: Int, private val min: Int, private val  max:
     private fun clickControl(control: UIComponent) {
         changeOutlineColor(control, VigilancePalette.ACCENT)
 
-        val change = if (control == incrementControl) 1 else -1
+        val change = if (control == incrementControl) if (UKeyboard.isShiftKeyDown()) 5 else 1 else if (UKeyboard.isShiftKeyDown()) -5 else -1
         value = (value + change).coerceIn(min..max)
         valueText.setText(value.toString())
         changeValue(value)
@@ -110,6 +110,21 @@ class NumberComponent(initialValue: Int, private val min: Int, private val  max:
         control.removeEffect<OutlineEffect>()
         control.enableEffect(OutlineEffect(color, OUTLINE_WIDTH))
     }
+
+    private fun useControl(control: UIComponent, other: UIComponent, key: Int) {
+        clickControl(control)
+        releaseControl(other)
+        startTimer(100L) {
+            if (!UKeyboard.isKeyDown(key) || isControlDisabled(control)) {
+                releaseControl(control)
+            }
+            stopTimer(it)
+        }
+    }
+
+    fun increment(): Unit = useControl(incrementControl, decrementControl, UKeyboard.KEY_UP)
+
+    fun decrement(): Unit = useControl(decrementControl, incrementControl, UKeyboard.KEY_DOWN)
 
     companion object {
         private const val CONTROL_WIDTH = 11f

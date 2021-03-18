@@ -16,7 +16,7 @@ class SettingsCategory(category: Category) : UIContainer() {
         height = RelativeConstraint(1f)
     } childOf this
 
-    private val scroller = ScrollComponent(
+    internal val scroller = ScrollComponent(
         "No matching settings found :(",
         innerPadding = 4f,
         pixelsPerScroll = 25f,

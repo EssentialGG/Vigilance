@@ -11,7 +11,7 @@ import club.sk1er.elementa.state.toConstraint
 import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.settings.SettingComponent
 
-class DataBackedSetting(data: PropertyData, private val component: SettingComponent) : Setting() {
+class DataBackedSetting(data: PropertyData, internal val component: SettingComponent) : Setting() {
     private val boundingBox = UIBlock().constrain {
         x = 1.pixels()
         y = 1.pixels()

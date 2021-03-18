@@ -11,6 +11,7 @@ import club.sk1er.elementa.state.toConstraint
 import club.sk1er.mods.core.universal.UKeyboard
 import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.Category
+import club.sk1er.vigilance.gui.settings.*
 
 class SettingsGui(config: Vigilant) : WindowScreen() {
     private val background = UIBlock().constrain {
@@ -186,9 +187,28 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         categoryScroller.allChildren.filterIsInstance<CategoryLabel>().first().select()
 
         window.onKeyType { typedChar, keyCode ->
-            if (!searchInput.isActive() && keyCode != UKeyboard.KEY_ESCAPE) {
+            if (!searchInput.isActive() && typedChar.isLetterOrDigit()) {
                 searchBox.mouseClick(searchBox.getLeft() + 2.0, searchBox.getTop() + 2.0, 0)
                 searchInput.setText("${searchInput.getText()}$typedChar")
+                return@onKeyType
+            }
+
+            for (child in currentCategory.scroller.allChildren) {
+                if (child.isHovered() && child is DataBackedSetting) {
+                    when (child.component) {
+                        is AbstractSliderComponent -> if (keyCode == UKeyboard.KEY_LEFT) {
+                            child.component.incrementBy(-.05f)
+                        } else if (keyCode == UKeyboard.KEY_RIGHT) {
+                            child.component.incrementBy(.05f)
+                        }
+                        is NumberComponent -> if (keyCode == UKeyboard.KEY_UP) {
+                            child.component.increment()
+                        } else if (keyCode == UKeyboard.KEY_DOWN) {
+                            child.component.decrement()
+                        }
+                    }
+                    break
+                }
             }
         }
     }

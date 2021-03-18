@@ -4,17 +4,18 @@ import club.sk1er.elementa.components.UIText
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.state.toConstraint
+import club.sk1er.mods.core.universal.UMouse
 import club.sk1er.vigilance.gui.SettingsGui
 import club.sk1er.vigilance.gui.VigilancePalette
 import kotlin.math.roundToInt
 
-class SliderComponent(initialValue: Int, min: Int, max: Int) : SettingComponent() {
+class SliderComponent(initialValue: Int, min: Int, max: Int) : AbstractSliderComponent() {
     private val minText = UIText(min.toString()).constrain {
         y = CenterConstraint()
         color = VigilancePalette.midTextState.toConstraint()
     } childOf this
 
-    private val slider = Slider((initialValue.toFloat() - min) / (max - min)).constrain {
+    override val slider = Slider((initialValue.toFloat() - min) / (max - min)).constrain {
         x = SiblingConstraint()
         width = 60.pixels()
         height = 12.pixels()
@@ -33,11 +34,6 @@ class SliderComponent(initialValue: Int, min: Int, max: Int) : SettingComponent(
     } childOf slider
 
     init {
-        constrain {
-            width = ChildBasedSizeConstraint()
-            height = ChildBasedMaxSizeConstraint()
-        }
-
         slider.onValueChange { newPercentage ->
             val newValue = (min + (newPercentage * (max - min))).roundToInt()
             changeValue(newValue)

@@ -10,24 +10,19 @@ import club.sk1er.elementa.state.toConstraint
 import club.sk1er.vigilance.gui.SettingsGui
 import club.sk1er.vigilance.gui.VigilancePalette
 
-class PercentSliderComponent(initialValue: Float) : SettingComponent() {
+class PercentSliderComponent(initialValue: Float) : AbstractSliderComponent() {
     private val percentageText = UIText(getFormattedPercent(initialValue)).constrain {
         y = CenterConstraint()
         color = VigilancePalette.midTextState.toConstraint()
     } childOf this
 
-    private val slider = Slider(initialValue).constrain {
+    override val slider = Slider(initialValue).constrain {
         x = SiblingConstraint()
         width = 60.pixels()
         height = 12.pixels()
     } childOf this
 
     init {
-        constrain {
-            width = ChildBasedSizeConstraint()
-            height = ChildBasedMaxSizeConstraint()
-        }
-
         slider.onValueChange { newPercentage ->
             changeValue(newPercentage)
             percentageText.setText(getFormattedPercent())
