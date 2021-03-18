@@ -17,7 +17,12 @@ import club.sk1er.mods.core.universal.UMouse
 import club.sk1er.vigilance.gui.VigilancePalette
 import java.awt.Color
 
-class NumberComponent(initialValue: Int, private val min: Int, private val  max: Int) : SettingComponent() {
+class NumberComponent(
+    initialValue: Int,
+    private val min: Int,
+    private val max: Int,
+    private val inc: Int
+) : SettingComponent() {
     private var value = initialValue
 
     private val valueText = UIText(value.toString()).constrain {
@@ -38,12 +43,14 @@ class NumberComponent(initialValue: Int, private val min: Int, private val  max:
         height = CONTROL_HEIGHT.pixels()
     } childOf controlContainer
 
-    private val incrementImage = UIImage.ofResource(UP_ARROW_PNG).constrain {
-        x = CenterConstraint()
-        y = CenterConstraint()
-        width = 9.pixels()
-        height = 5.pixels()
-    } childOf incrementControl
+    init {
+        UIImage.ofResource(UP_ARROW_PNG).constrain {
+            x = CenterConstraint()
+            y = CenterConstraint()
+            width = 9.pixels()
+            height = 5.pixels()
+        } childOf incrementControl
+    }
 
     private val decrementControl = UIContainer().constrain {
         y = SiblingConstraint(CONTROL_PADDING)
@@ -51,12 +58,14 @@ class NumberComponent(initialValue: Int, private val min: Int, private val  max:
         height = CONTROL_HEIGHT.pixels()
     } childOf controlContainer
 
-    private val decrementIcon = UIImage.ofResource(DOWN_ARROW_PNG).constrain {
-        x = CenterConstraint()
-        y = CenterConstraint()
-        width = 9.pixels()
-        height = 5.pixels()
-    } childOf decrementControl
+    init {
+        UIImage.ofResource(DOWN_ARROW_PNG).constrain {
+            x = CenterConstraint()
+            y = CenterConstraint()
+            width = 9.pixels()
+            height = 5.pixels()
+        } childOf decrementControl
+    }
 
     init {
         constrain {
@@ -82,9 +91,15 @@ class NumberComponent(initialValue: Int, private val min: Int, private val  max:
 
     private fun clickControl(control: UIComponent) {
         changeOutlineColor(control, VigilancePalette.ACCENT)
+        println("$componentName: $inc")
 
-        val change = if (control == incrementControl) if (UKeyboard.isShiftKeyDown()) 5 else 1 else if (UKeyboard.isShiftKeyDown()) -5 else -1
-        value = (value + change).coerceIn(min..max)
+        val flag = UKeyboard.isCtrlKeyDown()
+        val change = if (control == incrementControl) {
+            if (flag) max else if (UKeyboard.isShiftKeyDown()) 5 * inc else inc
+        } else {
+            if (flag) min else if (UKeyboard.isShiftKeyDown()) -5 * inc else -(inc)
+        }
+        value = if (flag) change else (value + change).coerceIn(min..max)
         valueText.setText(value.toString())
         changeValue(value)
 

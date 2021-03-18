@@ -36,7 +36,12 @@ class PropertyItem(val data: PropertyData) : CategoryItem() {
                 data.attributes.maxF,
                 data.attributes.decimalPlaces
             )
-            PropertyType.NUMBER -> NumberComponent(data.getValue(), data.attributes.min, data.attributes.max)
+            PropertyType.NUMBER -> NumberComponent(
+                data.getValue(),
+                data.attributes.min,
+                data.attributes.max,
+                data.attributes.increment
+            )
             PropertyType.SELECTOR -> SelectorComponent(data.getValue(), data.attributes.options.toList())
             PropertyType.COLOR -> ColorComponent(data.getValue(), data.attributes.allowAlpha)
             PropertyType.TEXT -> TextComponent(data.getValue(), data.attributes.placeholder, false)

@@ -34,6 +34,11 @@ annotation class Property(
     val decimalPlaces: Int = 1,
 
     /**
+     * Reserved for [PropertyType.NUMBER]
+     */
+    val increment: Int = 1,
+
+    /**
      * Reserved for [PropertyType.SELECTOR]
      */
     val options: Array<String> = [],
@@ -82,6 +87,10 @@ data class PropertyAttributes(
      */
     val decimalPlaces: Int = 1,
     /**
+     * Reserved for [PropertyType.NUMBER]
+     */
+    val increment: Int = 1,
+    /**
      * Reserved for [PropertyType.SELECTOR]
      */
     val options: List<String> = listOf(),
@@ -115,6 +124,7 @@ data class PropertyAttributes(
                 property.minF,
                 property.maxF,
                 property.decimalPlaces,
+                property.increment,
                 property.options.toList(),
                 property.allowAlpha,
                 property.placeholder,

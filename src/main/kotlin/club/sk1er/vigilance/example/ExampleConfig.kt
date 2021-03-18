@@ -295,6 +295,18 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
 
     @Property(
         type = PropertyType.NUMBER,
+        name = "Number with increment",
+        description = "Number with an increment that is not 1. Hint: Try holding shift!",
+        category = "Property Deep-Dive",
+        subcategory = "Numbers",
+        min = -500,
+        max = 500,
+        increment = 25
+    )
+    var numberIncrement = 250
+
+    @Property(
+        type = PropertyType.NUMBER,
         name = "Number with huge range",
         description = "A number property with a huge range (0 to 1,000,000).",
         category = "Property Deep-Dive",
