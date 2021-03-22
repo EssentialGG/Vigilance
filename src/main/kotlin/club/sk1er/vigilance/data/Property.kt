@@ -109,7 +109,7 @@ data class PropertyAttributes(
      */
     val triggerActionOnInitialization: Boolean = true,
 
-    val hidden: Boolean = false
+    var hidden: Boolean = false
 ) {
     companion object {
         fun fromPropertyAnnotation(property: Property): PropertyAttributes {

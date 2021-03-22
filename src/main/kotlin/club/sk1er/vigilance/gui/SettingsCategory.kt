@@ -55,8 +55,36 @@ class SettingsCategory(category: Category) : UIContainer() {
             } childOf textContainer
         }
 
+        val categoryItemsSettingsObjects: ArrayList<DataBackedSetting> = ArrayList()
+
         category.items.forEach {
-            it.toSettingsObject()?.childOf(scroller)
+            //it.toSettingsObject()?.childOf(scroller)
+            val settingsObject = it.toSettingsObject()
+            if (settingsObject != null) {
+                settingsObject childOf scroller
+                if (settingsObject is DataBackedSetting) {
+                    categoryItemsSettingsObjects.add(settingsObject)
+                    if (settingsObject.data.isHidden()) {
+                        settingsObject.hide(true)
+                    }
+
+                    if (settingsObject.data.hasDependants) {
+                        settingsObject.component.onValueChange { v ->
+                            settingsObject.data.setValue(v)
+                            categoryItemsSettingsObjects.forEach { setting ->
+                                if (setting.data.dependsOn != null) {
+                                    setting.hideMaybe()
+                                }
+                            }
+                            //.forEach { setting ->
+                            //    if (setting.data.dependsOn != null) {
+                            //        setting.hideMaybe()
+                            //    }
+                            //}
+                        }
+                    }
+                }
+            }
         }
 
         scroller.setVerticalScrollBarComponent(scrollBar, true)

@@ -8,10 +8,12 @@ import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.elementa.state.toConstraint
+import club.sk1er.elementa.transitions.RecursiveFadeInTransition
+import club.sk1er.elementa.transitions.RecursiveFadeOutTransition
 import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.settings.SettingComponent
 
-class DataBackedSetting(data: PropertyData, internal val component: SettingComponent) : Setting() {
+class DataBackedSetting(internal val data: PropertyData, internal val component: SettingComponent) : Setting() {
     private val boundingBox = UIBlock().constrain {
         x = 1.pixels()
         y = 1.pixels()
@@ -42,6 +44,8 @@ class DataBackedSetting(data: PropertyData, internal val component: SettingCompo
         color = VigilancePalette.midTextState.toConstraint()
     } childOf textBoundingBox
 
+    private var hidden = data.isHidden()
+
     init {
         onMouseEnter {
             settingName.animate {
@@ -55,10 +59,30 @@ class DataBackedSetting(data: PropertyData, internal val component: SettingCompo
             }
         }
 
+        animateAfterUnhide {
+            RecursiveFadeInTransition(.5f).transition(this@DataBackedSetting)
+        }
+
         component.onValueChange {
             data.setValue(it)
         }
         component childOf boundingBox
+    }
+
+    fun hideMaybe() {
+        if (hidden) {
+            if (!data.isHidden()) {
+                hidden = false
+                unhide()
+            }
+        } else if (data.isHidden()) {
+            hidden = true
+            RecursiveFadeOutTransition(.5f).transition(this) {
+                if (hidden) {
+                    hide(true)
+                }
+            }
+        }
     }
 
     override fun closePopups() {

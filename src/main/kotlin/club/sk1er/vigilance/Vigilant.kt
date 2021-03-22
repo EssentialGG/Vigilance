@@ -91,6 +91,39 @@ abstract class Vigilant @JvmOverloads constructor(
             .action = { obj -> listener.accept(obj as T) }
     }
 
+    infix fun <T> KProperty<T>.dependsOn(dependency: KProperty<T>): Unit =
+        addDependency<T>(javaField!!, dependency.javaField!!)
+
+    fun <T> addDependency(property: KProperty<T>, dependency: KProperty<T>): Unit =
+        addDependency<T>(property.javaField!!, dependency.javaField!!)
+
+    fun <T> addDependency(field: Field, dependency: Field) {
+        val fields = propertyCollector.getProperties().firstOrNull {
+            it.value is FieldBackedPropertyValue && it.value.field == field
+        } to propertyCollector.getProperties().firstOrNull {
+            it.value is FieldBackedPropertyValue && it.value.field == dependency
+        }
+
+        if (fields.second!!.getDataType() != PropertyType.SWITCH && fields.second!!.getDataType() != PropertyType.CHECKBOX) {
+            error("Dependency must be a boolean PropertyType!")
+        }
+
+        fields.first!!.dependsOn = dependency
+        fields.second!!.hasDependants = true
+    }
+
+    fun <T> KProperty<T>.hiddenIf(condition: () -> Boolean): Unit = hidePropertyIf(javaField!!, condition())
+
+    fun <T> hidePropertyIf(property: KProperty<T>, condition: () -> Boolean): Unit = hidePropertyIf(property.javaField!!, condition())
+
+    fun hidePropertyIf(field: Field, condition: Boolean) {
+        if (condition) {
+            propertyCollector.getProperties().firstOrNull {
+                it.value is FieldBackedPropertyValue && it.value.field == field
+            }!!.attributes.hidden = true
+        }
+    }
+
     fun setCategoryDescription(category: String, description: String) {
         val current = categoryDescription[category]
         if (current != null) {

@@ -115,6 +115,24 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
 
     @Property(
         type = PropertyType.SWITCH,
+        name = "Switch with dependants",
+        description = "When ticked, this switch will make another setting appear",
+        category = "Property Deep-Dive",
+        subcategory = "Dependencies"
+    )
+    var dependency = true
+
+    @Property(
+        type = PropertyType.TEXT,
+        name = "Dependant",
+        description = "This setting depends on the above switch!",
+        category = "Property Deep-Dive",
+        subcategory = "Dependencies"
+    )
+    var dependant: String = "hey"
+
+    @Property(
+        type = PropertyType.SWITCH,
         name = "Initially off switch",
         description = "Switch that starts in the off position",
         category = "Property Deep-Dive",
@@ -412,6 +430,35 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
 
     @Property(
         type = PropertyType.SWITCH,
+        name = "Conditional Property (W)",
+        description = "This property will only be visible if a condition is met! In this case, it will be visible if you are on Windows.",
+        category = "Property Deep-Dive",
+        subcategory = "Hidden (Conditional)"
+    )
+    var windowsOnlyProperty = false
+
+
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Conditional Property (M)",
+        description = "This property will only be visible if a condition is met! In this case, it will be visible if you are on macOS.",
+        category = "Property Deep-Dive",
+        subcategory = "Hidden (Conditional)"
+    )
+    var macOnlyProperty = false
+
+
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Conditional Property (L)",
+        description = "This property will only be visible if a condition is met! In this case, it will be visible if you are on Linux.",
+        category = "Property Deep-Dive",
+        subcategory = "Hidden (Conditional)"
+    )
+    var linuxOnlyProperty = false
+
+    @Property(
+        type = PropertyType.SWITCH,
         name = "This is a switch property with a very long name. It is recommended to use the description for lengthy property text, however this is still supported",
         category = "Meta"
     )
@@ -439,6 +486,19 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
 
         registerListener(::colorWithAlpha) {
             UChat.chat("colorWithAlpha listener activated! New color: $it")
+        }
+
+        ::dependant dependsOn ::dependency
+
+        val os = System.getProperty("os.name", "windows").toLowerCase()
+        ::windowsOnlyProperty.hiddenIf {
+            !os.contains("windows")
+        }
+        ::macOnlyProperty.hiddenIf {
+            !os.contains("mac")
+        }
+        ::linuxOnlyProperty.hiddenIf {
+            !os.contains("linux")
         }
 
         setCategoryDescription(

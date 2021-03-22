@@ -3,6 +3,7 @@ package club.sk1er.vigilance.gui
 import club.sk1er.elementa.WindowScreen
 import club.sk1er.elementa.components.*
 import club.sk1er.elementa.components.input.UITextInput
+import club.sk1er.elementa.components.inspector.Inspector
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
@@ -193,22 +194,27 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
                 return@onKeyType
             }
 
-            for (child in currentCategory.scroller.allChildren) {
-                if (child.isHovered() && child is DataBackedSetting) {
-                    when (child.component) {
-                        is AbstractSliderComponent -> if (keyCode == UKeyboard.KEY_LEFT) {
-                            child.component.incrementBy(-.05f)
-                        } else if (keyCode == UKeyboard.KEY_RIGHT) {
-                            child.component.incrementBy(.05f)
+            try {
+                for (child in currentCategory.scroller.allChildren) {
+                    if (child.isHovered() && child is DataBackedSetting) {
+                        when (child.component) {
+                            is AbstractSliderComponent -> if (keyCode == UKeyboard.KEY_LEFT) {
+                                child.component.incrementBy(-.05f)
+                            } else if (keyCode == UKeyboard.KEY_RIGHT) {
+                                child.component.incrementBy(.05f)
+                            }
+                            is NumberComponent -> if (keyCode == UKeyboard.KEY_UP) {
+                                child.component.increment()
+                            } else if (keyCode == UKeyboard.KEY_DOWN) {
+                                child.component.decrement()
+                            }
                         }
-                        is NumberComponent -> if (keyCode == UKeyboard.KEY_UP) {
-                            child.component.increment()
-                        } else if (keyCode == UKeyboard.KEY_DOWN) {
-                            child.component.decrement()
-                        }
+                        break
                     }
-                    break
                 }
+            } catch (e: Exception) {
+                // idk this crashed once lol
+                e.printStackTrace()
             }
         }
     }
