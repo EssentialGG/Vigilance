@@ -23,7 +23,7 @@ class DividerItem(val name: String, private val description: String?) : Category
     }
 }
 
-class PropertyItem(val data: PropertyData) : CategoryItem() {
+class PropertyItem(val data: PropertyData, val subcategory: String) : CategoryItem() {
     override fun toSettingsObject(): Setting {
         val component = when (data.getDataType()) {
             PropertyType.SWITCH -> SwitchComponent(data.getAsBoolean())

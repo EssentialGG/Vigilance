@@ -14,12 +14,11 @@ import club.sk1er.vigilance.data.PropertyData
 import club.sk1er.vigilance.gui.settings.SettingComponent
 
 class DataBackedSetting(internal val data: PropertyData, internal val component: SettingComponent) : Setting() {
-    private val boundingBox = UIBlock().constrain {
+    private val boundingBox = UIBlock(VigilancePalette.darkHighlightState.toConstraint()).constrain {
         x = 1.pixels()
         y = 1.pixels()
         width = RelativeConstraint(1f) - 10.pixels()
         height = ChildBasedMaxSizeConstraint() + INNER_PADDING.pixels()
-        color = VigilancePalette.darkHighlightState.toConstraint()
     } childOf this effect OutlineEffect(VigilancePalette.DIVIDER, 1f).bindColor(VigilancePalette.dividerState)
 
     private val textBoundingBox = UIContainer().constrain {

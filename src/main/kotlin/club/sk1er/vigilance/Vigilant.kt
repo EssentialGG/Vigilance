@@ -224,7 +224,7 @@ abstract class Vigilant @JvmOverloads constructor(
     }
 
     private fun List<PropertyData>.splitBySubcategory(): List<CategoryItem> {
-        val sorted = this.sortedBy { it.attributes.subcategory }.map { PropertyItem(it) }
+        val sorted = this.sortedBy { it.attributes.subcategory }.map { PropertyItem(it, it.attributes.subcategory) }
         val withSubcategory = mutableListOf<CategoryItem>()
 
         var currentSubcategory = ""

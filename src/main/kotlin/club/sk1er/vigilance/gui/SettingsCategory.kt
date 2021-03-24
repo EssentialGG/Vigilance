@@ -9,6 +9,8 @@ import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.state.toConstraint
 import club.sk1er.elementa.utils.withAlpha
 import club.sk1er.vigilance.data.Category
+import club.sk1er.vigilance.data.DividerItem
+import club.sk1er.vigilance.data.PropertyItem
 
 class SettingsCategory(category: Category) : UIContainer() {
     private val scrollerBoundingBox = UIContainer().constrain {
@@ -56,6 +58,22 @@ class SettingsCategory(category: Category) : UIContainer() {
         }
 
         val categoryItemsSettingsObjects: ArrayList<DataBackedSetting> = ArrayList()
+        val dividerItemsSettingsObjects: ArrayList<Divider> = ArrayList()
+
+        fun hideDividerMaybe(divider: Divider): Boolean {
+            var f = false
+            category.items.forEach {
+                if (it is PropertyItem && it.subcategory == divider.name) {
+                    if (it.data.dependsOn != null) {
+                        f = true
+                    }
+                    if (!it.data.isHidden()) {
+                        return false
+                    }
+                }
+            }
+            return f
+        }
 
         category.items.forEach {
             //it.toSettingsObject()?.childOf(scroller)
@@ -76,11 +94,30 @@ class SettingsCategory(category: Category) : UIContainer() {
                                     setting.hideMaybe()
                                 }
                             }
-                            //.forEach { setting ->
-                            //    if (setting.data.dependsOn != null) {
-                            //        setting.hideMaybe()
-                            //    }
-                            //}
+                            dividerItemsSettingsObjects.forEach { divider ->
+                                divider.hideMaybe(hideDividerMaybe(divider))
+                            }
+                        }
+                    }
+                } else if (settingsObject is Divider) {
+                    var flag = false
+                    var flag2 = false
+                    for (item in category.items) {
+                        if (item is PropertyItem && item.subcategory == settingsObject.name) {
+                            if (item.data.dependsOn != null) {
+                                flag = true
+                                if (!item.data.isHidden()) {
+                                    flag2 = true
+                                    break
+                                }
+                            }
+                        }
+                    }
+                    if (flag) {
+                        dividerItemsSettingsObjects.add(settingsObject)
+                        if (!flag2) {
+                            settingsObject.hide(true)
+                            settingsObject.hidden = true
                         }
                     }
                 }
