@@ -106,10 +106,10 @@ class SettingsCategory(category: Category) : UIContainer() {
                         if (item is PropertyItem && item.subcategory == settingsObject.name) {
                             if (item.data.dependsOn != null) {
                                 flag = true
-                                if (!item.data.isHidden()) {
-                                    flag2 = true
-                                    break
-                                }
+                            }
+                            if (!item.data.isHidden()) {
+                                flag2 = true
+                                break
                             }
                         }
                     }
