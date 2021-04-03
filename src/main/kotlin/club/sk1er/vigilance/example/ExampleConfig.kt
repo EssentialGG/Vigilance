@@ -115,6 +115,32 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
 
     @Property(
         type = PropertyType.SWITCH,
+        name = "Toggle Tom",
+        description = "",
+        category = "Property Overview"
+    )
+    var toggleTom = true
+
+    @Property(
+        type = PropertyType.SWITCH,
+        name = "Property Pete",
+        description = "",
+        category = "Property Overview",
+        subcategory = "Subcategory Steve"
+    )
+    var propertyPete = true
+
+    @Property(
+        type = PropertyType.CHECKBOX,
+        name = "Checkbox Chuck",
+        description = "",
+        category = "Property Overview",
+        subcategory = "Subcategory Steve"
+    )
+    var checkboxChuck = false
+
+    @Property(
+        type = PropertyType.SWITCH,
         name = "Switch with dependants",
         description = "When ticked, this switch will make another setting appear",
         category = "Property Deep-Dive",
@@ -489,6 +515,8 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         }
 
         ::dependant dependsOn ::dependency
+        ::propertyPete dependsOn ::toggleTom
+        ::checkboxChuck dependsOn ::toggleTom
 
         val os = System.getProperty("os.name", "windows").toLowerCase()
         ::windowsOnlyProperty.hiddenIf {

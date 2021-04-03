@@ -1,5 +1,6 @@
 package club.sk1er.vigilance.gui
 
+import club.sk1er.elementa.UIComponent
 import club.sk1er.elementa.WindowScreen
 import club.sk1er.elementa.components.*
 import club.sk1er.elementa.components.input.UITextInput
@@ -187,9 +188,13 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
 
         categoryScroller.allChildren.filterIsInstance<CategoryLabel>().first().select()
 
+        fun UIComponent.click(): Unit =
+            mouseClick(getLeft() + (getRight() - getLeft()) / 2.0, getTop() + (getBottom() - getTop()) / 2.0, 0)
+
+
         window.onKeyType { typedChar, keyCode ->
             if (!searchInput.isActive() && typedChar.isLetterOrDigit()) {
-                searchBox.mouseClick(searchBox.getLeft() + 2.0, searchBox.getTop() + 2.0, 0)
+                searchBox.click()
                 searchInput.setText("${searchInput.getText()}$typedChar")
                 return@onKeyType
             }
@@ -207,6 +212,18 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
                                 child.component.increment()
                             } else if (keyCode == UKeyboard.KEY_DOWN) {
                                 child.component.decrement()
+                            }
+                            is SwitchComponent -> when (keyCode) {
+                                UKeyboard.KEY_LEFT -> if (child.component.enabled) child.component.click()
+                                UKeyboard.KEY_RIGHT -> if (!child.component.enabled) child.component.click()
+                                UKeyboard.KEY_ENTER -> child.component.click()
+                            }
+                            is CheckboxComponent -> if (keyCode == UKeyboard.KEY_ENTER) child.component.click()
+                            is ButtonComponent -> if (keyCode == UKeyboard.KEY_ENTER) child.component.container.click()
+                            is SelectorComponent -> if (keyCode == UKeyboard.KEY_UP) {
+                                child.component.dropDown.select(child.component.dropDown.getValue() - 1)
+                            } else if (keyCode == UKeyboard.KEY_DOWN) {
+                                child.component.dropDown.select(child.component.dropDown.getValue() + 1)
                             }
                         }
                         break

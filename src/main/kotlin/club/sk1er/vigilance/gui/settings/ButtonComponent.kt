@@ -19,7 +19,7 @@ import club.sk1er.vigilance.gui.VigilancePalette
 class ButtonComponent(placeholder: String? = null, private val callback: () -> Unit) : SettingComponent() {
     private val buttonText = placeholder ?: "Activate"
 
-    private val container = UIRoundedRectangle(2f).constrain {
+    internal val container = UIRoundedRectangle(2f).constrain {
         width = ChildBasedSizeConstraint() + 2.pixels()
         height = ChildBasedSizeConstraint() + 2.pixels()
         color = VigilancePalette.outlineState.toConstraint()

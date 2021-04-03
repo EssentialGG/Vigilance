@@ -9,7 +9,7 @@ import club.sk1er.vigilance.gui.SettingsGui
 import club.sk1er.vigilance.gui.VigilancePalette
 
 class SwitchComponent(initialState: Boolean) : SettingComponent() {
-    private var enabled = initialState
+    internal var enabled = initialState
 
     private val switchBox = UIBlock(getSwitchColor()).constrain {
         x = getSwitchPosition()

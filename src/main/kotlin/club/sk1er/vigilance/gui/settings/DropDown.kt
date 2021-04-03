@@ -71,7 +71,7 @@ class DropDown(
             color = VigilancePalette.darkHighlightState.toConstraint()
         }
 
-        readdOptionComponents()
+        readOptionComponents()
 
         outlineEffect?.let(::enableEffect)
 
@@ -107,11 +107,13 @@ class DropDown(
     }
 
     fun select(index: Int) {
-        selected = index
-        onValueChange(index)
-        currentSelectionText.setText(options[index])
-        collapse()
-        readdOptionComponents()
+        if (options.indices.contains(index)) {
+            selected = index
+            onValueChange(index)
+            currentSelectionText.setText(options[index])
+            collapse()
+            readOptionComponents()
+        }
     }
 
     fun onValueChange(listener: (Int) -> Unit) {
@@ -164,7 +166,7 @@ class DropDown(
         }
     }
 
-    private fun readdOptionComponents() {
+    private fun readOptionComponents() {
         optionsHolder.clearChildren()
         mappedOptions.forEachIndexed { index, component ->
             if (index != selected)
