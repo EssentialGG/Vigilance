@@ -36,6 +36,7 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
 
     private val titleLabel = UIWrappedText(config.guiTitle, shadow = false).constrain {
         textScale = 2f.pixels()
+        color = VigilancePalette.brightTextState.toConstraint()
         width = 90.percent()
     } childOf sidebar
 
