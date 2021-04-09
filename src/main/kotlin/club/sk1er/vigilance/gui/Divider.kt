@@ -19,18 +19,20 @@ class Divider(val name: String, description: String?) : Setting() {
         y = 5.pixels()
     } childOf this
 
-    private val leftLine = UIBlock(VigilancePalette.DARK_DIVIDER).constrain {
+    private val leftLine = UIBlock().constrain {
         x = 0.pixels()
         y = basicYConstraint { label.getTop() + label.getHeight() / 2f }
         width = basicWidthConstraint { label.getLeft() - getLeft() - 10f }
         height = 1.pixels()
+        color = VigilancePalette.darkDividerState.toConstraint()
     } childOf this
 
-    private val rightLine = UIBlock(VigilancePalette.DARK_DIVIDER).constrain {
+    private val rightLine = UIBlock().constrain {
         x = basicXConstraint { label.getRight() + 10f }
         y = basicYConstraint { label.getTop() + label.getHeight() / 2f }
         width = FillConstraint()
         height = 1.pixels()
+        color = VigilancePalette.darkDividerState.toConstraint()
     } childOf this
 
     internal var hidden: Boolean = false

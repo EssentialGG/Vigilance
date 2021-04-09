@@ -5,6 +5,7 @@ import club.sk1er.elementa.constraints.RelativeConstraint
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
+import club.sk1er.elementa.state.toConstraint
 import club.sk1er.vigilance.gui.SettingsGui
 import club.sk1er.vigilance.gui.VigilancePalette
 
@@ -39,9 +40,9 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
         }
     }
 
-    private fun getOutlineEffect() = OutlineEffect(getSwitchColor(), 0.5f)
+    private fun getOutlineEffect() = OutlineEffect(getSwitchColor().get(), 0.5f).bindColor(getSwitchColor())
 
-    private fun getSwitchColor() = if (enabled) VigilancePalette.ACCENT else VigilancePalette.BRIGHT_DIVIDER
+    private fun getSwitchColor() = if (enabled) VigilancePalette.accentState else VigilancePalette.brightDividerState
 
     private fun getSwitchPosition() = if (enabled) 0.pixels(true) else 0.pixels()
 }

@@ -1,9 +1,6 @@
 package club.sk1er.vigilance.gui
 
-import club.sk1er.elementa.components.ScrollComponent
-import club.sk1er.elementa.components.UIBlock
-import club.sk1er.elementa.components.UIContainer
-import club.sk1er.elementa.components.UIWrappedText
+import club.sk1er.elementa.components.*
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.state.toConstraint
@@ -126,7 +123,7 @@ class SettingsCategory(category: Category) : UIContainer() {
 
         scroller.setVerticalScrollBarComponent(scrollBar, true)
 
-        GradientBlock(VigilancePalette.BACKGROUND.withAlpha(0), VigilancePalette.BACKGROUND).constrain {
+        GradientComponent().bindStartColor(VigilancePalette.bgNoAlpha).bindEndColor(VigilancePalette.backgroundState).constrain {
             y = 0.pixels(alignOpposite = true)
             width = 100.percent() - 10.pixels()
             height = 50.pixels()

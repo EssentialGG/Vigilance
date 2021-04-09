@@ -8,14 +8,16 @@ import club.sk1er.elementa.components.inspector.Inspector
 import club.sk1er.elementa.constraints.*
 import club.sk1er.elementa.constraints.animation.Animations
 import club.sk1er.elementa.dsl.*
+import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.elementa.effects.ScissorEffect
 import club.sk1er.elementa.state.toConstraint
 import club.sk1er.mods.core.universal.UKeyboard
 import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.Category
 import club.sk1er.vigilance.gui.settings.*
+import java.awt.Color
 
-class SettingsGui(config: Vigilant) : WindowScreen() {
+class SettingsGui(private val config: Vigilant) : WindowScreen() {
     private val background = UIBlock().constrain {
         width = RelativeConstraint(1f)
         height = RelativeConstraint(1f)
@@ -37,6 +39,7 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
     private val titleLabel = UIWrappedText(config.guiTitle, shadow = false).constrain {
         textScale = 2f.pixels()
         width = 90.percent()
+        color = VigilancePalette.brightTextState.toConstraint()
     } childOf sidebar
 
     private val scrollContainer = UIContainer().constrain {
@@ -61,11 +64,11 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         y = 5.pixels()
         width = 20.pixels()
         height = 20.pixels()
-        color = VigilancePalette.darkHighlightState.toConstraint()
+        color = VigilancePalette.searchBarBackgroundState.toConstraint()
     } childOf window effect ScissorEffect()
 
     private val searchIcon = UIImage.ofResource("/vigilance/search.png").constrain {
-        x = 4.pixels()
+        x = 2.pixels()
         y = CenterConstraint()
         width = 16.pixels()
         height = 16.pixels()
@@ -163,10 +166,11 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         }
     }
 
-    private val splitter = UIBlock(VigilancePalette.DARK_DIVIDER).constrain {
+    private val splitter = UIBlock().constrain {
         x = SiblingConstraint()
         width = 1.pixels()
         height = RelativeConstraint(1f)
+        color = VigilancePalette.darkDividerState.toConstraint()
     } childOf outerContainer
 
     private val categoryHolder = UIContainer().constrain {
@@ -252,5 +256,109 @@ class SettingsGui(config: Vigilant) : WindowScreen() {
         searchBox.animate {
             setWidthAnimation(Animations.OUT_EXP, 1f, 20.pixels())
         }
+    }
+
+    // this is temporary and will *probably* not be in a proper modcore release
+    override fun onTick() {
+        if (VigilancePalette.awaitShowColourWindow && config is VigilancePalette) {
+            VigilancePalette.awaitShowColourWindow = false
+            var d = false
+            var o = 0f to 0f
+            val block = UIBlock(VigilancePalette.backgroundState.toConstraint()).constrain {
+                x = CenterConstraint()
+                y = CenterConstraint()
+                height = 300.pixels()
+                width = 200.pixels()
+            }.onMouseClick { e ->
+                if (e.mouseButton == 0) {
+                    o = e.absoluteX to e.absoluteY
+                    d = true
+                }
+            }.onMouseDrag { mouseX, mouseY, _ ->
+                if (d) {
+                    val x = mouseX + getLeft()
+                    val y = mouseY + getTop()
+                    setX((getLeft() + (x - o.first)).pixels())
+                    setY((getTop() + (y - o.second)).pixels())
+                    o = x to y
+                }
+            }.onMouseRelease {
+                d = false
+            } effect OutlineEffect(Color.BLACK, 2f) childOf window
+            val scroller = ScrollComponent().constrain {
+                y = 3.pixels()
+                height = FillConstraint(false) - 3.pixels()
+                width = 100.percent()
+            } childOf block
+
+            fun getColorString(color: Color): String =
+                "#%06x".format(color.rgb and 0xffffff) + "%02x".format(color.alpha)
+
+            listOf(
+                VigilancePalette.brightDividerState to "Bright Divider",
+                VigilancePalette.dividerState to "Divider",
+                VigilancePalette.darkDividerState to "Dark Divider",
+                VigilancePalette.outlineState to "Outline",
+                VigilancePalette.scrollBlockState to "Scroll Bar",
+                VigilancePalette.brightHighlightState to "Bright Highlight",
+                VigilancePalette.highlightState to "Highlight",
+                VigilancePalette.darkHighlightState to "Dark Highlight",
+                VigilancePalette.lightBackgroundState to "Light Background",
+                VigilancePalette.backgroundState to "Background",
+                VigilancePalette.darkBackgroundState to "Dark Background",
+                VigilancePalette.searchBarBackgroundState to "Search Bar Background",
+                VigilancePalette.brightTextState to "Bright Text",
+                VigilancePalette.midTextState to "Mid Text",
+                VigilancePalette.darkTextState to "Dark Text",
+                VigilancePalette.modalBackgroundState to "Modal Background",
+                VigilancePalette.warningState to "Warning",
+                VigilancePalette.accentState to "Accent",
+                VigilancePalette.successState to "Success",
+                VigilancePalette.transparentState to "Transparent",
+                VigilancePalette.disabledState to "Disabled"
+            ).forEach {
+                val c = UIContainer().constrain {
+                    x = 5.percent()
+                    y = SiblingConstraint(5f)
+                    width = 80.percent()
+                    height = 20.pixels()
+                } effect OutlineEffect(Color.GRAY, 1f) childOf scroller
+                UIText(it.second).constrain {
+                    y = CenterConstraint()
+                    x = 1.pixels()
+                    textScale = .8f.pixels()
+                } childOf c
+                val preview = UIBlock(VigilancePalette.lightBackgroundState.toConstraint()).constrain {
+                    x = 90.percent()
+                    y = CenterConstraint()
+                    width = ('F'.width() * 10).pixels()
+                    height = 10.pixels()
+                } childOf c
+                val t = UIText(getColorString(it.first.get()), shadow = false).constrain {
+                    textScale = .8f.pixels()
+                    y = CenterConstraint()
+                    x = CenterConstraint()
+                    color = VigilancePalette.brightTextState.toConstraint()
+                } childOf preview
+                preview.hide(true)
+                UIBlock(it.first.toConstraint()).constrain {
+                    height = 16.pixels()
+                    width = 16.pixels()
+                    x = 10.pixels(alignOpposite = true)
+                    y = CenterConstraint()
+                }.onMouseEnter {
+                    preview.unhide()
+                    t.setText(getColorString(it.first.get()))
+                }.onMouseLeave {
+                    preview.hide(true)
+                }.onMouseClick { e ->
+                    // uncertain if this method exists in later versions so im just being safe
+                    //#if MC<=11202
+                    if (e.mouseButton == 0) setClipboardString(getColorString(it.first.get()))
+                    //#endif
+                } effect OutlineEffect(Color.LIGHT_GRAY, 1f) childOf c
+            }
+        }
+        super.onTick()
     }
 }

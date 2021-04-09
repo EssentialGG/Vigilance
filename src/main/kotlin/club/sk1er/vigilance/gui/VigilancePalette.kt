@@ -1,6 +1,8 @@
 package club.sk1er.vigilance.gui
 
 import club.sk1er.elementa.state.BasicState
+import club.sk1er.elementa.utils.withAlpha
+import club.sk1er.mods.core.universal.UChat
 import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.Property
 import club.sk1er.vigilance.data.PropertyType
@@ -41,6 +43,9 @@ object VigilancePalette : Vigilant(File("./config/vigilance.toml"), "Vigilance P
     @Property(PropertyType.COLOR, "Dark Background", "Color Scheme")
     var DARK_BACKGROUND = Color(10, 10, 11)
 
+    @Property(PropertyType.COLOR, "Search Bar Background", "Color Scheme")
+    var SEARCH_BAR_BACKGROUND = Color(27, 28, 33)
+
     @Property(PropertyType.COLOR, "Bright Text", "Color Scheme")
     var BRIGHT_TEXT = Color(255, 255, 255)
 
@@ -60,7 +65,7 @@ object VigilancePalette : Vigilant(File("./config/vigilance.toml"), "Vigilance P
     var ACCENT = Color(1, 165, 82)
 
     @Property(PropertyType.COLOR, "Success", "Color Scheme")
-    var SUCCESS = ACCENT
+    var SUCCESS = Color(1, 165, 82)
 
     @Property(PropertyType.COLOR, "Transparent", "Color Scheme")
     var TRANSPARENT = Color(0, 0, 0, 0)
@@ -68,32 +73,68 @@ object VigilancePalette : Vigilant(File("./config/vigilance.toml"), "Vigilance P
     @Property(PropertyType.COLOR, "Disabled", "Color Scheme")
     var DISABLED = Color(80, 80, 80)
 
+    @Property(
+        type = PropertyType.BUTTON,
+        name = "Show Colour Window",
+        description = "Shows the colour palette window thing idk this is probably temp anyway",
+        placeholder = "Click Here!",
+        category = "Color Scheme",
+        subcategory = "Window"
+    )
+    private fun showColourWindow() {
+        awaitShowColourWindow = true
+    }
+
+    internal var awaitShowColourWindow: Boolean = false
+
     init {
         initialize()
 
         registerListener(::BRIGHT_DIVIDER) { brightDividerState.set(it) }
         registerListener(::DIVIDER) { dividerState.set(it) }
-        registerListener(::OUTLINE) { accentState.set(it) }
+        registerListener(::DARK_DIVIDER) { darkDividerState.set(it) }
+        registerListener(::OUTLINE) { outlineState.set(it) }
         registerListener(::SCROLL_BAR) { scrollBlockState.set(it) }
+        registerListener(::BRIGHT_HIGHLIGHT) { brightHighlightState.set(it) }
+        registerListener(::HIGHLIGHT) { highlightState.set(it) }
         registerListener(::DARK_HIGHLIGHT) { darkHighlightState.set(it) }
         registerListener(::LIGHT_BACKGROUND) { lightBackgroundState.set(it) }
-        registerListener(::ACCENT) { accentState.set(it) }
-        registerListener(::BRIGHT_TEXT) { accentState.set(it) }
-        registerListener(::MID_TEXT) { accentState.set(it) }
-        registerListener(::BACKGROUND) { backgroundState.set(it) }
+        registerListener(::BACKGROUND) { backgroundState.set(it); bgNoAlpha.set(it.withAlpha(0)) }
+        registerListener(::DARK_BACKGROUND) { darkBackgroundState.set(it) }
+        registerListener(::SEARCH_BAR_BACKGROUND) { searchBarBackgroundState.set(it) }
+        registerListener(::BRIGHT_TEXT) { brightTextState.set(it) }
+        registerListener(::MID_TEXT) { midTextState.set(it) }
+        registerListener(::DARK_TEXT) { darkTextState.set(it) }
+        registerListener(::MODAL_BACKGROUND) { modalBackgroundState.set(it) }
         registerListener(::WARNING) { warningState.set(it) }
+        registerListener(::ACCENT) { accentState.set(it) }
+        registerListener(::SUCCESS) { successState.set(it) }
+        registerListener(::TRANSPARENT) { transparentState.set(it) }
+        registerListener(::DISABLED) { disabledState.set(it) }
     }
 
     // these are marked as internal because ideally the user is only changing the colours in the settings gui
     internal val brightDividerState = BasicState(BRIGHT_DIVIDER)
     internal val dividerState = BasicState(DIVIDER)
+    internal val darkDividerState = BasicState(DARK_DIVIDER)
     internal val outlineState = BasicState(OUTLINE)
     internal val scrollBlockState = BasicState(SCROLL_BAR)
+    internal val brightHighlightState = BasicState(BRIGHT_HIGHLIGHT)
+    internal val highlightState = BasicState(HIGHLIGHT)
     internal val darkHighlightState = BasicState(DARK_HIGHLIGHT)
     internal val lightBackgroundState = BasicState(LIGHT_BACKGROUND)
     internal val backgroundState = BasicState(BACKGROUND)
+    internal val darkBackgroundState = BasicState(DARK_BACKGROUND)
+    internal val searchBarBackgroundState = BasicState(SEARCH_BAR_BACKGROUND)
     internal val brightTextState = BasicState(BRIGHT_TEXT)
     internal val midTextState = BasicState(MID_TEXT)
-    internal val accentState = BasicState(ACCENT)
+    internal val darkTextState = BasicState(DARK_TEXT)
+    internal val modalBackgroundState = BasicState(MODAL_BACKGROUND)
     internal val warningState = BasicState(WARNING)
+    internal val accentState = BasicState(ACCENT)
+    internal val successState = BasicState(SUCCESS)
+    internal val transparentState = BasicState(TRANSPARENT)
+    internal val disabledState = BasicState(DISABLED)
+
+    internal val bgNoAlpha = BasicState(BACKGROUND.withAlpha(0))
 }

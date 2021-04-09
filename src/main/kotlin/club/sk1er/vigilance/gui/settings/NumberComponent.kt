@@ -11,6 +11,7 @@ import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
 import club.sk1er.elementa.constraints.SiblingConstraint
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
+import club.sk1er.elementa.state.State
 import club.sk1er.elementa.state.toConstraint
 import club.sk1er.mods.core.universal.UKeyboard
 import club.sk1er.mods.core.universal.UMouse
@@ -90,7 +91,7 @@ class NumberComponent(
     }
 
     private fun clickControl(control: UIComponent) {
-        changeOutlineColor(control, VigilancePalette.ACCENT)
+        changeOutlineColor(control, VigilancePalette.accentState)
 
         val flag = UKeyboard.isCtrlKeyDown()
         val change = if (control == incrementControl) {
@@ -103,7 +104,7 @@ class NumberComponent(
         changeValue(value)
 
         if (isControlDisabled(control)) {
-            changeOutlineColor(control, VigilancePalette.DISABLED)
+            changeOutlineColor(control, VigilancePalette.disabledState)
         }
 
         // TODO: Repeat these increases until the mouse is released!
@@ -112,7 +113,7 @@ class NumberComponent(
     private fun releaseControl(control: UIComponent) {
         changeOutlineColor(
             control,
-            if (isControlDisabled(control)) VigilancePalette.DISABLED else VigilancePalette.MID_TEXT
+            if (isControlDisabled(control)) VigilancePalette.disabledState else VigilancePalette.midTextState
         )
     }
 
@@ -120,9 +121,9 @@ class NumberComponent(
         (value == min && control == decrementControl) ||
         (value == max && control == incrementControl)
 
-    private fun changeOutlineColor(control: UIComponent, color: Color) {
+    private fun changeOutlineColor(control: UIComponent, colorState: State<Color>) {
         control.removeEffect<OutlineEffect>()
-        control.enableEffect(OutlineEffect(color, OUTLINE_WIDTH))
+        control.enableEffect(OutlineEffect(colorState.get(), OUTLINE_WIDTH).bindColor(colorState))
     }
 
     private fun useControl(control: UIComponent, other: UIComponent, key: Int) {

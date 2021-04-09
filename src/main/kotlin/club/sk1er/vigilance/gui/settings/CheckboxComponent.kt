@@ -5,6 +5,7 @@ import club.sk1er.elementa.constraints.AspectConstraint
 import club.sk1er.elementa.constraints.CenterConstraint
 import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.effects.OutlineEffect
+import club.sk1er.elementa.state.toConstraint
 import club.sk1er.vigilance.gui.VigilancePalette
 
 class CheckboxComponent(initialValue: Boolean) : SettingComponent() {
@@ -47,7 +48,7 @@ class CheckboxComponent(initialValue: Boolean) : SettingComponent() {
         }
     }
 
-    private fun getOutlineEffect() = OutlineEffect(getSettingColor(), 0.5f)
+    private fun getOutlineEffect() = OutlineEffect(getSettingColor().get(), 0.5f).bindColor(getSettingColor())
 
-    private fun getSettingColor() = if (checked) VigilancePalette.ACCENT else VigilancePalette.BRIGHT_DIVIDER
+    private fun getSettingColor() = if (checked) VigilancePalette.accentState else VigilancePalette.brightDividerState
 }
