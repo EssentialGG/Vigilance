@@ -16,7 +16,8 @@ import kotlin.reflect.jvm.javaField
 abstract class Vigilant @JvmOverloads constructor(
     file: File,
     val guiTitle: String = "Settings",
-    private val propertyCollector: PropertyCollector = JVMAnnotationPropertyCollector()
+    private val propertyCollector: PropertyCollector = JVMAnnotationPropertyCollector(),
+    val sortingBehavior: SortingBehavior = SortingBehavior()
 ) {
     /*
     TODO: Fix this in production
@@ -147,16 +148,16 @@ abstract class Vigilant @JvmOverloads constructor(
             .filter { !it.attributes.hidden }
             .groupBy { it.attributes.category }
             .map { Category(it.key, it.value.splitBySubcategory(), categoryDescription[it.key]?.description) }
+            .sortedWith(sortingBehavior.getCategoryComparator())
     }
 
     fun getCategoryFromSearch(term: String): Category {
-        val sorted = propertyCollector
-            .getProperties()
-            .sortedBy { it.attributes.subcategory }
+        val sorted = propertyCollector.getProperties()
             .filter {
                 !it.attributes.hidden && (it.attributes.name.contains(term, ignoreCase = true) || it.attributes.description
                     .contains(term, ignoreCase = true))
             }
+            .sortedWith(sortingBehavior.getPropertyComparator())
 
         return Category("", sorted.splitBySubcategory(), null)
     }
@@ -224,20 +225,16 @@ abstract class Vigilant @JvmOverloads constructor(
     }
 
     private fun List<PropertyData>.splitBySubcategory(): List<CategoryItem> {
-        val sorted = this.sortedBy { it.attributes.subcategory }.map { PropertyItem(it, it.attributes.subcategory) }
-        val withSubcategory = mutableListOf<CategoryItem>()
+        val items = this.groupBy { it.attributes.subcategory }.entries.sortedWith(sortingBehavior.getSubcategoryComparator())
+        val withDividers = mutableListOf<CategoryItem>()
 
-        var currentSubcategory = ""
-        for (item in sorted) {
-            if (item.data.attributes.subcategory != currentSubcategory) {
-                currentSubcategory = item.data.attributes.subcategory
-                val subcategoryInfo = categoryDescription[item.data.attributes.category]?.subcategoryDescriptions?.get(currentSubcategory)
-                withSubcategory.add(DividerItem(currentSubcategory, subcategoryInfo))
-            }
-            withSubcategory.add(item)
+        for ((subcategoryName, listOfProperties) in items) {
+            val subcategoryInfo = categoryDescription[listOfProperties[0].attributes.category]?.subcategoryDescriptions?.get(subcategoryName)
+            withDividers.add(DividerItem(subcategoryName, subcategoryInfo))
+            withDividers.addAll(listOfProperties.sortedWith(sortingBehavior.getPropertyComparator()).map { PropertyItem(it, it.attributes.subcategory) })
         }
 
-        return withSubcategory
+        return withDividers
     }
 
     // Leave until misc data is supported
