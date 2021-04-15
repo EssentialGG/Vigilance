@@ -29,7 +29,7 @@ class SettingsCategory(category: Category) : UIContainer() {
     private val scrollBar = UIBlock().constrain {
         x = SiblingConstraint() + 2.pixels()
         width = 3.pixels()
-        color = VigilancePalette.scrollBlockState.toConstraint()
+        color = VigilancePalette.scrollBarState.toConstraint()
     } childOf this
 
     init {

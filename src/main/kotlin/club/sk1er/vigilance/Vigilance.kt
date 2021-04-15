@@ -42,7 +42,7 @@ object Vigilance {
 
         initialized = true
         StencilEffect.enableStencil()
-        VigilancePalette.preload()
+        VigilanceConfig.preload()
         MinecraftForge.EVENT_BUS.register(this)
         //#if FABRIC || MC<=11202
         ClientCommandHandler.instance.registerCommand(PaletteCommand())

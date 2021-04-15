@@ -19,7 +19,7 @@ class DataBackedSetting(internal val data: PropertyData, internal val component:
         y = 1.pixels()
         width = RelativeConstraint(1f) - 10.pixels()
         height = ChildBasedMaxSizeConstraint() + INNER_PADDING.pixels()
-    } childOf this effect OutlineEffect(VigilancePalette.DIVIDER, 1f).bindColor(VigilancePalette.dividerState)
+    } childOf this effect OutlineEffect(VigilancePalette.getDivider(), 1f).bindColor(VigilancePalette.dividerState)
 
     private val textBoundingBox = UIContainer().constrain {
         x = INNER_PADDING.pixels()

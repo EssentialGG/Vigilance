@@ -16,7 +16,7 @@ class TextComponent(private val initial: String, placeholder: String, wrap: Bool
         width = ChildBasedSizeConstraint() + 6.pixels()
         height = ChildBasedSizeConstraint() + 6.pixels()
         color = VigilancePalette.darkHighlightState.toConstraint()
-    } childOf this effect OutlineEffect(VigilancePalette.DIVIDER, 0.5f).bindColor(VigilancePalette.dividerState)
+    } childOf this effect OutlineEffect(VigilancePalette.getDivider(), 0.5f).bindColor(VigilancePalette.dividerState)
 
     private val textInput: AbstractTextInput = if (wrap) {
         UIMultilineTextInput(placeholder).constrain {

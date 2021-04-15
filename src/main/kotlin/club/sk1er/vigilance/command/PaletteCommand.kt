@@ -1,7 +1,7 @@
 package club.sk1er.vigilance.command
 
 import club.sk1er.vigilance.Vigilance
-import club.sk1er.vigilance.gui.VigilancePalette
+import club.sk1er.vigilance.VigilanceConfig
 
 //#if MC<=11202
 import net.minecraft.command.CommandBase
@@ -20,7 +20,7 @@ class PaletteCommand : CommandBase() {
     //$$ override fun getRequiredPermissionLevel() = 0
     //$$
     //$$ override fun processCommand(sender: ICommandSender?, args: Array<String>) {
-    //$$     Vigilance.gui = VigilancePalette.gui()
+    //$$     Vigilance.gui = VigilanceConfig.gui()
     //$$ }
     //#else
     override fun getName() = "vigilance"
@@ -30,7 +30,7 @@ class PaletteCommand : CommandBase() {
     override fun getRequiredPermissionLevel() = 0
 
     override fun execute(server: MinecraftServer?, sender: ICommandSender, args: Array<String>) {
-        Vigilance.gui = VigilancePalette.gui()
+        Vigilance.gui = VigilanceConfig.gui()
     }
     //#endif
 }
@@ -55,7 +55,7 @@ class PaletteCommand : CommandBase() {
 //#endif
 //$$             .requires { it.hasPermissionLevel(0) }
 //$$             .executes {
-//$$                 Vigilance.gui = VigilancePalette.gui()
+//$$                 Vigilance.gui = VigilanceConfig.gui()
 //$$                 1
 //$$             })
 //$$     }

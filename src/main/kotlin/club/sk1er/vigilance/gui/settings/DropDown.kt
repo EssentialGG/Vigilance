@@ -15,7 +15,7 @@ class DropDown(
     initialSelection: Int,
     private val options: List<String>,
     //backgroundColor: Color = VigilancePalette.DARK_HIGHLIGHT,
-    outlineEffect: OutlineEffect? = OutlineEffect(VigilancePalette.DIVIDER, 0.5f).bindColor(VigilancePalette.dividerState),
+    outlineEffect: OutlineEffect? = OutlineEffect(VigilancePalette.getDivider(), 0.5f).bindColor(VigilancePalette.dividerState),
     optionPadding: Float = 6f
 ) : UIBlock() {
     private var selected = initialSelection

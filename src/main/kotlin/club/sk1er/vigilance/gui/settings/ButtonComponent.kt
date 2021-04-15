@@ -57,7 +57,7 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
 
         bbox.parent = container
 
-        enableEffect(ExpandingClickEffect(VigilancePalette.ACCENT.withAlpha(0.5f), scissorBoundingBox = bbox))
+        enableEffect(ExpandingClickEffect(VigilancePalette.getAccent().withAlpha(0.5f), scissorBoundingBox = bbox))
 
         container.onMouseEnter {
             container.animate {

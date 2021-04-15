@@ -12,6 +12,7 @@ import club.sk1er.elementa.effects.OutlineEffect
 import club.sk1er.elementa.effects.ScissorEffect
 import club.sk1er.elementa.state.toConstraint
 import club.sk1er.mods.core.universal.UKeyboard
+import club.sk1er.vigilance.VigilanceConfig
 import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.Category
 import club.sk1er.vigilance.gui.settings.*
@@ -56,7 +57,7 @@ class SettingsGui(private val config: Vigilant) : WindowScreen() {
     private val categoryScrollBar = UIBlock().constrain {
         x = 7.5f.pixels(true)
         width = 3.pixels()
-        color = VigilancePalette.scrollBlockState.toConstraint()
+        color = VigilancePalette.scrollBarState.toConstraint()
     } childOf scrollContainer
 
     private val searchBox = UIBlock().constrain {
@@ -260,8 +261,8 @@ class SettingsGui(private val config: Vigilant) : WindowScreen() {
 
     // this is temporary and will *probably* not be in a proper modcore release
     override fun onTick() {
-        if (VigilancePalette.awaitShowColourWindow && config is VigilancePalette) {
-            VigilancePalette.awaitShowColourWindow = false
+        if (VigilanceConfig.awaitShowColourWindow && config is VigilanceConfig) {
+            VigilanceConfig.awaitShowColourWindow = false
             var d = false
             var o = 0f to 0f
             val block = UIBlock(VigilancePalette.backgroundState.toConstraint()).constrain {
@@ -299,7 +300,7 @@ class SettingsGui(private val config: Vigilant) : WindowScreen() {
                 VigilancePalette.dividerState to "Divider",
                 VigilancePalette.darkDividerState to "Dark Divider",
                 VigilancePalette.outlineState to "Outline",
-                VigilancePalette.scrollBlockState to "Scroll Bar",
+                VigilancePalette.scrollBarState to "Scroll Bar",
                 VigilancePalette.brightHighlightState to "Bright Highlight",
                 VigilancePalette.highlightState to "Highlight",
                 VigilancePalette.darkHighlightState to "Dark Highlight",
