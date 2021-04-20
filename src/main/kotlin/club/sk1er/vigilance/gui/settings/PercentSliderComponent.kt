@@ -9,6 +9,7 @@ import club.sk1er.elementa.dsl.*
 import club.sk1er.elementa.state.toConstraint
 import club.sk1er.vigilance.gui.SettingsGui
 import club.sk1er.vigilance.gui.VigilancePalette
+import java.util.*
 
 class PercentSliderComponent(initialValue: Float) : AbstractSliderComponent() {
     private val percentageText = UIText(getFormattedPercent(initialValue)).constrain {
@@ -32,6 +33,6 @@ class PercentSliderComponent(initialValue: Float) : AbstractSliderComponent() {
     }
 
     private fun getFormattedPercent(value: Float? = null): String {
-        return "%.2f".format(value ?: slider.getCurrentPercentage())
+        return "%.2f".format(Locale.US,value ?: slider.getCurrentPercentage())
     }
 }
