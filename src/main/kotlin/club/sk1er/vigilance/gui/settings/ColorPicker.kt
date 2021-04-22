@@ -14,6 +14,7 @@ import club.sk1er.vigilance.gui.VigilancePalette
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.lwjgl.opengl.GL11
 import java.awt.Color
+import java.util.*
 import kotlin.math.roundToInt
 
 class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
@@ -273,7 +274,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     }
 
     private fun getFormattedAlpha(): String {
-        return "%.2f".format(alphaSlider.getCurrentPercentage())
+        return "%.2f".format(Locale.US, alphaSlider.getCurrentPercentage())
     }
 
     companion object {
