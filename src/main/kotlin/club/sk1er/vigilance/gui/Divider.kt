@@ -17,6 +17,7 @@ class Divider(val name: String, description: String?) : Setting() {
     private val label = UIText(name).constrain {
         x = CenterConstraint()
         y = 5.pixels()
+        color = VigilancePalette.brightTextState.toConstraint()
     } childOf this
 
     private val leftLine = UIBlock().constrain {
