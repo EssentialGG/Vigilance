@@ -8,6 +8,7 @@ import club.sk1er.elementa.dsl.constrain
 import club.sk1er.elementa.dsl.pixels
 import club.sk1er.elementa.state.toConstraint
 import club.sk1er.vigilance.gui.VigilancePalette
+import java.util.*
 
 class DecimalSliderComponent(
     initialValue: Float,
@@ -43,7 +44,7 @@ class DecimalSliderComponent(
 
     init {
         slider.onValueChange { newPercentage ->
-            val newValue = "%.${decimalPlaces}f".format(min + (newPercentage * (max - min)))
+            val newValue = "%.${decimalPlaces}f".format(Locale.US,min + (newPercentage * (max - min)))
             changeValue(newValue.toFloat())
             currentValueText.setText(newValue)
         }
