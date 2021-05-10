@@ -10,24 +10,10 @@ buildscript {
     project.ext.forge = !fabric
 
     repositories {
-        jcenter()
-         maven {
-            name = "fabric"
-            url = "https://maven.fabricmc.net/"
-        }
-        if (!fabric) {
-            maven {
-                name = "forge"
-                url = "https://files.minecraftforge.net/maven"
-            }
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
-        maven {
-            url = "https://jitpack.io"
-        }
+        maven { url "https://maven.fabricmc.net/" }
+        if (!fabric) maven { url "https://files.minecraftforge.net/maven" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -35,7 +21,7 @@ buildscript {
         if (fabric) {
             classpath 'fabric-loom:fabric-loom.gradle.plugin:0.4-SNAPSHOT'
         } else if (mcVersion >= 11400) {
-            classpath('net.minecraftforge.gradle:ForgeGradle:3.+'){
+            classpath('net.minecraftforge.gradle:ForgeGradle:3.+') {
                 exclude group: 'trove', module: 'trove' // preprocessor/idea requires more recent one
             }
         } else {
@@ -71,21 +57,9 @@ sourceCompatibility = targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    jcenter()
-    maven {
-        name = "kryonet"
-        url = "http://clojars.org/repo/"
-    }
-    maven {
-        url = 'https://repository.apache.org/content/repositories/releases/org/apache/xmlgraphics/'
-    }
-    maven {
-        name = 'sponge'
-        url = 'https://repo.spongepowered.org/maven'
-    }
-    maven {
-        url = "https://repo.sk1er.club/repository/maven-public"
-    }
+    maven { url 'https://repository.apache.org/content/repositories/releases/org/apache/xmlgraphics/' }
+    maven { url 'https://repo.spongepowered.org/maven' }
+    maven { url "https://repo.sk1er.club/repository/maven-public" }
 }
 
 preprocess {
@@ -169,7 +143,7 @@ dependencies {
     implementation 'com.electronwill.night-config:toml:3.6.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation ("club.sk1er:Elementa:270-$mcVersion-SNAPSHOT") {
+    implementation("club.sk1er:Elementa:271-$mcVersion-SNAPSHOT") {
         exclude module: 'UniversalCraft'
         exclude module: 'kotlin-reflect'
         exclude module: 'kotlin-stdlib-jdk8'
@@ -271,7 +245,7 @@ jar {
 
     manifest {
         attributes(
-            'FMLModType': 'LIBRARY'
+                'FMLModType': 'LIBRARY'
         )
     }
 }
