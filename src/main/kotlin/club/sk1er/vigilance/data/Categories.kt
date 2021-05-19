@@ -44,8 +44,18 @@ class PropertyItem(val data: PropertyData, val subcategory: String) : CategoryIt
             )
             PropertyType.SELECTOR -> SelectorComponent(data.getValue(), data.attributes.options.toList())
             PropertyType.COLOR -> ColorComponent(data.getValue(), data.attributes.allowAlpha)
-            PropertyType.TEXT -> TextComponent(data.getValue(), data.attributes.placeholder, false)
-            PropertyType.PARAGRAPH -> TextComponent(data.getValue(), data.attributes.placeholder, true)
+            PropertyType.TEXT -> TextComponent(
+                data.getValue(),
+                data.attributes.placeholder,
+                false,
+                data.attributes.protected
+            )
+            PropertyType.PARAGRAPH -> TextComponent(
+                data.getValue(),
+                data.attributes.placeholder,
+                wrap = true,
+                protected = false
+            )
             PropertyType.BUTTON -> ButtonComponent(data.attributes.placeholder, data)
         }
 

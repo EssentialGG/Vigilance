@@ -198,6 +198,10 @@ class SettingsGui(private val config: Vigilant) : WindowScreen() {
 
 
         window.onKeyType { typedChar, keyCode ->
+            if (UKeyboard.isKeyDown(UKeyboard.KEY_MINUS)) {
+                Inspector(window) childOf window
+                return@onKeyType
+            }
             if (!searchInput.isActive() && typedChar.isLetterOrDigit()) {
                 searchBox.click()
                 searchInput.setText("${searchInput.getText()}$typedChar")

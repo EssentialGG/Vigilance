@@ -140,6 +140,16 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
     var checkboxChuck = false
 
     @Property(
+        type = PropertyType.TEXT,
+        name = "Password",
+        description = "Anything you type here won't be visible unless the eye is clicked!",
+        category = "Property Overview",
+        placeholder = "HELLO",
+        protected = true
+    )
+    var password: String = ""
+
+    @Property(
         type = PropertyType.SWITCH,
         name = "Switch with dependants",
         description = "When ticked, this switch will make another setting appear",

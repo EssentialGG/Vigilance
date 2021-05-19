@@ -51,6 +51,10 @@ annotation class Property(
      */
     val placeholder: String = "",
     /**
+     * Reserved for [PropertyType.TEXT]
+     */
+    val protected: Boolean = false,
+    /**
      * Whether or not this property's action should be triggered with it's initial
      * value when the configuration is initialized. Useful when you only want to
      * react to changes by the user.
@@ -103,6 +107,10 @@ data class PropertyAttributes(
      */
     val placeholder: String = "",
     /**
+     * Reserved for [PropertyType.TEXT]
+     */
+    val protected: Boolean = false,
+    /**
      * Whether or not this property's action should be triggered with it's initial
      * value when the configuration is initialized. Useful when you only want to
      * react to changes by the user.
@@ -128,6 +136,7 @@ data class PropertyAttributes(
                 property.options.toList(),
                 property.allowAlpha,
                 property.placeholder,
+                property.protected,
                 property.triggerActionOnInitialization,
                 property.hidden
             )
