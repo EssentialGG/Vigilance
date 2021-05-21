@@ -8,7 +8,7 @@ import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.state.toConstraint
-import club.sk1er.vigilance.data.Category
+import gg.essential.vigilance.data.Category
 import java.awt.Color
 
 class CategoryLabel(private val gui: SettingsGui, private val category: Category) : UIContainer() {
