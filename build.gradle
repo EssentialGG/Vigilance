@@ -69,7 +69,7 @@ preprocess {
 }
 
 version = this.properties.getOrDefault("BUILD_ID", "LOCAL") //BUILD_ID
-group = "club.sk1er" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = "gg.essential" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Vigilance" + project.name
 
 if (mcVersion >= 11400) {
