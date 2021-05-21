@@ -1,13 +1,13 @@
 package club.sk1er.vigilance.gui
 
-import club.sk1er.elementa.components.UIContainer
-import club.sk1er.elementa.components.UIText
-import club.sk1er.elementa.constraints.ChildBasedMaxSizeConstraint
-import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
-import club.sk1er.elementa.constraints.SiblingConstraint
-import club.sk1er.elementa.constraints.animation.Animations
-import club.sk1er.elementa.dsl.*
-import club.sk1er.elementa.state.toConstraint
+import gg.essential.elementa.components.UIContainer
+import gg.essential.elementa.components.UIText
+import gg.essential.elementa.constraints.ChildBasedMaxSizeConstraint
+import gg.essential.elementa.constraints.ChildBasedSizeConstraint
+import gg.essential.elementa.constraints.SiblingConstraint
+import gg.essential.elementa.constraints.animation.Animations
+import gg.essential.elementa.dsl.*
+import gg.essential.elementa.state.toConstraint
 import club.sk1er.vigilance.data.Category
 import java.awt.Color
 

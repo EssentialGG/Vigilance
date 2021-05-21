@@ -1,10 +1,10 @@
 package club.sk1er.vigilance.gui
 
-import club.sk1er.elementa.components.*
-import club.sk1er.elementa.constraints.*
-import club.sk1er.elementa.dsl.*
-import club.sk1er.elementa.state.toConstraint
-import club.sk1er.elementa.utils.withAlpha
+import gg.essential.elementa.components.*
+import gg.essential.elementa.constraints.*
+import gg.essential.elementa.dsl.*
+import gg.essential.elementa.state.toConstraint
+import gg.essential.elementa.utils.withAlpha
 import club.sk1er.vigilance.data.Category
 import club.sk1er.vigilance.data.DividerItem
 import club.sk1er.vigilance.data.PropertyItem

@@ -1,15 +1,15 @@
 package club.sk1er.vigilance.gui.settings
 
-import club.sk1er.elementa.UIComponent
-import club.sk1er.elementa.components.SVGComponent
-import club.sk1er.elementa.components.UIBlock
-import club.sk1er.elementa.components.UIContainer
-import club.sk1er.elementa.components.UIText
-import club.sk1er.elementa.constraints.*
-import club.sk1er.elementa.dsl.*
-import club.sk1er.elementa.effects.OutlineEffect
-import club.sk1er.elementa.state.toConstraint
-import club.sk1er.mods.core.universal.UGraphics
+import gg.essential.elementa.UIComponent
+import gg.essential.elementa.components.SVGComponent
+import gg.essential.elementa.components.UIBlock
+import gg.essential.elementa.components.UIContainer
+import gg.essential.elementa.components.UIText
+import gg.essential.elementa.constraints.*
+import gg.essential.elementa.dsl.*
+import gg.essential.elementa.effects.OutlineEffect
+import gg.essential.elementa.state.toConstraint
+import gg.essential.universal.UGraphics
 import club.sk1er.vigilance.gui.VigilancePalette
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.lwjgl.opengl.GL11

@@ -1,11 +1,11 @@
 package club.sk1er.vigilance.gui.settings
 
-import club.sk1er.elementa.components.UIBlock
-import club.sk1er.elementa.constraints.RelativeConstraint
-import club.sk1er.elementa.constraints.animation.Animations
-import club.sk1er.elementa.dsl.*
-import club.sk1er.elementa.effects.OutlineEffect
-import club.sk1er.elementa.state.toConstraint
+import gg.essential.elementa.components.UIBlock
+import gg.essential.elementa.constraints.RelativeConstraint
+import gg.essential.elementa.constraints.animation.Animations
+import gg.essential.elementa.dsl.*
+import gg.essential.elementa.effects.OutlineEffect
+import gg.essential.elementa.state.toConstraint
 import club.sk1er.vigilance.gui.SettingsGui
 import club.sk1er.vigilance.gui.VigilancePalette
 

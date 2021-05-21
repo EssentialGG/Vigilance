@@ -1,12 +1,12 @@
 package club.sk1er.vigilance.gui.settings
 
-import club.sk1er.elementa.components.UIText
-import club.sk1er.elementa.constraints.*
-import club.sk1er.elementa.dsl.boundTo
-import club.sk1er.elementa.dsl.childOf
-import club.sk1er.elementa.dsl.constrain
-import club.sk1er.elementa.dsl.pixels
-import club.sk1er.elementa.state.toConstraint
+import gg.essential.elementa.components.UIText
+import gg.essential.elementa.constraints.*
+import gg.essential.elementa.dsl.boundTo
+import gg.essential.elementa.dsl.childOf
+import gg.essential.elementa.dsl.constrain
+import gg.essential.elementa.dsl.pixels
+import gg.essential.elementa.state.toConstraint
 import club.sk1er.vigilance.gui.VigilancePalette
 import java.util.*
 

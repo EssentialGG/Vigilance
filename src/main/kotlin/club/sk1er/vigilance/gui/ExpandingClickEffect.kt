@@ -1,13 +1,13 @@
 package club.sk1er.vigilance.gui
 
-import club.sk1er.elementa.UIComponent
-import club.sk1er.elementa.components.UICircle
-import club.sk1er.elementa.components.Window
-import club.sk1er.elementa.dsl.*
-import club.sk1er.elementa.effects.Effect
-import club.sk1er.elementa.effects.ScissorEffect
-import club.sk1er.elementa.events.UIClickEvent
-import club.sk1er.elementa.utils.withAlpha
+import gg.essential.elementa.UIComponent
+import gg.essential.elementa.components.UICircle
+import gg.essential.elementa.components.Window
+import gg.essential.elementa.dsl.*
+import gg.essential.elementa.effects.Effect
+import gg.essential.elementa.effects.ScissorEffect
+import gg.essential.elementa.events.UIClickEvent
+import gg.essential.elementa.utils.withAlpha
 import java.awt.Color
 import kotlin.math.max
 import kotlin.math.pow

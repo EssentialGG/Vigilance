@@ -1,6 +1,6 @@
 package club.sk1er.vigilance.data
 
-import club.sk1er.mods.core.universal.UChat
+import gg.essential.universal.UChat
 import club.sk1er.vigilance.Vigilant
 import java.lang.reflect.Field
 

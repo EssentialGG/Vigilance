@@ -1,6 +1,6 @@
 package club.sk1er.vigilance.gui
 
-import club.sk1er.elementa.state.BasicState
+import gg.essential.elementa.state.BasicState
 import club.sk1er.vigilance.VigilanceConfig
 import java.awt.Color
 

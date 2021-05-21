@@ -1,15 +1,15 @@
 package club.sk1er.vigilance.gui
 
-import club.sk1er.elementa.components.UIBlock
-import club.sk1er.elementa.components.UIContainer
-import club.sk1er.elementa.components.UIText
-import club.sk1er.elementa.components.UIWrappedText
-import club.sk1er.elementa.constraints.*
-import club.sk1er.elementa.dsl.*
-import club.sk1er.elementa.effects.OutlineEffect
-import club.sk1er.elementa.state.toConstraint
-import club.sk1er.elementa.transitions.RecursiveFadeInTransition
-import club.sk1er.elementa.transitions.RecursiveFadeOutTransition
+import gg.essential.elementa.components.UIBlock
+import gg.essential.elementa.components.UIContainer
+import gg.essential.elementa.components.UIText
+import gg.essential.elementa.components.UIWrappedText
+import gg.essential.elementa.constraints.*
+import gg.essential.elementa.dsl.*
+import gg.essential.elementa.effects.OutlineEffect
+import gg.essential.elementa.state.toConstraint
+import gg.essential.elementa.transitions.RecursiveFadeInTransition
+import gg.essential.elementa.transitions.RecursiveFadeOutTransition
 import club.sk1er.vigilance.Vigilant
 import java.awt.Color
 

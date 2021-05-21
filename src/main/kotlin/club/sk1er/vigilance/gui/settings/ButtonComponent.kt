@@ -1,14 +1,14 @@
 package club.sk1er.vigilance.gui.settings
 
-import club.sk1er.elementa.components.UIContainer
-import club.sk1er.elementa.components.UIRoundedRectangle
-import club.sk1er.elementa.components.UIWrappedText
-import club.sk1er.elementa.constraints.CenterConstraint
-import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
-import club.sk1er.elementa.constraints.animation.Animations
-import club.sk1er.elementa.dsl.*
-import club.sk1er.elementa.state.toConstraint
-import club.sk1er.elementa.utils.withAlpha
+import gg.essential.elementa.components.UIContainer
+import gg.essential.elementa.components.UIRoundedRectangle
+import gg.essential.elementa.components.UIWrappedText
+import gg.essential.elementa.constraints.CenterConstraint
+import gg.essential.elementa.constraints.ChildBasedSizeConstraint
+import gg.essential.elementa.constraints.animation.Animations
+import gg.essential.elementa.dsl.*
+import gg.essential.elementa.state.toConstraint
+import gg.essential.elementa.utils.withAlpha
 import club.sk1er.vigilance.data.CallablePropertyValue
 import club.sk1er.vigilance.data.KFunctionBackedPropertyValue
 import club.sk1er.vigilance.data.MethodBackedPropertyValue

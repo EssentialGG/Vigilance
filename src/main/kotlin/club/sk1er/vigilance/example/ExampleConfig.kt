@@ -2,7 +2,7 @@
 
 package club.sk1er.vigilance.example
 
-import club.sk1er.mods.core.universal.UChat
+import gg.essential.universal.UChat
 import club.sk1er.vigilance.Vigilant
 import club.sk1er.vigilance.data.*
 import java.awt.Color

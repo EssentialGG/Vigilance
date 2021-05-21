@@ -1,10 +1,10 @@
 package club.sk1er.vigilance.gui
 
-import club.sk1er.elementa.components.UIContainer
-import club.sk1er.elementa.constraints.ChildBasedMaxSizeConstraint
-import club.sk1er.elementa.constraints.RelativeConstraint
-import club.sk1er.elementa.constraints.SiblingConstraint
-import club.sk1er.elementa.dsl.constrain
+import gg.essential.elementa.components.UIContainer
+import gg.essential.elementa.constraints.ChildBasedMaxSizeConstraint
+import gg.essential.elementa.constraints.RelativeConstraint
+import gg.essential.elementa.constraints.SiblingConstraint
+import gg.essential.elementa.dsl.constrain
 
 abstract class Setting : UIContainer() {
     init {

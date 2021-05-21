@@ -1,10 +1,10 @@
 package club.sk1er.vigilance.gui.settings
 
-import club.sk1er.elementa.components.UIContainer
-import club.sk1er.elementa.constraints.CenterConstraint
-import club.sk1er.elementa.dsl.constrain
-import club.sk1er.elementa.dsl.pixels
-import club.sk1er.elementa.svg.SVGParser
+import gg.essential.elementa.components.UIContainer
+import gg.essential.elementa.constraints.CenterConstraint
+import gg.essential.elementa.dsl.constrain
+import gg.essential.elementa.dsl.pixels
+import gg.essential.elementa.svg.SVGParser
 import club.sk1er.vigilance.gui.DataBackedSetting
 
 abstract class SettingComponent : UIContainer() {

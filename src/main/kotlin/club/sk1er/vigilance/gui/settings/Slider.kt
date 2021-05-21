@@ -1,11 +1,11 @@
 package club.sk1er.vigilance.gui.settings
 
-import club.sk1er.elementa.components.UIBlock
-import club.sk1er.elementa.components.UIContainer
-import club.sk1er.elementa.constraints.*
-import club.sk1er.elementa.dsl.*
-import club.sk1er.elementa.effects.OutlineEffect
-import club.sk1er.elementa.state.toConstraint
+import gg.essential.elementa.components.UIBlock
+import gg.essential.elementa.components.UIContainer
+import gg.essential.elementa.constraints.*
+import gg.essential.elementa.dsl.*
+import gg.essential.elementa.effects.OutlineEffect
+import gg.essential.elementa.state.toConstraint
 import club.sk1er.vigilance.gui.VigilancePalette
 import java.awt.Color
 

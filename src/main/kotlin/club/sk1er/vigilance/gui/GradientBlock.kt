@@ -1,7 +1,7 @@
 package club.sk1er.vigilance.gui
 
-import club.sk1er.elementa.components.UIBlock
-import club.sk1er.mods.core.universal.UGraphics
+import gg.essential.elementa.components.UIBlock
+import gg.essential.universal.UGraphics
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.lwjgl.opengl.GL11
 import java.awt.Color

@@ -1,8 +1,8 @@
 package club.sk1er.vigilance
 
-import club.sk1er.elementa.effects.StencilEffect
-import club.sk1er.mods.core.universal.UMinecraft
-import club.sk1er.mods.core.universal.UScreen
+import gg.essential.elementa.effects.StencilEffect
+import gg.essential.universal.UMinecraft
+import gg.essential.universal.UScreen
 import club.sk1er.vigilance.command.PaletteCommand
 import club.sk1er.vigilance.gui.VigilancePalette
 

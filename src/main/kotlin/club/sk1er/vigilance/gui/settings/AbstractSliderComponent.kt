@@ -1,11 +1,11 @@
 package club.sk1er.vigilance.gui.settings
 
-import club.sk1er.elementa.constraints.ChildBasedMaxSizeConstraint
-import club.sk1er.elementa.constraints.ChildBasedSizeConstraint
-import club.sk1er.elementa.constraints.animation.Animations
-import club.sk1er.elementa.dsl.animate
-import club.sk1er.elementa.dsl.constrain
-import club.sk1er.elementa.dsl.pixels
+import gg.essential.elementa.constraints.ChildBasedMaxSizeConstraint
+import gg.essential.elementa.constraints.ChildBasedSizeConstraint
+import gg.essential.elementa.constraints.animation.Animations
+import gg.essential.elementa.dsl.animate
+import gg.essential.elementa.dsl.constrain
+import gg.essential.elementa.dsl.pixels
 
 abstract class AbstractSliderComponent : SettingComponent() {
     protected abstract val slider: Slider

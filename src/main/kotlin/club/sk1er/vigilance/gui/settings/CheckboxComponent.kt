@@ -1,11 +1,11 @@
 package club.sk1er.vigilance.gui.settings
 
-import club.sk1er.elementa.components.UIImage
-import club.sk1er.elementa.constraints.AspectConstraint
-import club.sk1er.elementa.constraints.CenterConstraint
-import club.sk1er.elementa.dsl.*
-import club.sk1er.elementa.effects.OutlineEffect
-import club.sk1er.elementa.state.toConstraint
+import gg.essential.elementa.components.UIImage
+import gg.essential.elementa.constraints.AspectConstraint
+import gg.essential.elementa.constraints.CenterConstraint
+import gg.essential.elementa.dsl.*
+import gg.essential.elementa.effects.OutlineEffect
+import gg.essential.elementa.state.toConstraint
 import club.sk1er.vigilance.gui.VigilancePalette
 
 class CheckboxComponent(initialValue: Boolean) : SettingComponent() {

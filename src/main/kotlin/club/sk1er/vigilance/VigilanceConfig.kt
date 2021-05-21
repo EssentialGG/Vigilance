@@ -1,6 +1,6 @@
 package club.sk1er.vigilance
 
-import club.sk1er.elementa.utils.withAlpha
+import gg.essential.elementa.utils.withAlpha
 import club.sk1er.vigilance.data.Property
 import club.sk1er.vigilance.data.PropertyType
 import club.sk1er.vigilance.gui.VigilancePalette

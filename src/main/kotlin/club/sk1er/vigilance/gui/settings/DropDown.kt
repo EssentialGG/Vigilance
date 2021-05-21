@@ -1,13 +1,13 @@
 package club.sk1er.vigilance.gui.settings
 
-import club.sk1er.elementa.UIComponent
-import club.sk1er.elementa.components.*
-import club.sk1er.elementa.constraints.*
-import club.sk1er.elementa.constraints.animation.Animations
-import club.sk1er.elementa.dsl.*
-import club.sk1er.elementa.effects.OutlineEffect
-import club.sk1er.elementa.effects.ScissorEffect
-import club.sk1er.elementa.state.toConstraint
+import gg.essential.elementa.UIComponent
+import gg.essential.elementa.components.*
+import gg.essential.elementa.constraints.*
+import gg.essential.elementa.constraints.animation.Animations
+import gg.essential.elementa.dsl.*
+import gg.essential.elementa.effects.OutlineEffect
+import gg.essential.elementa.effects.ScissorEffect
+import gg.essential.elementa.state.toConstraint
 import club.sk1er.vigilance.gui.VigilancePalette
 import java.awt.Color
 
