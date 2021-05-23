@@ -53,7 +53,7 @@ annotation class Property(
     /**
      * Reserved for [PropertyType.TEXT]
      */
-    val protected: Boolean = false,
+    val protectedText: Boolean = false,
     /**
      * Whether or not this property's action should be triggered with it's initial
      * value when the configuration is initialized. Useful when you only want to
@@ -136,7 +136,7 @@ data class PropertyAttributes(
                 property.options.toList(),
                 property.allowAlpha,
                 property.placeholder,
-                property.protected,
+                property.protectedText,
                 property.triggerActionOnInitialization,
                 property.hidden
             )

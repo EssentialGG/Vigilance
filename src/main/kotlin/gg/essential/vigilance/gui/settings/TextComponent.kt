@@ -1,22 +1,17 @@
 package gg.essential.vigilance.gui.settings
 
-import gg.essential.elementa.components.SVGComponent
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIImage
 import gg.essential.elementa.components.input.AbstractTextInput
 import gg.essential.elementa.components.input.UIMultilineTextInput
 import gg.essential.elementa.components.input.UIPasswordInput
 import gg.essential.elementa.components.input.UITextInput
-import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
-import gg.essential.elementa.state.BasicState
 import gg.essential.elementa.state.toConstraint
-import gg.essential.vigilance.VigilanceConfig
 import gg.essential.vigilance.gui.VigilancePalette
-import java.awt.Color
 
 class TextComponent(
     private val initial: String,

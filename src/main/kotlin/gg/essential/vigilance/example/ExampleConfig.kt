@@ -145,7 +145,7 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         description = "Anything you type here won't be visible unless the eye is clicked!",
         category = "Property Overview",
         placeholder = "HELLO",
-        protected = true
+        protectedText = true
     )
     var password: String = ""
 
