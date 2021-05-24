@@ -10,12 +10,12 @@ import gg.essential.vigilance.data.DividerItem
 import gg.essential.vigilance.data.PropertyItem
 
 class SettingsCategory(category: Category) : UIContainer() {
-    private val scrollerBoundingBox = UIContainer().constrain {
+    private val scrollerBoundingBox by UIContainer().constrain {
         width = RelativeConstraint(1f) - 5.pixels()
         height = RelativeConstraint(1f)
     } childOf this
 
-    internal val scroller = ScrollComponent(
+    internal val scroller by ScrollComponent(
         "No matching settings found :(",
         innerPadding = 4f,
         pixelsPerScroll = 25f,
@@ -26,8 +26,8 @@ class SettingsCategory(category: Category) : UIContainer() {
         height = RelativeConstraint(1f) - 50.pixels()
     } childOf this
 
-    private val scrollBar = UIBlock().constrain {
-        x = SiblingConstraint() + 2.pixels()
+    private val scrollBar by UIBlock().constrain {
+        x = SiblingConstraint() - 3.pixels()
         width = 3.pixels()
         color = VigilancePalette.scrollBarState.toConstraint()
     } childOf this
