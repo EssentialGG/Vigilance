@@ -9,7 +9,6 @@ import gg.essential.elementa.constraints.*
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
-import gg.essential.elementa.effects.ScissorEffect
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.UKeyboard
 import gg.essential.vigilance.VigilanceConfig
@@ -19,138 +18,52 @@ import gg.essential.vigilance.gui.settings.*
 import java.awt.Color
 
 class SettingsGui(private val config: Vigilant) : WindowScreen() {
-    private val background = UIBlock().constrain {
-        width = RelativeConstraint(1f)
-        height = RelativeConstraint(1f)
-        color = VigilancePalette.backgroundState.toConstraint()
-    } childOf window
+    init {
+        UIBlock().constrain {
+            width = RelativeConstraint(1f)
+            height = RelativeConstraint(1f)
+            color = VigilancePalette.backgroundState.toConstraint()
+        } childOf window
+    }
 
-    private val outerContainer = UIContainer().constrain {
+    private val outerContainer by UIContainer().constrain {
         x = RelativeConstraint(0.12f)
         y = RelativeConstraint(0.1f)
         width = RelativeConstraint(0.78f)
         height = RelativeConstraint(0.8f)
     } childOf window
 
-    private val sidebar = UIContainer().constrain {
+    private val sidebar by UIContainer().constrain {
         width = RelativeConstraint(0.25f)
         height = RelativeConstraint(1f)
     } childOf outerContainer
 
-    private val titleLabel = UIWrappedText(config.guiTitle, shadow = false).constrain {
-        textScale = 2f.pixels()
-        width = 90.percent()
-        color = VigilancePalette.brightTextState.toConstraint()
-    } childOf sidebar
+    init {
+        UIWrappedText(config.guiTitle, shadow = false).constrain {
+            textScale = 2f.pixels()
+            width = 90.percent()
+            color = VigilancePalette.brightTextState.toConstraint()
+        } childOf sidebar
+    }
 
-    private val scrollContainer = UIContainer().constrain {
+    private val scrollContainer by UIContainer().constrain {
         y = SiblingConstraint() + 40.pixels()
         width = RelativeConstraint(1f) - 10.pixels()
         height = FillConstraint()
     } childOf sidebar
 
-    private val categoryScroller = ScrollComponent(pixelsPerScroll = 25f).constrain {
+    private val categoryScroller by ScrollComponent(pixelsPerScroll = 25f).constrain {
         width = RelativeConstraint(1f)
         height = RelativeConstraint(1f)
     } childOf scrollContainer
 
-    private val categoryScrollBar = UIBlock().constrain {
+    private val categoryScrollBar by UIBlock().constrain {
         x = 7.5f.pixels(true)
         width = 3.pixels()
         color = VigilancePalette.scrollBarState.toConstraint()
     } childOf scrollContainer
 
-    private val searchBox = UIBlock().constrain {
-        x = 5.pixels(true)
-        y = 5.pixels()
-        width = 20.pixels()
-        height = 20.pixels()
-        color = VigilancePalette.searchBarBackgroundState.toConstraint()
-    } childOf window effect ScissorEffect()
-
-    private val searchIcon = UIImage.ofResource("/vigilance/search.png").constrain {
-        x = 2.pixels()
-        y = CenterConstraint()
-        width = 16.pixels()
-        height = 16.pixels()
-    } childOf searchBox
-
-    private val searchContainer = UIContainer().constrain {
-        x = SiblingConstraint(4f)
-        y = 5.5f.pixels()
-        width = 100.pixels()
-        height = 12.pixels()
-    } childOf searchBox
-
-    private val searchInput = UITextInput("Search...", shadow = false).constrain {
-        width = 75.pixels()
-        height = RelativeConstraint(1f)
-    } childOf searchContainer
-
-    private val searchCloseIcon = SVGComponent.ofResource("/vigilance/x.svg").constrain {
-        x = SiblingConstraint(4f)
-        y = CenterConstraint()
-        width = 12.pixels()
-        height = 12.pixels()
-        color = VigilancePalette.brightTextState.toConstraint()
-    } childOf searchBox
-
     init {
-        // this doesn't seem to work?
-        //window.onKeyType { typedChar, keyCode ->
-        //    if (typedChar.toInt() == 6)
-        //        searchInput.grabWindowFocus()
-        //    else
-        //        defaultKeyBehavior(typedChar, keyCode)
-        //}
-
-        searchBox.onMouseClick { event ->
-            if (event.mouseButton == 1 && searchInput.isActive()) {
-                hideSearch()
-            } else {
-                searchInput.grabWindowFocus()
-                searchBox.animate {
-                    setWidthAnimation(Animations.OUT_EXP, 1f, ChildBasedSizeConstraint(4f) + 8.pixels())
-                }
-            }
-            event.stopPropagation()
-        }.onMouseEnter {
-            if (searchInput.isActive()) return@onMouseEnter
-            searchBox.animate {
-                setWidthAnimation(Animations.OUT_EXP, 1f, 65.pixels())
-            }
-        }.onMouseLeave {
-            if (searchInput.isActive()) return@onMouseLeave
-            hideSearch()
-        }
-
-        searchInput.onUpdate { searchTerm ->
-            val searchCategory = config.getCategoryFromSearch(searchTerm)
-            selectCategory(searchCategory)
-        }.onFocus {
-            searchInput.setActive(true)
-            searchBox.animate {
-                setWidthAnimation(Animations.OUT_EXP, 1f, ChildBasedSizeConstraint(4f) + 8.pixels())
-            }
-        }.onFocusLost {
-            searchInput.setActive(false)
-            hideSearch()
-        }
-
-        searchCloseIcon.onMouseClick { event ->
-            searchInput.setText("")
-            searchInput.releaseWindowFocus()
-            event.stopPropagation()
-        }.onMouseEnter {
-            animate {
-                setColorAnimation(Animations.OUT_EXP, .3f, VigilancePalette.warningState.toConstraint())
-            }
-        }.onMouseLeave {
-            animate {
-                setColorAnimation(Animations.OUT_EXP, .3f, VigilancePalette.brightTextState.toConstraint())
-            }
-        }
-
         window.onMouseClick {
             currentCategory.closePopups()
         }
@@ -167,18 +80,86 @@ class SettingsGui(private val config: Vigilant) : WindowScreen() {
         }
     }
 
-    private val splitter = UIBlock().constrain {
-        x = SiblingConstraint()
-        width = 1.pixels()
-        height = RelativeConstraint(1f)
-        color = VigilancePalette.darkDividerState.toConstraint()
-    } childOf outerContainer
+    init {
+        UIBlock().constrain {
+            x = SiblingConstraint()
+            width = 1.pixels()
+            height = RelativeConstraint(1f)
+            color = VigilancePalette.darkDividerState.toConstraint()
+        } childOf outerContainer
+    }
 
-    private val categoryHolder = UIContainer().constrain {
+    private val categoryHolder by UIContainer().constrain {
         x = SiblingConstraint() + 5.pixels()
         width = FillConstraint()
         height = RelativeConstraint(1f)
     } childOf outerContainer
+
+    private val searchContainer by UIContainer().constrain {
+        // this is so scuffed lol
+        x = basicXConstraint { categoryHolder.getLeft() + 4f }
+        y = basicYConstraint { categoryHolder.getTop() - 22 }
+        width = basicWidthConstraint { categoryHolder.getWidth() - 11f }
+        height = 20.pixels()
+    } childOf window
+
+    init {
+        UIImage.ofResource("/vigilance/search.png").constrain {
+            x = 2.pixels()
+            y = CenterConstraint() - 2.pixels()
+            width = 16.pixels()
+            height = 16.pixels()
+        } childOf searchContainer
+    }
+
+    private val searchInputContainer by UIContainer().constrain {
+        x = SiblingConstraint(6f)
+        y = 3.5f.pixels()
+        height = 12.pixels()
+        width = 100.percent()
+    } childOf searchContainer
+
+    private val searchInput by UITextInput("Search...", shadow = false).constrain {
+        width = 90.percent()
+        height = 100.percent()
+    } childOf searchInputContainer
+
+    private val searchIndicator by UIBlock(VigilancePalette.darkDividerState).constrain {
+        y = 1.pixel(alignOpposite = true)
+        height = 1.pixels()
+        width = 100.percent()
+    } childOf searchContainer
+
+    private val searchIndicatorAccent by UIBlock(VigilancePalette.accentState).constrain {
+        height = 100.percent()
+        width = 0.pixels()
+        x = CenterConstraint()
+    } childOf searchIndicator
+
+    init {
+        searchContainer.onMouseClick { event ->
+            searchInput.grabWindowFocus()
+            searchIndicatorAccent.animate {
+                setWidthAnimation(Animations.OUT_EXP, .5f, 100.percent())
+            }
+            event.stopPropagation()
+        }.onMouseEnter {
+            searchIndicator.animate {
+                setColorAnimation(Animations.OUT_EXP, .25f, VigilancePalette.dividerState.toConstraint())
+            }
+        }.onMouseLeave {
+            searchIndicator.animate {
+                setColorAnimation(Animations.OUT_EXP, .25f, VigilancePalette.darkDividerState.toConstraint())
+            }
+        }
+
+        searchInput.onUpdate {
+            selectCategory(config.getCategoryFromSearch(it))
+        }.onFocusLost {
+            searchIndicatorAccent.setWidth(0.pixels())
+            searchInput.setActive(false)
+        }
+    }
 
     private var currentCategory = categories.values.first()
 
@@ -196,14 +177,13 @@ class SettingsGui(private val config: Vigilant) : WindowScreen() {
         fun UIComponent.click(): Unit =
             mouseClick(getLeft() + (getRight() - getLeft()) / 2.0, getTop() + (getBottom() - getTop()) / 2.0, 0)
 
-
         window.onKeyType { typedChar, keyCode ->
             if (UKeyboard.isKeyDown(UKeyboard.KEY_MINUS)) {
                 Inspector(window) childOf window
                 return@onKeyType
             }
             if (!searchInput.isActive() && typedChar.isLetterOrDigit()) {
-                searchBox.click()
+                searchContainer.click()
                 searchInput.setText("${searchInput.getText()}$typedChar")
                 return@onKeyType
             }
@@ -257,13 +237,7 @@ class SettingsGui(private val config: Vigilant) : WindowScreen() {
         categoryScroller.allChildren.filterIsInstance<CategoryLabel>().firstOrNull { it.isSelected }?.deselect()
     }
 
-    private fun hideSearch() {
-        searchBox.animate {
-            setWidthAnimation(Animations.OUT_EXP, 1f, 20.pixels())
-        }
-    }
-
-    // this is temporary and will *probably* not be in a proper modcore release
+    // this is temporary and will *probably* not be in a proper essential release
     override fun onTick() {
         if (VigilanceConfig.awaitShowColourWindow && config is VigilanceConfig) {
             VigilanceConfig.awaitShowColourWindow = false
