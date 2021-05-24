@@ -9,12 +9,11 @@ import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.data.Category
-import java.awt.Color
 
 class CategoryLabel(private val gui: SettingsGui, private val category: Category) : UIContainer() {
     private val text = UIText(category.name).constrain {
         color = VigilancePalette.midTextState.toConstraint()
-        textScale = 1.pixels()
+        textScale = 1.2f.pixels()
     } childOf this
 
     var isSelected = false
