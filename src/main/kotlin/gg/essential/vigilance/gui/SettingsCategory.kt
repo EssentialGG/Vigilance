@@ -1,12 +1,14 @@
 package gg.essential.vigilance.gui
 
 import gg.essential.elementa.components.*
-import gg.essential.elementa.constraints.*
+import gg.essential.elementa.constraints.CenterConstraint
+import gg.essential.elementa.constraints.ChildBasedMaxSizeConstraint
+import gg.essential.elementa.constraints.RelativeConstraint
+import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.dsl.*
+import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
-import gg.essential.elementa.utils.withAlpha
 import gg.essential.vigilance.data.Category
-import gg.essential.vigilance.data.DividerItem
 import gg.essential.vigilance.data.PropertyItem
 
 class SettingsCategory(category: Category) : UIContainer() {
@@ -51,6 +53,7 @@ class SettingsCategory(category: Category) : UIContainer() {
                 y = SiblingConstraint() + 3.pixels()
                 width = 70.percent()
                 color = VigilancePalette.midTextState.toConstraint()
+                fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
             } childOf textContainer
         }
 

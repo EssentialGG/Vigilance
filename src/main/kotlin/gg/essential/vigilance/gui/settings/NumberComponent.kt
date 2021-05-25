@@ -1,7 +1,6 @@
 package gg.essential.vigilance.gui.settings
 
 import gg.essential.elementa.UIComponent
-import gg.essential.elementa.components.SVGComponent
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIImage
 import gg.essential.elementa.components.UIText
@@ -9,12 +8,15 @@ import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.ChildBasedMaxSizeConstraint
 import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
-import gg.essential.elementa.dsl.*
+import gg.essential.elementa.dsl.childOf
+import gg.essential.elementa.dsl.constrain
+import gg.essential.elementa.dsl.pixels
+import gg.essential.elementa.dsl.provideDelegate
 import gg.essential.elementa.effects.OutlineEffect
+import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.State
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.UKeyboard
-import gg.essential.universal.UMouse
 import gg.essential.vigilance.gui.VigilancePalette
 import java.awt.Color
 
@@ -26,19 +28,20 @@ class NumberComponent(
 ) : SettingComponent() {
     private var value = initialValue
 
-    private val valueText = UIText(value.toString()).constrain {
+    private val valueText by UIText(value.toString()).constrain {
         y = CenterConstraint()
         textScale = 1.5f.pixels()
         color = VigilancePalette.accentState.toConstraint()
+        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
     } childOf this
 
-    private val controlContainer = UIContainer().constrain {
+    private val controlContainer by UIContainer().constrain {
         x = SiblingConstraint(5f)
         width = ChildBasedMaxSizeConstraint()
         height = ChildBasedSizeConstraint(CONTROL_PADDING)
     } childOf this
 
-    private val incrementControl = UIContainer().constrain {
+    private val incrementControl by UIContainer().constrain {
         y = SiblingConstraint(CONTROL_PADDING)
         width = CONTROL_WIDTH.pixels()
         height = CONTROL_HEIGHT.pixels()
@@ -53,7 +56,7 @@ class NumberComponent(
         } childOf incrementControl
     }
 
-    private val decrementControl = UIContainer().constrain {
+    private val decrementControl by UIContainer().constrain {
         y = SiblingConstraint(CONTROL_PADDING)
         width = CONTROL_WIDTH.pixels()
         height = CONTROL_HEIGHT.pixels()

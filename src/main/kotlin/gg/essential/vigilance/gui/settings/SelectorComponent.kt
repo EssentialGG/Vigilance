@@ -1,11 +1,10 @@
 package gg.essential.vigilance.gui.settings
 
 import gg.essential.elementa.constraints.ChildBasedSizeConstraint
-import gg.essential.elementa.dsl.childOf
-import gg.essential.elementa.dsl.constrain
+import gg.essential.elementa.dsl.*
 
 class SelectorComponent(initialSelection: Int, options: List<String>) : SettingComponent() {
-    internal val dropDown = DropDown(initialSelection, options) childOf this
+    internal val dropDown by DropDown(initialSelection, options) childOf this
 
     init {
         constrain {

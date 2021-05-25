@@ -7,6 +7,7 @@ import gg.essential.elementa.components.UIWrappedText
 import gg.essential.elementa.constraints.*
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
+import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.elementa.transitions.RecursiveFadeInTransition
 import gg.essential.elementa.transitions.RecursiveFadeOutTransition
@@ -14,13 +15,14 @@ import gg.essential.vigilance.Vigilant
 import java.awt.Color
 
 class Divider(val name: String, description: String?) : Setting() {
-    private val label = UIText(name).constrain {
+    private val label by UIText(name).constrain {
         x = CenterConstraint()
         y = 5.pixels()
         color = VigilancePalette.brightTextState.toConstraint()
+        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
     } childOf this
 
-    private val leftLine = UIBlock().constrain {
+    private val leftLine by UIBlock().constrain {
         x = 0.pixels()
         y = basicYConstraint { label.getTop() + label.getHeight() / 2f }
         width = basicWidthConstraint { label.getLeft() - getLeft() - 10f }
@@ -28,7 +30,7 @@ class Divider(val name: String, description: String?) : Setting() {
         color = VigilancePalette.darkDividerState.toConstraint()
     } childOf this
 
-    private val rightLine = UIBlock().constrain {
+    private val rightLine by UIBlock().constrain {
         x = basicXConstraint { label.getRight() + 10f }
         y = basicYConstraint { label.getTop() + label.getHeight() / 2f }
         width = FillConstraint()
@@ -56,6 +58,7 @@ class Divider(val name: String, description: String?) : Setting() {
                 y = SiblingConstraint() + 3.pixels()
                 width = 70.percent()
                 color = VigilancePalette.midTextState.toConstraint()
+                fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
             } childOf textContainer
         } else {
             constrain {

@@ -22,27 +22,28 @@ class DropDown(
     private var onValueChange: (Int) -> Unit = { }
     private var active = false
 
-    private val currentSelectionText = UIText(options[selected]).constrain {
+    private val currentSelectionText by UIText(options[selected]).constrain {
         x = 5.pixels()
         y = 6.pixels()
         color = VigilancePalette.midTextState.toConstraint()
+        fontProvider = getFontProvider()
     } childOf this
 
-    private val downArrow = UIImage.ofResource(SettingComponent.DOWN_ARROW_PNG).constrain {
+    private val downArrow by UIImage.ofResource(SettingComponent.DOWN_ARROW_PNG).constrain {
         x = 5.pixels(true)
         y = 7.5.pixels()
         width = 9.pixels()
         height = 5.pixels()
     } childOf this
 
-    private val upArrow = UIImage.ofResource(SettingComponent.UP_ARROW_PNG).constrain {
+    private val upArrow by UIImage.ofResource(SettingComponent.UP_ARROW_PNG).constrain {
         x = 5.pixels(true)
         y = 7.5.pixels()
         width = 9.pixels()
         height = 5.pixels()
     }
 
-    private val optionsHolder = UIContainer().constrain {
+    private val optionsHolder by UIContainer().constrain {
         x = 5.pixels()
         y = SiblingConstraint() boundTo currentSelectionText
         width = ChildBasedMaxSizeConstraint()
@@ -54,6 +55,7 @@ class DropDown(
         UIText(option).constrain {
             y = SiblingConstraint() + optionPadding.pixels()
             color = Color(0, 0, 0, 0).toConstraint()
+            fontProvider = getFontProvider()
         }.onMouseEnter {
             hoverText(this)
         }.onMouseLeave {

@@ -7,13 +7,15 @@ import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
+import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.data.Category
 
 class CategoryLabel(private val gui: SettingsGui, private val category: Category) : UIContainer() {
-    private val text = UIText(category.name).constrain {
+    private val text by UIText(category.name).constrain {
         color = VigilancePalette.midTextState.toConstraint()
         textScale = 1.2f.pixels()
+        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
     } childOf this
 
     var isSelected = false

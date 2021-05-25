@@ -9,6 +9,7 @@ import gg.essential.elementa.constraints.*
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
+import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.UKeyboard
 import gg.essential.vigilance.VigilanceConfig
@@ -43,6 +44,8 @@ class SettingsGui(private val config: Vigilant) : WindowScreen() {
             textScale = 2f.pixels()
             width = 90.percent()
             color = VigilancePalette.brightTextState.toConstraint()
+            // issues with height/scaling when msdf. not a priority atm but will fix eventually
+            //fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
         } childOf sidebar
     }
 
@@ -122,6 +125,7 @@ class SettingsGui(private val config: Vigilant) : WindowScreen() {
     private val searchInput by UITextInput("Search...", shadow = false).constrain {
         width = 90.percent()
         height = 100.percent()
+        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
     } childOf searchInputContainer
 
     private val searchIndicator by UIBlock(VigilancePalette.darkDividerState).constrain {

@@ -7,11 +7,10 @@ import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
+import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.elementa.utils.withAlpha
 import gg.essential.vigilance.data.CallablePropertyValue
-import gg.essential.vigilance.data.KFunctionBackedPropertyValue
-import gg.essential.vigilance.data.MethodBackedPropertyValue
 import gg.essential.vigilance.data.PropertyData
 import gg.essential.vigilance.gui.ExpandingClickEffect
 import gg.essential.vigilance.gui.VigilancePalette
@@ -19,13 +18,13 @@ import gg.essential.vigilance.gui.VigilancePalette
 class ButtonComponent(placeholder: String? = null, private val callback: () -> Unit) : SettingComponent() {
     private val buttonText = placeholder ?: "Activate"
 
-    internal val container = UIRoundedRectangle(2f).constrain {
+    internal val container by UIRoundedRectangle(2f).constrain {
         width = ChildBasedSizeConstraint() + 2.pixels()
         height = ChildBasedSizeConstraint() + 2.pixels()
         color = VigilancePalette.outlineState.toConstraint()
     } childOf this
 
-    private val contentContainer = UIRoundedRectangle(2f).constrain {
+    private val contentContainer by UIRoundedRectangle(2f).constrain {
         x = 1.pixel()
         y = 1.pixel()
         width = ChildBasedSizeConstraint()
@@ -33,13 +32,16 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
         color = VigilancePalette.lightBackgroundState.toConstraint()
     } childOf container
 
-    private val text = UIWrappedText(buttonText, trimText = true).constrain {
-        x = CenterConstraint() + 10.pixels()
-        y = CenterConstraint()
-        width = basicWidthConstraint { (buttonText.width(getTextScale()) + 20f).coerceAtMost(300f) }
-        height = 9.pixels()
-        color = VigilancePalette.midTextState.toConstraint()
-    } childOf contentContainer
+    init {
+        UIWrappedText(buttonText, trimText = true).constrain {
+            x = CenterConstraint() + 10.pixels()
+            y = CenterConstraint()
+            width = basicWidthConstraint { (buttonText.width(getTextScale()) + 20f).coerceAtMost(300f) }
+            height = 9.pixels()
+            color = VigilancePalette.midTextState.toConstraint()
+            fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+        } childOf contentContainer
+    }
 
     init {
         constrain {

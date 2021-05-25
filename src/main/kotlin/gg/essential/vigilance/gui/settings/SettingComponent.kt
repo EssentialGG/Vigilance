@@ -4,7 +4,6 @@ import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.pixels
-import gg.essential.elementa.svg.SVGParser
 import gg.essential.vigilance.gui.DataBackedSetting
 
 abstract class SettingComponent : UIContainer() {

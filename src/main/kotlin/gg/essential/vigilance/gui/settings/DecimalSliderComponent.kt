@@ -2,10 +2,8 @@ package gg.essential.vigilance.gui.settings
 
 import gg.essential.elementa.components.UIText
 import gg.essential.elementa.constraints.*
-import gg.essential.elementa.dsl.boundTo
-import gg.essential.elementa.dsl.childOf
-import gg.essential.elementa.dsl.constrain
-import gg.essential.elementa.dsl.pixels
+import gg.essential.elementa.dsl.*
+import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.gui.VigilancePalette
 import java.util.*
@@ -22,7 +20,7 @@ class DecimalSliderComponent(
         } childOf this
     }
 
-    override val slider = Slider((initialValue - min) / (max - min)).constrain {
+    override val slider by Slider((initialValue - min) / (max - min)).constrain {
         x = SiblingConstraint()
         width = 60.pixels()
         height = 12.pixels()
@@ -36,10 +34,11 @@ class DecimalSliderComponent(
         } childOf this
     }
 
-    private val currentValueText = UIText(initialValue.toString()).constrain {
+    private val currentValueText by UIText(initialValue.toString()).constrain {
         x = CenterConstraint() boundTo slider.grabBox
         y = RelativeConstraint(1.5f)
         color = VigilancePalette.midTextState.toConstraint()
+        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
     } childOf slider
 
     init {

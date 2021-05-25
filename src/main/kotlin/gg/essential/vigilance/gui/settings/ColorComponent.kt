@@ -10,6 +10,7 @@ import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.effects.ScissorEffect
+import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.gui.VigilancePalette
 import java.awt.Color
@@ -17,32 +18,34 @@ import java.awt.Color
 class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingComponent() {
     private var active = false
 
-    private val currentColorHex = UITextInput().constrain {
+    private val currentColorHex by UITextInput().constrain {
         x = 5.pixels()
         y = 6.pixels()
         width = RelativeConstraint(1f) - 30.pixels()
         color = VigilancePalette.midTextState.toConstraint()
+        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
     } childOf this
 
-    private val downArrow = UIImage.ofResource(DOWN_ARROW_PNG).constrain {
+    private val downArrow by UIImage.ofResource(DOWN_ARROW_PNG).constrain {
         x = 5.pixels(true)
         y = 7.5.pixels()
         width = 9.pixels()
         height = 5.pixels()
     } childOf this
 
-    private val upArrow = UIImage.ofResource(UP_ARROW_PNG).constrain {
+    private val upArrow by UIImage.ofResource(UP_ARROW_PNG).constrain {
         x = 5.pixels(true)
         y = 7.5.pixels()
         width = 9.pixels()
         height = 5.pixels()
     }
 
-    private val colorPicker = ColorPicker(initial, allowAlpha).constrain {
+    private val colorPicker by ColorPicker(initial, allowAlpha).constrain {
         x = CenterConstraint()
         y = 22.pixels()
         width = RelativeConstraint(0.9f)
         height = (if (allowAlpha) 78 else 62).pixels()
+        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
     } childOf this
 
     init {

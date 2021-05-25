@@ -73,6 +73,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         y = CenterConstraint() boundTo alphaSlider
         textScale = (2f / 3f).pixels()
         color = VigilancePalette.brightTextState.toConstraint()
+        fontProvider = getFontProvider()
     }
 
     init {

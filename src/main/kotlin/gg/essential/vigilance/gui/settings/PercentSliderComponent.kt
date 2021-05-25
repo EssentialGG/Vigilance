@@ -6,18 +6,20 @@ import gg.essential.elementa.constraints.ChildBasedMaxSizeConstraint
 import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.dsl.*
+import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.gui.SettingsGui
 import gg.essential.vigilance.gui.VigilancePalette
 import java.util.*
 
 class PercentSliderComponent(initialValue: Float) : AbstractSliderComponent() {
-    private val percentageText = UIText(getFormattedPercent(initialValue)).constrain {
+    private val percentageText by UIText(getFormattedPercent(initialValue)).constrain {
         y = CenterConstraint()
         color = VigilancePalette.midTextState.toConstraint()
+        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
     } childOf this
 
-    override val slider = Slider(initialValue).constrain {
+    override val slider by Slider(initialValue).constrain {
         x = SiblingConstraint()
         width = 60.pixels()
         height = 12.pixels()
