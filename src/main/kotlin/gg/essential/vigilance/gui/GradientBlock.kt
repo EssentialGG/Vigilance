@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.lwjgl.opengl.GL11
 import java.awt.Color
 
+@Deprecated("Use Elementa's GradientComponent instead.", ReplaceWith("GradientComponent", "gg.essential.elementa.components.GradientComponent"))
 class GradientBlock(
     private var startColor: Color,
     private var endColor: Color,
