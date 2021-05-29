@@ -61,7 +61,7 @@ class TextComponent(
 
         if (protected) {
             var toggle = false
-            UIImage.ofResource("/vigilance/eye.png").constrain {
+            UIImage.ofResourceCached("/vigilance/eye.png").constrain {
 //            UIBlock().constrain {
                 y = 3.pixels()
                 x = 3.pixels(true)

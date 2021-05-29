@@ -1,14 +1,12 @@
 package gg.essential.vigilance.gui.settings
 
 import gg.essential.elementa.UIComponent
-import gg.essential.elementa.components.SVGComponent
-import gg.essential.elementa.components.UIBlock
-import gg.essential.elementa.components.UIContainer
-import gg.essential.elementa.components.UIText
+import gg.essential.elementa.components.*
 import gg.essential.elementa.constraints.*
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.state.toConstraint
+import gg.essential.elementa.svg.SVGParser
 import gg.essential.universal.UGraphics
 import gg.essential.vigilance.gui.VigilancePalette
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
@@ -54,7 +52,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         color = VigilancePalette.dividerState.toConstraint()
     } childOf this
 
-    private val hueIndicator = SVGComponent.ofResource("/vigilance/chevron-left.svg").constrain {
+    private val hueIndicator = UIImage.ofResourceCached("/vigilance/chevron-left.png").constrain {
         x = (-7).pixels(true)
         y = RelativeConstraint(currentHue) - 7.5f.pixels()
         width = 15.pixels()

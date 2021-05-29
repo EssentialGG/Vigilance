@@ -15,7 +15,7 @@ class CheckboxComponent(initialValue: Boolean) : SettingComponent() {
             field = value
         }
 
-    private val checkmark = UIImage.ofResource("/vigilance/check.png").constrain {
+    private val checkmark = UIImage.ofResourceCached("/vigilance/check.png").constrain {
         x = CenterConstraint()
         y = CenterConstraint()
         width = 16.pixels()

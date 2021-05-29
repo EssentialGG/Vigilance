@@ -48,7 +48,7 @@ class NumberComponent(
     } childOf controlContainer
 
     init {
-        UIImage.ofResource(UP_ARROW_PNG).constrain {
+        UIImage.ofResourceCached(UP_ARROW_PNG).constrain {
             x = CenterConstraint()
             y = CenterConstraint()
             width = 9.pixels()
@@ -63,7 +63,7 @@ class NumberComponent(
     } childOf controlContainer
 
     init {
-        UIImage.ofResource(DOWN_ARROW_PNG).constrain {
+        UIImage.ofResourceCached(DOWN_ARROW_PNG).constrain {
             x = CenterConstraint()
             y = CenterConstraint()
             width = 9.pixels()

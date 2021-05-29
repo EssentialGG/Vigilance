@@ -26,14 +26,14 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
     } childOf this
 
-    private val downArrow by UIImage.ofResource(DOWN_ARROW_PNG).constrain {
+    private val downArrow by UIImage.ofResourceCached(DOWN_ARROW_PNG).constrain {
         x = 5.pixels(true)
         y = 7.5.pixels()
         width = 9.pixels()
         height = 5.pixels()
     } childOf this
 
-    private val upArrow by UIImage.ofResource(UP_ARROW_PNG).constrain {
+    private val upArrow by UIImage.ofResourceCached(UP_ARROW_PNG).constrain {
         x = 5.pixels(true)
         y = 7.5.pixels()
         width = 9.pixels()

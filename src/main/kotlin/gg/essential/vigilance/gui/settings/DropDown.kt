@@ -29,14 +29,14 @@ class DropDown(
         fontProvider = getFontProvider()
     } childOf this
 
-    private val downArrow by UIImage.ofResource(SettingComponent.DOWN_ARROW_PNG).constrain {
+    private val downArrow by UIImage.ofResourceCached(SettingComponent.DOWN_ARROW_PNG).constrain {
         x = 5.pixels(true)
         y = 7.5.pixels()
         width = 9.pixels()
         height = 5.pixels()
     } childOf this
 
-    private val upArrow by UIImage.ofResource(SettingComponent.UP_ARROW_PNG).constrain {
+    private val upArrow by UIImage.ofResourceCached(SettingComponent.UP_ARROW_PNG).constrain {
         x = 5.pixels(true)
         y = 7.5.pixels()
         width = 9.pixels()

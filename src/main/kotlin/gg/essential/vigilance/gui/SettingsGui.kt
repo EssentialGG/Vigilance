@@ -107,7 +107,7 @@ class SettingsGui(private val config: Vigilant) : WindowScreen() {
     } childOf window
 
     init {
-        UIImage.ofResource("/vigilance/search.png").constrain {
+        UIImage.ofResourceCached("/vigilance/search.png").constrain {
             x = 2.pixels()
             y = CenterConstraint() - 2.pixels()
             width = 16.pixels()
