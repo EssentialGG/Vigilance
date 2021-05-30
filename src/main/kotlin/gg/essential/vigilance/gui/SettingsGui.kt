@@ -11,14 +11,21 @@ import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
+import gg.essential.universal.GuiScale
 import gg.essential.universal.UKeyboard
+import gg.essential.universal.UResolution
 import gg.essential.vigilance.VigilanceConfig
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.Category
 import gg.essential.vigilance.gui.settings.*
+import net.minecraft.client.Minecraft
 import java.awt.Color
 
-class SettingsGui(private val config: Vigilant) : WindowScreen() {
+class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = scaleForScreenSize().ordinal) {
+    init {
+        DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER.getStringWidth("Hello World", 10f)
+    }
+
     init {
         UIBlock().constrain {
             width = RelativeConstraint(1f)
@@ -343,5 +350,19 @@ class SettingsGui(private val config: Vigilant) : WindowScreen() {
             }
         }
         super.onTick()
+    }
+    override fun setWorldAndResolution(mc: Minecraft, width: Int, height: Int) {
+        window.onWindowResize()
+        newGuiScale = scaleForScreenSize().ordinal
+        super.setWorldAndResolution(mc, width, height)
+    }
+
+
+    companion object {
+        fun scaleForScreenSize(): GuiScale {
+            val width = UResolution.windowWidth
+            val step = 700
+            return GuiScale.fromNumber((width / step).coerceIn(1, 4))
+        }
     }
 }
