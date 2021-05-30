@@ -351,11 +351,15 @@ class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = sca
         }
         super.onTick()
     }
+
+    // TODO: 5/30/2021 Port for 1.15+
+    //#if MC<11500
     override fun setWorldAndResolution(mc: Minecraft, width: Int, height: Int) {
         window.onWindowResize()
         newGuiScale = scaleForScreenSize().ordinal
         super.setWorldAndResolution(mc, width, height)
     }
+    //#endif
 
 
     companion object {
