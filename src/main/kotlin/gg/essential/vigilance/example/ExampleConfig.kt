@@ -528,7 +528,7 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         ::propertyPete dependsOn ::toggleTom
         ::checkboxChuck dependsOn ::toggleTom
 
-        val os = System.getProperty("os.name", "windows").toLowerCase()
+        val os = System.getProperty("os.name", "windows").lowercase()
         ::windowsOnlyProperty.hiddenIf {
             !os.contains("windows")
         }

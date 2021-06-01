@@ -158,4 +158,4 @@ fun PropertyAttributes.fullPropertyPath(): String {
     return sb.toString()
 }
 
-private fun String.toPropertyPath() = this.toLowerCase(Locale.ENGLISH).replace(" ", "_")
+private fun String.toPropertyPath() = this.lowercase(Locale.ENGLISH).replace(" ", "_")

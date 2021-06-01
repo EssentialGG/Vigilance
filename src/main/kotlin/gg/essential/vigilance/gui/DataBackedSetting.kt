@@ -26,7 +26,7 @@ class DataBackedSetting(internal val data: PropertyData, internal val component:
         x = INNER_PADDING.pixels()
         y = INNER_PADDING.pixels()
         width = basicWidthConstraint { component ->
-            val endPos = ((boundingBox.children - component).map { it.getLeft() }.min() ?: boundingBox.getRight())
+            val endPos = ((boundingBox.children - component).map { it.getLeft() }.minOrNull() ?: boundingBox.getRight())
             endPos - component.getLeft() - 10f
         }
         height = ChildBasedSizeConstraint(3f) + INNER_PADDING.pixels()
