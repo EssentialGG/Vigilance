@@ -27,6 +27,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 //#endif
 //#else
 //#if FABRIC
+//$$ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 //$$ import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
 //#endif
 //#endif
@@ -43,8 +44,13 @@ object Vigilance {
         initialized = true
         StencilEffect.enableStencil()
         VigilanceConfig.preload()
+        //#if FORGE
         MinecraftForge.EVENT_BUS.register(this)
-        //#if FABRIC || MC<=11202
+        //#else
+        //$$ ClientTickEvents.START_CLIENT_TICK.register { tick() }
+        //#endif
+        // TODO fabric
+        //#if MC<=11202
         ClientCommandHandler.instance.registerCommand(PaletteCommand())
         //#endif
     }
@@ -61,10 +67,12 @@ object Vigilance {
     //$$     PaletteCommand.register(event.commandDispatcher)
     //$$ }
     //#endif
-    //#endif
 
     @SubscribeEvent
-    fun tick(event: TickEvent.ClientTickEvent) {
+    fun tick(event: TickEvent.ClientTickEvent) = tick()
+    //#endif
+
+    private fun tick() {
         if (gui != null) {
             try {
                 UMinecraft.getMinecraft().displayGuiScreen(gui)
