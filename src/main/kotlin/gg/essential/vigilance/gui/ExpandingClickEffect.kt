@@ -8,6 +8,7 @@ import gg.essential.elementa.effects.Effect
 import gg.essential.elementa.effects.ScissorEffect
 import gg.essential.elementa.events.UIClickEvent
 import gg.essential.elementa.utils.withAlpha
+import gg.essential.universal.UMatrixStack
 import java.awt.Color
 import kotlin.math.max
 import kotlin.math.pow
@@ -96,9 +97,9 @@ class ExpandingClickEffect @JvmOverloads constructor(
         }
     }
 
-    override fun beforeDraw() {
+    override fun beforeDraw(matrixStack: UMatrixStack) {
         if (state != State.NotActive)
-            circle.draw()
+            circle.draw(matrixStack)
     }
 
     enum class State {

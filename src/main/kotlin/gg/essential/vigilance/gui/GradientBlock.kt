@@ -2,7 +2,7 @@ package gg.essential.vigilance.gui
 
 import gg.essential.elementa.components.GradientComponent
 import gg.essential.elementa.components.UIBlock
-import gg.essential.universal.UGraphics
+import gg.essential.universal.UMatrixStack
 import java.awt.Color
 
 @Deprecated("Use Elementa's GradientComponent instead.", ReplaceWith("GradientComponent", "gg.essential.elementa.components.GradientComponent"))
@@ -20,19 +20,17 @@ class GradientBlock(
     fun getDirection() = direction
     fun setDirection(direction: GradientDirection) = apply { this.direction = direction }
 
-    override fun draw() {
-        beforeDraw()
+    override fun draw(matrixStack: UMatrixStack) {
+        beforeDraw(matrixStack)
 
         val x = this.getLeft().toDouble()
         val y = this.getTop().toDouble()
         val x2 = this.getRight().toDouble()
         val y2 = this.getBottom().toDouble()
 
-        UGraphics.pushMatrix()
-        UGraphics.popMatrix()
-        GradientComponent.drawGradientBlock(x.toInt(), y.toInt(), x2.toInt(), y2.toInt(), startColor, endColor, direction.elementa)
+        GradientComponent.drawGradientBlock(matrixStack, x.toInt(), y.toInt(), x2.toInt(), y2.toInt(), startColor, endColor, direction.elementa)
 
-        super.draw()
+        super.draw(matrixStack)
     }
 
     enum class GradientDirection {
@@ -51,7 +49,7 @@ class GradientBlock(
         }
 
         fun drawGradientRect(left: Int, top: Int, right: Int, bottom: Int, startColor: Color, endColor: Color, direction: GradientDirection) {
-            GradientComponent.drawGradientBlock(left, top, right, bottom, startColor, endColor, direction.elementa)
+            GradientComponent.drawGradientBlock(UMatrixStack(), left, top, right, bottom, startColor, endColor, direction.elementa)
         }
     }
 }

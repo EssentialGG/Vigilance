@@ -8,6 +8,7 @@ import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.state.toConstraint
 import gg.essential.elementa.svg.SVGParser
 import gg.essential.universal.UGraphics
+import gg.essential.universal.UMatrixStack
 import gg.essential.vigilance.gui.VigilancePalette
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.lwjgl.opengl.GL11
@@ -88,10 +89,10 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         }
 
         huePickerLine.addChild(object : UIComponent() {
-            override fun draw() {
-                drawHueLine()
+            override fun draw(matrixStack: UMatrixStack) {
+                drawHueLine(matrixStack)
 
-                super.draw()
+                super.draw(matrixStack)
             }
         }).addChild(hueIndicator)
 
@@ -109,10 +110,10 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         }
 
         bigPickerBox.addChild(object : UIComponent() {
-            override fun draw() {
-                drawColorPicker()
+            override fun draw(matrixStack: UMatrixStack) {
+                drawColorPicker(matrixStack)
 
-                super.draw()
+                super.draw(matrixStack)
             }
         }).addChild(pickerIndicator)
 
@@ -181,7 +182,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         onValueChange = listener
     }
 
-    private fun drawColorPicker() {
+    private fun drawColorPicker(matrixStack: UMatrixStack) {
         val left = (bigPickerBox.getLeft()).toDouble()
         val top = (bigPickerBox.getTop()).toDouble()
         val right = (bigPickerBox.getRight() - 2f).toDouble()
@@ -203,12 +204,12 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
                 val color = getColor(x.toFloat() / 50f, 1 - y.toFloat() / 50f, currentHue)
 
                 if (!first) {
-                    drawVertex(graphics, curLeft, yPos, color)
-                    drawVertex(graphics, curRight, yPos, color)
+                    drawVertex(graphics, matrixStack, curLeft, yPos, color)
+                    drawVertex(graphics, matrixStack, curRight, yPos, color)
                 }
 
-                drawVertex(graphics, curRight, yPos, color)
-                drawVertex(graphics, curLeft, yPos, color)
+                drawVertex(graphics, matrixStack, curRight, yPos, color)
+                drawVertex(graphics, matrixStack, curLeft, yPos, color)
                 first = false
             }
 
@@ -221,7 +222,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         return Color(Color.HSBtoRGB(hue, x, y))
     }
 
-    private fun drawHueLine() {
+    private fun drawHueLine(matrixStack: UMatrixStack) {
         val left = (huePickerLine.getLeft() + 1f).toDouble()
         val top = (huePickerLine.getTop() + 1f).toDouble()
         val right = (huePickerLine.getRight() - 1f).toDouble()
@@ -236,12 +237,12 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         for ((i, color) in hueColorList.withIndex()) {
             val yPos = top + (i.toFloat() * height / 50.0)
             if (!first) {
-                drawVertex(graphics, left, yPos, color)
-                drawVertex(graphics, right, yPos, color)
+                drawVertex(graphics, matrixStack, left, yPos, color)
+                drawVertex(graphics, matrixStack, right, yPos, color)
             }
 
-            drawVertex(graphics, right, yPos, color)
-            drawVertex(graphics, left, yPos, color)
+            drawVertex(graphics, matrixStack, right, yPos, color)
+            drawVertex(graphics, matrixStack, left, yPos, color)
 
             first = false
         }
@@ -265,9 +266,9 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         UGraphics.enableTexture2D()
     }
 
-    private fun drawVertex(graphics: UGraphics, x: Double, y: Double, color: Color) {
+    private fun drawVertex(graphics: UGraphics, matrixStack: UMatrixStack, x: Double, y: Double, color: Color) {
         graphics
-            .pos(x, y, 0.0)
+            .pos(matrixStack, x, y, 0.0)
             .color(color.red.toFloat() / 255f, color.green.toFloat() / 255f, color.blue.toFloat() / 255f, 1f)
             .endVertex()
     }
