@@ -21,7 +21,7 @@ import gg.essential.vigilance.gui.settings.*
 import net.minecraft.client.Minecraft
 import java.awt.Color
 
-class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = scaleForScreenSize().ordinal) {
+class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = GuiScale.scaleForScreenSize().ordinal) {
     init {
         DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER.getStringWidth("Hello World", 10f)
     }
@@ -360,13 +360,4 @@ class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = sca
         super.setWorldAndResolution(mc, width, height)
     }
     //#endif
-
-
-    companion object {
-        fun scaleForScreenSize(): GuiScale {
-            val width = UResolution.windowWidth
-            val step = 700
-            return GuiScale.fromNumber((width / step).coerceIn(1, 4))
-        }
-    }
 }
