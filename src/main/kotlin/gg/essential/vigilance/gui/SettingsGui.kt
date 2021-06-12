@@ -356,7 +356,7 @@ class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = Gui
     //#if MC<11500
     override fun setWorldAndResolution(mc: Minecraft, width: Int, height: Int) {
         window.onWindowResize()
-        newGuiScale = scaleForScreenSize().ordinal
+        newGuiScale = GuiScale.scaleForScreenSize().ordinal
         super.setWorldAndResolution(mc, width, height)
     }
     //#endif
