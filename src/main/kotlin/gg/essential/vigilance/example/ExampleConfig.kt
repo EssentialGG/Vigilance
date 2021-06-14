@@ -520,15 +520,15 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
     init {
         initialize()
 
-        registerListener(::colorWithAlpha) {
-            UChat.chat("colorWithAlpha listener activated! New color: $it")
+        registerListener(javaClass.getDeclaredField("colorWithAlpha")) { color: Color ->
+            UChat.chat("colorWithAlpha listener activated! New color: $color")
         }
 
         ::dependant dependsOn ::dependency
         ::propertyPete dependsOn ::toggleTom
         ::checkboxChuck dependsOn ::toggleTom
 
-        val os = System.getProperty("os.name", "windows").toLowerCase()
+        val os = System.getProperty("os.name", "windows").lowercase()
         ::windowsOnlyProperty.hiddenIf {
             !os.contains("windows")
         }

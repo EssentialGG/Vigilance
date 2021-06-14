@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = "1.3.72"
+    ext.kotlin_version = "1.5.10"
 
     def mcVersion
     def (major, minor, patch) = project.name.tokenize('-')[0].tokenize('.')
@@ -21,14 +21,14 @@ buildscript {
         if (fabric) {
             classpath 'fabric-loom:fabric-loom.gradle.plugin:0.4-SNAPSHOT'
         } else if (mcVersion >= 11400) {
-            classpath('net.minecraftforge.gradle:ForgeGradle:3.+') {
+            classpath('net.minecraftforge.gradle:ForgeGradle:4.+') {
                 exclude group: 'trove', module: 'trove' // preprocessor/idea requires more recent one
             }
         } else {
             classpath('com.github.ReplayMod:ForgeGradle:' + (
-                    mcVersion >= 11200 ? 'b64de9c' : // FG 2.3
-                            mcVersion >= 10904 ? '5bb7a53' : // FG 2.2
-                                    'fc1eabc'   // FG 2.1
+                    mcVersion >= 11200 ? '541e1485' : // FG 2.3
+                            mcVersion >= 10904 ? '5c1f53dc' : // FG 2.2
+                                    '48c4f0c6'   // FG 2.1
             ) + ':all') {
                 exclude group: 'net.sf.trove4j', module: 'trove4j' // preprocessor/idea requires more recent one
                 exclude group: 'trove', module: 'trove' // different name same thing

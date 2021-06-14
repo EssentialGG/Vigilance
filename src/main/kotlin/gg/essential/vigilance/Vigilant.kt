@@ -73,8 +73,16 @@ abstract class Vigilant @JvmOverloads constructor(
         propertyCollector.addProperty(prop)
     }
 
+    @Deprecated(
+        message = "Due to startup performance penalties due to KReflect, we advise against using this.",
+        replaceWith = ReplaceWith(
+            "registerListener<T>(property.javaField!!, Consumer { listener(it) })",
+            "kotlin.reflect.jvm.javaField",
+            "java.util.function.Consumer"
+        )
+    )
     fun <T> registerListener(property: KProperty<T>, listener: (T) -> Unit) {
-        registerListener<T>(property.javaField!!, Consumer { listener(it) })
+        registerListener<T>(property.javaField!!) { listener(it) }
     }
 
     @Suppress("UNCHECKED_CAST")
