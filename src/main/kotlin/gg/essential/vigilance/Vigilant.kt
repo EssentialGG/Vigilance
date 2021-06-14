@@ -100,9 +100,25 @@ abstract class Vigilant @JvmOverloads constructor(
             .action = { obj -> listener.accept(obj as T) }
     }
 
+    @Deprecated(
+        message = "Due to startup performance penalties due to KReflect, we advise against using this.",
+        replaceWith = ReplaceWith(
+            "addDependency<T>(javaField!!, dependency.javaField!!)",
+            "kotlin.reflect.jvm.javaField",
+            "kotlin.reflect.jvm.javaField"
+        ),
+    )
     infix fun <T> KProperty<T>.dependsOn(dependency: KProperty<T>): Unit =
         addDependency<T>(javaField!!, dependency.javaField!!)
 
+    @Deprecated(
+        message = "Due to startup performance penalties due to KReflect, we advise against using this.",
+        replaceWith = ReplaceWith(
+            "addDependency<T>(property.javaField!!, dependency.javaField!!)",
+            "kotlin.reflect.jvm.javaField",
+            "kotlin.reflect.jvm.javaField"
+        ),
+    )
     fun <T> addDependency(property: KProperty<T>, dependency: KProperty<T>): Unit =
         addDependency<T>(property.javaField!!, dependency.javaField!!)
 
@@ -121,8 +137,16 @@ abstract class Vigilant @JvmOverloads constructor(
         fields.second!!.hasDependants = true
     }
 
+    @Deprecated(
+        message = "Due to startup performance penalties due to KReflect, we advise against using this.",
+        replaceWith = ReplaceWith("hidePropertyIf(javaField!!, condition())", "kotlin.reflect.jvm.javaField"),
+    )
     fun <T> KProperty<T>.hiddenIf(condition: () -> Boolean): Unit = hidePropertyIf(javaField!!, condition())
 
+    @Deprecated(
+        message = "Due to startup performance penalties due to KReflect, we advise against using this.",
+        replaceWith = ReplaceWith("hidePropertyIf(property.javaField!!, condition())", "kotlin.reflect.jvm.javaField"),
+    )
     fun <T> hidePropertyIf(property: KProperty<T>, condition: () -> Boolean): Unit = hidePropertyIf(property.javaField!!, condition())
 
     fun hidePropertyIf(field: Field, condition: Boolean) {

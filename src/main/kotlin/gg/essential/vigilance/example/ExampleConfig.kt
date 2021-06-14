@@ -7,6 +7,7 @@ import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.*
 import java.awt.Color
 import java.io.File
+import java.lang.reflect.Field
 import kotlin.math.PI
 
 /**
@@ -520,24 +521,19 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
     init {
         initialize()
 
-        registerListener(javaClass.getDeclaredField("colorWithAlpha")) { color: Color ->
+        val clazz = javaClass
+        registerListener(clazz.getDeclaredField("colorWithAlpha")) { color: Color ->
             UChat.chat("colorWithAlpha listener activated! New color: $color")
         }
 
-        ::dependant dependsOn ::dependency
-        ::propertyPete dependsOn ::toggleTom
-        ::checkboxChuck dependsOn ::toggleTom
+        addDependency<Field>(clazz.getDeclaredField("dependant"), clazz.getDeclaredField("dependency"))
+        addDependency<Field>(clazz.getDeclaredField("propertyPete"), clazz.getDeclaredField("toggleTom"))
+        addDependency<Field>(clazz.getDeclaredField("checkboxChuck"), clazz.getDeclaredField("toggleTom"))
 
         val os = System.getProperty("os.name", "windows").lowercase()
-        ::windowsOnlyProperty.hiddenIf {
-            !os.contains("windows")
-        }
-        ::macOnlyProperty.hiddenIf {
-            !os.contains("mac")
-        }
-        ::linuxOnlyProperty.hiddenIf {
-            !os.contains("linux")
-        }
+        hidePropertyIf(clazz.getDeclaredField("windowsOnlyProperty"), !os.contains("windows"))
+        hidePropertyIf(clazz.getDeclaredField("macOnlyProperty"), !os.contains("mac"))
+        hidePropertyIf(clazz.getDeclaredField("linuxOnlyProperty"), !os.contains("linux"))
 
         setCategoryDescription(
             "Property Overview",
