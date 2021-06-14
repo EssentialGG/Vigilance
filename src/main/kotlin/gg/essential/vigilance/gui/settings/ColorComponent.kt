@@ -24,7 +24,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         y = 6.pixels()
         width = RelativeConstraint(1f) - 30.pixels()
         color = VigilancePalette.midTextState.toConstraint()
-        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf this
 
     private val downArrow by UIImage.ofResourceCached(DOWN_ARROW_PNG).constrain {
@@ -46,7 +46,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         y = 22.pixels()
         width = RelativeConstraint(0.9f)
         height = (if (allowAlpha) 78 else 62).pixels()
-        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf this
 
     init {

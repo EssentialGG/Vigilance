@@ -54,7 +54,7 @@ class SettingsCategory(category: Category) : UIContainer() {
                 y = SiblingConstraint() + 3.pixels()
                 width = 70.percent()
                 color = VigilancePalette.midTextState.toConstraint()
-                fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+                fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
             } childOf textContainer
         }
 

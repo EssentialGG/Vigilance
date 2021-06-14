@@ -16,7 +16,7 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
     private val text by UIText(category.name).constrain {
         color = VigilancePalette.midTextState.toConstraint()
         textScale = 1.2f.pixels()
-        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf this
 
     var isSelected = false

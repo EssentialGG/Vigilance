@@ -16,7 +16,7 @@ class PercentSliderComponent(initialValue: Float) : AbstractSliderComponent() {
     private val percentageText by UIText(getFormattedPercent(initialValue)).constrain {
         y = CenterConstraint()
         color = VigilancePalette.midTextState.toConstraint()
-        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf this
 
     override val slider by Slider(initialValue).constrain {

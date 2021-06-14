@@ -24,7 +24,7 @@ import java.awt.Color
 
 class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = GuiScale.scaleForScreenSize().ordinal) {
     init {
-        DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER.getStringWidth("Hello World", 10f)
+        DefaultFonts.VANILLA_FONT_RENDERER.getStringWidth("Hello World", 10f)
     }
 
     init {
@@ -53,7 +53,7 @@ class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = Gui
             width = 90.percent()
             color = VigilancePalette.brightTextState.toConstraint()
             // issues with height/scaling when msdf. not a priority atm but will fix eventually
-            //fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+            //fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
         } childOf sidebar
     }
 
@@ -133,7 +133,7 @@ class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = Gui
     private val searchInput by UITextInput("Search...", shadow = false).constrain {
         width = 90.percent()
         height = 100.percent()
-        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf searchInputContainer
 
     private val searchIndicator by UIBlock(VigilancePalette.darkDividerState).constrain {

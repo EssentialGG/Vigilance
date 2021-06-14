@@ -19,7 +19,7 @@ class Divider(val name: String, description: String?) : Setting() {
         x = CenterConstraint()
         y = 5.pixels()
         color = VigilancePalette.brightTextState.toConstraint()
-        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf this
 
     private val leftLine by UIBlock().constrain {
@@ -58,7 +58,7 @@ class Divider(val name: String, description: String?) : Setting() {
                 y = SiblingConstraint() + 3.pixels()
                 width = 70.percent()
                 color = VigilancePalette.midTextState.toConstraint()
-                fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+                fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
             } childOf textContainer
         } else {
             constrain {

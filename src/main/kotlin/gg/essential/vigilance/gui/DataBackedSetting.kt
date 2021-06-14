@@ -36,7 +36,7 @@ class DataBackedSetting(internal val data: PropertyData, internal val component:
         width = RelativeConstraint(1f)
         textScale = 1.5f.pixels()
         color = VigilancePalette.brightTextState.toConstraint()
-        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf textBoundingBox
 
     init {
@@ -44,7 +44,7 @@ class DataBackedSetting(internal val data: PropertyData, internal val component:
             y = SiblingConstraint() + 3.pixels()
             width = RelativeConstraint(1f)
             color = VigilancePalette.midTextState.toConstraint()
-            fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+            fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
         } childOf textBoundingBox
     }
 

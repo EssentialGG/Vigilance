@@ -33,7 +33,7 @@ class NumberComponent(
         y = CenterConstraint()
         textScale = 1.5f.pixels()
         color = VigilancePalette.accentState.toConstraint()
-        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf this
 
     private val controlContainer by UIContainer().constrain {

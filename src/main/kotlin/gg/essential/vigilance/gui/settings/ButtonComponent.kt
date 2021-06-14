@@ -40,7 +40,7 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
             width = basicWidthConstraint { (buttonText.width(getTextScale()) + 20f).coerceAtMost(300f) }
             height = 9.pixels()
             color = VigilancePalette.midTextState.toConstraint()
-            fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+            fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
         } childOf contentContainer
     }
 

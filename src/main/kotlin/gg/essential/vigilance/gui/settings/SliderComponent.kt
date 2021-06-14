@@ -15,7 +15,7 @@ class SliderComponent(initialValue: Int, min: Int, max: Int) : AbstractSliderCom
         UIText(min.toString()).constrain {
             y = CenterConstraint()
             color = VigilancePalette.midTextState.toConstraint()
-            fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+            fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
         } childOf this
     }
 
@@ -30,7 +30,7 @@ class SliderComponent(initialValue: Int, min: Int, max: Int) : AbstractSliderCom
             x = SiblingConstraint()
             y = CenterConstraint()
             color = VigilancePalette.midTextState.toConstraint()
-            fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+            fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
         } childOf this
     }
 
@@ -38,7 +38,7 @@ class SliderComponent(initialValue: Int, min: Int, max: Int) : AbstractSliderCom
         x = CenterConstraint() boundTo slider.grabBox
         y = RelativeConstraint(1.5f)
         color = VigilancePalette.midTextState.toConstraint()
-        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf slider
 
     init {
