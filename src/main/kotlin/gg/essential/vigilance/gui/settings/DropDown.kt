@@ -9,6 +9,7 @@ import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.effects.ScissorEffect
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.gui.VigilancePalette
+import gg.essential.vigilance.utils.onLeftClick
 import java.awt.Color
 
 class DropDown(
@@ -97,7 +98,7 @@ class DropDown(
             unHoverText(currentSelectionText)
         }
 
-        onMouseClick { event ->
+        onLeftClick { event ->
             event.stopPropagation()
 
             if (active) {

@@ -7,6 +7,7 @@ import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.gui.VigilancePalette
+import gg.essential.vigilance.utils.onLeftClick
 import java.awt.Color
 
 class Slider(initialValue: Float) : UIContainer() {
@@ -43,12 +44,10 @@ class Slider(initialValue: Float) : UIContainer() {
     } childOf this effect OutlineEffect(Color.BLACK, 0.5f)
 
     init {
-        grabBox.onMouseClick { event ->
-            if (event.mouseButton == 0) {
-                dragging = true
-                grabOffset = event.relativeX - (grabBox.getWidth() / 2)
-                event.stopPropagation()
-            }
+        grabBox.onLeftClick { event ->
+            dragging = true
+            grabOffset = event.relativeX - (grabBox.getWidth() / 2)
+            event.stopPropagation()
         }.onMouseRelease {
             dragging = false
             grabOffset = 0f
@@ -60,12 +59,10 @@ class Slider(initialValue: Float) : UIContainer() {
             setCurrentPercentage(percentage)
         }
 
-        outerBox.onMouseClick { event ->
-            if (event.mouseButton == 0) {
-                val percentage = event.relativeX / outerBox.getWidth()
-                setCurrentPercentage(percentage)
-                dragging = true
-            }
+        outerBox.onLeftClick { event ->
+            val percentage = event.relativeX / outerBox.getWidth()
+            setCurrentPercentage(percentage)
+            dragging = true
         }
     }
 

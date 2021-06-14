@@ -9,6 +9,7 @@ import gg.essential.elementa.state.toConstraint
 import gg.essential.elementa.svg.SVGParser
 import gg.essential.universal.UGraphics
 import gg.essential.vigilance.gui.VigilancePalette
+import gg.essential.vigilance.utils.onLeftClick
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.lwjgl.opengl.GL11
 import java.awt.Color
@@ -95,7 +96,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
             }
         }).addChild(hueIndicator)
 
-        huePickerLine.onMouseClick { event ->
+        huePickerLine.onLeftClick { event ->
             draggingHue = true
             currentHue = (event.relativeY - 1f) / huePickerLine.getHeight()
             updateHueIndicator()
@@ -116,7 +117,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
             }
         }).addChild(pickerIndicator)
 
-        bigPickerBox.onMouseClick { event ->
+        bigPickerBox.onLeftClick { event ->
             draggingPicker = true
 
             currentSaturation = event.relativeX / bigPickerBox.getWidth()

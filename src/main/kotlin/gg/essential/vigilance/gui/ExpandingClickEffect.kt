@@ -8,6 +8,7 @@ import gg.essential.elementa.effects.Effect
 import gg.essential.elementa.effects.ScissorEffect
 import gg.essential.elementa.events.UIClickEvent
 import gg.essential.elementa.utils.withAlpha
+import gg.essential.vigilance.utils.onLeftClick
 import java.awt.Color
 import kotlin.math.max
 import kotlin.math.pow
@@ -63,9 +64,9 @@ class ExpandingClickEffect @JvmOverloads constructor(
             }
         }
 
-        boundComponent.onMouseClick { onClickHandler(it) }
+        boundComponent.onLeftClick { onClickHandler(it) }
 
-        circle.onMouseClick {
+        circle.onLeftClick {
             onClickHandler(it)
         }
     }

@@ -10,6 +10,7 @@ import gg.essential.elementa.dsl.*
 import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.data.Category
+import gg.essential.vigilance.utils.onLeftClick
 
 class CategoryLabel(private val gui: SettingsGui, private val category: Category) : UIContainer() {
     private val text by UIText(category.name).constrain {
@@ -27,7 +28,7 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
             height = ChildBasedSizeConstraint()
         }
 
-        onMouseClick {
+        onLeftClick {
             if (!isSelected) {
                 select()
             }

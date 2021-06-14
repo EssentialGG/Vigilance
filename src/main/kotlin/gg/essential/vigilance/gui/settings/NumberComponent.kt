@@ -18,6 +18,7 @@ import gg.essential.elementa.state.State
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.UKeyboard
 import gg.essential.vigilance.gui.VigilancePalette
+import gg.essential.vigilance.utils.onLeftClick
 import java.awt.Color
 
 class NumberComponent(
@@ -80,13 +81,13 @@ class NumberComponent(
         releaseControl(incrementControl)
         releaseControl(decrementControl)
 
-        incrementControl.onMouseClick {
+        incrementControl.onLeftClick {
             clickControl(this)
         }.onMouseRelease {
             releaseControl(this)
         }
 
-        decrementControl.onMouseClick {
+        decrementControl.onLeftClick {
             clickControl(this)
         }.onMouseRelease {
             releaseControl(this)

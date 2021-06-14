@@ -18,6 +18,7 @@ import gg.essential.vigilance.VigilanceConfig
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.Category
 import gg.essential.vigilance.gui.settings.*
+import gg.essential.vigilance.utils.onLeftClick
 import net.minecraft.client.Minecraft
 import java.awt.Color
 
@@ -74,7 +75,7 @@ class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = Gui
     } childOf scrollContainer
 
     init {
-        window.onMouseClick {
+        window.onLeftClick {
             currentCategory.closePopups()
         }
 
@@ -148,7 +149,7 @@ class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = Gui
     } childOf searchIndicator
 
     init {
-        searchContainer.onMouseClick { event ->
+        searchContainer.onLeftClick { event ->
             searchInput.grabWindowFocus()
             searchIndicatorAccent.animate {
                 setWidthAnimation(Animations.OUT_EXP, .5f, 100.percent())

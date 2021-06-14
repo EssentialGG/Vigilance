@@ -13,6 +13,7 @@ import gg.essential.elementa.effects.ScissorEffect
 import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.gui.VigilancePalette
+import gg.essential.vigilance.utils.onLeftClick
 import java.awt.Color
 
 class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingComponent() {
@@ -75,7 +76,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
             unHoverText(currentColorHex)
         }
 
-        onMouseClick { event ->
+        onLeftClick { event ->
             event.stopPropagation()
 
             if (active) {
@@ -87,8 +88,8 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
 
         currentColorHex.setText(getColorString(initial))
 
-        currentColorHex.onMouseClick { event ->
-            if (!active) return@onMouseClick
+        currentColorHex.onLeftClick { event ->
+            if (!active) return@onLeftClick
 
             currentColorHex.grabWindowFocus()
             event.stopPropagation()
@@ -133,7 +134,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
             currentColorHex.setText(getColorString(color))
         }
 
-        colorPicker.onMouseClick { event ->
+        colorPicker.onLeftClick { event ->
             event.stopPropagation()
         }
     }
