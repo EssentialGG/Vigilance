@@ -109,7 +109,7 @@ abstract class Vigilant @JvmOverloads constructor(
         ),
     )
     infix fun <T> KProperty<T>.dependsOn(dependency: KProperty<T>): Unit =
-        addDependency<T>(javaField!!, dependency.javaField!!)
+        addDependency(javaField!!, dependency.javaField!!)
 
     @Deprecated(
         message = "Due to startup performance penalties due to KReflect, we advise against using this.",
@@ -120,40 +120,45 @@ abstract class Vigilant @JvmOverloads constructor(
         ),
     )
     fun <T> addDependency(property: KProperty<T>, dependency: KProperty<T>): Unit =
-        addDependency<T>(property.javaField!!, dependency.javaField!!)
+        addDependency(property.javaField!!, dependency.javaField!!)
 
-    fun <T> addDependency(field: Field, dependency: Field) {
-        val fields = propertyCollector.getProperties().firstOrNull {
-            it.value is FieldBackedPropertyValue && it.value.field == field
-        } to propertyCollector.getProperties().firstOrNull {
-            it.value is FieldBackedPropertyValue && it.value.field == dependency
-        }
+    fun addDependency(propertyName: String, dependencyName: String): Unit =
+        addDependency(propertyCollector.getProperty(propertyName)!!, propertyCollector.getProperty(dependencyName)!!)
 
-        if (fields.second!!.getDataType() != PropertyType.SWITCH && fields.second!!.getDataType() != PropertyType.CHECKBOX) {
+    fun addDependency(field: Field, dependency: Field): Unit =
+        addDependency(propertyCollector.getProperty(field)!!, propertyCollector.getProperty(dependency)!!)
+
+    private fun addDependency(property: PropertyData, dependency: PropertyData) {
+        if (dependency.getDataType() != PropertyType.SWITCH && dependency.getDataType() != PropertyType.CHECKBOX) {
             error("Dependency must be a boolean PropertyType!")
         }
 
-        fields.first!!.dependsOn = dependency
-        fields.second!!.hasDependants = true
+        property.dependsOn = dependency
+        dependency.hasDependants = true
     }
 
     @Deprecated(
         message = "Due to startup performance penalties due to KReflect, we advise against using this.",
         replaceWith = ReplaceWith("hidePropertyIf(javaField!!, condition())", "kotlin.reflect.jvm.javaField"),
     )
-    fun <T> KProperty<T>.hiddenIf(condition: () -> Boolean): Unit = hidePropertyIf(javaField!!, condition())
+    fun <T> KProperty<T>.hiddenIf(condition: () -> Boolean): Unit = hidePropertyIf(propertyCollector.getProperty(javaField!!)!!, condition())
 
     @Deprecated(
         message = "Due to startup performance penalties due to KReflect, we advise against using this.",
         replaceWith = ReplaceWith("hidePropertyIf(property.javaField!!, condition())", "kotlin.reflect.jvm.javaField"),
     )
-    fun <T> hidePropertyIf(property: KProperty<T>, condition: () -> Boolean): Unit = hidePropertyIf(property.javaField!!, condition())
+    fun <T> hidePropertyIf(property: KProperty<T>, condition: () -> Boolean): Unit = hidePropertyIf(propertyCollector.getProperty(property.javaField!!)!!, condition())
 
-    fun hidePropertyIf(field: Field, condition: Boolean) {
+    fun hidePropertyIf(propertyName: String, condition: () -> Boolean): Unit = hidePropertyIf(propertyCollector.getProperty(propertyName)!!, condition())
+
+    fun hidePropertyIf(field: Field, condition: () -> Boolean): Unit = hidePropertyIf(propertyCollector.getProperty(field)!!, condition())
+
+    // i hate java
+    fun hidePropertyIf(field: Field, condition: Boolean): Unit = hidePropertyIf(propertyCollector.getProperty(field)!!, condition)
+
+    private fun hidePropertyIf(property: PropertyData, condition: Boolean) {
         if (condition) {
-            propertyCollector.getProperties().firstOrNull {
-                it.value is FieldBackedPropertyValue && it.value.field == field
-            }!!.attributes.hidden = true
+            property.attributes.hidden = true
         }
     }
 

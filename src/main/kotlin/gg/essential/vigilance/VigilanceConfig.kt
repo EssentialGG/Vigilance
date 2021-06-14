@@ -102,30 +102,30 @@ object VigilanceConfig : Vigilant(File("./config/vigilance.toml"), "Vigilance Co
         initialize()
 
         val clazz = javaClass
-        registerListener(clazz.getDeclaredField("brightDivider")) { color: Color -> VigilancePalette.brightDividerState.set(color) }
-        registerListener(clazz.getDeclaredField("divider")) { color: Color -> VigilancePalette.dividerState.set(color) }
-        registerListener(clazz.getDeclaredField("darkDivider")) { color: Color -> VigilancePalette.darkDividerState.set(color) }
-        registerListener(clazz.getDeclaredField("outline")) { color: Color -> VigilancePalette.outlineState.set(color) }
-        registerListener(clazz.getDeclaredField("scrollBar")) { color: Color -> VigilancePalette.scrollBarState.set(color) }
-        registerListener(clazz.getDeclaredField("brightHighlight")) { color: Color -> VigilancePalette.brightHighlightState.set(color) }
-        registerListener(clazz.getDeclaredField("highlight")) { color: Color -> VigilancePalette.highlightState.set(color) }
-        registerListener(clazz.getDeclaredField("darkHighlight")) { color: Color -> VigilancePalette.darkHighlightState.set(color) }
-        registerListener(clazz.getDeclaredField("lightBackground")) { color: Color -> VigilancePalette.lightBackgroundState.set(color) }
-        registerListener(clazz.getDeclaredField("background")) { color: Color ->
+        registerListener("brightDivider") { color: Color -> VigilancePalette.brightDividerState.set(color) }
+        registerListener("divider") { color: Color -> VigilancePalette.dividerState.set(color) }
+        registerListener("darkDivider") { color: Color -> VigilancePalette.darkDividerState.set(color) }
+        registerListener("outline") { color: Color -> VigilancePalette.outlineState.set(color) }
+        registerListener("scrollBar") { color: Color -> VigilancePalette.scrollBarState.set(color) }
+        registerListener("brightHighlight") { color: Color -> VigilancePalette.brightHighlightState.set(color) }
+        registerListener("highlight") { color: Color -> VigilancePalette.highlightState.set(color) }
+        registerListener("darkHighlight") { color: Color -> VigilancePalette.darkHighlightState.set(color) }
+        registerListener("lightBackground") { color: Color -> VigilancePalette.lightBackgroundState.set(color) }
+        registerListener("background") { color: Color ->
             VigilancePalette.backgroundState.set(color)
             VigilancePalette.bgNoAlpha.set(color.withAlpha(0))
         }
-        registerListener(clazz.getDeclaredField("darkBackground")) { color: Color -> VigilancePalette.darkBackgroundState.set(color) }
-        registerListener(clazz.getDeclaredField("searchBarBackground")) { color: Color -> VigilancePalette.searchBarBackgroundState.set(color) }
-        registerListener(clazz.getDeclaredField("brightText")) { color: Color -> VigilancePalette.brightTextState.set(color) }
-        registerListener(clazz.getDeclaredField("midText")) { color: Color -> VigilancePalette.midTextState.set(color) }
-        registerListener(clazz.getDeclaredField("darkText")) { color: Color -> VigilancePalette.darkTextState.set(color) }
-        registerListener(clazz.getDeclaredField("modalBackground")) { color: Color -> VigilancePalette.modalBackgroundState.set(color) }
-        registerListener(clazz.getDeclaredField("warning")) { color: Color -> VigilancePalette.warningState.set(color) }
-        registerListener(clazz.getDeclaredField("accent")) { color: Color -> VigilancePalette.accentState.set(color) }
-        registerListener(clazz.getDeclaredField("success")) { color: Color -> VigilancePalette.successState.set(color) }
-        registerListener(clazz.getDeclaredField("transparent")) { color: Color -> VigilancePalette.transparentState.set(color) }
-        registerListener(clazz.getDeclaredField("disabled")) { color: Color -> VigilancePalette.disabledState.set(color) }
+        registerListener("darkBackground") { color: Color -> VigilancePalette.darkBackgroundState.set(color) }
+        registerListener("searchBarBackground") { color: Color -> VigilancePalette.searchBarBackgroundState.set(color) }
+        registerListener("brightText") { color: Color -> VigilancePalette.brightTextState.set(color) }
+        registerListener("midText") { color: Color -> VigilancePalette.midTextState.set(color) }
+        registerListener("darkText") { color: Color -> VigilancePalette.darkTextState.set(color) }
+        registerListener("modalBackground") { color: Color -> VigilancePalette.modalBackgroundState.set(color) }
+        registerListener("warning") { color: Color -> VigilancePalette.warningState.set(color) }
+        registerListener("accent") { color: Color -> VigilancePalette.accentState.set(color) }
+        registerListener("success") { color: Color -> VigilancePalette.successState.set(color) }
+        registerListener("transparent") { color: Color -> VigilancePalette.transparentState.set(color) }
+        registerListener("disabled") { color: Color -> VigilancePalette.disabledState.set(color) }
     }
 
     internal fun setAllInPalette() {

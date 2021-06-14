@@ -1,6 +1,5 @@
 package gg.essential.vigilance.data
 
-import gg.essential.universal.UChat
 import gg.essential.vigilance.Vigilant
 import java.lang.reflect.Field
 
@@ -17,6 +16,14 @@ abstract class PropertyCollector {
 
     fun addProperty(propertyData: PropertyData) {
         collectedProperties.add(propertyData)
+    }
+
+    internal fun getProperty(propertyName: String): PropertyData? = collectedProperties.firstOrNull {
+        it.value is FieldBackedPropertyValue && it.value.field.name == propertyName
+    }
+
+    internal fun getProperty(field: Field): PropertyData? = collectedProperties.firstOrNull {
+        it.value is FieldBackedPropertyValue && it.value.field == field
     }
 }
 

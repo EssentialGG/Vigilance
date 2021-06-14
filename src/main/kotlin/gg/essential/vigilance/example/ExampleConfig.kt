@@ -526,14 +526,14 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
             UChat.chat("colorWithAlpha listener activated! New color: $color")
         }
 
-        addDependency<Field>(clazz.getDeclaredField("dependant"), clazz.getDeclaredField("dependency"))
-        addDependency<Field>(clazz.getDeclaredField("propertyPete"), clazz.getDeclaredField("toggleTom"))
-        addDependency<Field>(clazz.getDeclaredField("checkboxChuck"), clazz.getDeclaredField("toggleTom"))
+        addDependency(clazz.getDeclaredField("dependant"), clazz.getDeclaredField("dependency"))
+        addDependency(clazz.getDeclaredField("propertyPete"), clazz.getDeclaredField("toggleTom"))
+        addDependency(clazz.getDeclaredField("checkboxChuck"), clazz.getDeclaredField("toggleTom"))
 
         val os = System.getProperty("os.name", "windows").lowercase()
-        hidePropertyIf(clazz.getDeclaredField("windowsOnlyProperty"), !os.contains("windows"))
-        hidePropertyIf(clazz.getDeclaredField("macOnlyProperty"), !os.contains("mac"))
-        hidePropertyIf(clazz.getDeclaredField("linuxOnlyProperty"), !os.contains("linux"))
+        hidePropertyIf("windowsOnlyProperty") { !os.contains("windows") }
+        hidePropertyIf("macOnlyProperty") { !os.contains("mac") }
+        hidePropertyIf("linuxOnlyProperty") { !os.contains("linux") }
 
         setCategoryDescription(
             "Property Overview",
