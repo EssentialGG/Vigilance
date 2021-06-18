@@ -6,13 +6,11 @@ import gg.essential.elementa.constraints.*
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.state.toConstraint
-import gg.essential.elementa.svg.SVGParser
 import gg.essential.universal.UGraphics
 import gg.essential.universal.UMatrixStack
 import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.utils.onLeftClick
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
-import org.lwjgl.opengl.GL11
 import java.awt.Color
 import java.util.*
 import kotlin.math.roundToInt
@@ -191,7 +189,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
         setupDraw()
         val graphics = UGraphics.getFromTessellator()
-        graphics.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR)
+        graphics.beginWithDefaultShader(UGraphics.DrawMode.QUADS, DefaultVertexFormats.POSITION_COLOR)
 
         val height = bottom - top
         var first = true
@@ -216,6 +214,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
         }
 
+        graphics.drawDirect()
         cleanupDraw()
     }
 
@@ -232,7 +231,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         setupDraw()
         val graphics = UGraphics.getFromTessellator()
 
-        graphics.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR)
+        graphics.beginWithDefaultShader(UGraphics.DrawMode.QUADS, DefaultVertexFormats.POSITION_COLOR)
 
         var first = true
         for ((i, color) in hueColorList.withIndex()) {
@@ -248,6 +247,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
             first = false
         }
 
+        graphics.drawDirect()
         cleanupDraw()
     }
 
@@ -260,7 +260,6 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     }
 
     private fun cleanupDraw() {
-        UGraphics.draw()
         UGraphics.shadeModel(7424)
         UGraphics.disableBlend()
         UGraphics.enableAlpha()
