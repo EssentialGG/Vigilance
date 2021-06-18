@@ -18,12 +18,13 @@ import gg.essential.vigilance.VigilanceConfig
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.Category
 import gg.essential.vigilance.gui.settings.*
+import gg.essential.vigilance.utils.onLeftClick
 import net.minecraft.client.Minecraft
 import java.awt.Color
 
-class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = scaleForScreenSize().ordinal) {
+class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = GuiScale.scaleForScreenSize().ordinal) {
     init {
-        DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER.getStringWidth("Hello World", 10f)
+        DefaultFonts.VANILLA_FONT_RENDERER.getStringWidth("Hello World", 10f)
     }
 
     init {
@@ -52,7 +53,7 @@ class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = sca
             width = 90.percent()
             color = VigilancePalette.brightTextState.toConstraint()
             // issues with height/scaling when msdf. not a priority atm but will fix eventually
-            //fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+            //fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
         } childOf sidebar
     }
 
@@ -74,7 +75,7 @@ class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = sca
     } childOf scrollContainer
 
     init {
-        window.onMouseClick {
+        window.onLeftClick {
             currentCategory.closePopups()
         }
 
@@ -132,7 +133,7 @@ class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = sca
     private val searchInput by UITextInput("Search...", shadow = false).constrain {
         width = 90.percent()
         height = 100.percent()
-        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf searchInputContainer
 
     private val searchIndicator by UIBlock(VigilancePalette.darkDividerState).constrain {
@@ -148,7 +149,7 @@ class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = sca
     } childOf searchIndicator
 
     init {
-        searchContainer.onMouseClick { event ->
+        searchContainer.onLeftClick { event ->
             searchInput.grabWindowFocus()
             searchIndicatorAccent.animate {
                 setWidthAnimation(Animations.OUT_EXP, .5f, 100.percent())
@@ -356,17 +357,8 @@ class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = sca
     //#if MC<11500
     override fun setWorldAndResolution(mc: Minecraft, width: Int, height: Int) {
         window.onWindowResize()
-        newGuiScale = scaleForScreenSize().ordinal
+        newGuiScale = GuiScale.scaleForScreenSize().ordinal
         super.setWorldAndResolution(mc, width, height)
     }
     //#endif
-
-
-    companion object {
-        fun scaleForScreenSize(): GuiScale {
-            val width = UResolution.windowWidth
-            val step = 700
-            return GuiScale.fromNumber((width / step).coerceIn(1, 4))
-        }
-    }
 }

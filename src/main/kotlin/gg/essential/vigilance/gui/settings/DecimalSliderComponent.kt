@@ -38,7 +38,7 @@ class DecimalSliderComponent(
         x = CenterConstraint() boundTo slider.grabBox
         y = RelativeConstraint(1.5f)
         color = VigilancePalette.midTextState.toConstraint()
-        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf slider
 
     init {

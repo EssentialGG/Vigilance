@@ -14,6 +14,7 @@ import gg.essential.vigilance.data.CallablePropertyValue
 import gg.essential.vigilance.data.PropertyData
 import gg.essential.vigilance.gui.ExpandingClickEffect
 import gg.essential.vigilance.gui.VigilancePalette
+import gg.essential.vigilance.utils.onLeftClick
 
 class ButtonComponent(placeholder: String? = null, private val callback: () -> Unit) : SettingComponent() {
     private val buttonText = placeholder ?: "Activate"
@@ -39,7 +40,7 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
             width = basicWidthConstraint { (buttonText.width(getTextScale()) + 20f).coerceAtMost(300f) }
             height = 9.pixels()
             color = VigilancePalette.midTextState.toConstraint()
-            fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+            fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
         } childOf contentContainer
     }
 
@@ -69,7 +70,7 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
             container.animate {
                 setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.outlineState.toConstraint())
             }
-        }.onMouseClick { callback() }
+        }.onLeftClick { callback() }
     }
 
     constructor(placeholder: String? = null, data: PropertyData) : this(placeholder, callbackFromPropertyData(data))

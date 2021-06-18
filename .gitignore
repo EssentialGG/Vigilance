@@ -14,6 +14,7 @@ classes
 *.iws
 *.iml
 .idea
+.run
 
 # gradle
 build
@@ -28,11 +29,8 @@ run
 .DS_Store
 Thumbs.db
 
-# minecraft
-saves
-logs
-config
-options.txt
-usercache.json
-usernamecache.json
-*.txt
+versions/*/tmp.srg
+versions
+!versions/1.12.2-1.8.9.txt
+!versions/1.15.2-1.12.2.txt
+!versions/mainProject

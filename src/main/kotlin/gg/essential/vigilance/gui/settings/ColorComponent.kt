@@ -13,6 +13,7 @@ import gg.essential.elementa.effects.ScissorEffect
 import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.gui.VigilancePalette
+import gg.essential.vigilance.utils.onLeftClick
 import java.awt.Color
 
 class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingComponent() {
@@ -23,7 +24,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         y = 6.pixels()
         width = RelativeConstraint(1f) - 30.pixels()
         color = VigilancePalette.midTextState.toConstraint()
-        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf this
 
     private val downArrow by UIImage.ofResourceCached(DOWN_ARROW_PNG).constrain {
@@ -45,7 +46,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         y = 22.pixels()
         width = RelativeConstraint(0.9f)
         height = (if (allowAlpha) 78 else 62).pixels()
-        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf this
 
     init {
@@ -75,7 +76,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
             unHoverText(currentColorHex)
         }
 
-        onMouseClick { event ->
+        onLeftClick { event ->
             event.stopPropagation()
 
             if (active) {
@@ -87,8 +88,8 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
 
         currentColorHex.setText(getColorString(initial))
 
-        currentColorHex.onMouseClick { event ->
-            if (!active) return@onMouseClick
+        currentColorHex.onLeftClick { event ->
+            if (!active) return@onLeftClick
 
             currentColorHex.grabWindowFocus()
             event.stopPropagation()
@@ -133,7 +134,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
             currentColorHex.setText(getColorString(color))
         }
 
-        colorPicker.onMouseClick { event ->
+        colorPicker.onLeftClick { event ->
             event.stopPropagation()
         }
     }

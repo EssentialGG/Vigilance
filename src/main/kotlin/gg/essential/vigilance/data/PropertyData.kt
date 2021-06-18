@@ -8,7 +8,7 @@ import kotlin.reflect.KMutableProperty0
 
 data class PropertyData(val attributes: PropertyAttributes, val value: PropertyValue, val instance: Vigilant) {
     var action: ((Any?) -> Unit)? = null
-    var dependsOn: Field? = null
+    var dependsOn: PropertyData? = null
     var hasDependants: Boolean = false
 
     fun getDataType() = attributes.type
@@ -23,10 +23,7 @@ data class PropertyData(val attributes: PropertyAttributes, val value: PropertyV
 
     fun <T> getAs(clazz: Class<T>) = clazz.cast(getAsAny())
 
-    fun isHidden(): Boolean = if (dependsOn == null) false else {
-        dependsOn!!.isAccessible = true
-        !dependsOn!!.getBoolean(instance)
-    }
+    fun isHidden(): Boolean = if (dependsOn == null) false else !dependsOn!!.getAsBoolean()
 
     fun setValue(value: Any?) {
         if (value == null) {

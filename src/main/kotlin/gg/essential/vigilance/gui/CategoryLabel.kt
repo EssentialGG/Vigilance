@@ -10,12 +10,13 @@ import gg.essential.elementa.dsl.*
 import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.data.Category
+import gg.essential.vigilance.utils.onLeftClick
 
 class CategoryLabel(private val gui: SettingsGui, private val category: Category) : UIContainer() {
     private val text by UIText(category.name).constrain {
         color = VigilancePalette.midTextState.toConstraint()
         textScale = 1.2f.pixels()
-        fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf this
 
     var isSelected = false
@@ -27,7 +28,7 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
             height = ChildBasedSizeConstraint()
         }
 
-        onMouseClick {
+        onLeftClick {
             if (!isSelected) {
                 select()
             }

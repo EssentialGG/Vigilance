@@ -12,6 +12,7 @@ import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.gui.VigilancePalette
+import gg.essential.vigilance.utils.onLeftClick
 
 class TextComponent(
     private val initial: String,
@@ -49,7 +50,7 @@ class TextComponent(
         textInput childOf textHolder
         textInput.onUpdate { newText ->
             changeValue(newText)
-        }.onMouseClick { event ->
+        }.onLeftClick { event ->
             event.stopPropagation()
 
             textInput.grabWindowFocus()
@@ -80,7 +81,7 @@ class TextComponent(
                         setColorAnimation(Animations.OUT_EXP, .2f, VigilancePalette.darkTextState.toConstraint())
                     }
                 }
-            }.onMouseClick {
+            }.onLeftClick {
                 toggle = !toggle
                 (textInput as UIPasswordInput).setProtection(!toggle)
                 animate {

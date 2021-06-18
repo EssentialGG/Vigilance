@@ -8,6 +8,7 @@ import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.gui.SettingsGui
 import gg.essential.vigilance.gui.VigilancePalette
+import gg.essential.vigilance.utils.onLeftClick
 
 class SwitchComponent(initialState: Boolean) : SettingComponent() {
     internal var enabled = initialState
@@ -26,7 +27,7 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
 
         effect(getOutlineEffect())
 
-        onMouseClick {
+        onLeftClick {
             enabled = !enabled
             changeValue(enabled)
 

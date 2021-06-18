@@ -10,6 +10,7 @@ import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.data.Category
 import gg.essential.vigilance.data.PropertyItem
+import gg.essential.vigilance.utils.onLeftClick
 
 class SettingsCategory(category: Category) : UIContainer() {
     private val scrollerBoundingBox by UIContainer().constrain {
@@ -53,7 +54,7 @@ class SettingsCategory(category: Category) : UIContainer() {
                 y = SiblingConstraint() + 3.pixels()
                 width = 70.percent()
                 color = VigilancePalette.midTextState.toConstraint()
-                fontProvider = DefaultFonts.ELEMENTA_MINECRAFT_FONT_RENDERER
+                fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
             } childOf textContainer
         }
 
@@ -130,7 +131,7 @@ class SettingsCategory(category: Category) : UIContainer() {
             y = 0.pixels(alignOpposite = true)
             width = 100.percent() - 10.pixels()
             height = 50.pixels()
-        }.onMouseClick {
+        }.onLeftClick {
             it.stopPropagation()
             scroller.mouseClick(it.absoluteX.toDouble(), it.absoluteY.toDouble(), it.mouseButton)
         }.onMouseScroll {
