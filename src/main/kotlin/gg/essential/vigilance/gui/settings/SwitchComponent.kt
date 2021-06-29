@@ -39,6 +39,18 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
                 setXAnimation(Animations.OUT_EXP, 0.5f, getSwitchPosition())
             }
         }
+
+        onMouseEnter {
+            switchBox.animate {
+                setColorAnimation(Animations.OUT_EXP, .25f, getSwitchColor().map { it.darker() }.toConstraint())
+            }
+        }
+
+        onMouseLeave {
+            switchBox.animate {
+                setColorAnimation(Animations.OUT_EXP, .25f, getSwitchColor().toConstraint())
+            }
+        }
     }
 
     private fun getOutlineEffect() = OutlineEffect(getSwitchColor().get(), 0.5f).bindColor(getSwitchColor())
