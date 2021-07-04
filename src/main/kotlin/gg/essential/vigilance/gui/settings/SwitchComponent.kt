@@ -53,7 +53,7 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
         }
     }
 
-    private fun getOutlineEffect() = OutlineEffect(getSwitchColor().get(), 0.5f).bindColor(getSwitchColor())
+    private fun getOutlineEffect() = OutlineEffect(getSwitchColor().get(), 1f).bindColor(getSwitchColor())
 
     private fun getSwitchColor() = if (enabled) VigilancePalette.accentState else VigilancePalette.brightDividerState
 
