@@ -34,7 +34,7 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
             removeEffect<OutlineEffect>()
             enableEffect(getOutlineEffect())
 
-            switchBox.setColor(getSwitchColor().toConstraint())
+            switchBox.setColor((if (isHovered()) getSwitchColor().map { it.darker() } else getSwitchColor()).toConstraint())
             switchBox.animate {
                 setXAnimation(Animations.OUT_EXP, 0.5f, getSwitchPosition())
             }
