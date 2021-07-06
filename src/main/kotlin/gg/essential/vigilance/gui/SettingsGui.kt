@@ -5,10 +5,7 @@ import gg.essential.elementa.WindowScreen
 import gg.essential.elementa.components.*
 import gg.essential.elementa.components.input.UITextInput
 import gg.essential.elementa.components.inspector.Inspector
-import gg.essential.elementa.constraints.CenterConstraint
-import gg.essential.elementa.constraints.FillConstraint
-import gg.essential.elementa.constraints.RelativeConstraint
-import gg.essential.elementa.constraints.SiblingConstraint
+import gg.essential.elementa.constraints.*
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
@@ -16,6 +13,8 @@ import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.GuiScale
 import gg.essential.universal.UKeyboard
+import gg.essential.universal.UMinecraft
+import gg.essential.universal.utils.MCScreen
 import gg.essential.vigilance.VigilanceConfig
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.Category
@@ -24,8 +23,9 @@ import gg.essential.vigilance.utils.onLeftClick
 import net.minecraft.client.Minecraft
 import java.awt.Color
 
-class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = GuiScale.scaleForScreenSize().ordinal) {
+class SettingsGui(private val config: Vigilant, parent: MCScreen?) : WindowScreen(newGuiScale = GuiScale.scaleForScreenSize().ordinal) {
     init {
+        // wtf?
         DefaultFonts.VANILLA_FONT_RENDERER.getStringWidth("Hello World", 10f)
     }
 
@@ -43,6 +43,32 @@ class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = Gui
         width = 85.percent()
         height = 75.percent()
     } childOf window
+
+    private val backContainer by UIContainer().constrain {
+        x = (SiblingConstraint(13.5f, alignOpposite = true) boundTo outerContainer)
+        y = .5f.pixels() boundTo outerContainer
+        height = ChildBasedSizeConstraint() + 5.pixels()
+        width = ChildBasedSizeConstraint() + 5.pixels()
+    } childOf window
+
+    private val backIcon by UIText("<", false).constrain {
+        textScale = 2f.pixels()
+        color = VigilancePalette.brightTextState.toConstraint()
+    }.onMouseClick {
+        UMinecraft.getMinecraft().displayGuiScreen(parent)
+    } childOf backContainer
+
+    init {
+        backContainer.onMouseEnter {
+            backIcon.animate {
+                setColorAnimation(Animations.OUT_EXP, .3f, VigilancePalette.accentState.toConstraint())
+            }
+        }.onMouseLeave {
+            backIcon.animate {
+                setColorAnimation(Animations.OUT_EXP, .3f, VigilancePalette.brightTextState.toConstraint())
+            }
+        }
+    }
 
     private val sidebar by UIContainer().constrain {
         width = 25.percent()
