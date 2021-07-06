@@ -5,7 +5,10 @@ import gg.essential.elementa.WindowScreen
 import gg.essential.elementa.components.*
 import gg.essential.elementa.components.input.UITextInput
 import gg.essential.elementa.components.inspector.Inspector
-import gg.essential.elementa.constraints.*
+import gg.essential.elementa.constraints.CenterConstraint
+import gg.essential.elementa.constraints.FillConstraint
+import gg.essential.elementa.constraints.RelativeConstraint
+import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
@@ -13,7 +16,6 @@ import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.GuiScale
 import gg.essential.universal.UKeyboard
-import gg.essential.universal.UResolution
 import gg.essential.vigilance.VigilanceConfig
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.Category
@@ -29,22 +31,22 @@ class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = Gui
 
     init {
         UIBlock().constrain {
-            width = RelativeConstraint(1f)
-            height = RelativeConstraint(1f)
+            width = 100.percent()
+            height = 100.percent()
             color = VigilancePalette.backgroundState.toConstraint()
         } childOf window
     }
 
     private val outerContainer by UIContainer().constrain {
-        x = RelativeConstraint(0.12f)
-        y = RelativeConstraint(0.1f)
-        width = RelativeConstraint(0.78f)
-        height = RelativeConstraint(0.8f)
+        x = CenterConstraint()
+        y = CenterConstraint()
+        width = 85.percent()
+        height = 75.percent()
     } childOf window
 
     private val sidebar by UIContainer().constrain {
-        width = RelativeConstraint(0.25f)
-        height = RelativeConstraint(1f)
+        width = 25.percent()
+        height = 100.percent()
     } childOf outerContainer
 
     init {
@@ -64,8 +66,8 @@ class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = Gui
     } childOf sidebar
 
     private val categoryScroller by ScrollComponent(pixelsPerScroll = 25f).constrain {
-        width = RelativeConstraint(1f)
-        height = RelativeConstraint(1f)
+        width = 100.percent()
+        height = 100.percent()
     } childOf scrollContainer
 
     private val categoryScrollBar by UIBlock().constrain {
