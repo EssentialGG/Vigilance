@@ -3,14 +3,15 @@ package gg.essential.vigilance.gui
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIWrappedText
-import gg.essential.elementa.constraints.*
+import gg.essential.elementa.constraints.ChildBasedMaxSizeConstraint
+import gg.essential.elementa.constraints.ChildBasedSizeConstraint
+import gg.essential.elementa.constraints.RelativeConstraint
+import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
-import gg.essential.elementa.transitions.RecursiveFadeInTransition
-import gg.essential.elementa.transitions.RecursiveFadeOutTransition
 import gg.essential.vigilance.data.PropertyData
 import gg.essential.vigilance.gui.settings.SettingComponent
 
@@ -63,10 +64,6 @@ class DataBackedSetting(internal val data: PropertyData, internal val component:
             }
         }
 
-        animateAfterUnhide {
-            RecursiveFadeInTransition(.5f).transition(this@DataBackedSetting)
-        }
-
         component.onValueChange {
             data.setValue(it)
         }
@@ -81,10 +78,8 @@ class DataBackedSetting(internal val data: PropertyData, internal val component:
             }
         } else if (data.isHidden()) {
             hidden = true
-            RecursiveFadeOutTransition(.5f).transition(this) {
-                if (hidden) {
-                    hide(true)
-                }
+            if (hidden) {
+                hide(true)
             }
         }
     }
