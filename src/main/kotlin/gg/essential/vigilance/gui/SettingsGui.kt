@@ -88,10 +88,6 @@ class SettingsGui(private val config: Vigilant, parent: MCScreen?) : WindowScree
 
     private var searchExpanded = false
     private var cs = false
-        set(value) {
-            field = value
-            println("cs $value")
-        }
 
     private val searchContainerNew by UIBlock(VigilancePalette.backgroundState).constrain {
         x = (-20).pixels(alignOutside = true, alignOpposite = true)
