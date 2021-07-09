@@ -30,7 +30,7 @@ class Divider(val name: String, description: String?) : Setting() {
             val rightLine by UIBlock().constrain {
                 x = basicXConstraint { label.getRight() + 10f }
                 y = basicYConstraint { label.getTop() + label.getHeight() / 2f }
-                width = FillConstraint()
+                width = basicWidthConstraint { getRight() - label.getRight() - 15f }
                 height = 1.pixels()
                 color = VigilancePalette.darkDividerState.toConstraint()
             } childOf this
