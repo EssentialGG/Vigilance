@@ -54,7 +54,7 @@ class SettingsGui(private val config: Vigilant, parent: MCScreen?) :
         height = 7.pixels()
     } childOf backContainer
 
-    val titleBar = UIBlock(VigilancePalette.getLightBackground()).constrain {
+    val titleBar = TitleBar(this, config).constrain {
         width = 100.percent()
         height = 30.pixels()
     } childOf content
@@ -78,7 +78,7 @@ class SettingsGui(private val config: Vigilant, parent: MCScreen?) :
             restorePreviousScreen()
         }
 
-        UIBlock(VigilancePalette.darkDividerState).constrain {
+        UIBlock(VigilancePalette.dividerState).constrain {
             width = 1.pixel()
             height = 100.percent()
         } childOf content
@@ -142,7 +142,7 @@ class SettingsGui(private val config: Vigilant, parent: MCScreen?) :
             val label = CategoryLabel(this, cat)
             label childOf categoryScroller
         }
-        UIBlock(VigilancePalette.darkDividerState).constrain {
+        UIBlock(VigilancePalette.dividerState).constrain {
             x = SiblingConstraint()
             width = 1.pixels()
             height = RelativeConstraint(1f)
@@ -157,7 +157,7 @@ class SettingsGui(private val config: Vigilant, parent: MCScreen?) :
     } childOf mainContent
 
     init {
-        UIBlock(VigilancePalette.darkDividerState).constrain {
+        UIBlock(VigilancePalette.dividerState).constrain {
             x = 0.pixel(alignOpposite = true)
             width = 1.pixel()
             height = 100.percent()
