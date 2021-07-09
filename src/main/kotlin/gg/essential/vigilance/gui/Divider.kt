@@ -17,21 +17,33 @@ class Divider(val name: String, description: String?) : Setting() {
         fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf this
 
-    private val leftLine by UIBlock().constrain {
-        x = 0.pixels()
-        y = basicYConstraint { label.getTop() + label.getHeight() / 2f }
-        width = basicWidthConstraint { label.getLeft() - getLeft() - 10f }
-        height = 1.pixels()
-        color = VigilancePalette.darkDividerState.toConstraint()
-    } childOf this
+    init {
+        if (name.isNotBlank()) {
+            val leftLine by UIBlock().constrain {
+                x = 0.pixels()
+                y = basicYConstraint { label.getTop() + label.getHeight() / 2f }
+                width = basicWidthConstraint { label.getLeft() - getLeft() - 10f }
+                height = 1.pixels()
+                color = VigilancePalette.darkDividerState.toConstraint()
+            } childOf this
 
-    private val rightLine by UIBlock().constrain {
-        x = basicXConstraint { label.getRight() + 10f }
-        y = basicYConstraint { label.getTop() + label.getHeight() / 2f }
-        width = FillConstraint()
-        height = 1.pixels()
-        color = VigilancePalette.darkDividerState.toConstraint()
-    } childOf this
+            val rightLine by UIBlock().constrain {
+                x = basicXConstraint { label.getRight() + 10f }
+                y = basicYConstraint { label.getTop() + label.getHeight() / 2f }
+                width = FillConstraint()
+                height = 1.pixels()
+                color = VigilancePalette.darkDividerState.toConstraint()
+            } childOf this
+        } else {
+            val line by UIBlock().constrain {
+                x = 0.pixels()
+                y = basicYConstraint { label.getTop() + label.getHeight() / 2f }
+                width = FillConstraint()
+                height = 1.pixels()
+                color = VigilancePalette.darkDividerState.toConstraint()
+            } childOf this
+        }
+    }
 
     internal var hidden: Boolean = false
 

@@ -276,9 +276,11 @@ abstract class Vigilant @JvmOverloads constructor(
         val items = this.groupBy { it.attributes.subcategory }.entries.sortedWith(sortingBehavior.getSubcategoryComparator())
         val withDividers = mutableListOf<CategoryItem>()
 
-        for ((subcategoryName, listOfProperties) in items) {
+        items.forEachIndexed { index, (subcategoryName, listOfProperties) ->
             val subcategoryInfo = categoryDescription[listOfProperties[0].attributes.category]?.subcategoryDescriptions?.get(subcategoryName)
-            withDividers.add(DividerItem(subcategoryName, subcategoryInfo))
+            if (index > 0 || subcategoryName.isNotBlank() || !subcategoryInfo.isNullOrBlank()) {
+                withDividers.add(DividerItem(subcategoryName, subcategoryInfo))
+            }
             withDividers.addAll(listOfProperties.sortedWith(sortingBehavior.getPropertyComparator()).map { PropertyItem(it, it.attributes.subcategory) })
         }
 
