@@ -1,5 +1,6 @@
 package gg.essential.vigilance.gui
 
+import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIImage
 import gg.essential.elementa.components.UIText
@@ -16,7 +17,7 @@ import gg.essential.vigilance.utils.onLeftClick
 
 class TitleBar(private val gui: SettingsGui, private val config: Vigilant) : UIContainer() {
     private val standardBar by StandardTitleBar()
-    private val searchFriendsBar by InputTitleBar()
+    private val searchFriendsBar by InputTitleBar(UIImage.Companion.ofResourceCached("/vigilance/search.png"), 16, 16)
 
     private var displayedBar: Bar by (standardBar childOf this) as Bar
 
@@ -85,15 +86,19 @@ class TitleBar(private val gui: SettingsGui, private val config: Vigilant) : UIC
         }
     }
 
-    private inner class InputTitleBar : Bar() {
+    private inner class InputTitleBar(icon: UIImage, iconWidth: Int, iconHeight: Int) : Bar() {
         private var updateAction: ((String) -> Unit)? = null
         private var cancelAction: (() -> Unit)? = null
 
+        private val leftIcon: UIComponent = makeIcon(icon, iconWidth, iconHeight).constrain {
+            x = 5.pixels()
+        } childOf this
+
         private val input = UITextInput("Type a username", shadow = false).constrain {
-            x = 15.pixels()
+            x = SiblingConstraint(15f)
             y = CenterConstraint()
             width = 100.percent() - 10.pixels() - basicWidthConstraint {
-                cancelIcon.getWidth()
+                leftIcon.getWidth() + cancelIcon.getWidth()
             }
             height = 10.pixels()
         } childOf this
