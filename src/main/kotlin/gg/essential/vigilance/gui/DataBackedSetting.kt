@@ -35,7 +35,7 @@ class DataBackedSetting(internal val data: PropertyData, internal val component:
 
     private val settingName by UIWrappedText(data.attributes.name).constrain {
         width = RelativeConstraint(1f)
-        textScale = 1.5f.pixels()
+        textScale = 1.49f.pixels()
         color = VigilancePalette.brightTextState.toConstraint()
         fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf textBoundingBox
