@@ -113,6 +113,7 @@ class TitleBar(private val gui: SettingsGui, private val config: Vigilant) : UIC
 //            SoundUtil.playButtonPress()
             showStandardBar()
             cancelAction?.invoke()
+            input.releaseWindowFocus()
         } childOf this
 
         init {
