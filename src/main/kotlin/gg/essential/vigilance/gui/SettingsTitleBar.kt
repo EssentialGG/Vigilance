@@ -94,7 +94,7 @@ class TitleBar(private val gui: SettingsGui, private val config: Vigilant) : UIC
             x = 5.pixels()
         } childOf this
 
-        private val input = UITextInput("Type a username", shadow = false).constrain {
+        private val input: UITextInput = UITextInput("Type a username", shadow = false).constrain {
             x = SiblingConstraint(15f)
             y = CenterConstraint()
             width = 100.percent() - 10.pixels() - basicWidthConstraint {
