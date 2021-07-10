@@ -95,20 +95,6 @@ class SettingsGui(private val config: Vigilant, parent: MCScreen?) :
         height = 100.percent()
     } childOf sidebar
 
-
-
-
-
-    init {
-        elementaDebug = false
-
-
-        UIWrappedText(config.guiTitle, shadow = false).constrain {
-            x = 15.pixels()
-            y = CenterConstraint()
-        } childOf titleBar
-    }
-
     private val scrollContainer by UIContainer().constrain {
         x = 5.pixels()
         y = SiblingConstraint() + 15.pixels()

@@ -65,7 +65,7 @@ class TitleBar(private val gui: SettingsGui, private val config: Vigilant) : UIC
     private inner class StandardTitleBar : Bar() {
         private lateinit var onClickSearch: () -> Unit
 
-        private val text = UIText("Settings").constrain {
+        private val text = UIText(config.guiTitle).constrain {
             x = 15.pixels()
             y = CenterConstraint()
         } childOf this
