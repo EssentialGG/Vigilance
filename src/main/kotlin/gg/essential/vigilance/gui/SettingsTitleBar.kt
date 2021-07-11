@@ -15,11 +15,11 @@ import gg.essential.universal.UKeyboard
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.utils.onLeftClick
 
-class TitleBar(private val gui: SettingsGui, private val config: Vigilant) : UIContainer() {
+class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilant) : UIContainer() {
     private val standardBar by StandardTitleBar()
     private val searchFriendsBar by InputTitleBar(UIImage.Companion.ofResourceCached("/vigilance/search.png"), 16, 16)
 
-    private var displayedBar: Bar by (standardBar childOf this) as Bar
+    private var displayedBar: Bar = standardBar childOf this
 
     init {
         enableEffect(ScissorEffect())
@@ -65,21 +65,24 @@ class TitleBar(private val gui: SettingsGui, private val config: Vigilant) : UIC
     private inner class StandardTitleBar : Bar() {
         private lateinit var onClickSearch: () -> Unit
 
-        private val text = UIText(config.guiTitle).constrain {
-            x = 15.pixels()
-            y = CenterConstraint()
-        } childOf this
+        init {
+            UIText(config.guiTitle).constrain {
+                x = 15.pixels()
+                y = CenterConstraint()
+            } childOf this
+        }
 
-        private val iconContainer = UIContainer().constrain {
+        private val iconContainer by UIContainer().constrain {
             x = 0.pixels(alignOpposite = true)
             width = ChildBasedSizeConstraint()
             height = 100.percent()
         } childOf this
 
-        private val searchIcon by makeIcon(UIImage.ofResourceCached("/vigilance/search.png"), 16, 16).onLeftClick {
-//            SoundUtil.playButtonPress()
-            onClickSearch()
-        } childOf iconContainer
+        init {
+            makeIcon(UIImage.ofResourceCached("/vigilance/search.png"), 16, 16).onLeftClick {
+                onClickSearch()
+            } childOf iconContainer
+        }
 
         fun onClickSearch(action: () -> Unit) = apply {
             onClickSearch = action
@@ -90,11 +93,11 @@ class TitleBar(private val gui: SettingsGui, private val config: Vigilant) : UIC
         private var updateAction: ((String) -> Unit)? = null
         private var cancelAction: (() -> Unit)? = null
 
-        private val leftIcon: UIComponent = makeIcon(icon, iconWidth, iconHeight).constrain {
+        private val leftIcon: UIComponent by makeIcon(icon, iconWidth, iconHeight).constrain {
             x = 5.pixels()
         } childOf this
 
-        private val input: UITextInput = UITextInput("Search", shadow = false).constrain {
+        private val input: UITextInput by UITextInput("Search...", shadow = false).constrain {
             x = SiblingConstraint(15f)
             y = CenterConstraint()
             width = 100.percent() - 10.pixels() - basicWidthConstraint {
@@ -107,10 +110,9 @@ class TitleBar(private val gui: SettingsGui, private val config: Vigilant) : UIC
             input.lineHeight = 10f
         }
 
-        private val cancelIcon = makeIcon(UIImage.ofResourceCached("/vigilance/cancel.png"), 16, 16).constrain {
+        private val cancelIcon by makeIcon(UIImage.ofResourceCached("/vigilance/cancel.png"), 16, 16).constrain {
             x = 0.pixels(alignOpposite = true)
         }.onLeftClick {
-//            SoundUtil.playButtonPress()
             showStandardBar()
             cancelAction?.invoke()
             input.releaseWindowFocus()

@@ -3,7 +3,6 @@ package gg.essential.vigilance.gui
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.WindowScreen
 import gg.essential.elementa.components.*
-import gg.essential.elementa.components.input.UITextInput
 import gg.essential.elementa.components.inspector.Inspector
 import gg.essential.elementa.constraints.*
 import gg.essential.elementa.constraints.animation.Animations
@@ -11,11 +10,8 @@ import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.effects.ScissorEffect
 import gg.essential.elementa.state.toConstraint
-import gg.essential.elementa.utils.elementaDebug
 import gg.essential.universal.GuiScale
 import gg.essential.universal.UKeyboard
-import gg.essential.universal.UMinecraft
-import gg.essential.universal.utils.MCScreen
 import gg.essential.vigilance.VigilanceConfig
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.Category
@@ -24,8 +20,9 @@ import gg.essential.vigilance.utils.onLeftClick
 import net.minecraft.client.Minecraft
 import java.awt.Color
 
-class SettingsGui(private val config: Vigilant, parent: MCScreen?) :
-    WindowScreen(newGuiScale = GuiScale.scaleForScreenSize().ordinal, restoreCurrentGuiOnClose = true) {
+class SettingsGui(
+    private val config: Vigilant
+) : WindowScreen(newGuiScale = GuiScale.scaleForScreenSize().ordinal, restoreCurrentGuiOnClose = true) {
     init {
         UIBlock(VigilancePalette.backgroundState).constrain {
             width = 100.percent()
@@ -40,26 +37,28 @@ class SettingsGui(private val config: Vigilant, parent: MCScreen?) :
         height = 75.percent()
     } childOf window
 
-    val backContainer = UIContainer().constrain {
+    private val backContainer by UIContainer().constrain {
         x = (SiblingConstraint(20f, alignOpposite = true) boundTo content) + 6.5.pixel()
         y = 0.5.pixels() boundTo content
         width = ChildBasedSizeConstraint() + 20.pixels()
         height = ChildBasedSizeConstraint() + 20.pixels()
     } childOf window
 
-    val backIcon = UIImage.ofResource("/vigilance/arrow-left.png").constrain {
+    private val backIcon by UIImage.ofResource("/vigilance/arrow-left.png").constrain {
         x = CenterConstraint()
         y = CenterConstraint()
         width = 4.pixels()
         height = 7.pixels()
     } childOf backContainer
 
-    val titleBar = TitleBar(this, config).constrain {
-        width = 100.percent()
-        height = 30.pixels()
-    } childOf content
+    init {
+        SettingsTitleBar(this, config).constrain {
+            width = 100.percent()
+            height = 30.pixels()
+        } childOf content
+    }
 
-    val mainContent = UIContainer().constrain {
+    private val mainContent by UIContainer().constrain {
         y = SiblingConstraint() //30.px
         width = FillConstraint(false)
         height = FillConstraint(false)
@@ -129,9 +128,10 @@ class SettingsGui(private val config: Vigilant, parent: MCScreen?) :
             label childOf categoryScroller
         }
         UIBlock(VigilancePalette.dividerState).constrain {
+            y = (-.5f).pixels()
             x = SiblingConstraint()
             width = 1.pixels()
-            height = RelativeConstraint(1f)
+            height = RelativeConstraint(1f) + .5f.pixels()
         } childOf mainContent
     }
 
