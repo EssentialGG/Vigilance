@@ -89,14 +89,14 @@ class SettingsGui(
     } effect ScissorEffect() childOf mainContent
 
     private val theGuy by UIContainer().constrain {
-        x = 7.5f.pixels()
+        x = 10.pixels()
         width = 100.percent()
         height = 100.percent()
     } childOf sidebar
 
     private val scrollContainer by UIContainer().constrain {
         x = 5.pixels()
-        y = SiblingConstraint() + 15.pixels()
+        y = SiblingConstraint() + 7.pixels()
         width = RelativeConstraint(1f) - 10.pixels()
         height = FillConstraint()
     } childOf theGuy

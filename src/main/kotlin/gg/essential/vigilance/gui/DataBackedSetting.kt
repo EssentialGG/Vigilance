@@ -13,14 +13,15 @@ import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.data.PropertyData
+import gg.essential.vigilance.gui.settings.SelectorComponent
 import gg.essential.vigilance.gui.settings.SettingComponent
 
 class DataBackedSetting(internal val data: PropertyData, internal val component: SettingComponent) : Setting() {
-    private val boundingBox by UIBlock(VigilancePalette.darkHighlightState.toConstraint()).constrain {
+    private val boundingBox: UIBlock by UIBlock(VigilancePalette.darkHighlightState.toConstraint()).constrain {
         x = 1.pixels()
         y = 1.pixels()
         width = RelativeConstraint(1f) - 10.pixels()
-        height = ChildBasedMaxSizeConstraint() + INNER_PADDING.pixels()
+        height = (if (component is SelectorComponent) basicHeightConstraint { textBoundingBox.getHeight() } else ChildBasedMaxSizeConstraint()) + INNER_PADDING.pixels()
     } childOf this effect OutlineEffect(VigilancePalette.getDivider(), 1f).bindColor(VigilancePalette.dividerState)
 
     private val textBoundingBox by UIContainer().constrain {
@@ -52,18 +53,6 @@ class DataBackedSetting(internal val data: PropertyData, internal val component:
     private var hidden = data.isHidden()
 
     init {
-        onMouseEnter {
-            settingName.animate {
-                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.accentState.toConstraint())
-            }
-        }
-
-        onMouseLeave {
-            settingName.animate {
-                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.brightTextState.toConstraint())
-            }
-        }
-
         component.onValueChange {
             data.setValue(it)
         }

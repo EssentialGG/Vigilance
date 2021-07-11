@@ -8,6 +8,7 @@ class SelectorComponent(initialSelection: Int, options: List<String>) : SettingC
 
     init {
         constrain {
+            y = 18.pixels()
             width = ChildBasedSizeConstraint()
             height = ChildBasedSizeConstraint()
         }
