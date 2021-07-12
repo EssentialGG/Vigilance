@@ -52,7 +52,7 @@ class SettingsGui(
     } childOf backContainer
 
     init {
-        SettingsTitleBar(this, config).constrain {
+        SettingsTitleBar(this, config, window).constrain {
             width = 100.percent()
             height = 30.pixels()
         } childOf content

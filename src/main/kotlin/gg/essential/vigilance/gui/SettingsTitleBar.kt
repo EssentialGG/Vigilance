@@ -4,6 +4,7 @@ import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIImage
 import gg.essential.elementa.components.UIText
+import gg.essential.elementa.components.Window
 import gg.essential.elementa.components.input.UITextInput
 import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.ChildBasedSizeConstraint
@@ -15,9 +16,9 @@ import gg.essential.universal.UKeyboard
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.utils.onLeftClick
 
-class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilant) : UIContainer() {
+class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilant, window: Window) : UIContainer() {
     private val standardBar by StandardTitleBar()
-    private val searchFriendsBar by InputTitleBar(UIImage.Companion.ofResourceCached("/vigilance/search.png"), 16, 16)
+    private val searchBar by InputTitleBar(UIImage.Companion.ofResourceCached("/vigilance/search.png"), 16, 16)
 
     private var displayedBar: Bar = standardBar childOf this
 
@@ -25,18 +26,30 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
         enableEffect(ScissorEffect())
 
         standardBar.onClickSearch {
-            showSearchFriendsBar()
+            showSearchBar()
         }
 
-        searchFriendsBar.onUpdate { str ->
+        searchBar.onUpdate { str ->
             gui.selectCategory(config.getCategoryFromSearch(str))
         }.onCancel {
             gui.selectCategory(config.getCategoryFromSearch(""))
         }
+        
+        window.onKeyType { typedChar, keyCode ->
+            if (searchBar.isHidden) {
+                when {
+                    UKeyboard.run { keyCode == KEY_F && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown() } -> showSearchBar()
+                    typedChar.isLetterOrDigit() -> {
+                        showSearchBar()
+                        searchBar.input.keyType(typedChar, keyCode)
+                    }
+                }
+            }
+        }
     }
 
     private fun showStandardBar(): Unit = showBar(standardBar, true)
-    private fun showSearchFriendsBar(): Unit = showBar(searchFriendsBar, false)
+    private fun showSearchBar(): Unit = showBar(searchBar, false)
 
     private fun showBar(bar: Bar, fromTop: Boolean) {
         if (displayedBar == bar)
@@ -92,12 +105,13 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
     private inner class InputTitleBar(icon: UIImage, iconWidth: Int, iconHeight: Int) : Bar() {
         private var updateAction: ((String) -> Unit)? = null
         private var cancelAction: (() -> Unit)? = null
+        var isHidden = true
 
         private val leftIcon: UIComponent by makeIcon(icon, iconWidth, iconHeight).constrain {
             x = 5.pixels()
         } childOf this
 
-        private val input: UITextInput by UITextInput("Search...", shadow = false).constrain {
+        val input: UITextInput by UITextInput("Search...", shadow = false).constrain {
             x = SiblingConstraint(15f)
             y = CenterConstraint()
             width = 100.percent() - 10.pixels() - basicWidthConstraint {
@@ -119,15 +133,14 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
         } childOf this
 
         init {
-            onLeftClick {
-                input.grabWindowFocus()
-            }
-
             input.onUpdate {
-                updateAction?.invoke(input.getText())
+                updateAction?.invoke(it)
             }.onKeyType { _, keyCode ->
-                if (keyCode == UKeyboard.KEY_ESCAPE)
+                if (keyCode == UKeyboard.KEY_ESCAPE) {
                     showStandardBar()
+                    cancelAction?.invoke()
+                    input.releaseWindowFocus()
+                }
             }
         }
 
@@ -141,13 +154,14 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
 
         override fun onShow() {
             input.grabWindowFocus()
+            input.focus()
+            input.setText("")
+            isHidden = false
         }
 
         override fun onHide() {
             input.releaseWindowFocus()
-            delay(500) {
-                input.setText("")
-            }
+            isHidden = true
         }
     }
 }
