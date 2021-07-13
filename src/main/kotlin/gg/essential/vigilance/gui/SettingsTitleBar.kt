@@ -155,12 +155,18 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
         override fun onShow() {
             input.grabWindowFocus()
             input.focus()
+            input.delay(2) {
+                input.setActive(true)
+            }
             input.setText("")
             isHidden = false
         }
 
         override fun onHide() {
             input.releaseWindowFocus()
+            input.delay(2) {
+                input.setActive(false)
+            }
             isHidden = true
         }
     }

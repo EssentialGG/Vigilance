@@ -143,7 +143,7 @@ dependencies {
     implementation 'com.electronwill.night-config:toml:3.6.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation("gg.essential:Elementa:335-$mcVersion-SNAPSHOT") {
+    implementation("gg.essential:Elementa:336-$mcVersion-SNAPSHOT") {
         exclude module: 'kotlin-reflect'
         exclude module: 'kotlin-stdlib-jdk8'
     }
