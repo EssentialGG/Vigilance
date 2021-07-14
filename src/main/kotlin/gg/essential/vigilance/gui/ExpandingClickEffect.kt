@@ -31,8 +31,10 @@ class ExpandingClickEffect @JvmOverloads constructor(
     override fun setup() {
         scissorEffect = ScissorEffect(scissorBoundingBox ?: boundComponent)
         circle effect scissorEffect
-        circle childOf Window.of(boundComponent)
-        circle.hide(true)
+        Window.enqueueRenderOperation {
+            circle childOf Window.of(boundComponent)
+            circle.hide(true)
+        }
 
         fun onClickHandler(clickEvent: UIClickEvent) {
             lastClick = clickEvent

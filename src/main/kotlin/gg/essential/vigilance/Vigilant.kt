@@ -63,15 +63,13 @@ abstract class Vigilant @JvmOverloads constructor(
     /**
      * Open your config's gui.
      *
-     * @param parent screen to return to when back button is pressed
      * @return config gui instance
      */
-    @JvmOverloads
-    fun gui(parent: MCScreen? = null): SettingsGui? {
+    fun gui(): SettingsGui? {
         return if (hasError) {
             UChat.chat("&c[Vigilance] Error while creating config screen; check your logs for more information")
             null
-        } else SettingsGui(this, parent)
+        } else SettingsGui(this)
     }
 
     fun registerProperty(prop: PropertyData) {
@@ -276,9 +274,11 @@ abstract class Vigilant @JvmOverloads constructor(
         val items = this.groupBy { it.attributes.subcategory }.entries.sortedWith(sortingBehavior.getSubcategoryComparator())
         val withDividers = mutableListOf<CategoryItem>()
 
-        for ((subcategoryName, listOfProperties) in items) {
+        items.forEachIndexed { index, (subcategoryName, listOfProperties) ->
             val subcategoryInfo = categoryDescription[listOfProperties[0].attributes.category]?.subcategoryDescriptions?.get(subcategoryName)
-            withDividers.add(DividerItem(subcategoryName, subcategoryInfo))
+            if (index > 0 || subcategoryName.isNotBlank() || !subcategoryInfo.isNullOrBlank()) {
+                withDividers.add(DividerItem(subcategoryName, subcategoryInfo))
+            }
             withDividers.addAll(listOfProperties.sortedWith(sortingBehavior.getPropertyComparator()).map { PropertyItem(it, it.attributes.subcategory) })
         }
 

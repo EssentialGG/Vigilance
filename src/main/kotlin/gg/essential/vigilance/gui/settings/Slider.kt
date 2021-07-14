@@ -28,10 +28,8 @@ class Slider(initialValue: Float) : UIContainer() {
     } childOf this effect OutlineEffect(VigilancePalette.getBrightDivider(), 1f).bindColor(VigilancePalette.brightDividerState)
 
     private val completionBox = UIBlock().constrain {
-        x = (-0.5f).pixels()
-        y = (-0.5f).pixels()
         width = RelativeConstraint(percentage)
-        height = RelativeConstraint(1f) + 1.pixels()
+        height = RelativeConstraint(1f)
         color = VigilancePalette.accentState.toConstraint()
     } childOf outerBox
 

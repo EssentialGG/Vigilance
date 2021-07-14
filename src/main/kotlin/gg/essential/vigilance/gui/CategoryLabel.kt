@@ -2,6 +2,7 @@ package gg.essential.vigilance.gui
 
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIText
+import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.ChildBasedMaxSizeConstraint
 import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
@@ -14,6 +15,7 @@ import gg.essential.vigilance.utils.onLeftClick
 
 class CategoryLabel(private val gui: SettingsGui, private val category: Category) : UIContainer() {
     private val text by UIText(category.name).constrain {
+        y = CenterConstraint()
         color = VigilancePalette.midTextState.toConstraint()
         textScale = 1.2f.pixels()
         fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
@@ -23,9 +25,9 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
 
     init {
         constrain {
-            y = SiblingConstraint(15f)
+            y = SiblingConstraint()
             width = ChildBasedMaxSizeConstraint()
-            height = ChildBasedSizeConstraint()
+            height = ChildBasedSizeConstraint() + 14.pixels()
         }
 
         onLeftClick {

@@ -136,6 +136,8 @@ class DropDown(
         }
 
         replaceChild(upArrow, downArrow)
+        setFloating(true)
+        optionsHolder.unhide(useLastPosition = true)
     }
 
     fun collapse(unHover: Boolean = false) {
@@ -150,6 +152,8 @@ class DropDown(
                 mappedOptions.forEach {
                     it.setColor(Color(0, 0, 0, 0).toConstraint())
                 }
+                setFloating(false)
+                optionsHolder.hide(instantly = true)
             }
         }
 
