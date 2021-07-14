@@ -1,9 +1,10 @@
 package gg.essential.vigilance
 
+import com.electronwill.nightconfig.core.file.FileConfig
 import gg.essential.universal.UChat
+import gg.essential.universal.utils.MCScreen
 import gg.essential.vigilance.data.*
 import gg.essential.vigilance.gui.SettingsGui
-import com.electronwill.nightconfig.core.file.FileConfig
 import java.awt.Color
 import java.io.File
 import java.lang.reflect.Field
@@ -40,6 +41,9 @@ abstract class Vigilant @JvmOverloads constructor(
         }
     }
 
+    /**
+     * Initialise your config.
+     */
     fun initialize() {
         Vigilance.initialize()
 
@@ -56,11 +60,18 @@ abstract class Vigilant @JvmOverloads constructor(
         Runtime.getRuntime().addShutdownHook(Thread { writeData() })
     }
 
-    fun gui(): SettingsGui? {
+    /**
+     * Open your config's gui.
+     *
+     * @param parent screen to return to when back button is pressed
+     * @return config gui instance
+     */
+    @JvmOverloads
+    fun gui(parent: MCScreen? = null): SettingsGui? {
         return if (hasError) {
             UChat.chat("&c[Vigilance] Error while creating config screen; check your logs for more information")
             null
-        } else SettingsGui(this)
+        } else SettingsGui(this, parent)
     }
 
     fun registerProperty(prop: PropertyData) {

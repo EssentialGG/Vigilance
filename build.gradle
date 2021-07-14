@@ -156,7 +156,7 @@ dependencies {
     modImplementation('com.electronwill.night-config:toml:3.6.0')
     modImplementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
     modImplementation("org.jetbrains.kotlin:kotlin-reflect:$kotlin_version")
-    modApi("gg.essential:Elementa:next-316-$mcVersion${FABRIC ? "-fabric" : ""}-SNAPSHOT") {
+    modApi("gg.essential:Elementa:next-337-$mcVersion${FABRIC ? "-fabric" : ""}-SNAPSHOT") {
         exclude module: 'kotlin-reflect'
         exclude module: 'kotlin-stdlib-jdk8'
     }

@@ -55,7 +55,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
             height = 20.pixels()
         }
 
-        enableEffect(OutlineEffect(VigilancePalette.getDivider(), 0.5f).bindColor(VigilancePalette.dividerState))
+        enableEffect(OutlineEffect(VigilancePalette.getDivider(), 1f).bindColor(VigilancePalette.dividerState))
         val outlineContainer = UIContainer().constrain {
             x = (-1).pixels()
             y = (-1).pixels()

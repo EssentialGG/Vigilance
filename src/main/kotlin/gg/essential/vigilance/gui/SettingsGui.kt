@@ -9,11 +9,12 @@ import gg.essential.elementa.constraints.*
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
-import gg.essential.elementa.font.DefaultFonts
+import gg.essential.elementa.effects.ScissorEffect
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.GuiScale
 import gg.essential.universal.UKeyboard
-import gg.essential.universal.UResolution
+import gg.essential.universal.UMinecraft
+import gg.essential.universal.utils.MCScreen
 import gg.essential.vigilance.VigilanceConfig
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.Category
@@ -22,50 +23,192 @@ import gg.essential.vigilance.utils.onLeftClick
 import net.minecraft.client.Minecraft
 import java.awt.Color
 
-class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = GuiScale.scaleForScreenSize().ordinal) {
+class SettingsGui(private val config: Vigilant, parent: MCScreen?) : WindowScreen(newGuiScale = GuiScale.scaleForScreenSize().ordinal) {
     init {
-        DefaultFonts.VANILLA_FONT_RENDERER.getStringWidth("Hello World", 10f)
-    }
-
-    init {
-        UIBlock().constrain {
-            width = RelativeConstraint(1f)
-            height = RelativeConstraint(1f)
-            color = VigilancePalette.backgroundState.toConstraint()
+        UIBlock(VigilancePalette.backgroundState).constrain {
+            width = 100.percent()
+            height = 100.percent()
         } childOf window
     }
 
     private val outerContainer by UIContainer().constrain {
-        x = RelativeConstraint(0.12f)
-        y = RelativeConstraint(0.1f)
-        width = RelativeConstraint(0.78f)
-        height = RelativeConstraint(0.8f)
+        x = CenterConstraint()
+        y = CenterConstraint()
+        width = 85.percent()
+        height = 75.percent()
     } childOf window
 
-    private val sidebar by UIContainer().constrain {
-        width = RelativeConstraint(0.25f)
-        height = RelativeConstraint(1f)
-    } childOf outerContainer
+    private val backContainer by UIContainer().constrain {
+        x = (SiblingConstraint(13.5f, alignOpposite = true) boundTo outerContainer)
+        y = .5f.pixels() boundTo outerContainer
+        height = ChildBasedSizeConstraint() + 5.pixels()
+        width = ChildBasedSizeConstraint() + 5.pixels()
+    } childOf window
+
+    private val backIcon by UIText("<", false).constrain {
+        textScale = 2f.pixels()
+        color = VigilancePalette.brightTextState.toConstraint()
+    }.onMouseClick {
+        UMinecraft.getMinecraft().displayGuiScreen(parent)
+    } childOf backContainer
 
     init {
+        backContainer.onMouseEnter {
+            backIcon.animate {
+                setColorAnimation(Animations.OUT_EXP, .3f, VigilancePalette.accentState.toConstraint())
+            }
+        }.onMouseLeave {
+            backIcon.animate {
+                setColorAnimation(Animations.OUT_EXP, .3f, VigilancePalette.brightTextState.toConstraint())
+            }
+        }
+
+        UIBlock(VigilancePalette.darkDividerState).constrain {
+            width = 1.pixel()
+            height = 100.percent()
+        } childOf outerContainer
+    }
+
+    private val sidebar by UIContainer().constrain {
+        width = 25.percent()
+        height = 100.percent()
+    } effect ScissorEffect() childOf outerContainer
+
+    private val theGuy by UIContainer().constrain {
+        x = 7.5f.pixels()
+        width = 100.percent()
+        height = 100.percent()
+    } childOf sidebar
+
+    private val titleHolder by UIContainer().constrain {
+        y = 1.pixel()
+        height = ChildBasedSizeConstraint()
+        width = 100.percent() - 18.pixels()
+    } childOf theGuy
+
+    private var searchExpanded = false
+    private var cs = false
+
+    private val searchContainerNew by UIBlock(VigilancePalette.backgroundState).constrain {
+        x = (-20).pixels(alignOutside = true, alignOpposite = true)
+        y = 1.pixel()
+        height = 20.pixels()
+        width = 100.percent()
+    }.onMouseEnter {
+        animate {
+            setColorAnimation(Animations.OUT_EXP, .3f, VigilancePalette.searchBarBackgroundState.toConstraint())
+        }
+    }.onMouseLeave {
+        if (!searchExpanded) {
+            animate {
+                setColorAnimation(Animations.OUT_EXP, .3f, VigilancePalette.backgroundState.toConstraint())
+            }
+        }
+    }.onMouseClick {
+        if (!cs) {
+            cs = true
+            if (searchExpanded) {
+                searchExpanded = false
+                titleHolder.animate {
+                    setXAnimation(Animations.OUT_EXP, .75f, 0.pixels()).onComplete {
+                        cs = false
+                    }
+                }
+                animate {
+                    setXAnimation(Animations.OUT_EXP, .75f, (-20).pixels(alignOutside = true, alignOpposite = true)).onComplete {
+                        cs = false
+                    }
+                }
+            } else {
+                searchExpanded = true
+                titleHolder.animate {
+                    setXAnimation(Animations.OUT_EXP, .75f, 1.pixel(alignOutside = true) boundTo sidebar).onComplete {
+                        cs = false
+                    }
+                }
+                animate {
+                    setXAnimation(Animations.OUT_EXP, .75f, 1.pixel()).onComplete {
+                        cs = false
+                    }
+                }
+            }
+        }
+    } childOf sidebar
+
+    private val searchTextContainerNew by UIContainer().constrain {
+        x = 22.pixels()
+        y = 2.pixels()
+        height = 16.pixels()
+        width = FillConstraint() - 20.pixels()
+    } childOf searchContainerNew
+
+    private val searchBarNew by UIBlock(VigilancePalette.dividerState).constrain {
+        y = 0.pixels(alignOpposite = true)
+        height = 1.5f.pixels()
+        width = 100.percent()
+    } childOf searchTextContainerNew
+
+    private val searchBarAccent by UIBlock(VigilancePalette.accentState).constrain {
+        x = CenterConstraint()
+        width = 0.pixels()
+        height = 100.percent()
+    } childOf searchBarNew
+
+    private val searchTextField by UITextInput("Search...", shadow = false).constrain {
+        x = 1.pixel()
+        y = 2.pixels()
+        height = 14.pixels()
+        width = 100.percent()
+    } childOf searchTextContainerNew
+
+    private var searching = false
+
+    init {
+        searchTextContainerNew.onMouseClick { event ->
+            event.stopPropagation()
+            searchTextField.grabWindowFocus()
+        }
+
+        searchTextField.onUpdate {
+            selectCategory(config.getCategoryFromSearch(it))
+        }.onFocus {
+            if (!searching) {
+                searching = true
+                searchBarAccent.animate {
+                    setWidthAnimation(Animations.OUT_EXP, .5f, 100.percent())
+                }
+            }
+        }.onFocusLost {
+            searchBarAccent.setWidth(0.pixels())
+            searchTextField.setActive(false)
+            searching = false
+        }
+
+        UIImage.ofResourceCached("/vigilance/search.png").constrain {
+            x = 2.pixels()
+            y = 2.pixels()
+            width = 16.pixels()
+            height = 16.pixels()
+        } childOf searchContainerNew
+
         UIWrappedText(config.guiTitle, shadow = false).constrain {
             textScale = 2f.pixels()
-            width = 90.percent()
+            width = 100.percent()
             color = VigilancePalette.brightTextState.toConstraint()
             // issues with height/scaling when msdf. not a priority atm but will fix eventually
             //fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
-        } childOf sidebar
+        } childOf titleHolder
     }
 
     private val scrollContainer by UIContainer().constrain {
         y = SiblingConstraint() + 40.pixels()
         width = RelativeConstraint(1f) - 10.pixels()
         height = FillConstraint()
-    } childOf sidebar
+    } childOf theGuy
 
     private val categoryScroller by ScrollComponent(pixelsPerScroll = 25f).constrain {
-        width = RelativeConstraint(1f)
-        height = RelativeConstraint(1f)
+        width = 100.percent()
+        height = 100.percent()
     } childOf scrollContainer
 
     private val categoryScrollBar by UIBlock().constrain {
@@ -92,11 +235,10 @@ class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = Gui
     }
 
     init {
-        UIBlock().constrain {
+        UIBlock(VigilancePalette.darkDividerState).constrain {
             x = SiblingConstraint()
             width = 1.pixels()
             height = RelativeConstraint(1f)
-            color = VigilancePalette.darkDividerState.toConstraint()
         } childOf outerContainer
     }
 
@@ -106,71 +248,12 @@ class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = Gui
         height = RelativeConstraint(1f)
     } childOf outerContainer
 
-    private val searchContainer by UIContainer().constrain {
-        // this is so scuffed lol
-        x = basicXConstraint { categoryHolder.getLeft() + 4f }
-        y = basicYConstraint { categoryHolder.getTop() - 22 }
-        width = basicWidthConstraint { categoryHolder.getWidth() - 11f }
-        height = 20.pixels()
-    } childOf window
-
     init {
-        UIImage.ofResourceCached("/vigilance/search.png").constrain {
-            x = 2.pixels()
-            y = CenterConstraint() - 2.pixels()
-            width = 16.pixels()
-            height = 16.pixels()
-        } childOf searchContainer
-    }
-
-    private val searchInputContainer by UIContainer().constrain {
-        x = SiblingConstraint(6f)
-        y = 3.5f.pixels()
-        height = 12.pixels()
-        width = 100.percent()
-    } childOf searchContainer
-
-    private val searchInput by UITextInput("Search...", shadow = false).constrain {
-        width = 90.percent()
-        height = 100.percent()
-        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
-    } childOf searchInputContainer
-
-    private val searchIndicator by UIBlock(VigilancePalette.darkDividerState).constrain {
-        y = 1.pixel(alignOpposite = true)
-        height = 1.pixels()
-        width = 100.percent()
-    } childOf searchContainer
-
-    private val searchIndicatorAccent by UIBlock(VigilancePalette.accentState).constrain {
-        height = 100.percent()
-        width = 0.pixels()
-        x = CenterConstraint()
-    } childOf searchIndicator
-
-    init {
-        searchContainer.onLeftClick { event ->
-            searchInput.grabWindowFocus()
-            searchIndicatorAccent.animate {
-                setWidthAnimation(Animations.OUT_EXP, .5f, 100.percent())
-            }
-            event.stopPropagation()
-        }.onMouseEnter {
-            searchIndicator.animate {
-                setColorAnimation(Animations.OUT_EXP, .25f, VigilancePalette.dividerState.toConstraint())
-            }
-        }.onMouseLeave {
-            searchIndicator.animate {
-                setColorAnimation(Animations.OUT_EXP, .25f, VigilancePalette.darkDividerState.toConstraint())
-            }
-        }
-
-        searchInput.onUpdate {
-            selectCategory(config.getCategoryFromSearch(it))
-        }.onFocusLost {
-            searchIndicatorAccent.setWidth(0.pixels())
-            searchInput.setActive(false)
-        }
+        UIBlock(VigilancePalette.darkDividerState).constrain {
+            x = 1.pixel(alignOpposite = true, alignOutside = true)
+            width = 1.pixel()
+            height = 100.percent()
+        } childOf outerContainer
     }
 
     private var currentCategory = categories.values.first()
@@ -194,9 +277,9 @@ class SettingsGui(private val config: Vigilant) : WindowScreen(newGuiScale = Gui
                 Inspector(window) childOf window
                 return@onKeyType
             }
-            if (!searchInput.isActive() && typedChar.isLetterOrDigit()) {
-                searchContainer.click()
-                searchInput.setText("${searchInput.getText()}$typedChar")
+            if (!searchTextField.isActive() && typedChar.isLetterOrDigit() && searchExpanded) {
+                searchTextContainerNew.click()
+                searchTextField.setText("${searchTextField.getText()}$typedChar")
                 return@onKeyType
             }
 

@@ -6,13 +6,8 @@ import gg.essential.elementa.components.UIText
 import gg.essential.elementa.components.UIWrappedText
 import gg.essential.elementa.constraints.*
 import gg.essential.elementa.dsl.*
-import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
-import gg.essential.elementa.transitions.RecursiveFadeInTransition
-import gg.essential.elementa.transitions.RecursiveFadeOutTransition
-import gg.essential.vigilance.Vigilant
-import java.awt.Color
 
 class Divider(val name: String, description: String?) : Setting() {
     private val label by UIText(name).constrain {
@@ -65,20 +60,14 @@ class Divider(val name: String, description: String?) : Setting() {
                 height = ChildBasedMaxSizeConstraint() + 10.pixels()
             }
         }
-
-        animateAfterUnhide {
-            RecursiveFadeInTransition(.5f).transition(this@Divider)
-        }
     }
 
     fun hideMaybe(h: Boolean) {
         if (h != hidden) {
             if (h) {
                 hidden = true
-                RecursiveFadeOutTransition(.5f).transition(this) {
-                    if (hidden) {
-                        hide(true)
-                    }
+                if (hidden) {
+                    hide(true)
                 }
             } else {
                 hidden = false
