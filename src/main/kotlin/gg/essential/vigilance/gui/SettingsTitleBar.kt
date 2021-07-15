@@ -13,6 +13,7 @@ import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.ScissorEffect
 import gg.essential.elementa.transitions.SlideToTransition
 import gg.essential.universal.UKeyboard
+import gg.essential.universal.USound
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.utils.onLeftClick
 
@@ -93,6 +94,7 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
 
         init {
             makeIcon(UIImage.ofResourceCached("/vigilance/search.png"), 16, 16).onLeftClick {
+                USound.playButtonPress()
                 onClickSearch()
             } childOf iconContainer
         }
@@ -127,6 +129,7 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
         private val cancelIcon by makeIcon(UIImage.ofResourceCached("/vigilance/cancel.png"), 16, 16).constrain {
             x = 0.pixels(alignOpposite = true)
         }.onLeftClick {
+            USound.playButtonPress()
             showStandardBar()
             cancelAction?.invoke()
             input.releaseWindowFocus()

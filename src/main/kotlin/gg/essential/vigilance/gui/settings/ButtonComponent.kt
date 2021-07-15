@@ -10,6 +10,7 @@ import gg.essential.elementa.dsl.*
 import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.elementa.utils.withAlpha
+import gg.essential.universal.USound
 import gg.essential.vigilance.data.CallablePropertyValue
 import gg.essential.vigilance.data.PropertyData
 import gg.essential.vigilance.gui.ExpandingClickEffect
@@ -70,7 +71,10 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
             container.animate {
                 setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.outlineState.toConstraint())
             }
-        }.onLeftClick { callback() }
+        }.onLeftClick {
+            USound.playButtonPress()
+            callback()
+        }
     }
 
     constructor(placeholder: String? = null, data: PropertyData) : this(placeholder, callbackFromPropertyData(data))

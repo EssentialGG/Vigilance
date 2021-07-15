@@ -6,6 +6,7 @@ import gg.essential.elementa.constraints.*
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.state.toConstraint
+import gg.essential.universal.USound
 import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.utils.onLeftClick
 import java.awt.Color
@@ -43,6 +44,7 @@ class Slider(initialValue: Float) : UIContainer() {
 
     init {
         grabBox.onLeftClick { event ->
+            USound.playButtonPress()
             dragging = true
             grabOffset = event.relativeX - (grabBox.getWidth() / 2)
             event.stopPropagation()
@@ -58,6 +60,7 @@ class Slider(initialValue: Float) : UIContainer() {
         }
 
         outerBox.onLeftClick { event ->
+            USound.playButtonPress()
             val percentage = event.relativeX / outerBox.getWidth()
             setCurrentPercentage(percentage)
             dragging = true

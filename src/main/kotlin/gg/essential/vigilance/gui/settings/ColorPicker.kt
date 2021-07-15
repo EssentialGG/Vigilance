@@ -8,6 +8,7 @@ import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.state.toConstraint
 import gg.essential.elementa.svg.SVGParser
 import gg.essential.universal.UGraphics
+import gg.essential.universal.USound
 import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.utils.onLeftClick
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
@@ -97,6 +98,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         }).addChild(hueIndicator)
 
         huePickerLine.onLeftClick { event ->
+            USound.playButtonPress()
             draggingHue = true
             currentHue = (event.relativeY - 1f) / huePickerLine.getHeight()
             updateHueIndicator()
@@ -118,6 +120,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         }).addChild(pickerIndicator)
 
         bigPickerBox.onLeftClick { event ->
+            USound.playButtonPress()
             draggingPicker = true
 
             currentSaturation = event.relativeX / bigPickerBox.getWidth()

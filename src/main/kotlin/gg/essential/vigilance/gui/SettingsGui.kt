@@ -12,6 +12,7 @@ import gg.essential.elementa.effects.ScissorEffect
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.GuiScale
 import gg.essential.universal.UKeyboard
+import gg.essential.universal.USound
 import gg.essential.vigilance.VigilanceConfig
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.Category
@@ -74,6 +75,7 @@ class SettingsGui(
                 setColorAnimation(Animations.OUT_EXP, animTime, VigilancePalette.getBrightText().toConstraint())
             }
         }.onLeftClick {
+            USound.playButtonPress()
             restorePreviousScreen()
         }
 

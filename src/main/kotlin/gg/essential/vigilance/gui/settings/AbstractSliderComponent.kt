@@ -6,6 +6,7 @@ import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.animate
 import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.pixels
+import gg.essential.universal.USound
 import gg.essential.vigilance.utils.onLeftClick
 
 abstract class AbstractSliderComponent : SettingComponent() {
@@ -34,6 +35,7 @@ abstract class AbstractSliderComponent : SettingComponent() {
                 expanded = false
             }
         }.onLeftClick {
+            USound.playButtonPress()
             mouseHeld = true
         }.onMouseRelease {
             mouseHeld = false

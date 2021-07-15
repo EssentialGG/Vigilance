@@ -17,6 +17,7 @@ import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.State
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.UKeyboard
+import gg.essential.universal.USound
 import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.utils.onLeftClick
 import java.awt.Color
@@ -82,12 +83,14 @@ class NumberComponent(
         releaseControl(decrementControl)
 
         incrementControl.onLeftClick {
+            USound.playButtonPress()
             clickControl(this)
         }.onMouseRelease {
             releaseControl(this)
         }
 
         decrementControl.onLeftClick {
+            USound.playButtonPress()
             clickControl(this)
         }.onMouseRelease {
             releaseControl(this)
