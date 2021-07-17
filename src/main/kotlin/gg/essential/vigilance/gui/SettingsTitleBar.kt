@@ -136,6 +136,12 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
         } childOf this
 
         init {
+            onLeftClick {
+                if (!cancelIcon.isHovered()) {
+                    input.grabWindowFocus()
+                }
+            }
+
             input.onUpdate {
                 updateAction?.invoke(it)
             }.onKeyType { _, keyCode ->
