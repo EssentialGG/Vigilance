@@ -73,8 +73,8 @@ class DataBackedSetting(internal val data: PropertyData, internal val component:
         }
     }
 
-    override fun closePopups() {
-        component.closePopups()
+    override fun closePopups(instantly: Boolean) {
+        component.closePopups(instantly)
     }
 
     companion object {

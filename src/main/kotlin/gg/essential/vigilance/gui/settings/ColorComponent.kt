@@ -143,8 +143,8 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         }
     }
 
-    override fun closePopups() {
-        collapse(true)
+    override fun closePopups(instantly: Boolean) {
+        collapse(true, instantly)
     }
 
     private fun expand() {
@@ -157,13 +157,17 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         replaceChild(upArrow, downArrow)
     }
 
-    private fun collapse(unHover: Boolean = false) {
+    private fun collapse(unHover: Boolean = false, instantly: Boolean = false) {
         if (active)
             replaceChild(downArrow, upArrow)
         active = false
 
-        animate {
-            setHeightAnimation(Animations.OUT_SIN, 0.35f, 20.pixels())
+        if (instantly) {
+            setHeight(20.pixels())
+        } else {
+            animate {
+                setHeightAnimation(Animations.OUT_SIN, 0.35f, 20.pixels())
+            }
         }
 
         if (unHover) {

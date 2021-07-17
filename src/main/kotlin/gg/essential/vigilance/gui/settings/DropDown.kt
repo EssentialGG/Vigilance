@@ -77,6 +77,8 @@ class DropDown(
 
         readOptionComponents()
 
+        optionsHolder.hide(instantly = true)
+
         outlineEffect?.let(::enableEffect)
 
         val outlineContainer = UIContainer().constrain {
@@ -142,20 +144,27 @@ class DropDown(
         optionsHolder.unhide(useLastPosition = true)
     }
 
-    fun collapse(unHover: Boolean = false) {
+    fun collapse(unHover: Boolean = false, instantly: Boolean = false) {
         if (active)
             replaceChild(downArrow, upArrow)
         active = false
 
-        animate {
-            setHeightAnimation(Animations.OUT_SIN, 0.35f, 20.pixels())
+        fun animationComplete() {
+            mappedOptions.forEach {
+                it.setColor(Color(0, 0, 0, 0).toConstraint())
+            }
+            setFloating(false)
+            optionsHolder.hide(instantly = true)
+        }
 
-            onComplete {
-                mappedOptions.forEach {
-                    it.setColor(Color(0, 0, 0, 0).toConstraint())
-                }
-                setFloating(false)
-                optionsHolder.hide(instantly = true)
+        if (instantly) {
+            setHeight(20.pixels())
+            animationComplete()
+        } else {
+            animate {
+                setHeightAnimation(Animations.OUT_SIN, 0.35f, 20.pixels())
+
+                onComplete(::animationComplete)
             }
         }
 

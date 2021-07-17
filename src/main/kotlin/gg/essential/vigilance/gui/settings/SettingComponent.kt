@@ -28,7 +28,7 @@ abstract class SettingComponent : UIContainer() {
         }
     }
 
-    open fun closePopups() { }
+    open fun closePopups(instantly: Boolean = false) { }
 
     companion object {
         const val DOWN_ARROW_PNG = "/vigilance/arrow-down.png"

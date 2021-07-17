@@ -215,7 +215,7 @@ class SettingsGui(
         val newCategory = categories[category] ?: SettingsCategory(category) childOf categoryHolder
         if (newCategory == currentCategory) return
 
-        currentCategory.scroller.childrenOfType<DataBackedSetting>().map { it.component }.filterIsInstance<SelectorComponent>().forEach { it.dropDown.setFloating(false) }
+        currentCategory.scroller.childrenOfType<Setting>().forEach { it.closePopups(instantly = true) }
         currentCategory.hide()
         newCategory.unhide()
         newCategory.scrollToTop()

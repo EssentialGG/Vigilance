@@ -15,5 +15,5 @@ abstract class Setting : UIContainer() {
         }
     }
 
-    open fun closePopups() { }
+    open fun closePopups(instantly: Boolean = false) { }
 }
