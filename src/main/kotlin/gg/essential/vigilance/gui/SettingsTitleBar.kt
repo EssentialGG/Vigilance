@@ -32,8 +32,6 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
 
         searchBar.onUpdate { str ->
             gui.selectCategory(config.getCategoryFromSearch(str))
-        }.onCancel {
-            gui.selectCategory(config.getCategoryFromSearch(""))
         }
         
         window.onKeyType { typedChar, keyCode ->
@@ -106,7 +104,6 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
 
     private inner class InputTitleBar(icon: UIImage, iconWidth: Int, iconHeight: Int) : Bar() {
         private var updateAction: ((String) -> Unit)? = null
-        private var cancelAction: (() -> Unit)? = null
         var isHidden = true
 
         private val leftIcon: UIComponent by makeIcon(icon, iconWidth, iconHeight).constrain {
@@ -131,7 +128,6 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
         }.onLeftClick {
             USound.playButtonPress()
             showStandardBar()
-            cancelAction?.invoke()
             input.releaseWindowFocus()
         } childOf this
 
@@ -143,11 +139,10 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
             }
 
             input.onUpdate {
-                updateAction?.invoke(it)
+                if (!isHidden) updateAction?.invoke(it)
             }.onKeyType { _, keyCode ->
                 if (keyCode == UKeyboard.KEY_ESCAPE) {
                     showStandardBar()
-                    cancelAction?.invoke()
                     input.releaseWindowFocus()
                 }
             }
@@ -155,10 +150,6 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
 
         fun onUpdate(action: (String) -> Unit) = apply {
             updateAction = action
-        }
-
-        fun onCancel(action: () -> Unit) = apply {
-            cancelAction = action
         }
 
         override fun onShow() {
