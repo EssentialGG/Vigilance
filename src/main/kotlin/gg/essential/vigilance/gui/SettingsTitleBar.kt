@@ -38,10 +38,16 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
             if (searchBar.isHidden) {
                 when {
                     UKeyboard.run { keyCode == KEY_F && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown() } -> showSearchBar()
-                    typedChar.isLetterOrDigit() -> {
+                    typedChar != '\u0000' -> {
                         showSearchBar()
                         searchBar.input.keyType(typedChar, keyCode)
                     }
+                }
+            } else if (typedChar != '\u0000') {
+                searchBar.input.run {
+                    grabWindowFocus()
+                    focus()
+                    keyType(typedChar, keyCode)
                 }
             }
         }
