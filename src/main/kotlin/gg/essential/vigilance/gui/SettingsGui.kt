@@ -122,10 +122,10 @@ class SettingsGui(
         categoryScroller.setVerticalScrollBarComponent(categoryScrollBar, true)
     }
 
-    private val categories = config.getCategories().associateWith(::SettingsCategory)
+    private val categories = config.getCategories()
 
     init {
-        categories.keys.forEach { cat ->
+        categories.forEach { cat ->
             val label = CategoryLabel(this, cat)
             label childOf categoryScroller
         }
@@ -152,17 +152,9 @@ class SettingsGui(
         } childOf content
     }
 
-    private var currentCategory = categories.values.first()
+    private var currentCategory = SettingsCategory(categories.first()) childOf categoryHolder
 
     init {
-        categories.values.forEach {
-            it childOf categoryHolder
-
-            if (it != currentCategory) {
-                it.hide(true)
-            }
-        }
-
         categoryScroller.allChildren.filterIsInstance<CategoryLabel>().first().select()
 
         fun UIComponent.click(): Unit =
@@ -212,8 +204,7 @@ class SettingsGui(
     }
 
     fun selectCategory(category: Category) {
-        val newCategory = categories[category] ?: (SettingsCategory(category) childOf categoryHolder)
-        if (newCategory == currentCategory) return
+        val newCategory = SettingsCategory(category) childOf categoryHolder
 
         currentCategory.scroller.childrenOfType<Setting>().forEach { it.closePopups(instantly = true) }
         currentCategory.hide()
