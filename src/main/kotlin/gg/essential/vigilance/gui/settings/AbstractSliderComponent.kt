@@ -1,6 +1,6 @@
 package gg.essential.vigilance.gui.settings
 
-import gg.essential.elementa.components.Window
+import gg.essential.elementa.UIComponent
 import gg.essential.elementa.constraints.ChildBasedMaxSizeConstraint
 import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.constraints.animation.Animations
@@ -22,23 +22,23 @@ abstract class AbstractSliderComponent : SettingComponent() {
         }
     }
 
-    protected fun sliderInit() {
-        Window.enqueueRenderOperation {
-            parent.onMouseEnter {
+    override fun setupParentListeners(parent: UIComponent) {
+        parent.onMouseEnter {
+            slider.animate {
+                setWidthAnimation(Animations.OUT_EXP, .25f, 100.pixels())
+            }
+            expanded = true
+        }.onMouseLeave {
+            if (!mouseHeld) {
                 slider.animate {
-                    setWidthAnimation(Animations.OUT_EXP, .25f, 100.pixels())
+                    setWidthAnimation(Animations.OUT_EXP, .25f, 60.pixels())
                 }
-                expanded = true
-            }.onMouseLeave {
-                if (!mouseHeld) {
-                    slider.animate {
-                        setWidthAnimation(Animations.OUT_EXP, .25f, 60.pixels())
-                    }
-                    expanded = false
-                }
+                expanded = false
             }
         }
+    }
 
+    protected fun sliderInit() {
         slider.onLeftClick {
             USound.playButtonPress()
             mouseHeld = true
