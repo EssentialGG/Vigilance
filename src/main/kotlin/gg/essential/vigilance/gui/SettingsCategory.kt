@@ -128,7 +128,7 @@ class SettingsCategory(category: Category) : UIContainer() {
         scroller.setVerticalScrollBarComponent(scrollBar, true)
 
         GradientComponent().bindStartColor(VigilancePalette.bgNoAlpha).bindEndColor(VigilancePalette.backgroundState).constrain {
-            y = 0.pixels(alignOpposite = true)
+            y = (-1).pixels(alignOpposite = true)
             width = 100.percent() - 10.pixels()
             height = 50.pixels()
         }.onLeftClick {
