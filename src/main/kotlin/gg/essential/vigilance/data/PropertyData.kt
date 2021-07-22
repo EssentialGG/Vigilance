@@ -114,7 +114,7 @@ class ValueBackedPropertyValue(private var obj: Any?) : PropertyValue() {
     }
 }
 
-class KPropertyBackedPropertyValue<T>(private val property: KMutableProperty0<T>) : PropertyValue() {
+class KPropertyBackedPropertyValue<T>(internal val property: KMutableProperty0<T>) : PropertyValue() {
     override fun getValue(instance: Vigilant) = property.get()
 
     override fun setValue(value: Any?, instance: Vigilant) {

@@ -2,6 +2,7 @@ package gg.essential.vigilance.data
 
 import gg.essential.vigilance.Vigilant
 import java.lang.reflect.Field
+import kotlin.reflect.jvm.javaField
 
 abstract class PropertyCollector {
     private val collectedProperties = mutableListOf<PropertyData>()
@@ -19,11 +20,13 @@ abstract class PropertyCollector {
     }
 
     internal fun getProperty(propertyName: String): PropertyData? = collectedProperties.firstOrNull {
-        it.value is FieldBackedPropertyValue && it.value.field.name == propertyName
+        it.value is FieldBackedPropertyValue && it.value.field.name == propertyName ||
+        it.value is KPropertyBackedPropertyValue<*> && it.value.property.name == propertyName
     }
 
     internal fun getProperty(field: Field): PropertyData? = collectedProperties.firstOrNull {
-        it.value is FieldBackedPropertyValue && it.value.field == field
+        it.value is FieldBackedPropertyValue && it.value.field == field ||
+        it.value is KPropertyBackedPropertyValue<*> && it.value.property.javaField == field
     }
 }
 
