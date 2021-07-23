@@ -56,6 +56,8 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
             height = 20.pixels()
         }
 
+        colorPicker.hide(instantly = true)
+
         enableEffect(OutlineEffect(VigilancePalette.getDivider(), 1f).bindColor(VigilancePalette.dividerState))
         val outlineContainer = UIContainer().constrain {
             x = (-1).pixels()
@@ -155,6 +157,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         }
 
         replaceChild(upArrow, downArrow)
+        colorPicker.unhide(useLastPosition = true)
     }
 
     private fun collapse(unHover: Boolean = false, instantly: Boolean = false) {
@@ -164,9 +167,13 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
 
         if (instantly) {
             setHeight(20.pixels())
+            colorPicker.hide(instantly = true)
         } else {
             animate {
                 setHeightAnimation(Animations.OUT_SIN, 0.35f, 20.pixels())
+                onComplete {
+                    colorPicker.hide(instantly = true)
+                }
             }
         }
 
