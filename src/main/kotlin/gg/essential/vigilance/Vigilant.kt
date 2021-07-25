@@ -142,8 +142,36 @@ abstract class Vigilant @JvmOverloads constructor(
             error("Dependency must be a boolean PropertyType!")
         }
 
-        property.dependsOn = dependency
+        property.dependsOn = { dependency.getAsBoolean() }
         dependency.hasDependants = true
+    }
+
+    /**
+     * If the dependency is based on another property, make sure to also call setAsDependency
+     */
+    fun addCustomDependency(dependingPropertyName: String, stateProvider: () -> Boolean) {
+        propertyCollector.getProperty(dependingPropertyName)!!.dependsOn = stateProvider
+    }
+
+    /**
+     * If the dependency is based on another property, make sure to also call setAsDependency
+     */
+    fun addCustomDependency(dependingField: Field, stateProvider: () -> Boolean) {
+        propertyCollector.getProperty(dependingField)!!.dependsOn = stateProvider
+    }
+
+    /**
+     * Should be used when a property has a custom dependency based on this property
+     */
+    fun setAsDependency(dependencyPropertyName: String) {
+        propertyCollector.getProperty(dependencyPropertyName)!!.hasDependants = true
+    }
+
+    /**
+     * Should be used when a property has a custom dependency based on this property
+     */
+    fun setAsDependency(dependencyField: Field) {
+        propertyCollector.getProperty(dependencyField)!!.hasDependants = true
     }
 
     @Deprecated(
