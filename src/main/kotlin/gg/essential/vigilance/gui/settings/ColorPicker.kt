@@ -8,6 +8,7 @@ import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.UGraphics
 import gg.essential.universal.UMatrixStack
+import gg.essential.universal.USound
 import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.utils.onLeftClick
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
@@ -52,11 +53,11 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         color = VigilancePalette.dividerState.toConstraint()
     } childOf this
 
-    private val hueIndicator = UIImage.ofResourceCached("/vigilance/chevron-left.png").constrain {
-        x = (-7).pixels(true)
-        y = RelativeConstraint(currentHue) - 7.5f.pixels()
-        width = 15.pixels()
-        height = 15.pixels()
+    private val hueIndicator = UIImage.ofResourceCached("/vigilance/arrow-left.png").constrain {
+        x = (-4).pixels(true)
+        y = RelativeConstraint(currentHue) - 3f.pixels()
+        width = 4.pixels()
+        height = 7.pixels()
     }
 
     private val alphaSlider = Slider(currentAlpha).constrain {
@@ -96,6 +97,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         }).addChild(hueIndicator)
 
         huePickerLine.onLeftClick { event ->
+            USound.playButtonPress()
             draggingHue = true
             currentHue = (event.relativeY - 1f) / huePickerLine.getHeight()
             updateHueIndicator()
@@ -117,6 +119,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         }).addChild(pickerIndicator)
 
         bigPickerBox.onLeftClick { event ->
+            USound.playButtonPress()
             draggingPicker = true
 
             currentSaturation = event.relativeX / bigPickerBox.getWidth()
@@ -134,7 +137,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     }
 
     private fun updateHueIndicator() {
-        hueIndicator.setY(RelativeConstraint(currentHue) - 7.5f.pixels())
+        hueIndicator.setY(RelativeConstraint(currentHue.coerceAtMost(0.98f)) - 3.pixels())
 
         recalculateColor()
     }

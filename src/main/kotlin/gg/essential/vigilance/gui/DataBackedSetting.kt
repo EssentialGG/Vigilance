@@ -57,6 +57,7 @@ class DataBackedSetting(internal val data: PropertyData, internal val component:
             data.setValue(it)
         }
         component childOf boundingBox
+        component.setupParentListeners(this)
     }
 
     fun hideMaybe() {
@@ -73,8 +74,8 @@ class DataBackedSetting(internal val data: PropertyData, internal val component:
         }
     }
 
-    override fun closePopups() {
-        component.closePopups()
+    override fun closePopups(instantly: Boolean) {
+        component.closePopups(instantly)
     }
 
     companion object {

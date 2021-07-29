@@ -1,11 +1,13 @@
 buildscript {
     ext.kotlin_version = "1.5.10"
 
-    def mcVersion
-    def (major, minor, patch) = project.name.tokenize('-')[0].tokenize('.')
-    mcVersion = "${major}${minor.padLeft(2, '0')}${(patch ?: '').padLeft(2, '0')}" as int
+    def mcVersionStr = project.name.tokenize('-')[0]
+    def (major, minor, patch) = mcVersionStr.tokenize('.')
+    def mcVersion = "${major}${minor.padLeft(2, '0')}${(patch ?: '').padLeft(2, '0')}" as int
     def fabric = mcVersion >= 11400 && project.name.endsWith("-fabric")
     project.ext.mcVersion = mcVersion
+    project.ext.mcVersionStr = mcVersionStr
+    project.ext.mcPlatform = fabric ? 'fabric' : 'forge'
     project.ext.fabric = fabric
     project.ext.forge = !fabric
 
@@ -67,7 +69,7 @@ preprocess {
     vars.put("FORGE", forge ? 1 : 0)
 }
 
-version = this.properties.getOrDefault("BUILD_ID", "LOCAL") //BUILD_ID
+version = project.parent.version
 group = "gg.essential" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Vigilance" + project.name
 
@@ -156,7 +158,7 @@ dependencies {
     modImplementation('com.electronwill.night-config:toml:3.6.0')
     modImplementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
     modImplementation("org.jetbrains.kotlin:kotlin-reflect:$kotlin_version")
-    modApi("gg.essential:Elementa:next-337-$mcVersion${FABRIC ? "-fabric" : ""}-SNAPSHOT") {
+    modApi("gg.essential:elementa-${mcVersionStr}-${mcPlatform}:357+next") {
         exclude module: 'kotlin-reflect'
         exclude module: 'kotlin-stdlib-jdk8'
     }
@@ -265,12 +267,7 @@ jar {
 publishing {
     publications {
         maven(MavenPublication) {
-            artifactId = "Vigilance"
-
-            def branchStr = this.properties.getOrDefault("branch", "master") != "master" ? this.properties.getOrDefault("branch", "master") + "-" : ""
-            def fabricStr = FABRIC ? "-fabric" : ""
-            def snapshotStr = this.properties.getOrDefault("IS_CI", false) ? "-SNAPSHOT" : ""
-            version = "$branchStr${project.version}-$mcVersion$fabricStr$snapshotStr"
+            artifactId = "vigilance-$mcVersionStr-$mcPlatform"
 
             if (!FABRIC) // handled by Loom
             pom.withXml {
@@ -304,7 +301,7 @@ publishing {
         repositories {
             maven {
                 name 'nexus'
-                url "https://repo.sk1er.club/repository/maven-${this.properties.getOrDefault("IS_CI", false) ? "snapshots" : "releases"}/"
+                url "https://repo.sk1er.club/repository/maven-releases/"
 
                 credentials {
                     username project.nexus_user

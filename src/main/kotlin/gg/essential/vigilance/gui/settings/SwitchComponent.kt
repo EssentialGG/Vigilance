@@ -8,6 +8,7 @@ import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.state.BasicState
 import gg.essential.elementa.state.toConstraint
+import gg.essential.universal.USound
 import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.utils.onLeftClick
 import java.awt.Color
@@ -30,6 +31,7 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
         effect(getOutlineEffect())
 
         onLeftClick {
+            USound.playButtonPress()
             enabled = !enabled
             changeValue(enabled)
 

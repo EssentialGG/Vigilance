@@ -13,6 +13,7 @@ import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.ScissorEffect
 import gg.essential.elementa.transitions.SlideToTransition
 import gg.essential.universal.UKeyboard
+import gg.essential.universal.USound
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.utils.onLeftClick
 
@@ -31,18 +32,22 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
 
         searchBar.onUpdate { str ->
             gui.selectCategory(config.getCategoryFromSearch(str))
-        }.onCancel {
-            gui.selectCategory(config.getCategoryFromSearch(""))
         }
         
         window.onKeyType { typedChar, keyCode ->
             if (searchBar.isHidden) {
                 when {
                     UKeyboard.run { keyCode == KEY_F && isCtrlKeyDown() && !isShiftKeyDown() && !isAltKeyDown() } -> showSearchBar()
-                    typedChar.isLetterOrDigit() -> {
+                    typedChar != '\u0000' -> {
                         showSearchBar()
                         searchBar.input.keyType(typedChar, keyCode)
                     }
+                }
+            } else if (typedChar != '\u0000') {
+                searchBar.input.run {
+                    grabWindowFocus()
+                    focus()
+                    keyType(typedChar, keyCode)
                 }
             }
         }
@@ -93,6 +98,7 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
 
         init {
             makeIcon(UIImage.ofResourceCached("/vigilance/search.png"), 16, 16).onLeftClick {
+                USound.playButtonPress()
                 onClickSearch()
             } childOf iconContainer
         }
@@ -104,7 +110,6 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
 
     private inner class InputTitleBar(icon: UIImage, iconWidth: Int, iconHeight: Int) : Bar() {
         private var updateAction: ((String) -> Unit)? = null
-        private var cancelAction: (() -> Unit)? = null
         var isHidden = true
 
         private val leftIcon: UIComponent by makeIcon(icon, iconWidth, iconHeight).constrain {
@@ -127,18 +132,23 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
         private val cancelIcon by makeIcon(UIImage.ofResourceCached("/vigilance/cancel.png"), 16, 16).constrain {
             x = 0.pixels(alignOpposite = true)
         }.onLeftClick {
+            USound.playButtonPress()
             showStandardBar()
-            cancelAction?.invoke()
             input.releaseWindowFocus()
         } childOf this
 
         init {
+            onLeftClick {
+                if (!cancelIcon.isHovered()) {
+                    input.grabWindowFocus()
+                }
+            }
+
             input.onUpdate {
-                updateAction?.invoke(it)
+                if (!isHidden) updateAction?.invoke(it)
             }.onKeyType { _, keyCode ->
                 if (keyCode == UKeyboard.KEY_ESCAPE) {
                     showStandardBar()
-                    cancelAction?.invoke()
                     input.releaseWindowFocus()
                 }
             }
@@ -146,10 +156,6 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
 
         fun onUpdate(action: (String) -> Unit) = apply {
             updateAction = action
-        }
-
-        fun onCancel(action: () -> Unit) = apply {
-            cancelAction = action
         }
 
         override fun onShow() {

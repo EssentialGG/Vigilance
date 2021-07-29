@@ -6,6 +6,7 @@ import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.state.toConstraint
+import gg.essential.universal.USound
 import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.utils.onLeftClick
 
@@ -36,6 +37,7 @@ class CheckboxComponent(initialValue: Boolean) : SettingComponent() {
             checkmark.hide(instantly = true)
 
         onLeftClick {
+            USound.playButtonPress()
             checked = !checked
 
             removeEffect<OutlineEffect>()

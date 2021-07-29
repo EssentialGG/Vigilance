@@ -1,5 +1,6 @@
 package gg.essential.vigilance.gui.settings
 
+import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.dsl.constrain
@@ -28,7 +29,9 @@ abstract class SettingComponent : UIContainer() {
         }
     }
 
-    open fun closePopups() { }
+    open fun closePopups(instantly: Boolean = false) { }
+
+    open fun setupParentListeners(parent: UIComponent) { }
 
     companion object {
         const val DOWN_ARROW_PNG = "/vigilance/arrow-down.png"

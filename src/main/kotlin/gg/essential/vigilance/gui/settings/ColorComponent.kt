@@ -12,6 +12,7 @@ import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.effects.ScissorEffect
 import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
+import gg.essential.universal.USound
 import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.utils.onLeftClick
 import java.awt.Color
@@ -55,6 +56,8 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
             height = 20.pixels()
         }
 
+        colorPicker.hide(instantly = true)
+
         enableEffect(OutlineEffect(VigilancePalette.getDivider(), 1f).bindColor(VigilancePalette.dividerState))
         val outlineContainer = UIContainer().constrain {
             x = (-1).pixels()
@@ -77,6 +80,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         }
 
         onLeftClick { event ->
+            USound.playButtonPress()
             event.stopPropagation()
 
             if (active) {
@@ -91,6 +95,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         currentColorHex.onLeftClick { event ->
             if (!active) return@onLeftClick
 
+            USound.playButtonPress()
             currentColorHex.grabWindowFocus()
             event.stopPropagation()
         }.onFocus {
@@ -135,12 +140,13 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         }
 
         colorPicker.onLeftClick { event ->
+            USound.playButtonPress()
             event.stopPropagation()
         }
     }
 
-    override fun closePopups() {
-        collapse(true)
+    override fun closePopups(instantly: Boolean) {
+        collapse(true, instantly)
     }
 
     private fun expand() {
@@ -151,15 +157,24 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         }
 
         replaceChild(upArrow, downArrow)
+        colorPicker.unhide(useLastPosition = true)
     }
 
-    private fun collapse(unHover: Boolean = false) {
+    private fun collapse(unHover: Boolean = false, instantly: Boolean = false) {
         if (active)
             replaceChild(downArrow, upArrow)
         active = false
 
-        animate {
-            setHeightAnimation(Animations.OUT_SIN, 0.35f, 20.pixels())
+        if (instantly) {
+            setHeight(20.pixels())
+            colorPicker.hide(instantly = true)
+        } else {
+            animate {
+                setHeightAnimation(Animations.OUT_SIN, 0.35f, 20.pixels())
+                onComplete {
+                    colorPicker.hide(instantly = true)
+                }
+            }
         }
 
         if (unHover) {

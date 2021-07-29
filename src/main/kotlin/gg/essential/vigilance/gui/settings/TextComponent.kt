@@ -111,7 +111,7 @@ class TextComponent(
         }
     }
 
-    override fun closePopups() {
+    override fun closePopups(instantly: Boolean) {
         textInput.setActive(false)
     }
 }

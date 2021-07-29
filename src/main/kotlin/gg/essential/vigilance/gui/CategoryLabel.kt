@@ -10,6 +10,7 @@ import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
+import gg.essential.universal.USound
 import gg.essential.vigilance.data.Category
 import gg.essential.vigilance.utils.onLeftClick
 
@@ -32,6 +33,7 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
 
         onLeftClick {
             if (!isSelected) {
+                USound.playButtonPress()
                 select()
             }
         }

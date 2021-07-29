@@ -28,7 +28,7 @@ class GradientBlock(
         val x2 = this.getRight().toDouble()
         val y2 = this.getBottom().toDouble()
 
-        GradientComponent.drawGradientBlock(matrixStack, x.toInt(), y.toInt(), x2.toInt(), y2.toInt(), startColor, endColor, direction.elementa)
+        GradientComponent.drawGradientBlock(matrixStack, x, y, x2, y2, startColor, endColor, direction.elementa)
 
         super.draw(matrixStack)
     }
@@ -49,7 +49,7 @@ class GradientBlock(
         }
 
         fun drawGradientRect(left: Int, top: Int, right: Int, bottom: Int, startColor: Color, endColor: Color, direction: GradientDirection) {
-            GradientComponent.drawGradientBlock(UMatrixStack(), left, top, right, bottom, startColor, endColor, direction.elementa)
+            GradientComponent.drawGradientBlock(UMatrixStack(), left.toDouble(), top.toDouble(), right.toDouble(), bottom.toDouble(), startColor, endColor, direction.elementa)
         }
     }
 }
