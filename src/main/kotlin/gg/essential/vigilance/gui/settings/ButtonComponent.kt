@@ -1,10 +1,7 @@
 package gg.essential.vigilance.gui.settings
 
-import gg.essential.elementa.components.UIContainer
-import gg.essential.elementa.components.UIRoundedRectangle
-import gg.essential.elementa.components.UIWrappedText
-import gg.essential.elementa.constraints.CenterConstraint
-import gg.essential.elementa.constraints.ChildBasedSizeConstraint
+import gg.essential.elementa.components.*
+import gg.essential.elementa.constraints.*
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.font.DefaultFonts
@@ -35,9 +32,10 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
     } childOf container
 
     init {
-        UIWrappedText(buttonText, trimText = true).constrain {
-            x = CenterConstraint() + 10.pixels()
-            y = CenterConstraint()
+        UIWrappedText(buttonText, trimText = true, centered = true).constrain {
+            x = CenterConstraint()
+            // For some reason this just doesn't show text if there isn't an adjustment
+            y = CenterConstraint() - 0.pixels()
             width = basicWidthConstraint { (buttonText.width(getTextScale()) + 20f).coerceAtMost(300f) }
             height = 9.pixels()
             color = VigilancePalette.midTextState.toConstraint()
