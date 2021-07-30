@@ -29,16 +29,16 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
     private val contentContainer by UIRoundedRectangle(2f).constrain {
         x = 1.pixel()
         y = 1.pixel()
-        width = ChildBasedSizeConstraint()
+        width = ChildBasedSizeConstraint() + 20.pixels()
         height = ChildBasedSizeConstraint() + 10.pixels()
         color = VigilancePalette.lightBackgroundState.toConstraint()
     } childOf container
 
     init {
         UIWrappedText(buttonText, trimText = true).constrain {
-            x = CenterConstraint() + 10.pixels()
+            x = CenterConstraint()
             y = CenterConstraint()
-            width = basicWidthConstraint { (buttonText.width(getTextScale()) + 20f).coerceAtMost(300f) }
+            width = width.coerceAtMost(300.pixels())
             height = 10.pixels()
             color = VigilancePalette.midTextState.toConstraint()
             fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
