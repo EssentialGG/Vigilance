@@ -18,7 +18,7 @@ import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.utils.onLeftClick
 
 class ButtonComponent(placeholder: String? = null, private val callback: () -> Unit) : SettingComponent() {
-    private val buttonText = placeholder ?: "Activate"
+    private val buttonText = placeholder.orEmpty().ifEmpty { "Activate" }
 
     internal val container by UIRoundedRectangle(2f).constrain {
         width = ChildBasedSizeConstraint() + 2.pixels()
