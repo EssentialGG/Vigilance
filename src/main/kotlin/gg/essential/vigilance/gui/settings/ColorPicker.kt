@@ -91,10 +91,15 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
         huePickerLine.addChild(object : UIComponent() {
             override fun draw() {
-                drawHueLine()
+                drawHueLine(this)
 
                 super.draw()
             }
+        }.constrain {
+            x = CenterConstraint()
+            y = CenterConstraint()
+            width = 100.percent() - 2.pixels()
+            height = 100.percent() - 2.pixels()
         }).addChild(hueIndicator)
 
         huePickerLine.onLeftClick { event ->
@@ -113,10 +118,15 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
         bigPickerBox.addChild(object : UIComponent() {
             override fun draw() {
-                drawColorPicker()
+                drawColorPicker(this)
 
                 super.draw()
             }
+        }.constrain {
+            x = CenterConstraint()
+            y = CenterConstraint()
+            width = 100.percent() - 2.pixels()
+            height = 100.percent() - 2.pixels()
         }).addChild(pickerIndicator)
 
         bigPickerBox.onLeftClick { event ->
@@ -185,24 +195,24 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         onValueChange = listener
     }
 
-    private fun drawColorPicker() {
-        val left = (bigPickerBox.getLeft()).toDouble()
-        val top = (bigPickerBox.getTop()).toDouble()
-        val right = (bigPickerBox.getRight() - 2f).toDouble()
-        val bottom = (bigPickerBox.getBottom() - 1f).toDouble()
+    private fun drawColorPicker(component: UIComponent) {
+        val left = component.getLeft().toDouble()
+        val top = component.getTop().toDouble()
+        val right = component.getRight().toDouble()
+        val bottom = component.getBottom().toDouble()
 
         setupDraw()
         val graphics = UGraphics.getFromTessellator()
         graphics.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR)
 
         val height = bottom - top
-        var first = true
 
-        for (x in 1..50) {
+        for (x in 0..49) {
             val curLeft = left + (right - left).toFloat() * x.toFloat() / 50f
             val curRight = left + (right - left).toFloat() * (x.toFloat() + 1) / 50f
 
-            for (y in 1..50) {
+            var first = true
+            for (y in 0..50) {
                 val yPos = top + (y.toFloat() * height / 50.0)
                 val color = getColor(x.toFloat() / 50f, 1 - y.toFloat() / 50f, currentHue)
 
@@ -211,8 +221,10 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
                     drawVertex(graphics, curRight, yPos, color)
                 }
 
-                drawVertex(graphics, curRight, yPos, color)
-                drawVertex(graphics, curLeft, yPos, color)
+                if (y < 50) {
+                    drawVertex(graphics, curRight, yPos, color)
+                    drawVertex(graphics, curLeft, yPos, color)
+                }
                 first = false
             }
 
@@ -225,11 +237,11 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         return Color(Color.HSBtoRGB(hue, x, y))
     }
 
-    private fun drawHueLine() {
-        val left = (huePickerLine.getLeft() + 1f).toDouble()
-        val top = (huePickerLine.getTop() + 1f).toDouble()
-        val right = (huePickerLine.getRight() - 1f).toDouble()
-        val height = (huePickerLine.getHeight() - 1f).toDouble()
+    private fun drawHueLine(component: UIComponent) {
+        val left = component.getLeft().toDouble()
+        val top = component.getTop().toDouble()
+        val right = component.getRight().toDouble()
+        val height = component.getHeight().toDouble()
 
         setupDraw()
         val graphics = UGraphics.getFromTessellator()
@@ -281,6 +293,6 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     }
 
     companion object {
-        private val hueColorList: List<Color> = (0..49).map { i -> Color(Color.HSBtoRGB(i / 49f, 1f, 0.7f)) }
+        private val hueColorList: List<Color> = (0..50).map { i -> Color(Color.HSBtoRGB(i / 50f, 1f, 0.7f)) }
     }
 }
