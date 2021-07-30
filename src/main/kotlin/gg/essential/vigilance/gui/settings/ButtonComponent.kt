@@ -39,7 +39,7 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
             x = CenterConstraint() + 10.pixels()
             y = CenterConstraint()
             width = basicWidthConstraint { (buttonText.width(getTextScale()) + 20f).coerceAtMost(300f) }
-            height = 9.pixels()
+            height = 10.pixels()
             color = VigilancePalette.midTextState.toConstraint()
             fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
         } childOf contentContainer
