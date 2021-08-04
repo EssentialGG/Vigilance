@@ -23,12 +23,13 @@ abstract class AbstractSliderComponent : SettingComponent() {
     }
 
     override fun setupParentListeners(parent: UIComponent) {
-        parent.onMouseEnter {
+        onMouseEnter {
             slider.animate {
                 setWidthAnimation(Animations.OUT_EXP, .25f, 100.pixels())
             }
             expanded = true
-        }.onMouseLeave {
+        }
+        onMouseLeave {
             if (!mouseHeld) {
                 slider.animate {
                     setWidthAnimation(Animations.OUT_EXP, .25f, 60.pixels())
@@ -39,13 +40,14 @@ abstract class AbstractSliderComponent : SettingComponent() {
     }
 
     protected fun sliderInit() {
-        slider.onLeftClick {
+        onLeftClick {
             USound.playButtonPress()
             mouseHeld = true
-        }.onMouseRelease {
+        }
+        onMouseRelease {
             mouseHeld = false
             if (expanded && !slider.isHovered()) {
-                animate {
+                slider.animate {
                     setWidthAnimation(Animations.OUT_EXP, .25f, 60.pixels())
                 }
                 expanded = false
