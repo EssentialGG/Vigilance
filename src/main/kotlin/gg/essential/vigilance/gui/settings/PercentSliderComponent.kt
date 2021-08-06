@@ -11,6 +11,7 @@ import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.gui.SettingsGui
 import gg.essential.vigilance.gui.VigilancePalette
 import java.util.*
+import kotlin.math.roundToInt
 
 class PercentSliderComponent(initialValue: Float) : AbstractSliderComponent() {
     private val percentageText by UIText(getFormattedPercent(initialValue)).constrain {
@@ -34,7 +35,6 @@ class PercentSliderComponent(initialValue: Float) : AbstractSliderComponent() {
         sliderInit()
     }
 
-    private fun getFormattedPercent(value: Float? = null): String {
-        return "%.2f".format(Locale.US,value ?: slider.getCurrentPercentage())
-    }
+    private fun getFormattedPercent(value: Float? = null): String =
+        "${((value ?: slider.getCurrentPercentage()) * 100f).roundToInt()}%"
 }
