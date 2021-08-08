@@ -21,7 +21,8 @@ abstract class PropertyCollector {
 
     internal fun getProperty(propertyName: String): PropertyData? = collectedProperties.firstOrNull {
         it.value is FieldBackedPropertyValue && it.value.field.name == propertyName ||
-        it.value is KPropertyBackedPropertyValue<*> && it.value.property.name == propertyName
+        it.value is KPropertyBackedPropertyValue<*> && it.value.property.name == propertyName ||
+        it.value is MethodBackedPropertyValue && it.value.method.name == propertyName
     }
 
     internal fun getProperty(field: Field): PropertyData? = collectedProperties.firstOrNull {
