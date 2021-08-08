@@ -140,7 +140,7 @@ abstract class CallablePropertyValue : PropertyValue() {
     abstract operator fun invoke(instance: Vigilant)
 }
 
-class MethodBackedPropertyValue(private val method: Method) : CallablePropertyValue() {
+class MethodBackedPropertyValue(internal val method: Method) : CallablePropertyValue() {
     override fun invoke(instance: Vigilant) {
         method.invoke(instance)
     }
