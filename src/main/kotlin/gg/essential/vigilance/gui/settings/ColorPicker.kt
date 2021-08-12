@@ -267,7 +267,6 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     }
 
     private fun setupDraw() {
-        UGraphics.disableTexture2D()
         UGraphics.enableBlend()
         UGraphics.disableAlpha()
         UGraphics.tryBlendFuncSeparate(770, 771, 1, 0)
@@ -278,7 +277,6 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         UGraphics.shadeModel(7424)
         UGraphics.disableBlend()
         UGraphics.enableAlpha()
-        UGraphics.enableTexture2D()
     }
 
     private fun drawVertex(graphics: UGraphics, matrixStack: UMatrixStack, x: Double, y: Double, color: Color) {
