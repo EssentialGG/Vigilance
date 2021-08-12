@@ -50,6 +50,7 @@ class SettingsGui(
         y = CenterConstraint()
         width = 4.pixels()
         height = 7.pixels()
+        color = VigilancePalette.getDivider().toConstraint()
     } childOf backContainer
 
     init {
@@ -72,7 +73,7 @@ class SettingsGui(
             }
         }.onMouseLeave {
             backIcon.animate {
-                setColorAnimation(Animations.OUT_EXP, animTime, VigilancePalette.getBrightText().toConstraint())
+                setColorAnimation(Animations.OUT_EXP, animTime, VigilancePalette.getDivider().toConstraint())
             }
         }.onLeftClick {
             USound.playButtonPress()

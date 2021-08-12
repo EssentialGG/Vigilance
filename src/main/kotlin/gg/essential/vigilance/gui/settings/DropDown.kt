@@ -45,12 +45,19 @@ class DropDown(
         height = 5.pixels()
     }
 
-    private val optionsHolder by UIContainer().constrain {
+    private val scrollContainer by UIContainer().constrain {
         x = 5.pixels()
         y = SiblingConstraint() boundTo currentSelectionText
         width = ChildBasedMaxSizeConstraint()
-        height = ChildBasedSizeConstraint(optionPadding) + optionPadding.pixels()
+        height = ChildBasedSizeConstraint() + optionPadding.pixels()
     } childOf this
+
+    private val optionsHolder by ScrollComponent(customScissorBoundingBox = scrollContainer).constrain {
+        x = 0.pixels()
+        y = 0.pixels()
+        height = (((options.size - 1) * (getFontProvider().getStringHeight("Text", getTextScale()) + optionPadding) - optionPadding).pixels()) coerceAtMost
+                basicHeightConstraint { Window.of(this@DropDown).getBottom() - this@DropDown.getTop() - 26 }
+    } childOf scrollContainer
 
     private val mappedOptions = options.mapIndexed { index, option ->
         // TODO: Wrap this somehow
@@ -140,8 +147,14 @@ class DropDown(
         }
 
         animate {
-            setHeightAnimation(Animations.IN_SIN, 0.35f, 20.pixels() + RelativeConstraint(1f).boundTo(optionsHolder))
+            setHeightAnimation(
+                Animations.IN_SIN,
+                0.35f,
+                20.pixels() + RelativeConstraint(1f).boundTo(scrollContainer)
+            )
         }
+
+        optionsHolder.scrollToTop(false)
 
         replaceChild(upArrow, downArrow)
         setFloating(true)
