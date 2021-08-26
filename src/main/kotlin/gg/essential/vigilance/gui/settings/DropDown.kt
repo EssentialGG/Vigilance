@@ -47,7 +47,7 @@ class DropDown(
 
     private val scrollContainer by UIContainer().constrain {
         x = 5.pixels()
-        y = SiblingConstraint() boundTo currentSelectionText
+        y = SiblingConstraint(optionPadding) boundTo currentSelectionText
         width = ChildBasedMaxSizeConstraint()
         height = ChildBasedSizeConstraint() + optionPadding.pixels()
     } childOf this
@@ -56,13 +56,13 @@ class DropDown(
         x = 0.pixels()
         y = 0.pixels()
         height = (((options.size - 1) * (getFontProvider().getStringHeight("Text", getTextScale()) + optionPadding) - optionPadding).pixels()) coerceAtMost
-                basicHeightConstraint { Window.of(this@DropDown).getBottom() - this@DropDown.getTop() - 26 }
+                basicHeightConstraint { Window.of(this@DropDown).getBottom() - this@DropDown.getTop() - 31 }
     } childOf scrollContainer
 
     private val mappedOptions = options.mapIndexed { index, option ->
         // TODO: Wrap this somehow
         UIText(option).constrain {
-            y = SiblingConstraint() + optionPadding.pixels()
+            y = SiblingConstraint() + if (index != 0) optionPadding.pixels() else 0.pixels()
             color = Color(0, 0, 0, 0).toConstraint()
             fontProvider = getFontProvider()
         }.onMouseEnter {
