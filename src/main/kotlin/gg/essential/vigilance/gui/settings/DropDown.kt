@@ -62,7 +62,7 @@ class DropDown(
     private val mappedOptions = options.mapIndexed { index, option ->
         // TODO: Wrap this somehow
         UIText(option).constrain {
-            y = SiblingConstraint() + if (index != 0) optionPadding.pixels() else 0.pixels()
+            y = SiblingConstraint(optionPadding)
             color = Color(0, 0, 0, 0).toConstraint()
             fontProvider = getFontProvider()
         }.onMouseEnter {
