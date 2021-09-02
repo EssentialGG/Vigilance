@@ -200,7 +200,7 @@ abstract class Vigilant @JvmOverloads constructor(
         val sorted = propertyCollector.getProperties()
             .filter {
                 !it.attributes.hidden && (it.attributes.name.contains(term, ignoreCase = true) || it.attributes.description
-                    .contains(term, ignoreCase = true) || it.attributes.searchTags.any { str -> str.lowercase().contains(term) })
+                    .contains(term, ignoreCase = true) || it.attributes.searchTags.any { str -> str.contains(term, ignoreCase = true) })
             }
             .sortedWith(sortingBehavior.getPropertyComparator())
 
