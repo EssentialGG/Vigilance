@@ -11,6 +11,10 @@ annotation class Property(
     val subcategory: String = "",
     val description: String = "",
     /**
+     * Extra search tags to help lost users
+     */
+    val searchTags: Array<String> = [],
+    /**
      * Reserved for [PropertyType.SLIDER] and [PropertyType.NUMBER]
      */
     val min: Int = 0,
@@ -71,6 +75,10 @@ data class PropertyAttributes(
     val subcategory: String = "",
     val description: String = "",
     /**
+     * Extra search tags to help lost users
+     */
+    val searchTags: List<String> = listOf(),
+    /**
      * Reserved for [PropertyType.SLIDER] and [PropertyType.NUMBER]
      */
     val min: Int = 0,
@@ -127,6 +135,7 @@ data class PropertyAttributes(
                 property.category,
                 property.subcategory,
                 property.description,
+                property.searchTags.toList(),
                 property.min,
                 property.max,
                 property.minF,

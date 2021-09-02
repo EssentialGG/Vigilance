@@ -2,7 +2,6 @@ package gg.essential.vigilance
 
 import com.electronwill.nightconfig.core.file.FileConfig
 import gg.essential.universal.UChat
-import gg.essential.universal.utils.MCScreen
 import gg.essential.vigilance.data.*
 import gg.essential.vigilance.gui.SettingsGui
 import java.awt.Color
@@ -201,7 +200,7 @@ abstract class Vigilant @JvmOverloads constructor(
         val sorted = propertyCollector.getProperties()
             .filter {
                 !it.attributes.hidden && (it.attributes.name.contains(term, ignoreCase = true) || it.attributes.description
-                    .contains(term, ignoreCase = true))
+                    .contains(term, ignoreCase = true) || it.attributes.searchTags.any { str -> str.lowercase().contains(term) })
             }
             .sortedWith(sortingBehavior.getPropertyComparator())
 
@@ -326,6 +325,7 @@ abstract class Vigilant @JvmOverloads constructor(
             type: PropertyType,
             name: String,
             description: String = "",
+            searchTags: List<String> = listOf(),
             min: Int = 0,
             max: Int = 0,
             minF: Float = 0f,
@@ -346,6 +346,7 @@ abstract class Vigilant @JvmOverloads constructor(
                     category,
                     subcategory,
                     description,
+                    searchTags,
                     min,
                     max,
                     minF,
@@ -392,18 +393,18 @@ abstract class Vigilant @JvmOverloads constructor(
                 type,
                 name,
                 description,
-                min,
-                max,
-                minF,
-                maxF,
-                decimalPlaces,
-                increment,
-                options,
-                allowAlpha,
-                placeholder,
-                triggerActionOnInitialization,
-                hidden,
-                action
+                min = min,
+                max = max,
+                minF = minF,
+                maxF = maxF,
+                decimalPlaces = decimalPlaces,
+                increment = increment,
+                options = options,
+                allowAlpha = allowAlpha,
+                placeholder = placeholder,
+                triggerActionOnInitialization = triggerActionOnInitialization,
+                hidden = hidden,
+                action = action
             )
         }
 
