@@ -1,5 +1,6 @@
 package gg.essential.vigilance.data
 
+import net.minecraft.client.resources.I18n
 import java.util.*
 
 @Retention(AnnotationRetention.RUNTIME)
@@ -131,11 +132,11 @@ data class PropertyAttributes(
         fun fromPropertyAnnotation(property: Property): PropertyAttributes {
             return PropertyAttributes(
                 property.type,
-                property.name,
-                property.category,
-                property.subcategory,
-                property.description,
-                property.searchTags.toList(),
+                I18n.format(property.name),
+                I18n.format(property.category),
+                I18n.format(property.subcategory),
+                I18n.format(property.description),
+                property.searchTags.map { I18n.format(it) },
                 property.min,
                 property.max,
                 property.minF,
@@ -174,11 +175,11 @@ data class PropertyAttributes(
         ) : PropertyAttributes {
             return PropertyAttributes(
                 type,
-                name,
-                category,
-                subcategory,
-                description,
-                searchTags,
+                I18n.format(name),
+                I18n.format(category),
+                I18n.format(subcategory),
+                I18n.format(description),
+                searchTags.map { I18n.format(it) },
                 min, max,
                 minF, maxF,
                 decimalPlaces,

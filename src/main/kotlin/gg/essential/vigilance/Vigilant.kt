@@ -4,6 +4,7 @@ import com.electronwill.nightconfig.core.file.FileConfig
 import gg.essential.universal.UChat
 import gg.essential.vigilance.data.*
 import gg.essential.vigilance.gui.SettingsGui
+import net.minecraft.client.resources.I18n
 import java.awt.Color
 import java.io.File
 import java.lang.reflect.Field
@@ -342,11 +343,11 @@ abstract class Vigilant @JvmOverloads constructor(
             val data = PropertyData(
                 PropertyAttributes(
                     type,
-                    name,
-                    category,
-                    subcategory,
-                    description,
-                    searchTags,
+                    I18n.format(name),
+                    I18n.format(category),
+                    I18n.format(subcategory),
+                    I18n.format(description),
+                    searchTags.map { I18n.format(it) },
                     min,
                     max,
                     minF,

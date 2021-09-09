@@ -17,9 +17,10 @@ import gg.essential.vigilance.data.PropertyData
 import gg.essential.vigilance.gui.ExpandingClickEffect
 import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.utils.onLeftClick
+import net.minecraft.client.resources.I18n
 
 class ButtonComponent(placeholder: String? = null, private val callback: () -> Unit) : SettingComponent() {
-    private var textState: State<String> = BasicState(placeholder.orEmpty().ifEmpty { "Activate" })
+    private var textState: State<String> = BasicState(placeholder.orEmpty().ifEmpty { "Activate" }).map { I18n.format(it) }
     private var listener: () -> Unit = textState.onSetValue {
         text.setText(textState.get())
     }
@@ -72,7 +73,7 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
     fun bindText(newTextState: State<String>) = apply {
         listener()
         textState = newTextState
-        text.bindText(textState)
+        text.bindText(textState.map { I18n.format(it) })
 
         listener =  textState.onSetValue {
             text.setText(textState.get())
