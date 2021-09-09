@@ -150,6 +150,47 @@ data class PropertyAttributes(
                 property.hidden
             )
         }
+
+        @JvmOverloads
+        fun fromParams(
+            type: PropertyType,
+            name: String,
+            category: String = "",
+            subcategory: String = "",
+            description: String = "",
+            searchTags: List<String> = listOf(),
+            min: Int = 0,
+            max: Int = 0,
+            minF: Float = 0f,
+            maxF: Float = 0f,
+            decimalPlaces: Int = 1,
+            increment: Int = 1,
+            options: List<String> = listOf(),
+            allowAlpha: Boolean = true,
+            placeholder: String = "",
+            protected: Boolean = false,
+            triggerActionOnInitialization: Boolean = false,
+            hidden: Boolean = false
+        ) : PropertyAttributes {
+            return PropertyAttributes(
+                type,
+                name,
+                category,
+                subcategory,
+                description,
+                searchTags,
+                min, max,
+                minF, maxF,
+                decimalPlaces,
+                increment,
+                options,
+                allowAlpha,
+                placeholder,
+                protected,
+                triggerActionOnInitialization,
+                hidden
+            )
+        }
     }
 }
 
