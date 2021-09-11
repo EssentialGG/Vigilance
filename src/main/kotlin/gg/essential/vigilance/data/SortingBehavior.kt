@@ -16,5 +16,5 @@ open class SortingBehavior {
     /**
      * @return a comparator, that is used to sort a list of properties
      */
-    open fun getPropertyComparator(): Comparator<in PropertyData> = compareBy { it.attributes.subcategory }
+    open fun getPropertyComparator(): Comparator<in PropertyData> = compareBy { it.attributesExt.subcategory }
 }

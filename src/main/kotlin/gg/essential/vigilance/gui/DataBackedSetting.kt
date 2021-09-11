@@ -7,7 +7,6 @@ import gg.essential.elementa.constraints.ChildBasedMaxSizeConstraint
 import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.constraints.RelativeConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
-import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.font.DefaultFonts
@@ -34,7 +33,7 @@ class DataBackedSetting(internal val data: PropertyData, internal val component:
         height = ChildBasedSizeConstraint(3f) + INNER_PADDING.pixels()
     } childOf boundingBox
 
-    private val settingName by UIWrappedText(data.attributes.name).constrain {
+    private val settingName by UIWrappedText(data.attributesExt.name).constrain {
         width = RelativeConstraint(1f)
         textScale = 1.49f.pixels()
         color = VigilancePalette.brightTextState.toConstraint()
@@ -42,7 +41,7 @@ class DataBackedSetting(internal val data: PropertyData, internal val component:
     } childOf textBoundingBox
 
     init {
-        UIWrappedText(data.attributes.description).constrain {
+        UIWrappedText(data.attributesExt.description).constrain {
             y = SiblingConstraint() + 3.pixels()
             width = RelativeConstraint(1f)
             color = VigilancePalette.midTextState.toConstraint()

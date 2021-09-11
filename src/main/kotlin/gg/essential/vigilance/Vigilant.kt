@@ -73,7 +73,7 @@ abstract class Vigilant @JvmOverloads constructor(
     }
 
     fun registerProperty(prop: PropertyData) {
-        val fullPath = prop.attributes.fullPropertyPath()
+        val fullPath = prop.attributesExt.fullPropertyPath()
 
         val oldValue: Any? = fileConfig.get(fullPath) ?: prop.getAsAny()
 
@@ -167,7 +167,7 @@ abstract class Vigilant @JvmOverloads constructor(
 
     private fun hidePropertyIf(property: PropertyData, condition: Boolean) {
         if (condition) {
-            property.attributes.hidden = true
+            property.attributesExt.hidden = true
         }
     }
 
@@ -191,8 +191,8 @@ abstract class Vigilant @JvmOverloads constructor(
 
     fun getCategories(): List<Category> {
         return propertyCollector.getProperties()
-            .filter { !it.attributes.hidden }
-            .groupBy { it.attributes.category }
+            .filter { !it.attributesExt.hidden }
+            .groupBy { it.attributesExt.category }
             .map { Category(it.key, it.value.splitBySubcategory(), categoryDescription[it.key]?.description) }
             .sortedWith(sortingBehavior.getCategoryComparator())
     }
@@ -200,8 +200,8 @@ abstract class Vigilant @JvmOverloads constructor(
     fun getCategoryFromSearch(term: String): Category {
         val sorted = propertyCollector.getProperties()
             .filter {
-                !it.attributes.hidden && (it.attributes.name.contains(term, ignoreCase = true) || it.attributes.description
-                    .contains(term, ignoreCase = true) || it.attributes.searchTags.any { str -> str.contains(term, ignoreCase = true) })
+                !it.attributesExt.hidden && (it.attributesExt.name.contains(term, ignoreCase = true) || it.attributesExt.description
+                    .contains(term, ignoreCase = true) || it.attributesExt.searchTags.any { str -> str.contains(term, ignoreCase = true) })
             }
             .sortedWith(sortingBehavior.getPropertyComparator())
 
@@ -218,11 +218,11 @@ abstract class Vigilant @JvmOverloads constructor(
         fileConfig.load()
 
         propertyCollector.getProperties().filter { it.value.writeDataToFile }.forEach {
-            val fullPath = it.attributes.fullPropertyPath()
+            val fullPath = it.attributesExt.fullPropertyPath()
 
             var oldValue: Any? = fileConfig.get(fullPath)
 
-            if (it.attributes.type == PropertyType.COLOR) {
+            if (it.attributesExt.type == PropertyType.COLOR) {
                 oldValue = if (oldValue is String) {
                     val split = oldValue.split(",").map(String::toInt)
                     if (split.size == 4) Color(split[1], split[2], split[3], split[0]) else null
@@ -247,7 +247,7 @@ abstract class Vigilant @JvmOverloads constructor(
         if (!dirty) return
 
         propertyCollector.getProperties().filter { it.value.writeDataToFile }.forEach {
-            val fullPath = it.attributes.fullPropertyPath()
+            val fullPath = it.attributesExt.fullPropertyPath()
 
             var toSet = it.getAsAny()
 
@@ -271,15 +271,15 @@ abstract class Vigilant @JvmOverloads constructor(
     }
 
     private fun List<PropertyData>.splitBySubcategory(): List<CategoryItem> {
-        val items = this.groupBy { it.attributes.subcategory }.entries.sortedWith(sortingBehavior.getSubcategoryComparator())
+        val items = this.groupBy { it.attributesExt.subcategory }.entries.sortedWith(sortingBehavior.getSubcategoryComparator())
         val withDividers = mutableListOf<CategoryItem>()
 
         items.forEachIndexed { index, (subcategoryName, listOfProperties) ->
-            val subcategoryInfo = categoryDescription[listOfProperties[0].attributes.category]?.subcategoryDescriptions?.get(subcategoryName)
+            val subcategoryInfo = categoryDescription[listOfProperties[0].attributesExt.category]?.subcategoryDescriptions?.get(subcategoryName)
             if (index > 0 || subcategoryName.isNotBlank() || !subcategoryInfo.isNullOrBlank()) {
                 withDividers.add(DividerItem(subcategoryName, subcategoryInfo))
             }
-            withDividers.addAll(listOfProperties.sortedWith(sortingBehavior.getPropertyComparator()).map { PropertyItem(it, it.attributes.subcategory) })
+            withDividers.addAll(listOfProperties.sortedWith(sortingBehavior.getPropertyComparator()).map { PropertyItem(it, it.attributesExt.subcategory) })
         }
 
         return withDividers
@@ -347,7 +347,6 @@ abstract class Vigilant @JvmOverloads constructor(
                     I18n.format(category),
                     I18n.format(subcategory),
                     I18n.format(description),
-                    searchTags.map { I18n.format(it) },
                     min,
                     max,
                     minF,
@@ -362,7 +361,7 @@ abstract class Vigilant @JvmOverloads constructor(
                 ),
                 value,
                 instance
-            )
+            ).also { it.attributesExt.searchTags.toMutableList().addAll(searchTags) }
 
             if (action != null) {
                 data.action = { action(it as T) }
