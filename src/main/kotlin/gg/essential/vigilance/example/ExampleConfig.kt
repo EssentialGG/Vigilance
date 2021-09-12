@@ -18,15 +18,16 @@ import kotlin.math.PI
 object ExampleConfig : Vigilant(File("./config/example.toml")) {
     @Property(
         type = PropertyType.CHECKBOX,
-        name = "Checkbox",
-        description = "This is a checkbox property. It stores a boolean value.",
-        category = "Property Overview"
+        name = "menu.singleplayer",
+        description = "options.sounds.title",
+        category = "options.sounds.title"
     )
     var demoCheckbox = true
 
     @Property(
         type = PropertyType.SWITCH,
         name = "Switch",
+        i18nName = "menu.multiplayer",
         description = "This is a switch property. It stores a boolean value.",
         category = "Property Overview"
     )
@@ -35,8 +36,8 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
     @Property(
         type = PropertyType.TEXT,
         name = "Text",
-        description = "This is a text property. It stores a single line of continuous text.",
-        category = "Property Overview"
+        description = "options.sounds.title",
+        category = "options.sounds.title"
     )
     var demoText = ""
 
@@ -100,7 +101,7 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         name = "Selector",
         description = "This is a selector property. It stores a specific item in a list of strings. The property will store the index of the list, not the string.",
         category = "Property Overview",
-        options = ["Option 1", "Option 2", "Option 3"]
+        options = ["options.sounds.title", "options.sounds.title", "options.sounds.title"]
     )
     var demoSelector = 0
 
@@ -126,8 +127,8 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         type = PropertyType.SWITCH,
         name = "Property Pete",
         description = "",
-        category = "Property Overview",
-        subcategory = "Subcategory Steve"
+        category = "options.sounds.title",
+        subcategory = "options.sounds.title"
     )
     var propertyPete = true
 
@@ -457,7 +458,7 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         type = PropertyType.BUTTON,
         name = "Button with text",
         description = "A button that has a custom placeholder, giving it different text",
-        placeholder = "Click Me!",
+        placeholder = "options.sounds.title",
         category = "Property Deep-Dive",
         subcategory = "Buttons"
     )
@@ -536,8 +537,8 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         hidePropertyIf("linuxOnlyProperty") { !os.contains("linux") }
 
         setCategoryDescription(
-            "Property Overview",
-            "This category is a quick overview of all of the components. For a deep-dive into the component, check their specific subcategories."
+            "options.sounds.title",
+            "options.sounds.title"
         )
 
         setCategoryDescription(
@@ -546,9 +547,9 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         )
 
         setSubcategoryDescription(
-            "Property Deep-Dive",
-            "Buttons",
-            "Buttons are a great way for the user to run an action. Buttons don't have any associated state, and as such their annotation target has to be a method."
+            "options.sounds.title",
+            "options.sounds.title",
+            "menu.singleplayer"
         )
     }
 }
