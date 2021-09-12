@@ -270,18 +270,21 @@ class PropertyAttributesExt @JvmOverloads constructor(
                 property.protectedText,
                 property.triggerActionOnInitialization,
                 property.hidden,
-                try {
-                    property.searchTags
-                } catch (e: AbstractMethodError) {
-                    emptyArray()
-                }.toList(),
-                property.i18nName.ifEmpty { property.name },
-                property.i18nCategory.ifEmpty { property.category },
-                property.i18nSubcategory.ifEmpty { property.subcategory }
+                property.safeGet(emptyArray()) { searchTags }.toList(),
+                property.safeGet("") { i18nName }.ifEmpty { property.name },
+                property.safeGet("") { i18nCategory }.ifEmpty { property.category },
+                property.safeGet("") { i18nSubcategory }.ifEmpty { property.subcategory }
             )
         }
     }
 }
+
+private inline fun <T> Property.safeGet(default: T, getter: Property.() -> T) =
+    try {
+        getter()
+    } catch (e: AbstractMethodError) {
+        default
+    }
 
 fun PropertyAttributesExt.toPropertyAttributes(): PropertyAttributes =
     PropertyAttributes(
