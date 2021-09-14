@@ -6,7 +6,7 @@ import java.lang.reflect.Method
 import java.util.function.Consumer
 import kotlin.reflect.KMutableProperty0
 
-data class PropertyData(@Deprecated("Replace with attributesExt", ReplaceWith("attributesExt")) private val attributes: PropertyAttributes, val value: PropertyValue, val instance: Vigilant) {
+data class PropertyData(@Deprecated("Replace with attributesExt", ReplaceWith("attributesExt")) val attributes: PropertyAttributes, val value: PropertyValue, val instance: Vigilant) {
 
     constructor(attributesExt: PropertyAttributesExt, value: PropertyValue, instance: Vigilant) :
         this(attributesExt.toPropertyAttributes(), value, instance) {
