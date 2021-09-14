@@ -38,9 +38,9 @@ class JVMAnnotationPropertyCollector : PropertyCollector() {
                 field.isAccessible = true
 
                 PropertyData.fromField(field.getAnnotation(Property::class.java), field, instance).also { data ->
-                    if (!data.attributes.type.isFieldValid(field)) {
+                    if (!data.attributesExt.type.isFieldValid(field)) {
                         throw IllegalStateException("[Vigilance] Error while creating GUI ${instance::class.simpleName}: " +
-                            "field ${field.name} of PropertyType ${data.attributes.type.name} has invalid JVM type " +
+                            "field ${field.name} of PropertyType ${data.attributesExt.type.name} has invalid JVM type " +
                             field.type.simpleName)
                     }
                 }
@@ -52,10 +52,10 @@ class JVMAnnotationPropertyCollector : PropertyCollector() {
                 method.isAccessible = true
 
                 PropertyData.fromMethod(method.getAnnotation(Property::class.java), method, instance).also { data ->
-                    if (data.attributes.type != PropertyType.BUTTON) {
+                    if (data.attributesExt.type != PropertyType.BUTTON) {
                         throw IllegalStateException("[Vigilance] Error while creating GUI ${instance::class.simpleName}: " +
                             "expected method ${method.name} to have PropertyType BUTTON, but found PropertyType " +
-                            data.attributes.type.name)
+                            data.attributesExt.type.name)
                     }
                 }
             }

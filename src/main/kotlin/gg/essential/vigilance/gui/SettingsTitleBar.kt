@@ -16,6 +16,7 @@ import gg.essential.universal.UKeyboard
 import gg.essential.universal.USound
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.utils.onLeftClick
+import net.minecraft.client.resources.I18n
 
 class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilant, window: Window) : UIContainer() {
     private val standardBar by StandardTitleBar()
@@ -84,7 +85,7 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
         private lateinit var onClickSearch: () -> Unit
 
         init {
-            UIText(config.guiTitle).constrain {
+            UIText(I18n.format(config.guiTitle)).constrain {
                 x = 15.pixels()
                 y = CenterConstraint()
             } childOf this

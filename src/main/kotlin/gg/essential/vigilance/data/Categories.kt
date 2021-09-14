@@ -29,40 +29,40 @@ class PropertyItem(val data: PropertyData, val subcategory: String) : CategoryIt
             PropertyType.SWITCH -> SwitchComponent(data.getAsBoolean())
             PropertyType.CHECKBOX -> CheckboxComponent(data.getAsBoolean())
             PropertyType.PERCENT_SLIDER -> PercentSliderComponent(data.getValue())
-            PropertyType.SLIDER -> SliderComponent(data.getValue(), data.attributes.min, data.attributes.max)
+            PropertyType.SLIDER -> SliderComponent(data.getValue(), data.attributesExt.min, data.attributesExt.max)
             PropertyType.DECIMAL_SLIDER -> DecimalSliderComponent(
                 data.getValue(),
-                data.attributes.minF,
-                data.attributes.maxF,
-                data.attributes.decimalPlaces
+                data.attributesExt.minF,
+                data.attributesExt.maxF,
+                data.attributesExt.decimalPlaces
             )
             PropertyType.NUMBER -> NumberComponent(
                 data.getValue(),
-                data.attributes.min,
-                data.attributes.max,
-                data.attributes.increment
+                data.attributesExt.min,
+                data.attributesExt.max,
+                data.attributesExt.increment
             )
-            PropertyType.SELECTOR -> SelectorComponent(data.getValue(), data.attributes.options.toList())
-            PropertyType.COLOR -> ColorComponent(data.getValue(), data.attributes.allowAlpha)
+            PropertyType.SELECTOR -> SelectorComponent(data.getValue(), data.attributesExt.options.toList())
+            PropertyType.COLOR -> ColorComponent(data.getValue(), data.attributesExt.allowAlpha)
             PropertyType.TEXT -> TextComponent(
                 data.getValue(),
-                data.attributes.placeholder,
+                data.attributesExt.placeholder,
                 false,
-                data.attributes.protected
+                data.attributesExt.protected
             )
             PropertyType.PARAGRAPH -> TextComponent(
                 data.getValue(),
-                data.attributes.placeholder,
+                data.attributesExt.placeholder,
                 wrap = true,
                 protected = false
             )
-            PropertyType.BUTTON -> ButtonComponent(data.attributes.placeholder, data)
+            PropertyType.BUTTON -> ButtonComponent(data.attributesExt.placeholder, data)
         }
 
         return DataBackedSetting(data, component)
     }
 
     override fun toString(): String {
-        return "${data.attributes.type} \"${data.attributes.name}\""
+        return "${data.attributesExt.type} \"${data.attributesExt.name}\""
     }
 }
