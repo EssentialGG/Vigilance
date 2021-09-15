@@ -3,40 +3,18 @@ package gg.essential.vigilance.data
 import java.awt.Color
 import java.lang.reflect.Field
 
-enum class PropertyType {
-    SWITCH {
-        override fun isFieldValid(field: Field) = field.type == Boolean::class.java
-    },
-    CHECKBOX {
-        override fun isFieldValid(field: Field) = field.type == Boolean::class.java
-    },
-    TEXT {
-        override fun isFieldValid(field: Field) = field.type == String::class.java
-    },
-    PARAGRAPH {
-        override fun isFieldValid(field: Field) = field.type == String::class.java
-    },
-    PERCENT_SLIDER {
-        override fun isFieldValid(field: Field) = field.type == Float::class.java
-    },
-    SLIDER {
-        override fun isFieldValid(field: Field) = field.type == Int::class.java
-    },
-    DECIMAL_SLIDER {
-        override fun isFieldValid(field: Field) = field.type == Float::class.java
-    },
-    NUMBER {
-        override fun isFieldValid(field: Field) = field.type == Int::class.java
-    },
-    COLOR {
-        override fun isFieldValid(field: Field) = field.type == Color::class.java
-    },
-    SELECTOR {
-        override fun isFieldValid(field: Field) = field.type == Int::class.java
-    },
-    BUTTON {
-        override fun isFieldValid(field: Field) = false
-    };
+enum class PropertyType(val type: Class<*>) {
+    SWITCH(Boolean::class.java),
+    CHECKBOX(Boolean::class.java),
+    TEXT(String::class.java),
+    PARAGRAPH(String::class.java),
+    PERCENT_SLIDER(Float::class.java),
+    SLIDER(Int::class.java),
+    DECIMAL_SLIDER(Float::class.java),
+    NUMBER(Int::class.java),
+    COLOR(Color::class.java),
+    SELECTOR(Int::class.java),
+    BUTTON(Nothing::class.java);
 
-    abstract fun isFieldValid(field: Field): Boolean
+    fun isFieldValid(field: Field): Boolean = field.type == type
 }
