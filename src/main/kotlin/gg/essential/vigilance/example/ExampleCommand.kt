@@ -31,23 +31,12 @@ class ExampleCommand : CommandBase() {
 }
 //#else
 //$$ import com.mojang.brigadier.CommandDispatcher
-//$$ import com.mojang.brigadier.context.CommandContext
-//#if FABRIC
-//$$ import net.minecraft.server.command.CommandSource
-//$$ import net.minecraft.server.command.ServerCommandSource
-//$$ import net.minecraft.server.command.CommandManager
-//$$
-//$$ object ExampleCommand {
-//$$     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
-//$$         dispatcher.register(CommandManager.literal("config")
-//#else
 //$$ import net.minecraft.command.CommandSource
 //$$ import net.minecraft.command.Commands
 //$$
 //$$ object ExampleCommand {
 //$$     fun register(dispatcher: CommandDispatcher<CommandSource?>) {
 //$$         dispatcher.register(Commands.literal("config")
-//#endif
 //$$             .requires { it.hasPermissionLevel(0) }
 //$$             .executes {
 //$$                 // ExampleConfig.randomData = UUID.randomUUID().toString()

@@ -1,9 +1,8 @@
 package gg.essential.vigilance.gui
 
+import gg.essential.elementa.components.GradientComponent
 import gg.essential.elementa.components.UIBlock
-import gg.essential.universal.UGraphics
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats
-import org.lwjgl.opengl.GL11
+import gg.essential.universal.UMatrixStack
 import java.awt.Color
 
 @Deprecated("Use Elementa's GradientComponent instead.", ReplaceWith("GradientComponent", "gg.essential.elementa.components.GradientComponent"))
@@ -21,19 +20,17 @@ class GradientBlock(
     fun getDirection() = direction
     fun setDirection(direction: GradientDirection) = apply { this.direction = direction }
 
-    override fun draw() {
-        beforeDraw()
+    override fun draw(matrixStack: UMatrixStack) {
+        beforeDraw(matrixStack)
 
         val x = this.getLeft().toDouble()
         val y = this.getTop().toDouble()
         val x2 = this.getRight().toDouble()
         val y2 = this.getBottom().toDouble()
 
-        UGraphics.pushMatrix()
-        drawGradientRect(x.toInt(), y.toInt(), x2.toInt(), y2.toInt(), startColor, endColor, direction)
-        UGraphics.popMatrix()
+        GradientComponent.drawGradientBlock(matrixStack, x, y, x2, y2, startColor, endColor, direction.elementa)
 
-        super.draw()
+        super.draw(matrixStack)
     }
 
     enum class GradientDirection {
@@ -44,32 +41,15 @@ class GradientBlock(
     }
 
     companion object {
+        private val GradientDirection.elementa get() = when (this) {
+            GradientDirection.TopToBottom -> GradientComponent.GradientDirection.TOP_TO_BOTTOM
+            GradientDirection.BottomToTop -> GradientComponent.GradientDirection.BOTTOM_TO_TOP
+            GradientDirection.LeftToRight -> GradientComponent.GradientDirection.LEFT_TO_RIGHT
+            GradientDirection.RightToLeft -> GradientComponent.GradientDirection.RIGHT_TO_LEFT
+        }
+
         fun drawGradientRect(left: Int, top: Int, right: Int, bottom: Int, startColor: Color, endColor: Color, direction: GradientDirection) {
-            UGraphics.disableTexture2D()
-            UGraphics.enableBlend()
-            UGraphics.disableAlpha()
-            UGraphics.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO)
-            UGraphics.shadeModel(GL11.GL_SMOOTH)
-
-            val (topLeft, topRight, bottomLeft, bottomRight) = when (direction) {
-                GradientDirection.TopToBottom -> arrayOf(startColor, startColor, endColor, endColor)
-                GradientDirection.BottomToTop -> arrayOf(endColor, endColor, startColor, startColor)
-                GradientDirection.LeftToRight -> arrayOf(startColor, endColor, endColor, startColor)
-                GradientDirection.RightToLeft -> arrayOf(endColor, startColor, startColor, endColor)
-            }
-
-            val tessellator = UGraphics.getFromTessellator()
-            tessellator.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR)
-            tessellator.pos(right.toDouble(), top.toDouble(), 0.0).color(topRight).endVertex()
-            tessellator.pos(left.toDouble(), top.toDouble(), 0.0).color(topLeft).endVertex()
-            tessellator.pos(left.toDouble(), bottom.toDouble(), 0.0).color(bottomLeft).endVertex()
-            tessellator.pos(right.toDouble(), bottom.toDouble(), 0.0).color(bottomRight).endVertex()
-            UGraphics.draw()
-
-            UGraphics.shadeModel(GL11.GL_FLAT)
-            UGraphics.disableBlend()
-            UGraphics.enableAlpha()
-            UGraphics.enableTexture2D()
+            GradientComponent.drawGradientBlock(UMatrixStack(), left.toDouble(), top.toDouble(), right.toDouble(), bottom.toDouble(), startColor, endColor, direction.elementa)
         }
     }
 }
