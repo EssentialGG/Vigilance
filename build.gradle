@@ -24,7 +24,7 @@ buildscript {
         if (fabric) {
             classpath 'fabric-loom:fabric-loom.gradle.plugin:0.8-SNAPSHOT'
         } else if (mcVersion >= 11400) {
-            classpath('net.minecraftforge.gradle:ForgeGradle:5.0.5') { // later versions emit tsrg2
+            classpath('net.minecraftforge.gradle:ForgeGradle:5.1.20') { // exact version cause FG tends to break stuff
                 exclude group: 'trove', module: 'trove' // preprocessor/idea requires more recent one
             }
         } else {
@@ -40,6 +40,7 @@ buildscript {
 }
 
 def FG3 = !fabric && mcVersion >= 11400
+def FG2 = !fabric && mcVersion < 11400
 def FABRIC = fabric
 
 if (FABRIC) {
@@ -135,11 +136,13 @@ if (FABRIC) {
                     10800: "snapshot_nodoc_20141130",
                     10710: "stable_12",
             ][mcVersion]
-        } else {
+        } else if (mcVersion < 11700) {
             mappings channel: 'snapshot', version: [
                     11502: '20200220-1.15.1',
-                    11602: '20200723-1.16.1'
+                    11602: '20201028-1.16.3',
             ][mcVersion]
+        } else {
+            mappings channel: 'official', version: mcVersionStr
         }
     }
 }
@@ -160,7 +163,7 @@ dependencies {
     modImplementation('com.electronwill.night-config:toml:3.6.0')
     modImplementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
     modImplementation("org.jetbrains.kotlin:kotlin-reflect:$kotlin_version")
-    modApi("gg.essential:elementa-${mcVersionStr}-${mcPlatform}:385") {
+    modApi("gg.essential:elementa-${mcVersionStr}-${mcPlatform}:389") {
         exclude module: 'kotlin-reflect'
         exclude module: 'kotlin-stdlib-jdk8'
     }
@@ -214,7 +217,8 @@ dependencies {
         minecraft 'net.minecraftforge:forge:' + [
                 11404: '1.14.4-28.1.113',
                 11502: '1.15.2-31.1.18',
-                11602: '1.16.2-33.0.58'
+                11602: '1.16.2-33.0.58',
+                11701: '1.17.1-37.0.41',
         ][mcVersion]
     }
 }
