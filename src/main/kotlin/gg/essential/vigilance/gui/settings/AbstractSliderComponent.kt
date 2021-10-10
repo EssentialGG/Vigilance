@@ -23,13 +23,12 @@ abstract class AbstractSliderComponent : SettingComponent() {
     }
 
     override fun setupParentListeners(parent: UIComponent) {
-        onMouseEnter {
+        parent.onMouseEnter {
             slider.animate {
                 setWidthAnimation(Animations.OUT_EXP, .25f, 100.pixels())
             }
             expanded = true
-        }
-        onMouseLeave {
+        }.onMouseLeave {
             if (!mouseHeld) {
                 slider.animate {
                     setWidthAnimation(Animations.OUT_EXP, .25f, 60.pixels())
