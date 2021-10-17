@@ -18,7 +18,6 @@ import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.Category
 import gg.essential.vigilance.gui.settings.*
 import gg.essential.vigilance.utils.onLeftClick
-import net.minecraft.client.Minecraft
 import java.awt.Color
 
 class SettingsGui(
@@ -216,15 +215,11 @@ class SettingsGui(
         categoryScroller.allChildren.filterIsInstance<CategoryLabel>().firstOrNull { it.isSelected }?.deselect()
     }
 
-    // TODO: 5/30/2021 Port for 1.15+
-    //#if MC<11500
-    override fun setWorldAndResolution(mc: Minecraft, width: Int, height: Int) {
-        window.onWindowResize()
+    override fun updateGuiScale() {
         newGuiScale = GuiScale.scaleForScreenSize().ordinal
-        super.setWorldAndResolution(mc, width, height)
+        super.updateGuiScale()
     }
 
-    //#endif
     companion object {
         const val animTime = .5f
     }
