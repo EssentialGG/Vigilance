@@ -6,12 +6,20 @@ import java.lang.reflect.Method
 import java.util.function.Consumer
 import kotlin.reflect.KMutableProperty0
 
-data class PropertyData(val attributes: PropertyAttributes, val value: PropertyValue, val instance: Vigilant) {
+data class PropertyData(@Deprecated("Replace with attributesExt", ReplaceWith("attributesExt")) val attributes: PropertyAttributes, val value: PropertyValue, val instance: Vigilant) {
+
+    constructor(attributesExt: PropertyAttributesExt, value: PropertyValue, instance: Vigilant) :
+        this(attributesExt.toPropertyAttributes(), value, instance) {
+            this.attributesExt = attributesExt
+        }
+
+    var attributesExt: PropertyAttributesExt = PropertyAttributesExt(attributes)
+        private set
     var action: ((Any?) -> Unit)? = null
     var dependsOn: PropertyData? = null
     var hasDependants: Boolean = false
 
-    fun getDataType() = attributes.type
+    fun getDataType() = attributesExt.type
 
     inline fun <reified T> getValue(): T {
         return value.getValue(instance) as T
@@ -27,11 +35,11 @@ data class PropertyData(val attributes: PropertyAttributes, val value: PropertyV
 
     fun setValue(value: Any?) {
         if (value == null) {
-            println("null value assigned to property ${attributes.name}, but Vigilance does not support null values")
+            println("null value assigned to property ${attributesExt.name}, but Vigilance does not support null values")
             return
         }
 
-        if (attributes.triggerActionOnInitialization || this.value.initialized)
+        if (attributesExt.triggerActionOnInitialization || this.value.initialized)
             action?.invoke(value)
 
         this.value.initialized = true
@@ -47,7 +55,7 @@ data class PropertyData(val attributes: PropertyAttributes, val value: PropertyV
     companion object {
         fun fromField(property: Property, field: Field, instance: Vigilant): PropertyData {
             return PropertyData(
-                PropertyAttributes.fromPropertyAnnotation(property),
+                PropertyAttributesExt.fromPropertyAnnotation(property),
                 FieldBackedPropertyValue(field),
                 instance
             )
@@ -61,9 +69,9 @@ data class PropertyData(val attributes: PropertyAttributes, val value: PropertyV
             )
         }
 
-        fun fromMethod(propertyAttributes: Property, method: Method, instance: Vigilant): PropertyData {
+        fun fromMethod(property: Property, method: Method, instance: Vigilant): PropertyData {
             return PropertyData(
-                PropertyAttributes.fromPropertyAnnotation(propertyAttributes),
+                PropertyAttributesExt.fromPropertyAnnotation(property),
                 MethodBackedPropertyValue(method),
                 instance
             )
@@ -71,7 +79,7 @@ data class PropertyData(val attributes: PropertyAttributes, val value: PropertyV
 
         fun withValue(property: Property, obj: Any?, instance: Vigilant): PropertyData {
             return PropertyData(
-                PropertyAttributes.fromPropertyAnnotation(property),
+                PropertyAttributesExt.fromPropertyAnnotation(property),
                 ValueBackedPropertyValue(obj),
                 instance
             )
