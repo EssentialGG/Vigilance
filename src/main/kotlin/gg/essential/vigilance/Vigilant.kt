@@ -640,7 +640,7 @@ abstract class Vigilant @JvmOverloads constructor(
             )
         }
 
-        @Deprecated("")
+        @Deprecated("", level = DeprecationLevel.HIDDEN)
         fun <T> property(
             value: PropertyValue,
             type: PropertyType,

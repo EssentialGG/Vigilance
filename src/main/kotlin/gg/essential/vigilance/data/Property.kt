@@ -240,6 +240,7 @@ class PropertyAttributesExt(
         listOf()
     )
 
+    @Deprecated("", level = DeprecationLevel.HIDDEN)
     @JvmOverloads
     constructor(
         type: PropertyType,

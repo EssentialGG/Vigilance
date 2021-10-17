@@ -72,7 +72,7 @@ public final class gg/essential/vigilance/Vigilant$CategoryPropertyBuilder {
 	public static synthetic fun paragraph$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public final fun percentSlider (Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
 	public static synthetic fun percentSlider$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
-	public final fun property (Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
+	public final synthetic fun property (Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
 	public final fun property (Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
 	public final fun property (Lkotlin/reflect/KMutableProperty0;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
 	public static synthetic fun property$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
@@ -221,22 +221,22 @@ public final class gg/essential/vigilance/data/PropertyAttributes$Companion {
 public final class gg/essential/vigilance/data/PropertyAttributesExt {
 	public static final field Companion Lgg/essential/vigilance/data/PropertyAttributesExt$Companion;
 	public fun <init> (Lgg/essential/vigilance/data/PropertyAttributes;)V
-	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;)V
-	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
-	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
-	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V
-	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II)V
-	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIF)V
-	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFF)V
-	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFI)V
-	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFII)V
-	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;)V
-	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;Z)V
-	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;)V
-	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;Z)V
-	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZ)V
-	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZZ)V
-	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZZLjava/util/List;)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIF)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFF)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFI)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFII)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;Z)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;Z)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZ)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZZ)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZZLjava/util/List;)V
 	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZZLjava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZZLjava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
 	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZZLjava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
