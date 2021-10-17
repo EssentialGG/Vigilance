@@ -192,16 +192,16 @@ abstract class Vigilant @JvmOverloads constructor(
     fun getCategories(): List<Category> {
         return propertyCollector.getProperties()
             .filter { !it.attributesExt.hidden }
-            .groupBy { it.attributesExt.category }
-            .map { Category(it.key, it.value.splitBySubcategory(), categoryDescription[it.key]?.description) }
+            .groupBy { it.attributesExt.localizedCategory to it.attributesExt.category }
+            .map { Category(it.key.first, it.value.splitBySubcategory(), categoryDescription[it.key.second]?.description?.let { desc -> I18n.format(desc) }) }
             .sortedWith(sortingBehavior.getCategoryComparator())
     }
 
     fun getCategoryFromSearch(term: String): Category {
         val sorted = propertyCollector.getProperties()
             .filter {
-                !it.attributesExt.hidden && (it.attributesExt.name.contains(term, ignoreCase = true) || it.attributesExt.description
-                    .contains(term, ignoreCase = true) || it.attributesExt.searchTags.any { str -> str.contains(term, ignoreCase = true) })
+                !it.attributesExt.hidden && (it.attributesExt.localizedName.contains(term, ignoreCase = true) || it.attributesExt.localizedDescription
+                    .contains(term, ignoreCase = true) || it.attributesExt.localizedSearchTags.any { str -> str.contains(term, ignoreCase = true) })
             }
             .sortedWith(sortingBehavior.getPropertyComparator())
 
@@ -275,11 +275,11 @@ abstract class Vigilant @JvmOverloads constructor(
         val withDividers = mutableListOf<CategoryItem>()
 
         items.forEachIndexed { index, (subcategoryName, listOfProperties) ->
-            val subcategoryInfo = categoryDescription[listOfProperties[0].attributesExt.category]?.subcategoryDescriptions?.get(subcategoryName)
+            val subcategoryInfo = categoryDescription[listOfProperties[0].attributesExt.category]?.subcategoryDescriptions?.get(subcategoryName)?.let { I18n.format(it) }
             if (index > 0 || subcategoryName.isNotBlank() || !subcategoryInfo.isNullOrBlank()) {
-                withDividers.add(DividerItem(subcategoryName, subcategoryInfo))
+                withDividers.add(DividerItem(I18n.format(subcategoryName), subcategoryInfo))
             }
-            withDividers.addAll(listOfProperties.sortedWith(sortingBehavior.getPropertyComparator()).map { PropertyItem(it, it.attributesExt.subcategory) })
+            withDividers.addAll(listOfProperties.sortedWith(sortingBehavior.getPropertyComparator()).map { PropertyItem(it, it.attributesExt.localizedSubcategory) })
         }
 
         return withDividers
@@ -343,10 +343,10 @@ abstract class Vigilant @JvmOverloads constructor(
             val data = PropertyData(
                 PropertyAttributes(
                     type,
-                    I18n.format(name),
-                    I18n.format(category),
-                    I18n.format(subcategory),
-                    I18n.format(description),
+                    name,
+                    category,
+                    subcategory,
+                    description,
                     min,
                     max,
                     minF,

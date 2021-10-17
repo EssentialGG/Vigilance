@@ -8,8 +8,11 @@ import java.util.*
 annotation class Property(
     val type: PropertyType,
     val name: String,
+    val i18nName: String = "",
     val category: String,
+    val i18nCategory: String = "",
     val subcategory: String = "",
+    val i18nSubcategory: String = "",
     val description: String = "",
     /**
      * Reserved for [PropertyType.SLIDER] and [PropertyType.NUMBER]
@@ -152,7 +155,7 @@ data class PropertyAttributes(
     }
 }
 
-class PropertyAttributesExt @JvmOverloads constructor(
+class PropertyAttributesExt(
     val type: PropertyType,
     val name: String,
     val category: String,
@@ -210,7 +213,11 @@ class PropertyAttributesExt @JvmOverloads constructor(
     /**
      * Search tags to help lost users
      */
-    val searchTags: List<String> = listOf()
+    val searchTags: List<String> = listOf(),
+
+    private val i18nName: String = name,
+    private val i18nCategory: String = category,
+    private val i18nSubcategory: String = subcategory
 ) {
     constructor(propertyAttributes: PropertyAttributes) : this(
         propertyAttributes.type,
@@ -233,6 +240,39 @@ class PropertyAttributesExt @JvmOverloads constructor(
         listOf()
     )
 
+    @JvmOverloads
+    constructor(
+        type: PropertyType,
+        name: String,
+        category: String,
+        subcategory: String = "",
+        description: String = "",
+        min: Int = 0,
+        max: Int = 0,
+        minF: Float = 0f,
+        maxF: Float = 0f,
+        decimalPlaces: Int = 1,
+        increment: Int = 1,
+        options: List<String> = listOf(),
+        allowAlpha: Boolean = true,
+        placeholder: String = "",
+        protected: Boolean = false,
+        triggerActionOnInitialization: Boolean = true,
+        hidden: Boolean = false,
+        searchTags: List<String> = listOf(),
+    ) : this(type, name, category, subcategory, description, min, max, minF, maxF, decimalPlaces, increment, options, allowAlpha, placeholder, protected, triggerActionOnInitialization, hidden, searchTags, name)
+
+
+    internal val localizedName get() = I18n.format(i18nName)
+
+    internal val localizedCategory get() = I18n.format(i18nCategory)
+
+    internal val localizedSubcategory get() = I18n.format(i18nSubcategory)
+
+    internal val localizedDescription get() = I18n.format(description)
+
+    internal val localizedSearchTags get() = searchTags.map { I18n.format(it) }
+
     companion object {
         fun fromPropertyAnnotation(property: Property): PropertyAttributesExt {
             return PropertyAttributesExt(
@@ -253,15 +293,21 @@ class PropertyAttributesExt @JvmOverloads constructor(
                 property.protectedText,
                 property.triggerActionOnInitialization,
                 property.hidden,
-                try {
-                    property.searchTags
-                } catch (e: AbstractMethodError) {
-                    emptyArray()
-                }.toList()
+                property.safeGet(emptyArray()) { searchTags }.toList(),
+                property.safeGet("") { i18nName }.ifEmpty { property.name },
+                property.safeGet("") { i18nCategory }.ifEmpty { property.category },
+                property.safeGet("") { i18nSubcategory }.ifEmpty { property.subcategory }
             )
         }
     }
 }
+
+private inline fun <T> Property.safeGet(default: T, getter: Property.() -> T) =
+    try {
+        getter()
+    } catch (e: AbstractMethodError) {
+        default
+    }
 
 fun PropertyAttributesExt.toPropertyAttributes(): PropertyAttributes =
     PropertyAttributes(
