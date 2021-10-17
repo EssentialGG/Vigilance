@@ -399,7 +399,7 @@ public final class gg/essential/vigilance/gui/ExpandingClickEffect : gg/essentia
 	public fun <init> (Ljava/awt/Color;FLgg/essential/elementa/UIComponent;)V
 	public synthetic fun <init> (Ljava/awt/Color;FLgg/essential/elementa/UIComponent;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun animationFrame ()V
-	public fun beforeDraw ()V
+	public fun beforeDraw (Lgg/essential/universal/UMatrixStack;)V
 	public fun setup ()V
 }
 
@@ -418,7 +418,7 @@ public final class gg/essential/vigilance/gui/GradientBlock : gg/essential/eleme
 	public static final field Companion Lgg/essential/vigilance/gui/GradientBlock$Companion;
 	public fun <init> (Ljava/awt/Color;Ljava/awt/Color;Lgg/essential/vigilance/gui/GradientBlock$GradientDirection;)V
 	public synthetic fun <init> (Ljava/awt/Color;Ljava/awt/Color;Lgg/essential/vigilance/gui/GradientBlock$GradientDirection;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun draw ()V
+	public fun draw (Lgg/essential/universal/UMatrixStack;)V
 	public final fun getDirection ()Lgg/essential/vigilance/gui/GradientBlock$GradientDirection;
 	public final fun getEndColor (Ljava/awt/Color;)Ljava/awt/Color;
 	public final fun getStartColor (Ljava/awt/Color;)Ljava/awt/Color;
@@ -457,7 +457,7 @@ public final class gg/essential/vigilance/gui/SettingsGui : gg/essential/element
 	public static final field animTime F
 	public fun <init> (Lgg/essential/vigilance/Vigilant;)V
 	public final fun selectCategory (Lgg/essential/vigilance/data/Category;)V
-	public fun setWorldAndResolution (Lnet/minecraft/client/Minecraft;II)V
+	public fun updateGuiScale ()V
 }
 
 public final class gg/essential/vigilance/gui/SettingsGui$Companion {

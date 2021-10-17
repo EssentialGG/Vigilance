@@ -29,26 +29,27 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 //#else
 //#if FABRIC
 //$$ import net.fabricmc.api.ModInitializer
+//$$ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 //$$ import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
 //#endif
 //#endif
 
+//#if FABRIC
+//$$ class ExampleMod : ModInitializer {
+//#else
 //#if MC<=11202
 @Mod(modid = ExampleMod.MOD_ID, version = ExampleMod.MOD_VERSION)
 //#else
 //$$ @Mod(value = ExampleMod.MOD_ID)
 //#endif
-//#if FABRIC
-//$$ class ExampleMod implements ModInitializer {
-//#else
 class ExampleMod {
     //#endif
     //#if FABRIC
     //$$ override fun onInitialize() {
     //$$     Vigilance.initialize()
     //$$     ExampleConfig.preload()
-    //$$     MinecraftForge.EVENT_BUS.register(this)
-    //$$     ClientCommandHandler.instance.registerCommand(ExampleCommand())
+    //$$     ClientTickEvents.START_CLIENT_TICK.register { tick() }
+    //$$     // FIXME ClientCommandHandler.instance.registerCommand(ExampleCommand())
     //$$ }
     //#else
     //#if MC<=11202
@@ -78,10 +79,12 @@ class ExampleMod {
     //$$ }
     //#endif
     //#endif
-    //#endif
 
     @SubscribeEvent
-    fun tick(event: TickEvent.ClientTickEvent) {
+    fun tick(event: TickEvent.ClientTickEvent) = tick()
+    //#endif
+
+    private fun tick() {
         if (gui != null) {
             try {
                 UMinecraft.getMinecraft().displayGuiScreen(gui)
