@@ -639,5 +639,25 @@ abstract class Vigilant @JvmOverloads constructor(
                 action = null
             )
         }
+
+        @Deprecated("", level = DeprecationLevel.HIDDEN)
+        fun <T> property(
+            value: PropertyValue,
+            type: PropertyType,
+            name: String,
+            description: String = "",
+            min: Int = 0,
+            max: Int = 0,
+            minF: Float = 0f,
+            maxF: Float = 0f,
+            decimalPlaces: Int = 1,
+            increment: Int = 1,
+            options: List<String> = listOf(),
+            allowAlpha: Boolean = true,
+            placeholder: String = "",
+            triggerActionOnInitialization: Boolean = true,
+            hidden: Boolean = false,
+            action: ((T) -> Unit)? = null
+        ) = property(value, type, name, description, emptyList(), min, max, minF, maxF, decimalPlaces, increment, options, allowAlpha, placeholder, triggerActionOnInitialization, hidden, action)
     }
 }

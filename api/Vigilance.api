@@ -1,0 +1,621 @@
+public final class gg/essential/vigilance/Vigilance {
+	public static final field INSTANCE Lgg/essential/vigilance/Vigilance;
+	public static final fun initialize ()V
+}
+
+public final class gg/essential/vigilance/VigilanceConfig {
+	public static final field INSTANCE Lgg/essential/vigilance/VigilanceConfig;
+	public final fun getPalette ()Lgg/essential/vigilance/gui/VigilancePalette;
+}
+
+public abstract class gg/essential/vigilance/Vigilant {
+	public fun <init> (Ljava/io/File;)V
+	public fun <init> (Ljava/io/File;Ljava/lang/String;)V
+	public fun <init> (Ljava/io/File;Ljava/lang/String;Lgg/essential/vigilance/data/PropertyCollector;)V
+	public fun <init> (Ljava/io/File;Ljava/lang/String;Lgg/essential/vigilance/data/PropertyCollector;Lgg/essential/vigilance/data/SortingBehavior;)V
+	public synthetic fun <init> (Ljava/io/File;Ljava/lang/String;Lgg/essential/vigilance/data/PropertyCollector;Lgg/essential/vigilance/data/SortingBehavior;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun addDependency (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun addDependency (Ljava/lang/reflect/Field;Ljava/lang/reflect/Field;)V
+	public final fun addDependency (Lkotlin/reflect/KProperty;Lkotlin/reflect/KProperty;)V
+	public final fun category (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public final fun dependsOn (Lkotlin/reflect/KProperty;Lkotlin/reflect/KProperty;)V
+	public final fun getCategories ()Ljava/util/List;
+	public final fun getCategoryFromSearch (Ljava/lang/String;)Lgg/essential/vigilance/data/Category;
+	public final fun getGuiTitle ()Ljava/lang/String;
+	public final fun getSortingBehavior ()Lgg/essential/vigilance/data/SortingBehavior;
+	public final fun gui ()Lgg/essential/vigilance/gui/SettingsGui;
+	public final fun hiddenIf (Lkotlin/reflect/KProperty;Lkotlin/jvm/functions/Function0;)V
+	public final fun hidePropertyIf (Ljava/lang/String;Lkotlin/jvm/functions/Function0;)V
+	public final fun hidePropertyIf (Ljava/lang/reflect/Field;Lkotlin/jvm/functions/Function0;)V
+	public final fun hidePropertyIf (Ljava/lang/reflect/Field;Z)V
+	public final fun hidePropertyIf (Lkotlin/reflect/KProperty;Lkotlin/jvm/functions/Function0;)V
+	public final fun initialize ()V
+	public final fun markDirty ()V
+	public final fun preload ()V
+	public final fun registerListener (Ljava/lang/String;Ljava/util/function/Consumer;)V
+	public final fun registerListener (Ljava/lang/reflect/Field;Ljava/util/function/Consumer;)V
+	public final fun registerListener (Lkotlin/reflect/KProperty;Lkotlin/jvm/functions/Function1;)V
+	public final fun registerProperty (Lgg/essential/vigilance/data/PropertyData;)V
+	public final fun setCategoryDescription (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun setSubcategoryDescription (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun writeData ()V
+}
+
+public final class gg/essential/vigilance/Vigilant$CategoryDescription {
+	public fun <init> (Ljava/lang/String;Ljava/util/Map;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/Map;
+	public final fun copy (Ljava/lang/String;Ljava/util/Map;)Lgg/essential/vigilance/Vigilant$CategoryDescription;
+	public static synthetic fun copy$default (Lgg/essential/vigilance/Vigilant$CategoryDescription;Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Lgg/essential/vigilance/Vigilant$CategoryDescription;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDescription ()Ljava/lang/String;
+	public final fun getSubcategoryDescriptions ()Ljava/util/Map;
+	public fun hashCode ()I
+	public final fun setDescription (Ljava/lang/String;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class gg/essential/vigilance/Vigilant$CategoryPropertyBuilder {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lgg/essential/vigilance/Vigilant;)V
+	public final fun button (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function0;)V
+	public static synthetic fun button$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function0;ILjava/lang/Object;)V
+	public final fun checkbox (Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun checkbox$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public final fun color (Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;ZZZLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun color$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;ZZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public final fun decimalSlider (Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;FFIZZLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun decimalSlider$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;FFIZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public final fun number (Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;IIZZLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun number$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;IIZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public final fun paragraph (Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun paragraph$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public final fun percentSlider (Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun percentSlider$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public final synthetic fun property (Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
+	public final fun property (Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
+	public final fun property (Lkotlin/reflect/KMutableProperty0;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun property$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public static synthetic fun property$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public static synthetic fun property$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public final fun selector (Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ZZLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun selector$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public final fun slider (Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;IIZZLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun slider$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;IIZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public final fun subcategory (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public final fun switch (Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun switch$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public final fun text (Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun text$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+}
+
+public abstract class gg/essential/vigilance/data/CallablePropertyValue : gg/essential/vigilance/data/PropertyValue {
+	public fun <init> ()V
+	public synthetic fun getValue (Lgg/essential/vigilance/Vigilant;)Ljava/lang/Object;
+	public fun getValue (Lgg/essential/vigilance/Vigilant;)Ljava/lang/Void;
+	public fun getWriteDataToFile ()Z
+	public abstract fun invoke (Lgg/essential/vigilance/Vigilant;)V
+	public fun setValue (Ljava/lang/Object;Lgg/essential/vigilance/Vigilant;)Ljava/lang/Void;
+	public synthetic fun setValue (Ljava/lang/Object;Lgg/essential/vigilance/Vigilant;)V
+}
+
+public final class gg/essential/vigilance/data/Category {
+	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)V
+	public final fun getDescription ()Ljava/lang/String;
+	public final fun getItems ()Ljava/util/List;
+	public final fun getName ()Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class gg/essential/vigilance/data/CategoryItem {
+	public abstract fun toSettingsObject ()Lgg/essential/vigilance/gui/Setting;
+}
+
+public final class gg/essential/vigilance/data/DividerItem : gg/essential/vigilance/data/CategoryItem {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun getName ()Ljava/lang/String;
+	public fun toSettingsObject ()Lgg/essential/vigilance/gui/Setting;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class gg/essential/vigilance/data/FieldBackedPropertyValue : gg/essential/vigilance/data/PropertyValue {
+	public fun <init> (Ljava/lang/reflect/Field;)V
+	public fun getValue (Lgg/essential/vigilance/Vigilant;)Ljava/lang/Object;
+	public fun setValue (Ljava/lang/Object;Lgg/essential/vigilance/Vigilant;)V
+}
+
+public final class gg/essential/vigilance/data/JVMAnnotationPropertyCollector : gg/essential/vigilance/data/PropertyCollector {
+	public fun <init> ()V
+}
+
+public final class gg/essential/vigilance/data/KFunctionBackedPropertyValue : gg/essential/vigilance/data/CallablePropertyValue {
+	public fun <init> (Lkotlin/jvm/functions/Function0;)V
+	public fun invoke (Lgg/essential/vigilance/Vigilant;)V
+}
+
+public final class gg/essential/vigilance/data/KPropertyBackedPropertyValue : gg/essential/vigilance/data/PropertyValue {
+	public fun <init> (Lkotlin/reflect/KMutableProperty0;)V
+	public fun getValue (Lgg/essential/vigilance/Vigilant;)Ljava/lang/Object;
+	public fun setValue (Ljava/lang/Object;Lgg/essential/vigilance/Vigilant;)V
+}
+
+public final class gg/essential/vigilance/data/MethodBackedPropertyValue : gg/essential/vigilance/data/CallablePropertyValue {
+	public fun <init> (Ljava/lang/reflect/Method;)V
+	public fun invoke (Lgg/essential/vigilance/Vigilant;)V
+}
+
+public abstract interface annotation class gg/essential/vigilance/data/Property : java/lang/annotation/Annotation {
+	public abstract fun allowAlpha ()Z
+	public abstract fun category ()Ljava/lang/String;
+	public abstract fun decimalPlaces ()I
+	public abstract fun description ()Ljava/lang/String;
+	public abstract fun hidden ()Z
+	public abstract fun i18nCategory ()Ljava/lang/String;
+	public abstract fun i18nName ()Ljava/lang/String;
+	public abstract fun i18nSubcategory ()Ljava/lang/String;
+	public abstract fun increment ()I
+	public abstract fun max ()I
+	public abstract fun maxF ()F
+	public abstract fun min ()I
+	public abstract fun minF ()F
+	public abstract fun name ()Ljava/lang/String;
+	public abstract fun options ()[Ljava/lang/String;
+	public abstract fun placeholder ()Ljava/lang/String;
+	public abstract fun protectedText ()Z
+	public abstract fun searchTags ()[Ljava/lang/String;
+	public abstract fun subcategory ()Ljava/lang/String;
+	public abstract fun triggerActionOnInitialization ()Z
+	public abstract fun type ()Lgg/essential/vigilance/data/PropertyType;
+}
+
+public final class gg/essential/vigilance/data/PropertyAttributes {
+	public static final field Companion Lgg/essential/vigilance/data/PropertyAttributes$Companion;
+	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZZ)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lgg/essential/vigilance/data/PropertyType;
+	public final fun component10 ()I
+	public final fun component11 ()I
+	public final fun component12 ()Ljava/util/List;
+	public final fun component13 ()Z
+	public final fun component14 ()Ljava/lang/String;
+	public final fun component15 ()Z
+	public final fun component16 ()Z
+	public final fun component17 ()Z
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()I
+	public final fun component7 ()I
+	public final fun component8 ()F
+	public final fun component9 ()F
+	public final fun copy (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZZ)Lgg/essential/vigilance/data/PropertyAttributes;
+	public static synthetic fun copy$default (Lgg/essential/vigilance/data/PropertyAttributes;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZZILjava/lang/Object;)Lgg/essential/vigilance/data/PropertyAttributes;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAllowAlpha ()Z
+	public final fun getCategory ()Ljava/lang/String;
+	public final fun getDecimalPlaces ()I
+	public final fun getDescription ()Ljava/lang/String;
+	public final fun getHidden ()Z
+	public final fun getIncrement ()I
+	public final fun getMax ()I
+	public final fun getMaxF ()F
+	public final fun getMin ()I
+	public final fun getMinF ()F
+	public final fun getName ()Ljava/lang/String;
+	public final fun getOptions ()Ljava/util/List;
+	public final fun getPlaceholder ()Ljava/lang/String;
+	public final fun getProtected ()Z
+	public final fun getSubcategory ()Ljava/lang/String;
+	public final fun getTriggerActionOnInitialization ()Z
+	public final fun getType ()Lgg/essential/vigilance/data/PropertyType;
+	public fun hashCode ()I
+	public final fun setHidden (Z)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class gg/essential/vigilance/data/PropertyAttributes$Companion {
+	public final fun fromPropertyAnnotation (Lgg/essential/vigilance/data/Property;)Lgg/essential/vigilance/data/PropertyAttributes;
+}
+
+public final class gg/essential/vigilance/data/PropertyAttributesExt {
+	public static final field Companion Lgg/essential/vigilance/data/PropertyAttributesExt$Companion;
+	public fun <init> (Lgg/essential/vigilance/data/PropertyAttributes;)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIF)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFF)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFI)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFII)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;Z)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;Z)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZ)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZZ)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZZLjava/util/List;)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZZLjava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZZLjava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZZLjava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getAllowAlpha ()Z
+	public final fun getCategory ()Ljava/lang/String;
+	public final fun getDecimalPlaces ()I
+	public final fun getDescription ()Ljava/lang/String;
+	public final fun getHidden ()Z
+	public final fun getIncrement ()I
+	public final fun getMax ()I
+	public final fun getMaxF ()F
+	public final fun getMin ()I
+	public final fun getMinF ()F
+	public final fun getName ()Ljava/lang/String;
+	public final fun getOptions ()Ljava/util/List;
+	public final fun getPlaceholder ()Ljava/lang/String;
+	public final fun getProtected ()Z
+	public final fun getSearchTags ()Ljava/util/List;
+	public final fun getSubcategory ()Ljava/lang/String;
+	public final fun getTriggerActionOnInitialization ()Z
+	public final fun getType ()Lgg/essential/vigilance/data/PropertyType;
+	public final fun setHidden (Z)V
+}
+
+public final class gg/essential/vigilance/data/PropertyAttributesExt$Companion {
+	public final fun fromPropertyAnnotation (Lgg/essential/vigilance/data/Property;)Lgg/essential/vigilance/data/PropertyAttributesExt;
+}
+
+public abstract class gg/essential/vigilance/data/PropertyCollector {
+	public fun <init> ()V
+	public final fun addProperty (Lgg/essential/vigilance/data/PropertyData;)V
+	protected abstract fun collectProperties (Lgg/essential/vigilance/Vigilant;)Ljava/util/List;
+	public final fun getProperties ()Ljava/util/List;
+	public final fun initialize (Lgg/essential/vigilance/Vigilant;)V
+}
+
+public final class gg/essential/vigilance/data/PropertyData {
+	public static final field Companion Lgg/essential/vigilance/data/PropertyData$Companion;
+	public fun <init> (Lgg/essential/vigilance/data/PropertyAttributes;Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/Vigilant;)V
+	public fun <init> (Lgg/essential/vigilance/data/PropertyAttributesExt;Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/Vigilant;)V
+	public final fun component1 ()Lgg/essential/vigilance/data/PropertyAttributes;
+	public final fun component2 ()Lgg/essential/vigilance/data/PropertyValue;
+	public final fun component3 ()Lgg/essential/vigilance/Vigilant;
+	public final fun copy (Lgg/essential/vigilance/data/PropertyAttributes;Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/Vigilant;)Lgg/essential/vigilance/data/PropertyData;
+	public static synthetic fun copy$default (Lgg/essential/vigilance/data/PropertyData;Lgg/essential/vigilance/data/PropertyAttributes;Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/Vigilant;ILjava/lang/Object;)Lgg/essential/vigilance/data/PropertyData;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAction ()Lkotlin/jvm/functions/Function1;
+	public final fun getAs (Ljava/lang/Class;)Ljava/lang/Object;
+	public final fun getAsAny ()Ljava/lang/Object;
+	public final fun getAsBoolean ()Z
+	public final fun getAttributes ()Lgg/essential/vigilance/data/PropertyAttributes;
+	public final fun getAttributesExt ()Lgg/essential/vigilance/data/PropertyAttributesExt;
+	public final fun getDataType ()Lgg/essential/vigilance/data/PropertyType;
+	public final fun getDependsOn ()Lgg/essential/vigilance/data/PropertyData;
+	public final fun getHasDependants ()Z
+	public final fun getInstance ()Lgg/essential/vigilance/Vigilant;
+	public final fun getValue ()Lgg/essential/vigilance/data/PropertyValue;
+	public fun hashCode ()I
+	public final fun isHidden ()Z
+	public final fun setAction (Lkotlin/jvm/functions/Function1;)V
+	public final fun setCallbackConsumer (Ljava/util/function/Consumer;)V
+	public final fun setDependsOn (Lgg/essential/vigilance/data/PropertyData;)V
+	public final fun setHasDependants (Z)V
+	public final fun setValue (Ljava/lang/Object;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class gg/essential/vigilance/data/PropertyData$Companion {
+	public final fun fromField (Lgg/essential/vigilance/data/Property;Ljava/lang/reflect/Field;Lgg/essential/vigilance/Vigilant;)Lgg/essential/vigilance/data/PropertyData;
+	public final fun fromField (Lgg/essential/vigilance/data/PropertyAttributes;Ljava/lang/reflect/Field;Lgg/essential/vigilance/Vigilant;)Lgg/essential/vigilance/data/PropertyData;
+	public final fun fromMethod (Lgg/essential/vigilance/data/Property;Ljava/lang/reflect/Method;Lgg/essential/vigilance/Vigilant;)Lgg/essential/vigilance/data/PropertyData;
+	public final fun withValue (Lgg/essential/vigilance/data/Property;Ljava/lang/Object;Lgg/essential/vigilance/Vigilant;)Lgg/essential/vigilance/data/PropertyData;
+}
+
+public final class gg/essential/vigilance/data/PropertyItem : gg/essential/vigilance/data/CategoryItem {
+	public fun <init> (Lgg/essential/vigilance/data/PropertyData;Ljava/lang/String;)V
+	public final fun getData ()Lgg/essential/vigilance/data/PropertyData;
+	public final fun getSubcategory ()Ljava/lang/String;
+	public fun toSettingsObject ()Lgg/essential/vigilance/gui/Setting;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class gg/essential/vigilance/data/PropertyKt {
+	public static final fun fullPropertyPath (Lgg/essential/vigilance/data/PropertyAttributes;)Ljava/lang/String;
+	public static final fun fullPropertyPath (Lgg/essential/vigilance/data/PropertyAttributesExt;)Ljava/lang/String;
+	public static final fun toPropertyAttributes (Lgg/essential/vigilance/data/PropertyAttributesExt;)Lgg/essential/vigilance/data/PropertyAttributes;
+}
+
+public abstract class gg/essential/vigilance/data/PropertyType : java/lang/Enum {
+	public static final field BUTTON Lgg/essential/vigilance/data/PropertyType;
+	public static final field CHECKBOX Lgg/essential/vigilance/data/PropertyType;
+	public static final field COLOR Lgg/essential/vigilance/data/PropertyType;
+	public static final field DECIMAL_SLIDER Lgg/essential/vigilance/data/PropertyType;
+	public static final field NUMBER Lgg/essential/vigilance/data/PropertyType;
+	public static final field PARAGRAPH Lgg/essential/vigilance/data/PropertyType;
+	public static final field PERCENT_SLIDER Lgg/essential/vigilance/data/PropertyType;
+	public static final field SELECTOR Lgg/essential/vigilance/data/PropertyType;
+	public static final field SLIDER Lgg/essential/vigilance/data/PropertyType;
+	public static final field SWITCH Lgg/essential/vigilance/data/PropertyType;
+	public static final field TEXT Lgg/essential/vigilance/data/PropertyType;
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public abstract fun isFieldValid (Ljava/lang/reflect/Field;)Z
+	public static fun valueOf (Ljava/lang/String;)Lgg/essential/vigilance/data/PropertyType;
+	public static fun values ()[Lgg/essential/vigilance/data/PropertyType;
+}
+
+public abstract class gg/essential/vigilance/data/PropertyValue {
+	public fun <init> ()V
+	public final fun getInitialized ()Z
+	public abstract fun getValue (Lgg/essential/vigilance/Vigilant;)Ljava/lang/Object;
+	public fun getWriteDataToFile ()Z
+	public final fun setInitialized (Z)V
+	public abstract fun setValue (Ljava/lang/Object;Lgg/essential/vigilance/Vigilant;)V
+}
+
+public class gg/essential/vigilance/data/SortingBehavior {
+	public fun <init> ()V
+	public fun getCategoryComparator ()Ljava/util/Comparator;
+	public fun getPropertyComparator ()Ljava/util/Comparator;
+	public fun getSubcategoryComparator ()Ljava/util/Comparator;
+}
+
+public final class gg/essential/vigilance/data/ValueBackedPropertyValue : gg/essential/vigilance/data/PropertyValue {
+	public fun <init> (Ljava/lang/Object;)V
+	public fun getValue (Lgg/essential/vigilance/Vigilant;)Ljava/lang/Object;
+	public fun setValue (Ljava/lang/Object;Lgg/essential/vigilance/Vigilant;)V
+}
+
+public abstract class gg/essential/vigilance/gui/Bar : gg/essential/elementa/components/UIBlock {
+	public fun <init> ()V
+	protected final fun makeIcon (Lgg/essential/elementa/components/UIImage;II)Lgg/essential/elementa/UIComponent;
+	public fun onHide ()V
+	public fun onShow ()V
+}
+
+public final class gg/essential/vigilance/gui/CategoryLabel : gg/essential/elementa/components/UIContainer {
+	public fun <init> (Lgg/essential/vigilance/gui/SettingsGui;Lgg/essential/vigilance/data/Category;)V
+	public final fun deselect ()V
+	public final fun isSelected ()Z
+	public final fun select ()V
+	public final fun setSelected (Z)V
+}
+
+public final class gg/essential/vigilance/gui/DataBackedSetting : gg/essential/vigilance/gui/Setting {
+	public static final field Companion Lgg/essential/vigilance/gui/DataBackedSetting$Companion;
+	public static final field INNER_PADDING F
+	public fun <init> (Lgg/essential/vigilance/data/PropertyData;Lgg/essential/vigilance/gui/settings/SettingComponent;)V
+	public fun closePopups (Z)V
+	public final fun hideMaybe ()V
+}
+
+public final class gg/essential/vigilance/gui/DataBackedSetting$Companion {
+}
+
+public final class gg/essential/vigilance/gui/Divider : gg/essential/vigilance/gui/Setting {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun getName ()Ljava/lang/String;
+	public final fun hideMaybe (Z)V
+}
+
+public final class gg/essential/vigilance/gui/ExpandingClickEffect : gg/essential/elementa/effects/Effect {
+	public static final field Companion Lgg/essential/vigilance/gui/ExpandingClickEffect$Companion;
+	public fun <init> (Ljava/awt/Color;)V
+	public fun <init> (Ljava/awt/Color;F)V
+	public fun <init> (Ljava/awt/Color;FLgg/essential/elementa/UIComponent;)V
+	public synthetic fun <init> (Ljava/awt/Color;FLgg/essential/elementa/UIComponent;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun animationFrame ()V
+	public fun beforeDraw (Lgg/essential/universal/UMatrixStack;)V
+	public fun setup ()V
+}
+
+public final class gg/essential/vigilance/gui/ExpandingClickEffect$Companion {
+}
+
+public final class gg/essential/vigilance/gui/ExpandingClickEffect$State : java/lang/Enum {
+	public static final field Expanded Lgg/essential/vigilance/gui/ExpandingClickEffect$State;
+	public static final field Expanding Lgg/essential/vigilance/gui/ExpandingClickEffect$State;
+	public static final field NotActive Lgg/essential/vigilance/gui/ExpandingClickEffect$State;
+	public static fun valueOf (Ljava/lang/String;)Lgg/essential/vigilance/gui/ExpandingClickEffect$State;
+	public static fun values ()[Lgg/essential/vigilance/gui/ExpandingClickEffect$State;
+}
+
+public final class gg/essential/vigilance/gui/GradientBlock : gg/essential/elementa/components/UIBlock {
+	public static final field Companion Lgg/essential/vigilance/gui/GradientBlock$Companion;
+	public fun <init> (Ljava/awt/Color;Ljava/awt/Color;Lgg/essential/vigilance/gui/GradientBlock$GradientDirection;)V
+	public synthetic fun <init> (Ljava/awt/Color;Ljava/awt/Color;Lgg/essential/vigilance/gui/GradientBlock$GradientDirection;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun draw (Lgg/essential/universal/UMatrixStack;)V
+	public final fun getDirection ()Lgg/essential/vigilance/gui/GradientBlock$GradientDirection;
+	public final fun getEndColor (Ljava/awt/Color;)Ljava/awt/Color;
+	public final fun getStartColor (Ljava/awt/Color;)Ljava/awt/Color;
+	public final fun setDirection (Lgg/essential/vigilance/gui/GradientBlock$GradientDirection;)Lgg/essential/vigilance/gui/GradientBlock;
+	public final fun setEndColor (Ljava/awt/Color;)Lgg/essential/vigilance/gui/GradientBlock;
+	public final fun setStartColor (Ljava/awt/Color;)Lgg/essential/vigilance/gui/GradientBlock;
+}
+
+public final class gg/essential/vigilance/gui/GradientBlock$Companion {
+	public final fun drawGradientRect (IIIILjava/awt/Color;Ljava/awt/Color;Lgg/essential/vigilance/gui/GradientBlock$GradientDirection;)V
+}
+
+public final class gg/essential/vigilance/gui/GradientBlock$GradientDirection : java/lang/Enum {
+	public static final field BottomToTop Lgg/essential/vigilance/gui/GradientBlock$GradientDirection;
+	public static final field LeftToRight Lgg/essential/vigilance/gui/GradientBlock$GradientDirection;
+	public static final field RightToLeft Lgg/essential/vigilance/gui/GradientBlock$GradientDirection;
+	public static final field TopToBottom Lgg/essential/vigilance/gui/GradientBlock$GradientDirection;
+	public static fun valueOf (Ljava/lang/String;)Lgg/essential/vigilance/gui/GradientBlock$GradientDirection;
+	public static fun values ()[Lgg/essential/vigilance/gui/GradientBlock$GradientDirection;
+}
+
+public abstract class gg/essential/vigilance/gui/Setting : gg/essential/elementa/components/UIContainer {
+	public fun <init> ()V
+	public fun closePopups (Z)V
+	public static synthetic fun closePopups$default (Lgg/essential/vigilance/gui/Setting;ZILjava/lang/Object;)V
+}
+
+public final class gg/essential/vigilance/gui/SettingsCategory : gg/essential/elementa/components/UIContainer {
+	public fun <init> (Lgg/essential/vigilance/data/Category;)V
+	public final fun closePopups ()V
+	public final fun scrollToTop ()V
+}
+
+public final class gg/essential/vigilance/gui/SettingsGui : gg/essential/elementa/WindowScreen {
+	public static final field Companion Lgg/essential/vigilance/gui/SettingsGui$Companion;
+	public static final field animTime F
+	public fun <init> (Lgg/essential/vigilance/Vigilant;)V
+	public final fun selectCategory (Lgg/essential/vigilance/data/Category;)V
+	public fun updateGuiScale ()V
+}
+
+public final class gg/essential/vigilance/gui/SettingsGui$Companion {
+}
+
+public final class gg/essential/vigilance/gui/SettingsTitleBar : gg/essential/elementa/components/UIContainer {
+	public fun <init> (Lgg/essential/vigilance/gui/SettingsGui;Lgg/essential/vigilance/Vigilant;Lgg/essential/elementa/components/Window;)V
+}
+
+public final class gg/essential/vigilance/gui/VigilancePalette {
+	public static final field INSTANCE Lgg/essential/vigilance/gui/VigilancePalette;
+	public final fun getAccent ()Ljava/awt/Color;
+	public final fun getBackground ()Ljava/awt/Color;
+	public final fun getBrightDivider ()Ljava/awt/Color;
+	public final fun getBrightHighlight ()Ljava/awt/Color;
+	public final fun getBrightText ()Ljava/awt/Color;
+	public final fun getDarkBackground ()Ljava/awt/Color;
+	public final fun getDarkDivider ()Ljava/awt/Color;
+	public final fun getDarkHighlight ()Ljava/awt/Color;
+	public final fun getDarkText ()Ljava/awt/Color;
+	public final fun getDisabled ()Ljava/awt/Color;
+	public final fun getDivider ()Ljava/awt/Color;
+	public final fun getHighlight ()Ljava/awt/Color;
+	public final fun getLightBackground ()Ljava/awt/Color;
+	public final fun getMidText ()Ljava/awt/Color;
+	public final fun getModalBackground ()Ljava/awt/Color;
+	public final fun getOutline ()Ljava/awt/Color;
+	public final fun getScrollBar ()Ljava/awt/Color;
+	public final fun getSearchBarBackground ()Ljava/awt/Color;
+	public final fun getSuccess ()Ljava/awt/Color;
+	public final fun getTransparent ()Ljava/awt/Color;
+	public final fun getWarning ()Ljava/awt/Color;
+}
+
+public abstract class gg/essential/vigilance/gui/settings/AbstractSliderComponent : gg/essential/vigilance/gui/settings/SettingComponent {
+	public fun <init> ()V
+	protected abstract fun getSlider ()Lgg/essential/vigilance/gui/settings/Slider;
+	public final fun incrementBy (F)V
+	public fun setupParentListeners (Lgg/essential/elementa/UIComponent;)V
+	protected final fun sliderInit ()V
+}
+
+public final class gg/essential/vigilance/gui/settings/ButtonComponent : gg/essential/vigilance/gui/settings/SettingComponent {
+	public static final field Companion Lgg/essential/vigilance/gui/settings/ButtonComponent$Companion;
+	public fun <init> (Ljava/lang/String;Lgg/essential/vigilance/data/PropertyData;)V
+	public synthetic fun <init> (Ljava/lang/String;Lgg/essential/vigilance/data/PropertyData;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;)V
+	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun bindText (Lgg/essential/elementa/state/State;)Lgg/essential/vigilance/gui/settings/ButtonComponent;
+	public final fun getText ()Ljava/lang/String;
+	public final fun setText (Ljava/lang/String;)Lgg/essential/vigilance/gui/settings/ButtonComponent;
+}
+
+public final class gg/essential/vigilance/gui/settings/ButtonComponent$Companion {
+}
+
+public final class gg/essential/vigilance/gui/settings/CheckboxComponent : gg/essential/vigilance/gui/settings/SettingComponent {
+	public fun <init> (Z)V
+	public final fun getChecked ()Z
+	public final fun setChecked (Z)V
+}
+
+public final class gg/essential/vigilance/gui/settings/ColorComponent : gg/essential/vigilance/gui/settings/SettingComponent {
+	public fun <init> (Ljava/awt/Color;Z)V
+	public fun closePopups (Z)V
+}
+
+public final class gg/essential/vigilance/gui/settings/ColorPicker : gg/essential/elementa/components/UIContainer {
+	public static final field Companion Lgg/essential/vigilance/gui/settings/ColorPicker$Companion;
+	public fun <init> (Ljava/awt/Color;Z)V
+	public final fun getCurrentColor ()Ljava/awt/Color;
+	public final fun onValueChange (Lkotlin/jvm/functions/Function1;)V
+	public final fun setAlpha (F)V
+	public final fun setHSB (FFF)V
+}
+
+public final class gg/essential/vigilance/gui/settings/ColorPicker$Companion {
+}
+
+public final class gg/essential/vigilance/gui/settings/DecimalSliderComponent : gg/essential/vigilance/gui/settings/AbstractSliderComponent {
+	public fun <init> (FFFI)V
+	public synthetic fun <init> (FFFIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class gg/essential/vigilance/gui/settings/DropDown : gg/essential/elementa/components/UIBlock {
+	public fun <init> (ILjava/util/List;Lgg/essential/elementa/effects/OutlineEffect;F)V
+	public synthetic fun <init> (ILjava/util/List;Lgg/essential/elementa/effects/OutlineEffect;FILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun collapse (ZZ)V
+	public static synthetic fun collapse$default (Lgg/essential/vigilance/gui/settings/DropDown;ZZILjava/lang/Object;)V
+	public final fun getValue ()I
+	public final fun onValueChange (Lkotlin/jvm/functions/Function1;)V
+	public final fun select (I)V
+}
+
+public final class gg/essential/vigilance/gui/settings/NumberComponent : gg/essential/vigilance/gui/settings/SettingComponent {
+	public static final field Companion Lgg/essential/vigilance/gui/settings/NumberComponent$Companion;
+	public fun <init> (IIII)V
+	public final fun decrement ()V
+	public final fun increment ()V
+}
+
+public final class gg/essential/vigilance/gui/settings/NumberComponent$Companion {
+}
+
+public final class gg/essential/vigilance/gui/settings/PercentSliderComponent : gg/essential/vigilance/gui/settings/AbstractSliderComponent {
+	public fun <init> (F)V
+}
+
+public final class gg/essential/vigilance/gui/settings/SelectorComponent : gg/essential/vigilance/gui/settings/SettingComponent {
+	public fun <init> (ILjava/util/List;)V
+	public fun closePopups (Z)V
+}
+
+public abstract class gg/essential/vigilance/gui/settings/SettingComponent : gg/essential/elementa/components/UIContainer {
+	public static final field Companion Lgg/essential/vigilance/gui/settings/SettingComponent$Companion;
+	public static final field DOWN_ARROW_PNG Ljava/lang/String;
+	public static final field UP_ARROW_PNG Ljava/lang/String;
+	public fun <init> ()V
+	public final fun changeValue (Ljava/lang/Object;Z)V
+	public static synthetic fun changeValue$default (Lgg/essential/vigilance/gui/settings/SettingComponent;Ljava/lang/Object;ZILjava/lang/Object;)V
+	public fun closePopups (Z)V
+	public static synthetic fun closePopups$default (Lgg/essential/vigilance/gui/settings/SettingComponent;ZILjava/lang/Object;)V
+	public final fun onValueChange (Lkotlin/jvm/functions/Function1;)V
+	public fun setupParentListeners (Lgg/essential/elementa/UIComponent;)V
+}
+
+public final class gg/essential/vigilance/gui/settings/SettingComponent$Companion {
+}
+
+public final class gg/essential/vigilance/gui/settings/Slider : gg/essential/elementa/components/UIContainer {
+	public fun <init> (F)V
+	public final fun getCurrentPercentage ()F
+	public final fun getGrabBox ()Lgg/essential/elementa/components/UIBlock;
+	public final fun onValueChange (Lkotlin/jvm/functions/Function1;)V
+	public final fun setCurrentPercentage (FZ)V
+	public static synthetic fun setCurrentPercentage$default (Lgg/essential/vigilance/gui/settings/Slider;FZILjava/lang/Object;)V
+}
+
+public final class gg/essential/vigilance/gui/settings/SliderComponent : gg/essential/vigilance/gui/settings/AbstractSliderComponent {
+	public fun <init> (III)V
+}
+
+public final class gg/essential/vigilance/gui/settings/SwitchComponent : gg/essential/vigilance/gui/settings/SettingComponent {
+	public fun <init> (Z)V
+}
+
+public final class gg/essential/vigilance/gui/settings/TextComponent : gg/essential/vigilance/gui/settings/SettingComponent {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;ZZ)V
+	public fun animationFrame ()V
+	public fun closePopups (Z)V
+}
+
+public final class gg/essential/vigilance/utils/ExtensionsKt {
+	public static final fun onLeftClick (Lgg/essential/elementa/UIComponent;Lkotlin/jvm/functions/Function2;)Lgg/essential/elementa/UIComponent;
+}
+

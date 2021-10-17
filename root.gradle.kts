@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm") version "1.5.31" apply false
     id("fabric-loom") version "0.8-SNAPSHOT" apply false
     id("com.replaymod.preprocess") version "ff216cd"
+    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.7.1"
 }
 
 version = determineVersion()
@@ -26,6 +27,30 @@ preprocess {
     forge11602.link(forge11502)
     forge11502.link(forge11202, file("versions/1.15.2-1.12.2.txt"))
     forge11202.link(forge10809, file("versions/1.12.2-1.8.9.txt"))
+}
+
+apiValidation {
+    ignoredPackages.add("gg.essential.vigilance.example")
+}
+
+subprojects {
+    val rootApiDir = rootProject.file("api")
+    val projectApiDir = project.file("api").also { it.mkdirs() }
+    val copyApiDefinition by tasks.registering(Sync::class) {
+        from(rootApiDir)
+        into(projectApiDir)
+        rename { "${project.name}.api" }
+    }
+    tasks.withType<kotlinx.validation.ApiCompareCompareTask> {
+        dependsOn(copyApiDefinition)
+        this.projectApiDir = projectApiDir
+    }
+    afterEvaluate {
+        tasks.named<Sync>("apiDump") {
+            into(rootApiDir)
+            rename { "Vigilance.api" }
+        }
+    }
 }
 
 fun determineVersion(): String {

@@ -155,7 +155,7 @@ data class PropertyAttributes(
     }
 }
 
-class PropertyAttributesExt @JvmOverloads constructor(
+class PropertyAttributesExt(
     val type: PropertyType,
     val name: String,
     val category: String,
@@ -240,6 +240,30 @@ class PropertyAttributesExt @JvmOverloads constructor(
         listOf()
     )
 
+    @Deprecated("", level = DeprecationLevel.HIDDEN)
+    @JvmOverloads
+    constructor(
+        type: PropertyType,
+        name: String,
+        category: String,
+        subcategory: String = "",
+        description: String = "",
+        min: Int = 0,
+        max: Int = 0,
+        minF: Float = 0f,
+        maxF: Float = 0f,
+        decimalPlaces: Int = 1,
+        increment: Int = 1,
+        options: List<String> = listOf(),
+        allowAlpha: Boolean = true,
+        placeholder: String = "",
+        protected: Boolean = false,
+        triggerActionOnInitialization: Boolean = true,
+        hidden: Boolean = false,
+        searchTags: List<String> = listOf(),
+    ) : this(type, name, category, subcategory, description, min, max, minF, maxF, decimalPlaces, increment, options, allowAlpha, placeholder, protected, triggerActionOnInitialization, hidden, searchTags, name)
+
+
     internal val localizedName get() = I18n.format(i18nName)
 
     internal val localizedCategory get() = I18n.format(i18nCategory)
@@ -320,5 +344,8 @@ fun PropertyAttributesExt.fullPropertyPath(): String {
 
     return sb.toString()
 }
+
+@Deprecated("", ReplaceWith("PropertyAttributesExt(this).fullPropertyPath()", "gg.essential.vigilance.data.PropertyAttributesExt"))
+fun PropertyAttributes.fullPropertyPath(): String = PropertyAttributesExt(this).fullPropertyPath()
 
 private fun String.toPropertyPath() = this.lowercase(Locale.ENGLISH).replace(" ", "_")
