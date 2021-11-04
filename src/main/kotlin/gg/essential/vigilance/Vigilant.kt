@@ -271,13 +271,13 @@ abstract class Vigilant @JvmOverloads constructor(
     }
 
     private fun List<PropertyData>.splitBySubcategory(): List<CategoryItem> {
-        val items = this.groupBy { it.attributesExt.subcategory }.entries.sortedWith(sortingBehavior.getSubcategoryComparator())
+        val items = this.groupBy { it.attributesExt.localizedSubcategory }.entries.sortedWith(sortingBehavior.getSubcategoryComparator())
         val withDividers = mutableListOf<CategoryItem>()
 
         items.forEachIndexed { index, (subcategoryName, listOfProperties) ->
             val subcategoryInfo = categoryDescription[listOfProperties[0].attributesExt.category]?.subcategoryDescriptions?.get(subcategoryName)?.let { I18n.format(it) }
             if (index > 0 || subcategoryName.isNotBlank() || !subcategoryInfo.isNullOrBlank()) {
-                withDividers.add(DividerItem(I18n.format(subcategoryName), subcategoryInfo))
+                withDividers.add(DividerItem(subcategoryName, subcategoryInfo))
             }
             withDividers.addAll(listOfProperties.sortedWith(sortingBehavior.getPropertyComparator()).map { PropertyItem(it, it.attributesExt.localizedSubcategory) })
         }
