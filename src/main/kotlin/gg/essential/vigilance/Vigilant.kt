@@ -46,7 +46,10 @@ abstract class Vigilant @JvmOverloads constructor(
      */
     fun initialize() {
         Vigilance.initialize()
+        loadData()
+    }
 
+    fun loadData() {
         try {
             readData()
         } catch (e: Throwable) {
