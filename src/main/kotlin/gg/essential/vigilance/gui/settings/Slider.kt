@@ -21,7 +21,7 @@ class Slider(initialValue: Float) : UIContainer() {
         x = basicXConstraint {
             this@Slider.getLeft() + 1f + this@Slider.getHeight() * 0.75f
         }
-        y = 1.pixels()
+        y = CenterConstraint()
         width = basicWidthConstraint {
             this@Slider.getWidth() - 2f - this@Slider.getHeight() * 1.5f
         }
