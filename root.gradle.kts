@@ -13,6 +13,7 @@ version = determineVersion()
 configurations.register("compileClasspath")
 
 preprocess {
+    val forge11800 = createNode("1.18-forge", 11800, "srg")
     val fabric11800 = createNode("1.18-fabric", 11800, "yarn")
     val forge11701 = createNode("1.17.1-forge", 11701, "yarn")
     val fabric11701 = createNode("1.17.1-fabric", 11701, "yarn")
@@ -22,6 +23,7 @@ preprocess {
     val forge11202 = createNode("1.12.2", 11202, "srg")
     val forge10809 = createNode("1.8.9", 10809, "srg")
 
+    forge11800.link(fabric11800,file("versions/1.18forge-1.18fabric.txt"))
     fabric11800.link(fabric11701)
     forge11701.link(fabric11701)
     fabric11701.link(fabric11602)
