@@ -1,7 +1,6 @@
 package gg.essential.vigilance.gui.settings
 
 import gg.essential.elementa.UIComponent
-import gg.essential.elementa.components.SVGComponent
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIImage
 import gg.essential.elementa.components.input.UITextInput
@@ -105,33 +104,26 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         }
 
         currentColorHex.onActivate { color ->
-            currentColorHex.setActive(false)
-
-            if ((allowAlpha && color.length != 9) || (!allowAlpha && color.length != 7)) {
-                currentColorHex.setText(getColorString(colorPicker.getCurrentColor()))
-                return@onActivate
+            // remove the leading # and validate that all chars are valid hex chars
+            val noHash = color.replace("#", "").let { it.toIntOrNull(16)?.run { it } ?: "make this fail length checks" }
+            // make sure the hex string is formatted how we want it
+            val formattedColor = when (noHash.length) {
+                3 -> noHash.asIterable().joinToString("") { "$it$it" } + "ff"
+                4 -> noHash.asIterable().joinToString("") { "$it$it" }
+                6 -> "${noHash}ff"
+                8 -> noHash
+                else -> "%06x".format(colorPicker.getCurrentColor().rgb and 0xffffff) + "%02x".format(colorPicker.getCurrentColor().alpha)
             }
-
-            val hex = color.substring(if (allowAlpha) 3 else 1).toIntOrNull(16)
-
-            if (hex == null) {
-                currentColorHex.setText(getColorString(colorPicker.getCurrentColor()))
-                return@onActivate
-            }
-
+            // set alpha if we need to
             if (allowAlpha) {
-                val alpha = color.substring(1, 3).toIntOrNull(16)
-
-                if (alpha == null) {
-                    currentColorHex.setText(getColorString(colorPicker.getCurrentColor()))
-                    return@onActivate
-                }
-
-                colorPicker.setAlpha(alpha / 255f)
+                colorPicker.setAlpha(formattedColor.takeLast(2).toInt(16) / 255f)
             }
-
+            // parse hex into hsb values, removing alpha values if they're there
+            val hex = formattedColor.dropLast(2).toInt(16)
             val hsb = Color.RGBtoHSB((hex shr 16) and 0xff, (hex shr 8) and 0xff, hex and 0xff, null)
             colorPicker.setHSB(hsb[0], hsb[1], hsb[2])
+            // update the text if it's currently a bit wonky
+            currentColorHex.setText(getColorString(colorPicker.getCurrentColor()))
         }
 
         colorPicker.onValueChange { color ->
