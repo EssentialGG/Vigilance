@@ -30,7 +30,4 @@ run
 Thumbs.db
 
 versions/*/tmp.srg
-versions
-!versions/1.12.2-1.8.9.txt
-!versions/1.15.2-1.12.2.txt
-!versions/mainProject
+versions/*/api/
