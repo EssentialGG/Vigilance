@@ -1,24 +1,20 @@
 pluginManagement {
     repositories {
-        mavenLocal()
         gradlePluginPortal()
-        jcenter()
         mavenCentral()
-        google()
-        maven("https://jitpack.io")
         maven("https://maven.fabricmc.net")
+        maven("https://maven.architectury.dev/")
+        maven("https://maven.minecraftforge.net")
+        maven("https://repo.essential.gg/repository/maven-public")
     }
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "com.replaymod.preprocess" -> {
-                    useModule("com.github.replaymod:preprocessor:${requested.version}")
-                }
-            }
-        }
+    plugins {
+        val egtVersion = "0.1.1"
+        id("gg.essential.multi-version.root") version egtVersion
+        id("gg.essential.multi-version.api-validation") version egtVersion
     }
 }
 
+rootProject.name = "Vigilance"
 rootProject.buildFileName = "root.gradle.kts"
 
 listOf(
@@ -35,6 +31,6 @@ listOf(
     include(":$version")
     project(":$version").apply {
         projectDir = file("versions/$version")
-        buildFileName = "../../build.gradle"
+        buildFileName = "../../build.gradle.kts"
     }
 }
