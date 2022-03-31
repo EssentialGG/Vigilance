@@ -30,6 +30,7 @@ public abstract class gg/essential/vigilance/Vigilant {
 	public final fun hidePropertyIf (Ljava/lang/reflect/Field;Z)V
 	public final fun hidePropertyIf (Lkotlin/reflect/KProperty;Lkotlin/jvm/functions/Function0;)V
 	public final fun initialize ()V
+	public final fun loadData ()V
 	public final fun markDirty ()V
 	public final fun preload ()V
 	public final fun registerListener (Ljava/lang/String;Ljava/util/function/Consumer;)V
@@ -325,7 +326,7 @@ public final class gg/essential/vigilance/data/PropertyKt {
 	public static final fun toPropertyAttributes (Lgg/essential/vigilance/data/PropertyAttributesExt;)Lgg/essential/vigilance/data/PropertyAttributes;
 }
 
-public abstract class gg/essential/vigilance/data/PropertyType : java/lang/Enum {
+public final class gg/essential/vigilance/data/PropertyType : java/lang/Enum {
 	public static final field BUTTON Lgg/essential/vigilance/data/PropertyType;
 	public static final field CHECKBOX Lgg/essential/vigilance/data/PropertyType;
 	public static final field COLOR Lgg/essential/vigilance/data/PropertyType;
@@ -337,8 +338,8 @@ public abstract class gg/essential/vigilance/data/PropertyType : java/lang/Enum 
 	public static final field SLIDER Lgg/essential/vigilance/data/PropertyType;
 	public static final field SWITCH Lgg/essential/vigilance/data/PropertyType;
 	public static final field TEXT Lgg/essential/vigilance/data/PropertyType;
-	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public abstract fun isFieldValid (Ljava/lang/reflect/Field;)Z
+	public final fun getType ()Ljava/lang/Class;
+	public final fun isFieldValid (Ljava/lang/reflect/Field;)Z
 	public static fun valueOf (Ljava/lang/String;)Lgg/essential/vigilance/data/PropertyType;
 	public static fun values ()[Lgg/essential/vigilance/data/PropertyType;
 }
