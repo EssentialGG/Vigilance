@@ -57,6 +57,15 @@ class PropertyItem(val data: PropertyData, val subcategory: String) : CategoryIt
                 protected = false
             )
             PropertyType.BUTTON -> ButtonComponent(data.attributesExt.placeholder, data)
+            PropertyType.CUSTOM -> {
+                val propertyInfoClass = data.attributesExt.customPropertyInfo
+                propertyInfoClass
+                    .constructors
+                    .find { it.parameters.isEmpty() }
+                    ?.call()
+                    ?.createSettingComponent(data.getValue())
+                    ?: error("PropertyInfo class $propertyInfoClass has no zero-arg constructor!")
+            }
         }
 
         return DataBackedSetting(data, component)

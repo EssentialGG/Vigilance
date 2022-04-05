@@ -2,6 +2,7 @@ package gg.essential.vigilance.data
 
 import net.minecraft.client.resources.I18n
 import java.util.*
+import kotlin.reflect.KClass
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD, AnnotationTarget.FUNCTION)
@@ -70,7 +71,12 @@ annotation class Property(
     /**
      * Extra search tags to help lost users
      */
-    val searchTags: Array<String> = []
+    val searchTags: Array<String> = [],
+
+    /**
+     * Reserved for [PropertyType.CUSTOM]. Denotes a class which defines the custom property's behaviour and UI.
+     */
+    val customPropertyInfo: KClass<out PropertyInfo> = Nothing::class,
 )
 
 @Deprecated("Use PropertyAttributesExt Instead", ReplaceWith("PropertyAttributesExt", "gg.essential.vigilance.data.Property.PropertyAttributesExt"))
@@ -217,7 +223,12 @@ class PropertyAttributesExt(
 
     private val i18nName: String = name,
     private val i18nCategory: String = category,
-    private val i18nSubcategory: String = subcategory
+    private val i18nSubcategory: String = subcategory,
+
+    /**
+     * Reserved for [PropertyType.CUSTOM]. Denotes a class which defines the custom property's behaviour and UI.
+     */
+    val customPropertyInfo: KClass<out PropertyInfo> = Nothing::class,
 ) {
     constructor(propertyAttributes: PropertyAttributes) : this(
         propertyAttributes.type,
@@ -297,7 +308,8 @@ class PropertyAttributesExt(
                 property.safeGet(emptyArray()) { searchTags }.toList(),
                 property.safeGet("") { i18nName }.ifEmpty { property.name },
                 property.safeGet("") { i18nCategory }.ifEmpty { property.category },
-                property.safeGet("") { i18nSubcategory }.ifEmpty { property.subcategory }
+                property.safeGet("") { i18nSubcategory }.ifEmpty { property.subcategory },
+                property.safeGet(Nothing::class) { customPropertyInfo },
             )
         }
     }

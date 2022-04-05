@@ -14,7 +14,13 @@ enum class PropertyType(val type: Class<*>) {
     NUMBER(Int::class.java),
     COLOR(Color::class.java),
     SELECTOR(Int::class.java),
-    BUTTON(Nothing::class.java);
+    BUTTON(Nothing::class.java),
+    CUSTOM(Any::class.java) {
+        override fun isFieldValid(field: Field): Boolean {
+            val propertyAnnotation = field.getAnnotation(Property::class.java)
+            return propertyAnnotation.customPropertyInfo != Nothing::class
+        }
+    };
 
-    fun isFieldValid(field: Field): Boolean = field.type == type
+    open fun isFieldValid(field: Field): Boolean = field.type == type
 }
