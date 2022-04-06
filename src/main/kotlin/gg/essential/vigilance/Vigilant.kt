@@ -10,6 +10,7 @@ import java.io.File
 import java.lang.reflect.Field
 import java.util.function.Consumer
 import kotlin.concurrent.fixedRateTimer
+import kotlin.reflect.KClass
 import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KProperty
 import kotlin.reflect.jvm.javaField
@@ -341,7 +342,8 @@ abstract class Vigilant @JvmOverloads constructor(
             placeholder: String = "",
             triggerActionOnInitialization: Boolean = true,
             hidden: Boolean = false,
-            action: ((T) -> Unit)? = null
+            action: ((T) -> Unit)? = null,
+            customPropertyInfo: KClass<out PropertyInfo> = Nothing::class,
         ) {
             val data = PropertyData(
                 PropertyAttributesExt(
@@ -361,6 +363,7 @@ abstract class Vigilant @JvmOverloads constructor(
                     placeholder = placeholder,
                     triggerActionOnInitialization = triggerActionOnInitialization,
                     hidden = hidden,
+                    customPropertyInfo = customPropertyInfo,
                 ),
                 value,
                 instance
@@ -389,7 +392,8 @@ abstract class Vigilant @JvmOverloads constructor(
             placeholder: String = "",
             triggerActionOnInitialization: Boolean = true,
             hidden: Boolean = false,
-            action: ((T) -> Unit)? = null
+            action: ((T) -> Unit)? = null,
+            customPropertyInfo: KClass<out PropertyInfo> = Nothing::class,
         ) {
             property(
                 KPropertyBackedPropertyValue(field),
@@ -407,7 +411,8 @@ abstract class Vigilant @JvmOverloads constructor(
                 placeholder = placeholder,
                 triggerActionOnInitialization = triggerActionOnInitialization,
                 hidden = hidden,
-                action = action
+                action = action,
+                customPropertyInfo = customPropertyInfo,
             )
         }
 
@@ -640,6 +645,27 @@ abstract class Vigilant @JvmOverloads constructor(
                 triggerActionOnInitialization = triggerActionOnInitialization,
                 hidden = hidden,
                 action = null
+            )
+        }
+
+        fun custom(
+            field: KMutableProperty0<out Any?>,
+            customPropertyInfo: KClass<out PropertyInfo>,
+            name: String = field.name,
+            description: String = "",
+            triggerActionOnInitialization: Boolean = true,
+            hidden: Boolean = false,
+            action: ((Any?) -> Unit)? = null
+        ) {
+            property(
+                field = field,
+                type = PropertyType.CUSTOM,
+                customPropertyInfo = customPropertyInfo,
+                name = name,
+                description = description,
+                triggerActionOnInitialization = triggerActionOnInitialization,
+                hidden = hidden,
+                action = action,
             )
         }
 
