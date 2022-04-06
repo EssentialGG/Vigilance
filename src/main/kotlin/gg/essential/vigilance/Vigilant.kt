@@ -344,7 +344,7 @@ abstract class Vigilant @JvmOverloads constructor(
             action: ((T) -> Unit)? = null
         ) {
             val data = PropertyData(
-                PropertyAttributes(
+                PropertyAttributesExt(
                     type = type,
                     name = name,
                     category = category,
