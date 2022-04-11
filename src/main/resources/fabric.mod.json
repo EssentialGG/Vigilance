@@ -1,6 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "vigilance",
+  "name": "Vigilance",
   "version": "${version}",
   "environment": "client",
   "custom": {
