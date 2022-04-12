@@ -16,12 +16,17 @@ java.withSourcesJar()
 tasks.compileKotlin.setJvmDefault(if (platform.mcVersion >= 11400) "all" else "all-compatibility")
 loom.noServerRunConfigs()
 
+val internal = makeConfigurationForInternalDependencies {
+    relocate("com.electronwill.nightconfig", "gg.essential.vigilance.impl.nightconfig")
+    remapStringsIn("com.electronwill.nightconfig.core.file.FormatDetector")
+}
+
 dependencies {
-    implementation("com.electronwill.night-config:toml:3.6.0")
+    internal("com.electronwill.night-config:toml:3.6.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlin_version")
 
-    modApi("gg.essential:elementa-$platform:428") {
+    modApi("gg.essential:elementa-$platform:451") {
         exclude(module = "kotlin-reflect")
         exclude(module = "kotlin-stdlib-jdk8")
     }

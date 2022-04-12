@@ -136,11 +136,8 @@ shadowJar {
     relocate("gg.essential.vigilance", "your.package.vigilance")
     // vigilance dependencies
     relocate("gg.essential.elementa", "your.package.elementa")
-    relocate("org.electronwill.nightconfig", "your.package.nightconfig")
     // elementa dependencies
     relocate("gg.essential.universalcraft", "your.package.universalcraft")
-    relocate("org.dom4j", "your.package.dom4j")
-    relocate("org.commonmark", "your.package.commonmark")
 }
 tasks.named("reobfJar").configure { dependsOn(tasks.named("shadowJar")) }
 ```
@@ -175,11 +172,8 @@ tasks.shadowJar {
     relocate("gg.essential.vigilance", "your.package.vigilance")
     // vigilance dependencies
     relocate("gg.essential.elementa", "your.package.elementa")
-    relocate("org.electronwill.nightconfig", "your.package.nightconfig")
     // elementa dependencies
     relocate("gg.essential.universalcraft", "your.package.universalcraft")
-    relocate("org.dom4j", "your.package.dom4j")
-    relocate("org.commonmark", "your.package.commonmark")
 }
 tasks.reobfJar { dependsOn(tasks.shadowJar) }
 ```
