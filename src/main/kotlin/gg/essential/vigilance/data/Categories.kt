@@ -59,10 +59,10 @@ class PropertyItem(val data: PropertyData, val subcategory: String) : CategoryIt
             PropertyType.BUTTON -> ButtonComponent(data.attributesExt.placeholder, data)
             PropertyType.CUSTOM -> {
                 val propertyInfoClass = data.attributesExt.customPropertyInfo
-                propertyInfoClass
+                (propertyInfoClass
                     .constructors
                     .find { it.parameters.isEmpty() }
-                    ?.call()
+                    ?.newInstance() as? PropertyInfo)
                     ?.createSettingComponent(data.getValue())
                     ?: error("PropertyInfo class $propertyInfoClass has no zero-arg constructor!")
             }

@@ -18,7 +18,7 @@ enum class PropertyType(val type: Class<*>) {
     CUSTOM(Any::class.java) {
         override fun isFieldValid(field: Field): Boolean {
             val propertyAnnotation = field.getAnnotation(Property::class.java)
-            return propertyAnnotation.customPropertyInfo != Nothing::class
+            return propertyAnnotation.customPropertyInfo.java != Nothing::class.java
         }
     };
 

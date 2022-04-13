@@ -228,7 +228,7 @@ class PropertyAttributesExt(
     /**
      * Reserved for [PropertyType.CUSTOM]. Denotes a class which defines the custom property's behaviour and UI.
      */
-    val customPropertyInfo: KClass<out PropertyInfo> = Nothing::class,
+    val customPropertyInfo: Class<out PropertyInfo> = Nothing::class.java,
 ) {
     constructor(propertyAttributes: PropertyAttributes) : this(
         propertyAttributes.type,
@@ -309,7 +309,7 @@ class PropertyAttributesExt(
                 property.safeGet("") { i18nName }.ifEmpty { property.name },
                 property.safeGet("") { i18nCategory }.ifEmpty { property.category },
                 property.safeGet("") { i18nSubcategory }.ifEmpty { property.subcategory },
-                property.safeGet(Nothing::class) { customPropertyInfo },
+                property.safeGet(Nothing::class.java) { customPropertyInfo.java },
             )
         }
     }

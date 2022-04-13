@@ -363,7 +363,7 @@ abstract class Vigilant @JvmOverloads constructor(
                     placeholder = placeholder,
                     triggerActionOnInitialization = triggerActionOnInitialization,
                     hidden = hidden,
-                    customPropertyInfo = customPropertyInfo,
+                    customPropertyInfo = customPropertyInfo.java,
                 ),
                 value,
                 instance
