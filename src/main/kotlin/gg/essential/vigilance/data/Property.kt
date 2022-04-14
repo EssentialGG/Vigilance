@@ -274,6 +274,31 @@ class PropertyAttributesExt(
         searchTags: List<String> = listOf(),
     ) : this(type, name, category, subcategory, description, min, max, minF, maxF, decimalPlaces, increment, options, allowAlpha, placeholder, protected, triggerActionOnInitialization, hidden, searchTags, name)
 
+    @Deprecated("", level = DeprecationLevel.HIDDEN)
+    constructor(
+        type: PropertyType,
+        name: String,
+        category: String,
+        subcategory: String = "",
+        description: String = "",
+        min: Int = 0,
+        max: Int = 0,
+        minF: Float = 0f,
+        maxF: Float = 0f,
+        decimalPlaces: Int = 1,
+        increment: Int = 1,
+        options: List<String> = listOf(),
+        allowAlpha: Boolean = true,
+        placeholder: String = "",
+        protected: Boolean = false,
+        triggerActionOnInitialization: Boolean = true,
+        hidden: Boolean = false,
+        searchTags: List<String> = listOf(),
+        i18nName: String = name,
+        i18nCategory: String = category,
+        i18nSubcategory: String = subcategory,
+    ) : this(type, name, category, subcategory, description, min, max, minF, maxF, decimalPlaces, increment, options, allowAlpha, placeholder, protected, triggerActionOnInitialization, hidden, searchTags, i18nName, i18nCategory, i18nSubcategory)
+
 
     internal val localizedName get() = I18n.format(i18nName)
 

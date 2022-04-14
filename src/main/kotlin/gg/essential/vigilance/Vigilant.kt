@@ -343,6 +343,94 @@ abstract class Vigilant @JvmOverloads constructor(
             triggerActionOnInitialization: Boolean = true,
             hidden: Boolean = false,
             action: ((T) -> Unit)? = null,
+        ) {
+            val data = PropertyData(
+                PropertyAttributesExt(
+                    type = type,
+                    name = name,
+                    category = category,
+                    subcategory = subcategory,
+                    description = description,
+                    min = min,
+                    max = max,
+                    minF = minF,
+                    maxF = maxF,
+                    decimalPlaces = decimalPlaces,
+                    increment = increment,
+                    options = options,
+                    allowAlpha = allowAlpha,
+                    placeholder = placeholder,
+                    triggerActionOnInitialization = triggerActionOnInitialization,
+                    hidden = hidden,
+                ),
+                value,
+                instance
+            ).also { it.attributesExt.searchTags.toMutableList().addAll(searchTags) }
+
+            if (action != null) {
+                data.action = { action(it as T) }
+            }
+
+            properties.add(data)
+        }
+
+        fun <T> property(
+            field: KMutableProperty0<T>,
+            type: PropertyType,
+            name: String = field.name,
+            description: String = "",
+            min: Int = 0,
+            max: Int = 0,
+            minF: Float = 0f,
+            maxF: Float = 0f,
+            decimalPlaces: Int = 1,
+            increment: Int = 1,
+            options: List<String> = listOf(),
+            allowAlpha: Boolean = true,
+            placeholder: String = "",
+            triggerActionOnInitialization: Boolean = true,
+            hidden: Boolean = false,
+            action: ((T) -> Unit)? = null,
+        ) {
+            property(
+                KPropertyBackedPropertyValue(field),
+                type,
+                name,
+                description,
+                min = min,
+                max = max,
+                minF = minF,
+                maxF = maxF,
+                decimalPlaces = decimalPlaces,
+                increment = increment,
+                options = options,
+                allowAlpha = allowAlpha,
+                placeholder = placeholder,
+                triggerActionOnInitialization = triggerActionOnInitialization,
+                hidden = hidden,
+                action = action,
+            )
+        }
+
+        // Same as [property] but does not need to remain binary-compatible.
+        private fun <T> makeProperty(
+            value: PropertyValue,
+            type: PropertyType,
+            name: String,
+            description: String = "",
+            searchTags: List<String> = listOf(),
+            min: Int = 0,
+            max: Int = 0,
+            minF: Float = 0f,
+            maxF: Float = 0f,
+            decimalPlaces: Int = 1,
+            increment: Int = 1,
+            options: List<String> = listOf(),
+            allowAlpha: Boolean = true,
+            placeholder: String = "",
+            triggerActionOnInitialization: Boolean = true,
+            hidden: Boolean = false,
+            action: ((T) -> Unit)? = null,
             customPropertyInfo: KClass<out PropertyInfo> = Nothing::class,
         ) {
             val data = PropertyData(
@@ -376,7 +464,8 @@ abstract class Vigilant @JvmOverloads constructor(
             properties.add(data)
         }
 
-        fun <T> property(
+        // Same as [property] but does not need to remain binary-compatible.
+        private fun <T> makeProperty(
             field: KMutableProperty0<T>,
             type: PropertyType,
             name: String = field.name,
@@ -395,7 +484,7 @@ abstract class Vigilant @JvmOverloads constructor(
             action: ((T) -> Unit)? = null,
             customPropertyInfo: KClass<out PropertyInfo> = Nothing::class,
         ) {
-            property(
+            makeProperty(
                 KPropertyBackedPropertyValue(field),
                 type,
                 name,
@@ -657,7 +746,7 @@ abstract class Vigilant @JvmOverloads constructor(
             hidden: Boolean = false,
             action: ((Any?) -> Unit)? = null
         ) {
-            property(
+            makeProperty(
                 field = field,
                 type = PropertyType.CUSTOM,
                 customPropertyInfo = customPropertyInfo,
