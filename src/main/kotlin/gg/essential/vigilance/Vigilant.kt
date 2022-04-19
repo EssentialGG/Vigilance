@@ -1,9 +1,9 @@
 package gg.essential.vigilance
 
-import com.electronwill.nightconfig.core.file.FileConfig
 import gg.essential.universal.UChat
 import gg.essential.vigilance.data.*
 import gg.essential.vigilance.gui.SettingsGui
+import gg.essential.vigilance.impl.nightconfig.core.file.FileConfig
 import net.minecraft.client.resources.I18n
 import java.awt.Color
 import java.io.File
