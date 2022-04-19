@@ -344,34 +344,25 @@ abstract class Vigilant @JvmOverloads constructor(
             hidden: Boolean = false,
             action: ((T) -> Unit)? = null,
         ) {
-            val data = PropertyData(
-                PropertyAttributesExt(
-                    type = type,
-                    name = name,
-                    category = category,
-                    subcategory = subcategory,
-                    description = description,
-                    min = min,
-                    max = max,
-                    minF = minF,
-                    maxF = maxF,
-                    decimalPlaces = decimalPlaces,
-                    increment = increment,
-                    options = options,
-                    allowAlpha = allowAlpha,
-                    placeholder = placeholder,
-                    triggerActionOnInitialization = triggerActionOnInitialization,
-                    hidden = hidden,
-                ),
-                value,
-                instance
-            ).also { it.attributesExt.searchTags.toMutableList().addAll(searchTags) }
-
-            if (action != null) {
-                data.action = { action(it as T) }
-            }
-
-            properties.add(data)
+            makeProperty(
+                value = value,
+                type = type,
+                name = name,
+                description = description,
+                searchTags = searchTags,
+                min = min,
+                max = max,
+                minF = minF,
+                maxF = maxF,
+                decimalPlaces = decimalPlaces,
+                increment = increment,
+                options = options,
+                allowAlpha = allowAlpha,
+                placeholder = placeholder,
+                triggerActionOnInitialization = triggerActionOnInitialization,
+                hidden = hidden,
+                action = action,
+            )
         }
 
         fun <T> property(
