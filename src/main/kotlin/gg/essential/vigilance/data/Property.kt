@@ -2,6 +2,7 @@ package gg.essential.vigilance.data
 
 import net.minecraft.client.resources.I18n
 import java.util.*
+import kotlin.reflect.KClass
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD, AnnotationTarget.FUNCTION)
@@ -70,7 +71,12 @@ annotation class Property(
     /**
      * Extra search tags to help lost users
      */
-    val searchTags: Array<String> = []
+    val searchTags: Array<String> = [],
+
+    /**
+     * Reserved for [PropertyType.CUSTOM]. Denotes a class which defines the custom property's behaviour and UI.
+     */
+    val customPropertyInfo: KClass<out PropertyInfo> = Nothing::class,
 )
 
 @Deprecated("Use PropertyAttributesExt Instead", ReplaceWith("PropertyAttributesExt", "gg.essential.vigilance.data.Property.PropertyAttributesExt"))
@@ -217,7 +223,12 @@ class PropertyAttributesExt(
 
     private val i18nName: String = name,
     private val i18nCategory: String = category,
-    private val i18nSubcategory: String = subcategory
+    private val i18nSubcategory: String = subcategory,
+
+    /**
+     * Reserved for [PropertyType.CUSTOM]. Denotes a class which defines the custom property's behaviour and UI.
+     */
+    val customPropertyInfo: Class<out PropertyInfo> = Nothing::class.java,
 ) {
     constructor(propertyAttributes: PropertyAttributes) : this(
         propertyAttributes.type,
@@ -263,6 +274,31 @@ class PropertyAttributesExt(
         searchTags: List<String> = listOf(),
     ) : this(type, name, category, subcategory, description, min, max, minF, maxF, decimalPlaces, increment, options, allowAlpha, placeholder, protected, triggerActionOnInitialization, hidden, searchTags, name)
 
+    @Deprecated("", level = DeprecationLevel.HIDDEN)
+    constructor(
+        type: PropertyType,
+        name: String,
+        category: String,
+        subcategory: String = "",
+        description: String = "",
+        min: Int = 0,
+        max: Int = 0,
+        minF: Float = 0f,
+        maxF: Float = 0f,
+        decimalPlaces: Int = 1,
+        increment: Int = 1,
+        options: List<String> = listOf(),
+        allowAlpha: Boolean = true,
+        placeholder: String = "",
+        protected: Boolean = false,
+        triggerActionOnInitialization: Boolean = true,
+        hidden: Boolean = false,
+        searchTags: List<String> = listOf(),
+        i18nName: String = name,
+        i18nCategory: String = category,
+        i18nSubcategory: String = subcategory,
+    ) : this(type, name, category, subcategory, description, min, max, minF, maxF, decimalPlaces, increment, options, allowAlpha, placeholder, protected, triggerActionOnInitialization, hidden, searchTags, i18nName, i18nCategory, i18nSubcategory)
+
 
     internal val localizedName get() = I18n.format(i18nName)
 
@@ -297,7 +333,8 @@ class PropertyAttributesExt(
                 property.safeGet(emptyArray()) { searchTags }.toList(),
                 property.safeGet("") { i18nName }.ifEmpty { property.name },
                 property.safeGet("") { i18nCategory }.ifEmpty { property.category },
-                property.safeGet("") { i18nSubcategory }.ifEmpty { property.subcategory }
+                property.safeGet("") { i18nSubcategory }.ifEmpty { property.subcategory },
+                property.safeGet(Nothing::class.java) { customPropertyInfo.java },
             )
         }
     }

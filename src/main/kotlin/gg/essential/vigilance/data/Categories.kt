@@ -57,6 +57,13 @@ class PropertyItem(val data: PropertyData, val subcategory: String) : CategoryIt
                 protected = false
             )
             PropertyType.BUTTON -> ButtonComponent(data.attributesExt.placeholder, data)
+            PropertyType.CUSTOM -> {
+                val propertyInfoClass = data.attributesExt.customPropertyInfo
+                propertyInfoClass
+                    .getConstructor()
+                    .newInstance()
+                    .createSettingComponent(data.getValue())
+            }
         }
 
         return DataBackedSetting(data, component)
