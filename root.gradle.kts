@@ -1,10 +1,7 @@
 import gg.essential.gradle.util.*
 
 plugins {
-    kotlin("jvm") version "1.6.10" apply false
-    id("org.jetbrains.dokka") version "1.6.10" apply false
     id("gg.essential.multi-version.root")
-    id("gg.essential.multi-version.api-validation")
 }
 
 version = versionFromBuildIdAndBranch()
@@ -28,9 +25,4 @@ preprocess {
     forge11602.link(forge11502)
     forge11502.link(forge11202)
     forge11202.link(forge10809)
-}
-
-apiValidation {
-    ignoredPackages.add("gg.essential.vigilance.example")
-    nonPublicMarkers.add("org.jetbrains.annotations.ApiStatus\$Internal")
 }

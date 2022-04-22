@@ -1,3 +1,4 @@
+import gg.essential.gradle.multiversion.mergePlatformSpecifics
 import gg.essential.gradle.util.*
 
 plugins {
@@ -16,13 +17,13 @@ java.withSourcesJar()
 tasks.compileKotlin.setJvmDefault(if (platform.mcVersion >= 11400) "all" else "all-compatibility")
 loom.noServerRunConfigs()
 
-val internal = makeConfigurationForInternalDependencies {
-    relocate("com.electronwill.nightconfig", "gg.essential.vigilance.impl.nightconfig")
-    remapStringsIn("com.electronwill.nightconfig.core.file.FormatDetector")
-}
+val common by configurations.creating
+configurations.compileClasspath { extendsFrom(common) }
+configurations.runtimeClasspath { extendsFrom(common) }
 
 dependencies {
-    internal("com.electronwill.night-config:toml:3.6.0")
+    common(project(":")) { isTransitive = false }
+
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlin_version")
     compileOnly("org.jetbrains:annotations:23.0.0")
@@ -31,11 +32,6 @@ dependencies {
         exclude(module = "kotlin-reflect")
         exclude(module = "kotlin-stdlib-jdk8")
     }
-
-    testImplementation("io.mockk:mockk:1.9.3")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
-    testImplementation("io.strikt:strikt-core:0.22.1")
 
     if (platform.isFabric) {
         val fabricApiVersion = when(platform.mcVersion) {
@@ -66,6 +62,16 @@ dependencies {
 }
 
 tasks.jar {
+    dependsOn(common)
+    from({ common.map { zipTree(it) } })
+    mergePlatformSpecifics()
+
+    // We build the common module with legacy default impl for backwards compatibility, but we only need those for
+    // 1.12.2 and older. Newer versions have never shipped with legacy default impl.
+    if (platform.mcVersion >= 11400) {
+        exclude("**/*\$DefaultImpls.class")
+    }
+
     exclude("gg/essential/vigilance/example/**")
     exclude("META-INF/mods.toml")
     exclude("mcmod.info")
