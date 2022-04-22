@@ -1,13 +1,10 @@
 package gg.essential.vigilance.example
 
-import gg.essential.elementa.effects.StencilEffect
-import gg.essential.universal.UMinecraft
 import gg.essential.universal.UScreen
 import gg.essential.vigilance.Vigilance
 
 //#if FORGE
 //#if MC<=11202
-import net.minecraftforge.client.ClientCommandHandler
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.Mod.EventHandler
@@ -19,18 +16,11 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 //$$ import net.minecraftforge.event.TickEvent
 //$$ import net.minecraftforge.common.MinecraftForge
 //$$ import net.minecraftforge.fml.common.Mod
-//$$
-//#if MC>=11602
-//$$ import net.minecraftforge.event.RegisterCommandsEvent
-//#else
-//$$ import net.minecraftforge.fml.event.server.FMLServerStartingEvent
-//#endif
 //#endif
 //#else
 //#if FABRIC
 //$$ import net.fabricmc.api.ModInitializer
 //$$ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
-//$$ import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
 //#endif
 //#endif
 
@@ -49,7 +39,6 @@ class ExampleMod {
     //$$     Vigilance.initialize()
     //$$     ExampleConfig.preload()
     //$$     ClientTickEvents.START_CLIENT_TICK.register { tick() }
-    //$$     // FIXME ClientCommandHandler.instance.registerCommand(ExampleCommand())
     //$$ }
     //#else
     //#if MC<=11202
@@ -58,7 +47,6 @@ class ExampleMod {
         Vigilance.initialize()
         ExampleConfig.preload()
         MinecraftForge.EVENT_BUS.register(this)
-        ClientCommandHandler.instance.registerCommand(ExampleCommand())
     }
     //#else
     //$$ init {
@@ -66,18 +54,6 @@ class ExampleMod {
     //$$     ExampleConfig.preload()
     //$$     MinecraftForge.EVENT_BUS.register(this)
     //$$ }
-    //$$
-    //#if MC>=11602
-    //$$ @SubscribeEvent
-    //$$ fun registerCommands(event: RegisterCommandsEvent) {
-    //$$     ExampleCommand.register(event.dispatcher)
-    //$$ }
-    //#else
-    //$$ @SubscribeEvent
-    //$$ fun serverStarting(event: FMLServerStartingEvent) {
-    //$$     ExampleCommand.register(event.commandDispatcher)
-    //$$ }
-    //#endif
     //#endif
 
     @SubscribeEvent
@@ -85,19 +61,13 @@ class ExampleMod {
     //#endif
 
     private fun tick() {
-        if (gui != null) {
-            try {
-                UMinecraft.getMinecraft().displayGuiScreen(gui)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            gui = null
+        if (UScreen.currentScreen !is UScreen) {
+            UScreen.displayScreen(ExampleConfig.gui())
         }
     }
 
     companion object {
         const val MOD_ID = "vigilance_examplemod"
         const val MOD_VERSION = "1.0"
-        var gui: UScreen? = null
     }
 }
