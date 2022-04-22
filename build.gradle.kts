@@ -23,17 +23,16 @@ val common = registerStripReferencesAttribute("common") {
 }
 
 dependencies {
-    internal("com.electronwill.night-config:toml:3.6.0")
+    internal(libs.nightconfig.toml)
 
-    val kotlin_version = "1.5.10"
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlin_version")
-    compileOnly("org.jetbrains:annotations:23.0.0")
+    implementation(libs.kotlin.stdlib.jdk8)
+    implementation(libs.kotlin.reflect)
+    compileOnly(libs.jetbrains.annotations)
 
     // Depending on LWJGL3 instead of 2 so we can choose opengl bindings only
     compileOnly("org.lwjgl:lwjgl-opengl:3.3.1")
     // Depending on 1.8.9 for all of these because that's the oldest version we support
-    compileOnly("gg.essential:elementa-1.8.9-forge:476") {
+    compileOnly(libs.versions.elementa.map { "gg.essential:elementa-1.8.9-forge:$it" }) {
         attributes { attribute(common, true) }
     }
     compileOnly("gg.essential:universalcraft-1.8.9-forge") {
