@@ -32,4 +32,5 @@ preprocess {
 
 apiValidation {
     ignoredPackages.add("gg.essential.vigilance.example")
+    nonPublicMarkers.add("org.jetbrains.annotations.ApiStatus\$Internal")
 }

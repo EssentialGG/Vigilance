@@ -1,6 +1,6 @@
 package gg.essential.vigilance.data
 
-import net.minecraft.client.resources.I18n
+import gg.essential.vigilance.impl.I18n
 import java.util.*
 
 @Retention(AnnotationRetention.RUNTIME)

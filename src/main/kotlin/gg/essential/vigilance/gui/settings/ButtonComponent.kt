@@ -16,8 +16,8 @@ import gg.essential.vigilance.data.CallablePropertyValue
 import gg.essential.vigilance.data.PropertyData
 import gg.essential.vigilance.gui.ExpandingClickEffect
 import gg.essential.vigilance.gui.VigilancePalette
+import gg.essential.vigilance.impl.I18n
 import gg.essential.vigilance.utils.onLeftClick
-import net.minecraft.client.resources.I18n
 
 class ButtonComponent(placeholder: String? = null, private val callback: () -> Unit) : SettingComponent() {
     private var textState: State<String> = BasicState(placeholder.orEmpty().ifEmpty { "Activate" }).map { I18n.format(it) }

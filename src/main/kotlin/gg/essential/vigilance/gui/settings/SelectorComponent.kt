@@ -2,7 +2,7 @@ package gg.essential.vigilance.gui.settings
 
 import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.dsl.*
-import net.minecraft.client.resources.I18n
+import gg.essential.vigilance.impl.I18n
 
 class SelectorComponent(initialSelection: Int, options: List<String>) : SettingComponent() {
     internal val dropDown by DropDown(initialSelection, options.map { I18n.format(it) }) childOf this

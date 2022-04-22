@@ -15,8 +15,8 @@ import gg.essential.elementa.transitions.SlideToTransition
 import gg.essential.universal.UKeyboard
 import gg.essential.universal.USound
 import gg.essential.vigilance.Vigilant
+import gg.essential.vigilance.impl.I18n
 import gg.essential.vigilance.utils.onLeftClick
-import net.minecraft.client.resources.I18n
 
 class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilant, window: Window) : UIContainer() {
     private val standardBar by StandardTitleBar()

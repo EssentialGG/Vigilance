@@ -25,6 +25,7 @@ dependencies {
     internal("com.electronwill.night-config:toml:3.6.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlin_version")
+    compileOnly("org.jetbrains:annotations:23.0.0")
 
     modApi("gg.essential:elementa-$platform:476") {
         exclude(module = "kotlin-reflect")
