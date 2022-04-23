@@ -419,6 +419,7 @@ abstract class Vigilant @JvmOverloads constructor(
             options: List<String> = listOf(),
             allowAlpha: Boolean = true,
             placeholder: String = "",
+            protectedText: Boolean = false,
             triggerActionOnInitialization: Boolean = true,
             hidden: Boolean = false,
             action: ((T) -> Unit)? = null,
@@ -440,6 +441,7 @@ abstract class Vigilant @JvmOverloads constructor(
                     options = options,
                     allowAlpha = allowAlpha,
                     placeholder = placeholder,
+                    protected = protectedText,
                     triggerActionOnInitialization = triggerActionOnInitialization,
                     hidden = hidden,
                     customPropertyInfo = customPropertyInfo.java,
@@ -470,6 +472,7 @@ abstract class Vigilant @JvmOverloads constructor(
             options: List<String> = listOf(),
             allowAlpha: Boolean = true,
             placeholder: String = "",
+            protectedText: Boolean = false,
             triggerActionOnInitialization: Boolean = true,
             hidden: Boolean = false,
             action: ((T) -> Unit)? = null,
@@ -489,6 +492,7 @@ abstract class Vigilant @JvmOverloads constructor(
                 options = options,
                 allowAlpha = allowAlpha,
                 placeholder = placeholder,
+                protectedText = protectedText,
                 triggerActionOnInitialization = triggerActionOnInitialization,
                 hidden = hidden,
                 action = action,
@@ -542,13 +546,25 @@ abstract class Vigilant @JvmOverloads constructor(
             triggerActionOnInitialization: Boolean = true,
             hidden: Boolean = false,
             action: ((String) -> Unit)? = null
+        ) = text(field = field, name = name, description = description, placeholder = placeholder, triggerActionOnInitialization = triggerActionOnInitialization, hidden = hidden, protectedText = false, action = action)
+
+        fun text(
+            field: KMutableProperty0<String>,
+            name: String = field.name,
+            description: String = "",
+            placeholder: String = "",
+            triggerActionOnInitialization: Boolean = true,
+            hidden: Boolean = false,
+            protectedText: Boolean = false,
+            action: ((String) -> Unit)? = null
         ) {
-            property(
-                field,
-                PropertyType.TEXT,
-                name,
-                description,
+            makeProperty(
+                field = field,
+                type = PropertyType.TEXT,
+                name = name,
+                description = description,
                 placeholder = placeholder,
+                protectedText = protectedText,
                 triggerActionOnInitialization = triggerActionOnInitialization,
                 hidden = hidden,
                 action = action
