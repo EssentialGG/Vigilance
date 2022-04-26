@@ -73,9 +73,11 @@ public final class gg/essential/vigilance/Vigilant$CategoryPropertyBuilder {
 	public static synthetic fun paragraph$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public final fun percentSlider (Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
 	public static synthetic fun percentSlider$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public final fun property (Lgg/essential/elementa/state/State;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
 	public final synthetic fun property (Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
 	public final fun property (Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
 	public final fun property (Lkotlin/reflect/KMutableProperty0;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun property$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lgg/essential/elementa/state/State;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public static synthetic fun property$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public static synthetic fun property$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public static synthetic fun property$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Lgg/essential/vigilance/data/PropertyType;Ljava/lang/String;Ljava/lang/String;IIFFIILjava/util/List;ZLjava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
@@ -276,7 +278,9 @@ public abstract class gg/essential/vigilance/data/PropertyCollector {
 
 public final class gg/essential/vigilance/data/PropertyData {
 	public static final field Companion Lgg/essential/vigilance/data/PropertyData$Companion;
+	public fun <init> (Lgg/essential/vigilance/data/PropertyAttributes;Lgg/essential/elementa/state/State;Lgg/essential/vigilance/Vigilant;)V
 	public fun <init> (Lgg/essential/vigilance/data/PropertyAttributes;Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/Vigilant;)V
+	public fun <init> (Lgg/essential/vigilance/data/PropertyAttributesExt;Lgg/essential/elementa/state/State;Lgg/essential/vigilance/Vigilant;)V
 	public fun <init> (Lgg/essential/vigilance/data/PropertyAttributesExt;Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/Vigilant;)V
 	public final fun component1 ()Lgg/essential/vigilance/data/PropertyAttributes;
 	public final fun component2 ()Lgg/essential/vigilance/data/PropertyValue;
@@ -294,7 +298,9 @@ public final class gg/essential/vigilance/data/PropertyData {
 	public final fun getDependsOn ()Lgg/essential/vigilance/data/PropertyData;
 	public final fun getHasDependants ()Z
 	public final fun getInstance ()Lgg/essential/vigilance/Vigilant;
+	public final fun getState ()Lgg/essential/elementa/state/State;
 	public final fun getValue ()Lgg/essential/vigilance/data/PropertyValue;
+	public final fun getWriteDataToFile ()Z
 	public fun hashCode ()I
 	public final fun isHidden ()Z
 	public final fun setAction (Lkotlin/jvm/functions/Function1;)V
@@ -353,11 +359,23 @@ public abstract class gg/essential/vigilance/data/PropertyValue {
 	public abstract fun setValue (Ljava/lang/Object;Lgg/essential/vigilance/Vigilant;)V
 }
 
+public final class gg/essential/vigilance/data/PropertyValueBackedState : gg/essential/elementa/state/State {
+	public fun <init> (Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/Vigilant;)V
+	public fun get ()Ljava/lang/Object;
+	public fun set (Ljava/lang/Object;)V
+}
+
 public class gg/essential/vigilance/data/SortingBehavior {
 	public fun <init> ()V
 	public fun getCategoryComparator ()Ljava/util/Comparator;
 	public fun getPropertyComparator ()Ljava/util/Comparator;
 	public fun getSubcategoryComparator ()Ljava/util/Comparator;
+}
+
+public final class gg/essential/vigilance/data/StateBackedPropertyValue : gg/essential/vigilance/data/PropertyValue {
+	public fun <init> (Lgg/essential/elementa/state/State;)V
+	public fun getValue (Lgg/essential/vigilance/Vigilant;)Ljava/lang/Object;
+	public fun setValue (Ljava/lang/Object;Lgg/essential/vigilance/Vigilant;)V
 }
 
 public final class gg/essential/vigilance/data/ValueBackedPropertyValue : gg/essential/vigilance/data/PropertyValue {

@@ -20,14 +20,21 @@ abstract class PropertyCollector {
     }
 
     internal fun getProperty(propertyName: String): PropertyData? = collectedProperties.firstOrNull {
-        it.value is FieldBackedPropertyValue && it.value.field.name == propertyName ||
-        it.value is KPropertyBackedPropertyValue<*> && it.value.property.name == propertyName ||
-        it.value is MethodBackedPropertyValue && it.value.method.name == propertyName
+        propertyName == it.value.let { propertyValue ->
+            when (propertyValue) {
+                is FieldBackedPropertyValue -> propertyValue.field.name
+                is KPropertyBackedPropertyValue<*> -> propertyValue.property.name
+                is MethodBackedPropertyValue -> propertyValue.method.name
+                else -> return@firstOrNull false
+            }
+        }
     }
 
     internal fun getProperty(field: Field): PropertyData? = collectedProperties.firstOrNull {
-        it.value is FieldBackedPropertyValue && it.value.field == field ||
-        it.value is KPropertyBackedPropertyValue<*> && it.value.property.javaField == field
+        it.value.let { propertyValue ->
+            propertyValue is FieldBackedPropertyValue && propertyValue.field == field ||
+            propertyValue is KPropertyBackedPropertyValue<*> && propertyValue.property.javaField == field
+        }
     }
 }
 

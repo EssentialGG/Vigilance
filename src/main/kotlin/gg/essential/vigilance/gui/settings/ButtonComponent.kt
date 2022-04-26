@@ -12,7 +12,6 @@ import gg.essential.elementa.state.State
 import gg.essential.elementa.state.toConstraint
 import gg.essential.elementa.utils.withAlpha
 import gg.essential.universal.USound
-import gg.essential.vigilance.data.CallablePropertyValue
 import gg.essential.vigilance.data.PropertyData
 import gg.essential.vigilance.gui.ExpandingClickEffect
 import gg.essential.vigilance.gui.VigilancePalette
@@ -87,11 +86,9 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
 
     companion object {
         private fun callbackFromPropertyData(data: PropertyData): () -> Unit {
-            val value = data.value
-            if (value !is CallablePropertyValue)
-                throw IllegalStateException()
-
-            return { value.invoke(data.instance) }
+            val state = data.state as State<Unit>
+            // Sets the value to null, and therefore executes all listeners of the state.
+            return { state.set(Unit) }
         }
     }
 }

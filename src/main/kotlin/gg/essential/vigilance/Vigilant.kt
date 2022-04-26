@@ -1,6 +1,8 @@
 package gg.essential.vigilance
 
 import com.electronwill.nightconfig.core.file.FileConfig
+import gg.essential.elementa.state.BasicState
+import gg.essential.elementa.state.State
 import gg.essential.universal.UChat
 import gg.essential.vigilance.data.*
 import gg.essential.vigilance.gui.SettingsGui
@@ -99,17 +101,14 @@ abstract class Vigilant @JvmOverloads constructor(
 
     @Suppress("UNCHECKED_CAST")
     fun <T> registerListener(field: Field, listener: Consumer<T>) {
-        propertyCollector
-            .getProperties()
-            .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field == field }!!
-            .action = { obj -> listener.accept(obj as T) }
+        propertyCollector.getProperty(field)!!
+            .setCallbackConsumer { obj -> listener.accept(obj as T) }
     }
 
     @Suppress("UNCHECKED_CAST")
     fun <T> registerListener(propertyName: String, listener: Consumer<T>) {
-        propertyCollector.getProperties()
-            .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field.name == propertyName }!!
-            .action = { obj -> listener.accept(obj as T) }
+        propertyCollector.getProperty(propertyName)!!
+            .setCallbackConsumer { obj -> listener.accept(obj as T) }
     }
 
     @Deprecated(
@@ -220,7 +219,7 @@ abstract class Vigilant @JvmOverloads constructor(
     private fun readData() {
         fileConfig.load()
 
-        propertyCollector.getProperties().filter { it.value.writeDataToFile }.forEach {
+        propertyCollector.getProperties().filter { it.writeDataToFile }.forEach {
             val fullPath = it.attributesExt.fullPropertyPath()
 
             var oldValue: Any? = fileConfig.get(fullPath)
@@ -249,7 +248,7 @@ abstract class Vigilant @JvmOverloads constructor(
     fun writeData() {
         if (!dirty) return
 
-        propertyCollector.getProperties().filter { it.value.writeDataToFile }.forEach {
+        propertyCollector.getProperties().filter { it.writeDataToFile }.forEach {
             val fullPath = it.attributesExt.fullPropertyPath()
 
             var toSet = it.getAsAny()
@@ -325,7 +324,7 @@ abstract class Vigilant @JvmOverloads constructor(
         }
 
         fun <T> property(
-            value: PropertyValue,
+            state: State<Any?>,
             type: PropertyType,
             name: String,
             description: String = "",
@@ -362,15 +361,61 @@ abstract class Vigilant @JvmOverloads constructor(
                     triggerActionOnInitialization = triggerActionOnInitialization,
                     hidden = hidden,
                 ),
-                value,
+                state,
                 instance
-            ).also { it.attributesExt.searchTags.toMutableList().addAll(searchTags) }
+            ).also {
+                if (type == PropertyType.BUTTON) {
+                    it.writeDataToFile = false
+                }
+
+                it.attributesExt.searchTags.toMutableList().addAll(searchTags)
+            }
 
             if (action != null) {
                 data.action = { action(it as T) }
             }
 
             properties.add(data)
+        }
+
+        fun <T> property(
+            value: PropertyValue,
+            type: PropertyType,
+            name: String,
+            description: String = "",
+            searchTags: List<String> = listOf(),
+            min: Int = 0,
+            max: Int = 0,
+            minF: Float = 0f,
+            maxF: Float = 0f,
+            decimalPlaces: Int = 1,
+            increment: Int = 1,
+            options: List<String> = listOf(),
+            allowAlpha: Boolean = true,
+            placeholder: String = "",
+            triggerActionOnInitialization: Boolean = true,
+            hidden: Boolean = false,
+            action: ((T) -> Unit)? = null
+        ) {
+            property(
+                state = PropertyValueBackedState<Any?>(value, instance),
+                type = type,
+                name = name,
+                description = description,
+                searchTags = searchTags,
+                min = min,
+                max = max,
+                minF = minF,
+                maxF = maxF,
+                decimalPlaces = decimalPlaces,
+                increment = increment,
+                options = options,
+                allowAlpha = allowAlpha,
+                placeholder = placeholder,
+                triggerActionOnInitialization = triggerActionOnInitialization,
+                hidden = hidden,
+                action = action
+            )
         }
 
         fun <T> property(
@@ -631,15 +676,15 @@ abstract class Vigilant @JvmOverloads constructor(
             hidden: Boolean = false,
             action: (() -> Unit)
         ) {
-            property<Nothing>(
-                KFunctionBackedPropertyValue(action),
+            property(
+                BasicState(Unit),
                 PropertyType.BUTTON,
                 name,
                 description,
                 placeholder = buttonText,
                 triggerActionOnInitialization = triggerActionOnInitialization,
                 hidden = hidden,
-                action = null
+                action = { _: Any? -> action() }
             )
         }
 

@@ -1,31 +1,61 @@
 package gg.essential.vigilance.data
 
+import gg.essential.elementa.state.BasicState
+import gg.essential.elementa.state.State
 import gg.essential.vigilance.Vigilant
 import java.lang.reflect.Field
 import java.lang.reflect.Method
 import java.util.function.Consumer
-import kotlin.reflect.KMutableProperty0
 
-data class PropertyData(@Deprecated("Replace with attributesExt", ReplaceWith("attributesExt")) val attributes: PropertyAttributes, val value: PropertyValue, val instance: Vigilant) {
-
+data class PropertyData(@Deprecated("Replace with attributesExt", ReplaceWith("attributesExt")) val attributes: PropertyAttributes, @Deprecated("Replace with strictValue", ReplaceWith("strictValue")) val value: PropertyValue, val instance: Vigilant) {
     constructor(attributesExt: PropertyAttributesExt, value: PropertyValue, instance: Vigilant) :
         this(attributesExt.toPropertyAttributes(), value, instance) {
             this.attributesExt = attributesExt
         }
 
+    constructor(attributesExt: PropertyAttributesExt, state: State<*>, instance: Vigilant) :
+        this(attributesExt, StateBackedPropertyValue(state), instance) {
+            this.state = state
+        }
+
+    constructor(attributesExt: PropertyAttributes, state: State<*>, instance: Vigilant) :
+        this(attributesExt, StateBackedPropertyValue(state), instance) {
+            this.state = state
+        }
+
     var attributesExt: PropertyAttributesExt = PropertyAttributesExt(attributes)
         private set
-    var action: ((Any?) -> Unit)? = null
+    var state: State<*> = PropertyValueBackedState<Any?>(value, instance)
+        private set
+
+    @Deprecated("Please use the state's listeners instead.")
+    var action: ((Any?) -> Unit)?
+        set(value) {
+            // If the action is not null, it's added as a listener to the state.
+            if (value != null) this.state.onSetValue(value)
+        }
+        get() {
+            throw IllegalAccessError("Action property is deprecated. Please use the state's listeners instead.")
+        }
+
     var dependsOn: PropertyData? = null
     var hasDependants: Boolean = false
+    var writeDataToFile: Boolean = true
+        internal set
+
+    private var initialized: Boolean
+        get() = value.initialized
+        set(isInitialized) {
+            value.initialized = isInitialized
+        }
 
     fun getDataType() = attributesExt.type
 
     inline fun <reified T> getValue(): T {
-        return value.getValue(instance) as T
+        return state.get() as T
     }
 
-    fun getAsAny(): Any? = value.getValue(instance)
+    fun getAsAny(): Any? = state.get()
 
     fun getAsBoolean(): Boolean = getValue()
 
@@ -39,17 +69,19 @@ data class PropertyData(@Deprecated("Replace with attributesExt", ReplaceWith("a
             return
         }
 
-        if (attributesExt.triggerActionOnInitialization || this.value.initialized)
-            action?.invoke(value)
+        (this.state as State<Any?>).set(value)
 
-        this.value.initialized = true
-        this.value.setValue(value, instance)
+        this.initialized = true
 
         instance.markDirty()
     }
 
     fun setCallbackConsumer(callback: Consumer<Any?>) {
-        this.action = callback::accept
+        (this.state as State<Any?>).onSetValue {
+            if (attributesExt.triggerActionOnInitialization || this.initialized) {
+                callback.accept(it)
+            }
+        }
     }
 
     companion object {
@@ -72,9 +104,11 @@ data class PropertyData(@Deprecated("Replace with attributesExt", ReplaceWith("a
         fun fromMethod(property: Property, method: Method, instance: Vigilant): PropertyData {
             return PropertyData(
                 PropertyAttributesExt.fromPropertyAnnotation(property),
-                MethodBackedPropertyValue(method),
+                BasicState(Unit),
                 instance
-            )
+            ).apply {
+                setCallbackConsumer { method.invoke(this.instance) }
+            }
         }
 
         fun withValue(property: Property, obj: Any?, instance: Vigilant): PropertyData {
@@ -84,70 +118,5 @@ data class PropertyData(@Deprecated("Replace with attributesExt", ReplaceWith("a
                 instance
             )
         }
-    }
-}
-
-abstract class PropertyValue {
-    var initialized = false
-
-    open val writeDataToFile = true
-
-    abstract fun getValue(instance: Vigilant): Any?
-    abstract fun setValue(value: Any?, instance: Vigilant)
-}
-
-class FieldBackedPropertyValue(internal val field: Field) : PropertyValue() {
-    override fun getValue(instance: Vigilant): Any? {
-        return field.get(instance)
-    }
-
-    override fun setValue(value: Any?, instance: Vigilant) {
-        if (value is Double && field.type == Float::class.java) {
-            field.set(instance, value.toFloat())
-        } else if (value is Float && field.type == Double::class.java) {
-            field.set(instance, value.toDouble())
-        } else {
-            field.set(instance, value)
-        }
-    }
-}
-
-class ValueBackedPropertyValue(private var obj: Any?) : PropertyValue() {
-    override fun getValue(instance: Vigilant): Any? {
-        return obj
-    }
-
-    override fun setValue(value: Any?, instance: Vigilant) {
-        obj = value
-    }
-}
-
-class KPropertyBackedPropertyValue<T>(internal val property: KMutableProperty0<T>) : PropertyValue() {
-    override fun getValue(instance: Vigilant) = property.get()
-
-    override fun setValue(value: Any?, instance: Vigilant) {
-        property.set(value as T)
-    }
-}
-
-abstract class CallablePropertyValue : PropertyValue() {
-    override val writeDataToFile = false
-
-    override fun getValue(instance: Vigilant): Nothing = throw IllegalStateException()
-
-    override fun setValue(value: Any?, instance: Vigilant): Nothing = throw IllegalStateException()
-
-    abstract operator fun invoke(instance: Vigilant)
-}
-
-class MethodBackedPropertyValue(internal val method: Method) : CallablePropertyValue() {
-    override fun invoke(instance: Vigilant) {
-        method.invoke(instance)
-    }
-}
-
-class KFunctionBackedPropertyValue(private val kFunction: () -> Unit) : CallablePropertyValue() {
-    override fun invoke(instance: Vigilant) {
-        kFunction()
     }
 }
