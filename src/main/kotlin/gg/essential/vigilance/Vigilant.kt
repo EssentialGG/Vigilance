@@ -538,6 +538,7 @@ abstract class Vigilant @JvmOverloads constructor(
             )
         }
 
+        @Deprecated("", level = DeprecationLevel.HIDDEN)
         fun text(
             field: KMutableProperty0<String>,
             name: String = field.name,

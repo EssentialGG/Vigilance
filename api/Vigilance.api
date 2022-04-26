@@ -88,7 +88,7 @@ public final class gg/essential/vigilance/Vigilant$CategoryPropertyBuilder {
 	public final fun subcategory (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 	public final fun switch (Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
 	public static synthetic fun switch$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
-	public final fun text (Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
+	public final synthetic fun text (Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;)V
 	public final fun text (Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZZLkotlin/jvm/functions/Function1;)V
 	public static synthetic fun text$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public static synthetic fun text$default (Lgg/essential/vigilance/Vigilant$CategoryPropertyBuilder;Lkotlin/reflect/KMutableProperty0;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
