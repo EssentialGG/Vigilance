@@ -442,11 +442,12 @@ abstract class Vigilant @JvmOverloads constructor(
                     placeholder = placeholder,
                     triggerActionOnInitialization = triggerActionOnInitialization,
                     hidden = hidden,
+                    searchTags = searchTags,
                     customPropertyInfo = customPropertyInfo.java,
                 ),
                 value,
                 instance
-            ).also { it.attributesExt.searchTags.toMutableList().addAll(searchTags) }
+            )
 
             if (action != null) {
                 data.action = { action(it as T) }
