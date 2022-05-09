@@ -11,7 +11,6 @@ import gg.essential.universal.UMatrixStack
 import gg.essential.universal.USound
 import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.utils.onLeftClick
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import java.awt.Color
 import java.util.*
 import kotlin.math.roundToInt
@@ -202,7 +201,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
         setupDraw()
         val graphics = UGraphics.getFromTessellator()
-        graphics.beginWithDefaultShader(UGraphics.DrawMode.QUADS, DefaultVertexFormats.POSITION_COLOR)
+        graphics.beginWithDefaultShader(UGraphics.DrawMode.QUADS, UGraphics.CommonVertexFormats.POSITION_COLOR)
 
         val height = bottom - top
 
@@ -246,7 +245,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         setupDraw()
         val graphics = UGraphics.getFromTessellator()
 
-        graphics.beginWithDefaultShader(UGraphics.DrawMode.QUADS, DefaultVertexFormats.POSITION_COLOR)
+        graphics.beginWithDefaultShader(UGraphics.DrawMode.QUADS, UGraphics.CommonVertexFormats.POSITION_COLOR)
 
         var first = true
         for ((i, color) in hueColorList.withIndex()) {

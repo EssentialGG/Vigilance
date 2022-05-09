@@ -3,8 +3,8 @@ package gg.essential.vigilance
 import gg.essential.universal.UChat
 import gg.essential.vigilance.data.*
 import gg.essential.vigilance.gui.SettingsGui
+import gg.essential.vigilance.impl.I18n
 import gg.essential.vigilance.impl.nightconfig.core.file.FileConfig
-import net.minecraft.client.resources.I18n
 import java.awt.Color
 import java.io.File
 import java.lang.reflect.Field

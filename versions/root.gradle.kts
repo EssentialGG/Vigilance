@@ -1,10 +1,7 @@
 import gg.essential.gradle.util.*
 
 plugins {
-    kotlin("jvm") version "1.6.10" apply false
-    id("org.jetbrains.dokka") version "1.6.10" apply false
     id("gg.essential.multi-version.root")
-    id("gg.essential.multi-version.api-validation")
 }
 
 version = versionFromBuildIdAndBranch()
@@ -26,10 +23,6 @@ preprocess {
     fabric11701.link(fabric11602)
     fabric11602.link(forge11602)
     forge11602.link(forge11502)
-    forge11502.link(forge11202, file("versions/1.15.2-1.12.2.txt"))
-    forge11202.link(forge10809, file("versions/1.12.2-1.8.9.txt"))
-}
-
-apiValidation {
-    ignoredPackages.add("gg.essential.vigilance.example")
+    forge11502.link(forge11202)
+    forge11202.link(forge10809)
 }
