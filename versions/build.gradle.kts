@@ -78,3 +78,7 @@ tasks.jar {
         attributes(mapOf("FMLModType" to "LIBRARY"))
     }
 }
+
+tasks.named<Jar>("sourcesJar") {
+    from(project(":").sourceSets.main.map { it.allSource })
+}
