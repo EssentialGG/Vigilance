@@ -3,21 +3,18 @@ package gg.essential.vigilance.gui
 import gg.essential.elementa.ElementaVersion
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.WindowScreen
-import gg.essential.elementa.components.*
+import gg.essential.elementa.components.ScrollComponent
+import gg.essential.elementa.components.UIBlock
+import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.inspector.Inspector
 import gg.essential.elementa.constraints.CenterConstraint
-import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.constraints.FillConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
-import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
-import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.effects.ScissorEffect
-import gg.essential.elementa.state.BasicState
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.GuiScale
 import gg.essential.universal.UKeyboard
-import gg.essential.universal.USound
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.Category
 import gg.essential.vigilance.gui.common.IconButton
@@ -32,6 +29,7 @@ class SettingsGui(
     newGuiScale = GuiScale.scaleForScreenSize().ordinal,
     restoreCurrentGuiOnClose = true,
 ) {
+
     val dividerWidth = 3f
 
     private val background by UIBlock(VigilancePalette.mainBackground).constrain {
@@ -123,28 +121,9 @@ class SettingsGui(
     } childOf window
 
     private val categories = config.getCategories()
+    private var currentCategory = SettingsCategory(categories.first()) childOf contentScroller
 
     init {
-
-//        backContainer.onMouseEnter {
-//            animate {
-//                setColorAnimation(Animations.OUT_EXP, animTime, VigilancePalette.brightDividerState.toConstraint())
-//            }
-//            backIcon.animate {
-//                setColorAnimation(Animations.OUT_EXP, animTime, VigilancePalette.brightTextState.toConstraint())
-//            }
-//        }.onMouseLeave {
-//            backIcon.animate {
-//                setColorAnimation(Animations.OUT_EXP, animTime, VigilancePalette.text.toConstraint())
-//            }
-//            animate {
-//                setColorAnimation(Animations.OUT_EXP, animTime, VigilancePalette.brightDividerState.toConstraint())
-//            }
-//        }.onLeftClick {
-//            USound.playButtonPress()
-//            restorePreviousScreen()
-//        }
-
         backButton.onActiveClick { restorePreviousScreen() }
 
         window.onLeftClick {
@@ -160,11 +139,7 @@ class SettingsGui(
                 label childOf sidebarScroller
             }
         }
-    }
 
-    private var currentCategory = SettingsCategory(categories.first()) childOf contentScroller
-
-    init {
         sidebarScroller.childrenOfType<CategoryLabel>().firstOrNull()?.select()
 
         fun UIComponent.click(): Unit =
@@ -221,9 +196,5 @@ class SettingsGui(
     override fun updateGuiScale() {
         newGuiScale = GuiScale.scaleForScreenSize().ordinal
         super.updateGuiScale()
-    }
-
-    companion object {
-        const val animTime = .5f
     }
 }

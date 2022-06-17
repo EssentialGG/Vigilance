@@ -12,6 +12,7 @@ import gg.essential.vigilance.gui.elementa.GuiScaleOffsetConstraint
 import gg.essential.vigilance.utils.onLeftClick
 
 class CategoryLabel(private val gui: SettingsGui, private val category: Category) : UIContainer() {
+
     private val text by UIText(category.name).constrain {
         y = CenterConstraint()
         textScale = GuiScaleOffsetConstraint(-1f)

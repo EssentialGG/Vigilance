@@ -74,5 +74,4 @@ internal class AutoImageSize(
         override fun visitImpl(visitor: ConstraintVisitor, type: ConstraintType) {
         }
     }
-
 }

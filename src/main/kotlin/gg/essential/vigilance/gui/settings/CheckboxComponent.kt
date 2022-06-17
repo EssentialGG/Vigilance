@@ -11,6 +11,7 @@ import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.utils.onLeftClick
 
 class CheckboxComponent(initialValue: Boolean) : SettingComponent() {
+
     var checked: Boolean = initialValue
         set(value) {
             changeValue(value)
@@ -20,14 +21,14 @@ class CheckboxComponent(initialValue: Boolean) : SettingComponent() {
     private val checkmark = UIImage.ofResourceCached("/vigilance/check.png").constrain {
         x = CenterConstraint()
         y = CenterConstraint()
-        width = 16.pixels()
-        height = 12.pixels()
-        color = getSettingColor().toConstraint()
+        width = 16.pixels
+        height = 12.pixels
+        color = VigilancePalette.green.toConstraint()
     } childOf this
 
     init {
         constrain {
-            width = 20.pixels()
+            width = 20.pixels
             height = AspectConstraint()
         }
 
@@ -53,5 +54,5 @@ class CheckboxComponent(initialValue: Boolean) : SettingComponent() {
 
     private fun getOutlineEffect() = OutlineEffect(getSettingColor().get(), 1f).bindColor(getSettingColor())
 
-    private fun getSettingColor() = if (checked) VigilancePalette.green else VigilancePalette.brightDividerState
+    private fun getSettingColor() = if (checked) VigilancePalette.green else VigilancePalette.componentBorder
 }

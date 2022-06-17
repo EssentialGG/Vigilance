@@ -14,12 +14,13 @@ import gg.essential.vigilance.gui.elementa.GuiScaleOffsetConstraint
 import gg.essential.vigilance.gui.settings.SettingComponent
 
 class DataBackedSetting(internal val data: PropertyData, internal val component: SettingComponent) : Setting() {
+
     private val boundingBox: UIBlock by UIBlock(VigilancePalette.componentBackground.toConstraint()).constrain {
         x = 1.pixels
         y = 1.pixels
         width = 100.percent - 2.pixels
         height = ChildBasedMaxSizeConstraint() + (INNER_PADDING + 5f).pixels
-    } childOf this effect OutlineEffect(VigilancePalette.getComponentBorder(), 1f).bindColor(VigilancePalette.dividerState)
+    } childOf this effect OutlineEffect(VigilancePalette.getComponentBorder(), 1f).bindColor(VigilancePalette.componentBorder)
 
     private val textBoundingBox by UIContainer().constrain {
         x = INNER_PADDING.pixels

@@ -13,6 +13,7 @@ import gg.essential.vigilance.utils.onLeftClick
 import java.awt.Color
 
 class SwitchComponent(initialState: Boolean) : SettingComponent() {
+
     internal var enabled = initialState
 
     private val switchBox = UIBlock(getSwitchColor()).constrain {
@@ -23,8 +24,8 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
 
     init {
         constrain {
-            width = 18.pixels()
-            height = 9.pixels()
+            width = 18.pixels
+            height = 9.pixels
         }
 
         effect(getOutlineEffect())

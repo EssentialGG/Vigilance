@@ -9,6 +9,7 @@ import gg.essential.elementa.dsl.*
 import gg.essential.elementa.state.toConstraint
 
 class Divider(val name: String, description: String?) : Setting() {
+
     private val dividerContainer by UIContainer().constrain {
         width = 100.percent
         height = ChildBasedMaxSizeConstraint()
@@ -30,7 +31,7 @@ class Divider(val name: String, description: String?) : Setting() {
         // Divider line left
         UIBlock(VigilancePalette.textDisabled).constrain {
             y = CenterConstraint()
-            width = 50.percent - (100.percent boundTo textContainer) / 2
+            width = 50.percent - (50.percent boundTo textContainer)
             height = 1.pixel
         } childOf dividerContainer
 
@@ -74,9 +75,7 @@ class Divider(val name: String, description: String?) : Setting() {
         if (h != hidden) {
             if (h) {
                 hidden = true
-                if (hidden) {
-                    hide(true)
-                }
+                hide(true)
             } else {
                 hidden = false
                 unhide()

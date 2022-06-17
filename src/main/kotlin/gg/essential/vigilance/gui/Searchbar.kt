@@ -22,8 +22,10 @@ internal class Searchbar(
     private val activateOnType: Boolean = true,
     private val expandedWidth: Int = 120,
 ) : UIContainer() {
+
     private val collapsed = BasicState(true)
     val textContent = BasicState(initialValue)
+
     private val toggleIcon = collapsed.map {
         if (it) {
             VigilancePalette.SEARCH_7X
@@ -31,6 +33,7 @@ internal class Searchbar(
             VigilancePalette.CANCEL_5X
         }
     }
+
     private val toggleButton by IconButton(
         toggleIcon,
         tooltipText = "".state(),
@@ -92,11 +95,12 @@ internal class Searchbar(
 
         Window.of(this).onKeyType { typedChar, keyCode ->
             when {
-                keyCode == UKeyboard.KEY_F && UKeyboard.isCtrlKeyDown() && !UKeyboard.isShiftKeyDown() && !UKeyboard.isAltKeyDown() -> {
+                activateOnSearchHokey && keyCode == UKeyboard.KEY_F && UKeyboard.isCtrlKeyDown()
+                        && !UKeyboard.isShiftKeyDown() && !UKeyboard.isAltKeyDown() -> {
                     collapsed.set(false)
                     activateSearch()
                 }
-                typedChar != '\u0000' -> {
+                activateOnType && typedChar != '\u0000' -> {
                     collapsed.set(false)
                     activateSearch()
                     searchInput.keyType(typedChar, keyCode)

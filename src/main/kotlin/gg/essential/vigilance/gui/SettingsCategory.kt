@@ -8,6 +8,7 @@ import gg.essential.vigilance.data.Category
 import gg.essential.vigilance.data.PropertyItem
 
 class SettingsCategory(category: Category) : UIContainer() {
+
     init {
         constrain {
             width = 100.percent
@@ -42,7 +43,6 @@ class SettingsCategory(category: Category) : UIContainer() {
         }
 
         category.items.forEach {
-            //it.toSettingsObject()?.childOf(scroller)
             val settingsObject = it.toSettingsObject()
             if (settingsObject != null) {
                 settingsObject childOf this

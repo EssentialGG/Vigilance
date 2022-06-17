@@ -8,6 +8,7 @@ import gg.essential.vigilance.utils.ResourceImageFactory
 import java.awt.Color
 
 object VigilancePalette {
+
     fun getBrightDivider(): Color = brightDividerState.get()
     fun getDivider(): Color = dividerState.get()
     fun getDarkDivider(): Color = darkDividerState.get()
@@ -43,6 +44,7 @@ object VigilancePalette {
     fun getScrollbar(): Color = this.scrollbar.get()
     fun getTextShadow(): Color = this.textShadow.get()
     fun getBlack(): Color = this.black.get()
+    fun getWhite(): Color = this.white.get()
     fun getMainBackground(): Color = this.mainBackground.get()
 
     // these are marked as internal because ideally the user is only changing the colours in the settings gui
@@ -82,6 +84,7 @@ object VigilancePalette {
     internal val scrollbar = BasicState(Color.BLACK)
     internal val textShadow = BasicState(Color.BLACK)
     internal val black = BasicState(Color.BLACK)
+    internal val white = BasicState(Color.WHITE)
     internal val mainBackground = BasicState(Color.BLACK)
 
     internal val SEARCH_7X: ImageFactory = ResourceImageFactory("/vigilance/search_7x7.png")

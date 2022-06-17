@@ -4,7 +4,6 @@ import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIText
 import gg.essential.elementa.constraints.CenterConstraint
-import gg.essential.elementa.constraints.FillConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.dsl.*
 import gg.essential.vigilance.Vigilant
@@ -12,13 +11,6 @@ import gg.essential.vigilance.impl.I18n
 
 class SettingsTitleBar(private val gui: SettingsGui, config: Vigilant) :
     UIBlock(VigilancePalette.getComponentBackground()) {
-
-    init {
-        constrain {
-            width = 100.percent
-            height = 30.pixels
-        }
-    }
 
     // Notches in titlebar
     private val leftDivider by UIBlock(VigilancePalette.componentHighlight).constrain {
@@ -56,6 +48,11 @@ class SettingsTitleBar(private val gui: SettingsGui, config: Vigilant) :
     } childOf contentContainer
 
     init {
+        constrain {
+            width = 100.percent
+            height = 30.pixels
+        }
+
         searchBar.textContent.onSetValue {
             gui.selectCategory(config.getCategoryFromSearch(it))
         }

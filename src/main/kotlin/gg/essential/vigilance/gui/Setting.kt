@@ -7,6 +7,7 @@ import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.percent
 
 abstract class Setting : UIContainer() {
+
     init {
         constrain {
             y = SiblingConstraint(7f)

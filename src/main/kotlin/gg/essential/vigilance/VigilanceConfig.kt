@@ -16,6 +16,7 @@ import java.awt.Color
  * </p>
  */
 object VigilanceConfig {
+
     // colours are still obtained through VigilancePalette.
     fun getPalette(): VigilancePalette = VigilancePalette
 
@@ -54,6 +55,7 @@ object VigilanceConfig {
     private var darkGray = Color(0x232323)
     private var scrollbar = Color(0x545454)
     private var black = Color(0x000000)
+    private var white = Color(0xFFFFFF)
     private var mainBackground = Color(0x181818)
 
     internal fun setAllInPalette() {
@@ -93,6 +95,7 @@ object VigilanceConfig {
         VigilancePalette.scrollbar.set(scrollbar)
         VigilancePalette.textShadow.set(textShadow)
         VigilancePalette.black.set(black)
+        VigilancePalette.white.set(white)
         VigilancePalette.mainBackground.set(mainBackground)
     }
 }

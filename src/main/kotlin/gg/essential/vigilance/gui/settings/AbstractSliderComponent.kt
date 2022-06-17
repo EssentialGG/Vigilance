@@ -11,6 +11,7 @@ import gg.essential.universal.USound
 import gg.essential.vigilance.utils.onLeftClick
 
 abstract class AbstractSliderComponent : SettingComponent() {
+
     protected abstract val slider: Slider
     private var expanded = false
     private var mouseHeld = false

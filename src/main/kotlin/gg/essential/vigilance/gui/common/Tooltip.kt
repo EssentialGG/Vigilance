@@ -210,13 +210,9 @@ internal class EssentialTooltip(
                     bottom + i + 1
                 )
             }
-
         }
-
-
     }
 }
-
 
 internal class VanillaTooltip(logicalParent: UIComponent) : Tooltip(logicalParent) {
 

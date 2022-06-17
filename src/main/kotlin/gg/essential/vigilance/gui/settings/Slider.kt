@@ -2,16 +2,18 @@ package gg.essential.vigilance.gui.settings
 
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIContainer
-import gg.essential.elementa.constraints.*
+import gg.essential.elementa.constraints.AspectConstraint
+import gg.essential.elementa.constraints.CenterConstraint
+import gg.essential.elementa.constraints.RelativeConstraint
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.USound
 import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.utils.onLeftClick
-import java.awt.Color
 
 class Slider(initialValue: Float) : UIContainer() {
+
     private var percentage = initialValue
     private var onValueChange: (Float) -> Unit = {}
     private var dragging = false
@@ -25,12 +27,12 @@ class Slider(initialValue: Float) : UIContainer() {
         width = basicWidthConstraint {
             this@Slider.getWidth() - 2f - this@Slider.getHeight() * 1.5f
         }
-        height = RelativeConstraint(0.5f)
-    } childOf this effect OutlineEffect(VigilancePalette.getBrightDivider(), 1f).bindColor(VigilancePalette.brightDividerState)
+        height = 50.percent
+    } childOf this effect OutlineEffect(VigilancePalette.getBrightDivider(), 1f).bindColor(VigilancePalette.componentBorder)
 
     private val completionBox = UIBlock().constrain {
         width = RelativeConstraint(percentage)
-        height = RelativeConstraint(1f)
+        height = 100.percent
         color = VigilancePalette.green.toConstraint()
     } childOf outerBox
 
@@ -38,9 +40,9 @@ class Slider(initialValue: Float) : UIContainer() {
         x = basicXConstraint { completionBox.getRight() - it.getWidth() / 2f }
         y = CenterConstraint() boundTo outerBox
         width = AspectConstraint(1f)
-        height = 100.percent()
+        height = 100.percent
         color = VigilancePalette.green.toConstraint()
-    } childOf this effect OutlineEffect(Color.BLACK, 1f)
+    } childOf this effect OutlineEffect(VigilancePalette.getBlack(), 1f)
 
     init {
         grabBox.onLeftClick { event ->

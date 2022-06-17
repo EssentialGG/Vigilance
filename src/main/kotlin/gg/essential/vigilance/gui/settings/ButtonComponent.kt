@@ -19,6 +19,7 @@ import gg.essential.vigilance.impl.I18n
 import gg.essential.vigilance.utils.onLeftClick
 
 class ButtonComponent(placeholder: String? = null, private val callback: () -> Unit) : SettingComponent() {
+
     private var textState: State<String> = BasicState(placeholder.orEmpty().ifEmpty { "Activate" }).map { I18n.format(it) }
     private var listener: () -> Unit = textState.onSetValue {
         text.setText(textState.get())

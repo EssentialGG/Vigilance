@@ -23,7 +23,6 @@ internal class DropDown(
 
     private val writableExpandedState: State<Boolean> = BasicState(false)
 
-
     /** Public States **/
     val selectedIndex: State<Int> = BasicState(initialSelection)
     val selectedText: State<String> = selectedIndex.map {
@@ -57,7 +56,6 @@ internal class DropDown(
         y = CenterConstraint()
     }.rebindPrimaryColor(VigilancePalette.getTextColor(selectAreaHovered)) childOf selectedArea
 
-
     private val expandedBlock by UIBlock(VigilancePalette.buttonHighlight).constrain {
         y = SiblingConstraint()
         width = 100.percent
@@ -82,7 +80,7 @@ internal class DropDown(
 
     init {
         constrain {
-            width = (getMaxItemWidth() + 25).pixels
+            width = (getMaxItemWidth() + 25f).pixels
             height = ChildBasedSizeConstraint()
         }
         setColor((selectAreaHovered or expandedState).map {
