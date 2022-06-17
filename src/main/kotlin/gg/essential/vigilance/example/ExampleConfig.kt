@@ -497,7 +497,8 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
     @Property(
         type = PropertyType.SWITCH,
         name = "This is a switch property with a very long name. It is recommended to use the description for lengthy property text, however this is still supported",
-        category = "Meta"
+        category = "Meta",
+        subcategory = "Meta 1"
     )
     var switchWithLongName = false
 
@@ -505,7 +506,8 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         type = PropertyType.SWITCH,
         name = "Property with long description",
         description = "This is a property with a very long description. As the above property says, the description is the preferred place for lengthy instruction text within a property. However, long text here is still not recommended -- try to keep descriptions as concise as possible!",
-        category = "Meta"
+        category = "Meta",
+        subcategory = "Meta 2"
     )
     var switchWithLongDescription = false
 

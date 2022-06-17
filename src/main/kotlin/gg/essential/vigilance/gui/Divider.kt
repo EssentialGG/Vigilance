@@ -6,73 +6,69 @@ import gg.essential.elementa.components.UIText
 import gg.essential.elementa.components.UIWrappedText
 import gg.essential.elementa.constraints.*
 import gg.essential.elementa.dsl.*
-import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 
 class Divider(val name: String, description: String?) : Setting() {
-    private val label by UIText(name).constrain {
-        x = CenterConstraint()
-        y = 5.pixels()
-        color = VigilancePalette.brightTextState.toConstraint()
-        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
+    private val dividerContainer by UIContainer().constrain {
+        width = 100.percent
+        height = ChildBasedMaxSizeConstraint()
     } childOf this
 
-    init {
-        if (name.isNotBlank()) {
-            val leftLine by UIBlock().constrain {
-                x = 0.pixels()
-                y = basicYConstraint { label.getTop() + label.getHeight() / 2f }
-                width = basicWidthConstraint { label.getLeft() - getLeft() - 10f }
-                height = 1.pixels()
-                color = VigilancePalette.darkDividerState.toConstraint()
-            } childOf this
+    private val textContainer by UIContainer().constrain {
+        x = CenterConstraint()
+        y = CenterConstraint()
+        width = ChildBasedSizeConstraint() + 16.pixels
+        height = ChildBasedMaxSizeConstraint()
+    } childOf dividerContainer
 
-            val rightLine by UIBlock().constrain {
-                x = basicXConstraint { label.getRight() + 10f }
-                y = basicYConstraint { label.getTop() + label.getHeight() / 2f }
-                width = basicWidthConstraint { getRight() - label.getRight() - 15f }
-                height = 1.pixels()
-                color = VigilancePalette.darkDividerState.toConstraint()
+    init {
+        UIText(name).constrain {
+            x = CenterConstraint()
+            color = VigilancePalette.text.toConstraint()
+        } childOf textContainer
+
+        // Divider line left
+        UIBlock(VigilancePalette.textDisabled).constrain {
+            y = CenterConstraint()
+            width = 50.percent - (100.percent boundTo textContainer) / 2
+            height = 1.pixel
+        } childOf dividerContainer
+
+        // Divider line middle
+        if (name.isEmpty()) {
+            UIBlock(VigilancePalette.textDisabled).constrain {
+                x = 0.pixels boundTo textContainer
+                y = CenterConstraint()
+                width = 100.percent boundTo textContainer
+                height = 1.pixel
+            } childOf dividerContainer
+        }
+
+        // Divider line right
+        UIBlock(VigilancePalette.textDisabled).constrain {
+            x = SiblingConstraint() boundTo textContainer
+            y = CenterConstraint()
+            width = FillConstraint()
+            height = 1.pixel
+        } childOf dividerContainer
+
+        if (description != null) {
+            UIWrappedText(description, centered = true).constrain {
+                x = CenterConstraint()
+                y = SiblingConstraint(DataBackedSetting.INNER_PADDING) boundTo textContainer
+                width = 100.percent - (DataBackedSetting.INNER_PADDING * 2f).pixels
+                height += (DataBackedSetting.INNER_PADDING - 8f).pixels
+                color = VigilancePalette.text.toConstraint()
             } childOf this
-        } else {
-            val line by UIBlock().constrain {
-                x = 0.pixels()
-                y = basicYConstraint { label.getTop() + label.getHeight() / 2f }
-                width = FillConstraint()
-                height = 1.pixels()
-                color = VigilancePalette.darkDividerState.toConstraint()
-            } childOf this
+        }
+
+        constrain {
+            y = SiblingConstraint(16f)
+            height = ChildBasedSizeConstraint()
         }
     }
 
     internal var hidden: Boolean = false
-
-    init {
-        if (description != null) {
-            constrain {
-                height = ChildBasedSizeConstraint() + (DataBackedSetting.INNER_PADDING * 2f).pixels()
-            }
-
-            val textContainer = UIContainer().constrain {
-                x = DataBackedSetting.INNER_PADDING.pixels()
-                y = SiblingConstraint(DataBackedSetting.INNER_PADDING) boundTo label
-                width = 100.percent() - (DataBackedSetting.INNER_PADDING * 2f).pixels()
-                height = ChildBasedMaxSizeConstraint()
-            } childOf this
-
-            UIWrappedText(description, centered = true).constrain {
-                x = CenterConstraint()
-                y = SiblingConstraint() + 3.pixels()
-                width = 70.percent()
-                color = VigilancePalette.midTextState.toConstraint()
-                fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
-            } childOf textContainer
-        } else {
-            constrain {
-                height = ChildBasedMaxSizeConstraint() + 10.pixels()
-            }
-        }
-    }
 
     fun hideMaybe(h: Boolean) {
         if (h != hidden) {

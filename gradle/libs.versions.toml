@@ -1,7 +1,7 @@
 [versions]
 kotlin = "1.5.10"
 jetbrains-annotations = "23.0.0"
-elementa = "476"
+elementa = "507"
 nightconfig = "3.6.0"
 
 [libraries]

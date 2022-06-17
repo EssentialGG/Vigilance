@@ -2,7 +2,6 @@ package gg.essential.vigilance.gui.settings
 
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.constraints.PixelConstraint
-import gg.essential.elementa.constraints.RelativeConstraint
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
@@ -18,14 +17,14 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
 
     private val switchBox = UIBlock(getSwitchColor()).constrain {
         x = getSwitchPosition()
-        width = RelativeConstraint(0.5f)
-        height = RelativeConstraint(1f)
+        width = 50.percent
+        height = 100.percent
     } childOf this
 
     init {
         constrain {
-            width = 20.pixels()
-            height = 10.pixels()
+            width = 18.pixels()
+            height = 9.pixels()
         }
 
         effect(getOutlineEffect())
@@ -59,7 +58,7 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
 
     private fun getOutlineEffect(): OutlineEffect = OutlineEffect(getSwitchColor().get(), 1f).bindColor(getSwitchColor())
 
-    private fun getSwitchColor(): BasicState<Color> = if (enabled) VigilancePalette.accentState else VigilancePalette.brightDividerState
+    private fun getSwitchColor(): BasicState<Color> = if (enabled) VigilancePalette.green else VigilancePalette.text
 
-    private fun getSwitchPosition(): PixelConstraint = if (enabled) 0.pixels(true) else 0.pixels()
+    private fun getSwitchPosition(): PixelConstraint = if (enabled) 0.pixels else 0.pixels(alignOpposite = true)
 }

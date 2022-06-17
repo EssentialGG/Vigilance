@@ -33,7 +33,7 @@ class NumberComponent(
     private val valueText by UIText(value.toString()).constrain {
         y = CenterConstraint()
         textScale = 1.5f.pixels()
-        color = VigilancePalette.accentState.toConstraint()
+        color = VigilancePalette.green.toConstraint()
         fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf this
 
@@ -98,7 +98,7 @@ class NumberComponent(
     }
 
     private fun clickControl(control: UIComponent) {
-        changeOutlineColor(control, VigilancePalette.accentState)
+        changeOutlineColor(control, VigilancePalette.green)
 
         val flag = UKeyboard.isCtrlKeyDown()
         val change = if (control == incrementControl) {
@@ -120,7 +120,7 @@ class NumberComponent(
     private fun releaseControl(control: UIComponent) {
         changeOutlineColor(
             control,
-            if (isControlDisabled(control)) VigilancePalette.disabledState else VigilancePalette.midTextState
+            if (isControlDisabled(control)) VigilancePalette.disabledState else VigilancePalette.text
         )
     }
 

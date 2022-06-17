@@ -14,12 +14,12 @@ class SelectorComponent(initialSelection: Int, options: List<String>) : SettingC
             height = ChildBasedSizeConstraint()
         }
 
-        dropDown.onValueChange { newValue ->
+        dropDown.selectedIndex.onSetValue { newValue ->
             changeValue(newValue)
         }
     }
 
     override fun closePopups(instantly: Boolean) {
-        dropDown.collapse(true, instantly)
+        dropDown.collapse(instantly)
     }
 }

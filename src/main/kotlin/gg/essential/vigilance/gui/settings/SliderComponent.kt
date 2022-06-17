@@ -14,7 +14,7 @@ class SliderComponent(initialValue: Int, min: Int, max: Int) : AbstractSliderCom
     init {
         UIText(min.toString()).constrain {
             y = CenterConstraint()
-            color = VigilancePalette.midTextState.toConstraint()
+            color = VigilancePalette.text.toConstraint()
             fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
         } childOf this
     }
@@ -29,7 +29,7 @@ class SliderComponent(initialValue: Int, min: Int, max: Int) : AbstractSliderCom
         UIText(max.toString()).constrain {
             x = SiblingConstraint()
             y = CenterConstraint()
-            color = VigilancePalette.midTextState.toConstraint()
+            color = VigilancePalette.text.toConstraint()
             fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
         } childOf this
     }
@@ -37,7 +37,7 @@ class SliderComponent(initialValue: Int, min: Int, max: Int) : AbstractSliderCom
     private val currentValueText by UIText(initialValue.toString()).constrain {
         x = CenterConstraint() boundTo slider.grabBox
         y = RelativeConstraint(1.5f)
-        color = VigilancePalette.midTextState.toConstraint()
+        color = VigilancePalette.text.toConstraint()
         fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf slider
 

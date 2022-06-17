@@ -72,7 +72,7 @@ class TextComponent(
             }.onMouseEnter {
                 if (!toggle) {
                     animate {
-                        setColorAnimation(Animations.OUT_EXP, .2f, VigilancePalette.midTextState.toConstraint())
+                        setColorAnimation(Animations.OUT_EXP, .2f, VigilancePalette.text.toConstraint())
                     }
                 }
             }.onMouseLeave {
@@ -88,7 +88,7 @@ class TextComponent(
                     setColorAnimation(Animations.OUT_EXP, .2f, if (toggle) {
                         VigilancePalette.warningState
                     } else {
-                        VigilancePalette.midTextState
+                        VigilancePalette.text
                     }.toConstraint())
                 }
             } childOf textHolder

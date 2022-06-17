@@ -53,5 +53,5 @@ class CheckboxComponent(initialValue: Boolean) : SettingComponent() {
 
     private fun getOutlineEffect() = OutlineEffect(getSettingColor().get(), 1f).bindColor(getSettingColor())
 
-    private fun getSettingColor() = if (checked) VigilancePalette.accentState else VigilancePalette.brightDividerState
+    private fun getSettingColor() = if (checked) VigilancePalette.green else VigilancePalette.brightDividerState
 }

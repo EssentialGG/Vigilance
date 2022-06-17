@@ -1,11 +1,8 @@
 package gg.essential.vigilance
 
 import gg.essential.elementa.utils.withAlpha
-import gg.essential.vigilance.data.Property
-import gg.essential.vigilance.data.PropertyType
 import gg.essential.vigilance.gui.VigilancePalette
 import java.awt.Color
-import java.io.File
 
 /**
  * This is the general config for Vigilance, accessible with the
@@ -44,12 +41,27 @@ object VigilanceConfig {
     private var transparent = Color(0, 0, 0, 0)
     private var disabled = Color(80, 80, 80)
 
+    private var green = Color(0x2BC553)
+    private var button = Color(0x323232)
+    private var buttonHighlight = Color(0x474747)
+    private var text = Color(0xBBBBBB)
+    private var textDisabled = Color(0x6A6A6A)
+    private var textShadow = Color(0x161618)
+    private var componentBackground = Color(0x232323)
+    private var componentBackgroundHighlight = Color(0x2F2F2F)
+    private var componentBorder = Color(0x474747)
+    private var componentHighlight = Color(0x303030)
+    private var darkGray = Color(0x232323)
+    private var scrollbar = Color(0x545454)
+    private var black = Color(0x000000)
+    private var mainBackground = Color(0x181818)
+
     internal fun setAllInPalette() {
         VigilancePalette.brightDividerState.set(brightDivider)
         VigilancePalette.dividerState.set(divider)
         VigilancePalette.darkDividerState.set(darkDivider)
         VigilancePalette.outlineState.set(outline)
-        VigilancePalette.scrollBarState.set(scrollBar)
+        VigilancePalette.scrollbar.set(scrollBar)
         VigilancePalette.brightHighlightState.set(brightHighlight)
         VigilancePalette.highlightState.set(highlight)
         VigilancePalette.darkHighlightState.set(darkHighlight)
@@ -58,14 +70,29 @@ object VigilanceConfig {
         VigilancePalette.darkBackgroundState.set(darkBackground)
         VigilancePalette.searchBarBackgroundState.set(searchBarBackground)
         VigilancePalette.brightTextState.set(brightText)
-        VigilancePalette.midTextState.set(midText)
+        VigilancePalette.text.set(midText)
         VigilancePalette.darkTextState.set(darkText)
         VigilancePalette.modalBackgroundState.set(modalBackground)
         VigilancePalette.warningState.set(warning)
-        VigilancePalette.accentState.set(accent)
+        VigilancePalette.green.set(accent)
         VigilancePalette.successState.set(success)
         VigilancePalette.transparentState.set(transparent)
         VigilancePalette.disabledState.set(disabled)
         VigilancePalette.bgNoAlpha.set(background.withAlpha(0))
+
+        VigilancePalette.green.set(green)
+        VigilancePalette.button.set(button)
+        VigilancePalette.buttonHighlight.set(buttonHighlight)
+        VigilancePalette.text.set(text)
+        VigilancePalette.textDisabled.set(textDisabled)
+        VigilancePalette.componentBackground.set(componentBackground)
+        VigilancePalette.componentBackgroundHighlight.set(componentBackgroundHighlight)
+        VigilancePalette.componentBorder.set(componentBorder)
+        VigilancePalette.componentHighlight.set(componentHighlight)
+        VigilancePalette.darkGray.set(darkGray)
+        VigilancePalette.scrollbar.set(scrollbar)
+        VigilancePalette.textShadow.set(textShadow)
+        VigilancePalette.black.set(black)
+        VigilancePalette.mainBackground.set(mainBackground)
     }
 }

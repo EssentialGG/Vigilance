@@ -13,7 +13,7 @@ abstract class SettingComponent : UIContainer() {
 
     init {
         constrain {
-            x = DataBackedSetting.INNER_PADDING.pixels(true)
+            x = (DataBackedSetting.INNER_PADDING + 10f).pixels(true)
             y = CenterConstraint()
         }
     }

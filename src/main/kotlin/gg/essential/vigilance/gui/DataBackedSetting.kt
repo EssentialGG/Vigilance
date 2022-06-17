@@ -5,53 +5,55 @@ import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIWrappedText
 import gg.essential.elementa.constraints.ChildBasedMaxSizeConstraint
 import gg.essential.elementa.constraints.ChildBasedSizeConstraint
-import gg.essential.elementa.constraints.RelativeConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
-import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.data.PropertyData
-import gg.essential.vigilance.gui.settings.SelectorComponent
+import gg.essential.vigilance.gui.elementa.GuiScaleOffsetConstraint
 import gg.essential.vigilance.gui.settings.SettingComponent
 
 class DataBackedSetting(internal val data: PropertyData, internal val component: SettingComponent) : Setting() {
-    private val boundingBox: UIBlock by UIBlock(VigilancePalette.darkHighlightState.toConstraint()).constrain {
-        x = 1.pixels()
-        y = 1.pixels()
-        width = RelativeConstraint(1f) - 10.pixels()
-        height = (if (component is SelectorComponent) basicHeightConstraint { textBoundingBox.getHeight() } else ChildBasedMaxSizeConstraint()) + INNER_PADDING.pixels()
-    } childOf this effect OutlineEffect(VigilancePalette.getDivider(), 1f).bindColor(VigilancePalette.dividerState)
+    private val boundingBox: UIBlock by UIBlock(VigilancePalette.componentBackground.toConstraint()).constrain {
+        x = 1.pixels
+        y = 1.pixels
+        width = 100.percent - 2.pixels
+        height = ChildBasedMaxSizeConstraint() + (INNER_PADDING + 5f).pixels
+    } childOf this effect OutlineEffect(VigilancePalette.getComponentBorder(), 1f).bindColor(VigilancePalette.dividerState)
 
     private val textBoundingBox by UIContainer().constrain {
-        x = INNER_PADDING.pixels()
-        y = INNER_PADDING.pixels()
+        x = INNER_PADDING.pixels
+        y = INNER_PADDING.pixels
         width = basicWidthConstraint { component ->
-            val endPos = ((boundingBox.children - component).map { it.getLeft() }.minOrNull() ?: boundingBox.getRight())
+            val endPos = ((boundingBox.children - component).minOfOrNull { it.getLeft() } ?: boundingBox.getRight())
             endPos - component.getLeft() - 10f
         }
-        height = ChildBasedSizeConstraint(3f) + INNER_PADDING.pixels()
+        height = ChildBasedSizeConstraint(3f) + INNER_PADDING.pixels
     } childOf boundingBox
 
     private val settingName by UIWrappedText(data.attributesExt.localizedName).constrain {
-        width = RelativeConstraint(1f)
-        textScale = 1.49f.pixels()
+        width = 100.percent
+        textScale = GuiScaleOffsetConstraint(-1f)
         color = VigilancePalette.brightTextState.toConstraint()
-        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf textBoundingBox
 
     init {
         UIWrappedText(data.attributesExt.localizedDescription).constrain {
-            y = SiblingConstraint() + 3.pixels()
-            width = RelativeConstraint(1f)
-            color = VigilancePalette.midTextState.toConstraint()
-            fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
+            y = SiblingConstraint() + 3.pixels
+            width = 100.percent
+            color = VigilancePalette.text.toConstraint()
         } childOf textBoundingBox
     }
 
     private var hidden = data.isHidden()
 
     init {
+
+        constrain {
+            y = SiblingConstraint(8f)
+            height = ChildBasedMaxSizeConstraint() + 2.pixels
+        }
+
         component.onValueChange {
             data.setValue(it)
         }
@@ -67,9 +69,7 @@ class DataBackedSetting(internal val data: PropertyData, internal val component:
             }
         } else if (data.isHidden()) {
             hidden = true
-            if (hidden) {
-                hide(true)
-            }
+            hide(true)
         }
     }
 
@@ -78,6 +78,6 @@ class DataBackedSetting(internal val data: PropertyData, internal val component:
     }
 
     companion object {
-        const val INNER_PADDING = 15f
+        const val INNER_PADDING = 13f
     }
 }

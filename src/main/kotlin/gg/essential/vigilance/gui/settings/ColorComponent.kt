@@ -23,7 +23,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         x = 5.pixels()
         y = 6.pixels()
         width = RelativeConstraint(1f) - 30.pixels()
-        color = VigilancePalette.midTextState.toConstraint()
+        color = VigilancePalette.text.toConstraint()
         fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
     } childOf this
 
@@ -184,7 +184,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
 
     private fun unHoverText(text: UIComponent) {
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.midTextState.toConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.text.toConstraint())
         }
     }
 
