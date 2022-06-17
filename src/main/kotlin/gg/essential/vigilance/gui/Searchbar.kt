@@ -62,7 +62,7 @@ internal class Searchbar(
     private val searchIcon by ShadowIcon(VigilancePalette.SEARCH_7X, true).constrain {
         x = 5.pixels
         y = CenterConstraint()
-    }.rebindPrimaryColor(VigilancePalette.brightTextState) childOf searchContainer
+    }.rebindPrimaryColor(VigilancePalette.textHighlight) childOf searchContainer
 
     private val searchInput: UITextInput by UITextInput(placeholder = placeholder).constrain {
         x = SiblingConstraint(5f)

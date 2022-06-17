@@ -36,7 +36,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     private val bigPickerBox = UIBlock().constrain {
         width = 80.percent
         height = if (allowAlpha) 80.percent else 100.percent
-        color = VigilancePalette.dividerState.toConstraint()
+        color = VigilancePalette.componentBorder.toConstraint()
     } childOf this
 
     private val pickerIndicator = UIContainer().constrain {
@@ -50,7 +50,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         x = 85.percent
         width = FillConstraint(false)
         height = if (allowAlpha) 80.percent else 100.percent
-        color = VigilancePalette.dividerState.toConstraint()
+        color = VigilancePalette.componentBorder.toConstraint()
     } childOf this
 
     private val hueIndicator = VigilancePalette.ARROW_LEFT_4X7.create().constrain {

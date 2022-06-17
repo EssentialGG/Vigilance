@@ -4,10 +4,10 @@ package gg.essential.vigilance.example
 
 import gg.essential.universal.UChat
 import gg.essential.vigilance.Vigilant
-import gg.essential.vigilance.data.*
+import gg.essential.vigilance.data.Property
+import gg.essential.vigilance.data.PropertyType
 import java.awt.Color
 import java.io.File
-import java.lang.reflect.Field
 import kotlin.math.PI
 
 /**
@@ -497,8 +497,7 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
     @Property(
         type = PropertyType.SWITCH,
         name = "This is a switch property with a very long name. It is recommended to use the description for lengthy property text, however this is still supported",
-        category = "Meta",
-        subcategory = "Meta 1"
+        category = "Meta"
     )
     var switchWithLongName = false
 
@@ -506,8 +505,7 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         type = PropertyType.SWITCH,
         name = "Property with long description",
         description = "This is a property with a very long description. As the above property says, the description is the preferred place for lengthy instruction text within a property. However, long text here is still not recommended -- try to keep descriptions as concise as possible!",
-        category = "Meta",
-        subcategory = "Meta 2"
+        category = "Meta"
     )
     var switchWithLongDescription = false
 

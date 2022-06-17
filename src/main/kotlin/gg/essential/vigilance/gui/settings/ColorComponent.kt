@@ -2,14 +2,12 @@ package gg.essential.vigilance.gui.settings
 
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.UIContainer
-import gg.essential.elementa.components.UIImage
 import gg.essential.elementa.components.input.UITextInput
-import gg.essential.elementa.constraints.*
+import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.effects.ScissorEffect
-import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.USound
 import gg.essential.vigilance.gui.VigilancePalette
@@ -178,7 +176,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
 
     private fun hoverText(text: UIComponent) {
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.brightTextState.toConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.textHighlight.toConstraint())
         }
     }
 

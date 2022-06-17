@@ -6,7 +6,7 @@ import gg.essential.elementa.constraints.HeightConstraint
 import gg.essential.elementa.constraints.resolution.ConstraintVisitor
 import gg.essential.universal.UResolution
 
-class GuiScaleOffsetConstraint(val offset: Float = 1f) : HeightConstraint {
+internal class GuiScaleOffsetConstraint(val offset: Float = 1f) : HeightConstraint {
 
     override var cachedValue = 0f
     override var recalculate = true

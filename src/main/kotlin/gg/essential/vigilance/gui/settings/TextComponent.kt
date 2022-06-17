@@ -24,8 +24,8 @@ class TextComponent(
     private val textHolder = UIBlock().constrain {
         width = ChildBasedSizeConstraint() + (if (protected) 14 else 6).pixels
         height = ChildBasedSizeConstraint() + 6.pixels
-        color = VigilancePalette.darkHighlightState.toConstraint()
-    } childOf this effect OutlineEffect(VigilancePalette.getDivider(), 1f).bindColor(VigilancePalette.dividerState)
+        color = VigilancePalette.dividerDark.toConstraint()
+    } childOf this effect OutlineEffect(VigilancePalette.getComponentBorder(), 1f).bindColor(VigilancePalette.componentBorder)
 
     private val textInput: AbstractTextInput = when {
         wrap -> UIMultilineTextInput(placeholder = placeholder).setMaxLines(10).constrain {
@@ -62,12 +62,11 @@ class TextComponent(
         if (protected) {
             var toggle = false
             UIImage.ofResourceCached("/vigilance/eye.png").constrain {
-//            UIBlock().constrain {
                 y = 3.pixels
                 x = 3.pixels(alignOpposite = true)
                 width = 12.pixels
                 height = basicHeightConstraint { textInput.getHeight() }
-                color = VigilancePalette.darkTextState.toConstraint()
+                color = VigilancePalette.textDisabled.toConstraint()
             }.onMouseEnter {
                 if (!toggle) {
                     animate {
@@ -77,7 +76,7 @@ class TextComponent(
             }.onMouseLeave {
                 if (!toggle) {
                     animate {
-                        setColorAnimation(Animations.OUT_EXP, .2f, VigilancePalette.darkTextState.toConstraint())
+                        setColorAnimation(Animations.OUT_EXP, .2f, VigilancePalette.textDisabled.toConstraint())
                     }
                 }
             }.onLeftClick {
@@ -85,7 +84,7 @@ class TextComponent(
                 (textInput as UIPasswordInput).setProtection(!toggle)
                 animate {
                     setColorAnimation(Animations.OUT_EXP, .2f, if (toggle) {
-                        VigilancePalette.warningState
+                        VigilancePalette.textWarning
                     } else {
                         VigilancePalette.text
                     }.toConstraint())
