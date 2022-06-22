@@ -516,6 +516,7 @@ public final class gg/essential/vigilance/gui/VigilancePalette {
 	public final fun getHighlight ()Ljava/awt/Color;
 	public final fun getLightBackground ()Ljava/awt/Color;
 	public final fun getMainBackground ()Ljava/awt/Color;
+	public final fun getMidGray ()Ljava/awt/Color;
 	public final fun getMidText ()Ljava/awt/Color;
 	public final fun getModalBackground ()Ljava/awt/Color;
 	public final fun getOutline ()Ljava/awt/Color;
