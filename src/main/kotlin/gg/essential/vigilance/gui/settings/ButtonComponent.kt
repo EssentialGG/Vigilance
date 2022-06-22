@@ -25,14 +25,18 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
         text.setText(textState.get())
     }
 
-    val container by UIBlock(VigilancePalette.button).constrain {
+    private val container by UIBlock(VigilancePalette.button).constrain {
         x = 1.pixel
         y = 1.pixel
         width = ChildBasedSizeConstraint() + 14.pixels
         height = ChildBasedSizeConstraint() + 8.pixels
     } childOf this
 
-    private val text by UIWrappedText(textState.get(), trimText = true).constrain {
+    private val text by UIWrappedText(
+        textState.get(),
+        trimText = true,
+        shadowColor = VigilancePalette.getTextShadow()
+    ).constrain {
         x = CenterConstraint()
         y = CenterConstraint()
         width = width.coerceAtMost(300.pixels)

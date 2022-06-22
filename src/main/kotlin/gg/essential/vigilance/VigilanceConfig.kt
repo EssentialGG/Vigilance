@@ -20,6 +20,7 @@ object VigilanceConfig {
     // colours are still obtained through VigilancePalette.
     fun getPalette(): VigilancePalette = VigilancePalette
 
+    // Old
     private var brightDivider = Color(151, 151, 151)
     private var divider = Color(80, 80, 80)
     private var darkDivider = Color(50, 50, 50)
@@ -42,6 +43,7 @@ object VigilanceConfig {
     private var transparent = Color(0, 0, 0, 0)
     private var disabled = Color(80, 80, 80)
 
+    // New
     private var green = Color(0x2BC553)
     private var button = Color(0x323232)
     private var buttonHighlight = Color(0x474747)

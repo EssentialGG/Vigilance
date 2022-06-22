@@ -6,7 +6,7 @@ import gg.essential.vigilance.impl.I18n
 
 class SelectorComponent(initialSelection: Int, options: List<String>) : SettingComponent() {
 
-    internal val dropDown by DropDown(initialSelection, options.map { I18n.format(it) }) childOf this
+    internal val dropDown by DropDownComponent(initialSelection, options.map { I18n.format(it) }) childOf this
 
     init {
         constrain {

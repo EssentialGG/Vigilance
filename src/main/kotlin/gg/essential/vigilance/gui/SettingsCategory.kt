@@ -6,13 +6,28 @@ import gg.essential.elementa.dsl.*
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.data.Category
 import gg.essential.vigilance.data.PropertyItem
+import gg.essential.vigilance.utils.scrollGradient
 
 class SettingsCategory(category: Category) : UIContainer() {
+
+    internal val scroller by ScrollComponent(
+        "No matching settings found :(",
+        innerPadding = 10f,
+        pixelsPerScroll = 25f,
+    ).constrain {
+        width = 100.percent - (10 + SettingsGui.dividerWidth).pixels
+        height = 100.percent
+    } childOf this scrollGradient 20.pixels
+
+    private val scrollBar by UIBlock(VigilancePalette.scrollbar).constrain {
+        x = 0.pixels(alignOpposite = true)
+        width = SettingsGui.dividerWidth.pixels
+    } childOf this
 
     init {
         constrain {
             width = 100.percent
-            height = ChildBasedSizeConstraint()
+            height = 100.percent
         }
 
         if (category.description != null) {
@@ -21,7 +36,7 @@ class SettingsCategory(category: Category) : UIContainer() {
                 y = SiblingConstraint(DataBackedSetting.INNER_PADDING)
                 width = 100.percent - (DataBackedSetting.INNER_PADDING * 2f).pixels
                 color = VigilancePalette.text.toConstraint()
-            } childOf this
+            } childOf scroller
         }
 
         val categoryItemsSettingsObjects: ArrayList<DataBackedSetting> = ArrayList()
@@ -45,7 +60,7 @@ class SettingsCategory(category: Category) : UIContainer() {
         category.items.forEach {
             val settingsObject = it.toSettingsObject()
             if (settingsObject != null) {
-                settingsObject childOf this
+                settingsObject childOf scroller
                 if (settingsObject is DataBackedSetting) {
                     categoryItemsSettingsObjects.add(settingsObject)
                     if (settingsObject.data.isHidden()) {
@@ -89,5 +104,22 @@ class SettingsCategory(category: Category) : UIContainer() {
                 }
             }
         }
+
+        scroller.setVerticalScrollBarComponent(scrollBar, true)
+
+        scroller.onMouseScroll {
+            closePopups()
+        }
+    }
+
+    @JvmOverloads
+    fun closePopups(instantly: Boolean = false) {
+        scroller.childrenOfType<Setting>().forEach {
+            it.closePopups(instantly)
+        }
+    }
+
+    fun scrollToTop() {
+        scroller.scrollToTop(smoothScroll = false)
     }
 }

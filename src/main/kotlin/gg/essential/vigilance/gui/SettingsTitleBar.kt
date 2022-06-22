@@ -3,30 +3,31 @@ package gg.essential.vigilance.gui
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIText
+import gg.essential.elementa.components.Window
 import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.dsl.*
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.impl.I18n
 
-class SettingsTitleBar(private val gui: SettingsGui, config: Vigilant) :
-    UIBlock(VigilancePalette.getComponentBackground()) {
+class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilant, window: Window) :
+    UIContainer() {
 
     // Notches in titlebar
     private val leftDivider by UIBlock(VigilancePalette.componentHighlight).constrain {
-        width = gui.dividerWidth.pixels
+        width = SettingsGui.dividerWidth.pixels
         height = 100.percent
     } childOf this
 
-    private val contentContainer by UIContainer().constrain {
+    private val contentContainer by UIBlock(VigilancePalette.getComponentBackground()).constrain {
         x = SiblingConstraint()
-        width = 100.percent - (gui.dividerWidth * 2f).pixels
+        width = 100.percent - (SettingsGui.dividerWidth * 2f).pixels
         height = 100.percent
     } childOf this
 
     private val rightDivider by UIBlock(VigilancePalette.componentHighlight).constrain {
         x = 0.pixels(alignOpposite = true)
-        width = gui.dividerWidth.pixels
+        width = SettingsGui.dividerWidth.pixels
         height = 100.percent
     } childOf this
 
@@ -36,8 +37,8 @@ class SettingsTitleBar(private val gui: SettingsGui, config: Vigilant) :
     } childOf contentContainer
 
     private val middleDivider by UIBlock(VigilancePalette.componentHighlight).constrain {
-        x = 25.percent + gui.dividerWidth.pixels
-        width = gui.dividerWidth.pixels
+        x = 25.percent + SettingsGui.dividerWidth.pixels
+        width = SettingsGui.dividerWidth.pixels
         height = 100.percent
     } childOf this
 

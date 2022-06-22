@@ -246,6 +246,4 @@ internal class ReadyOnlyState<T>(private val internalState: State<T>) : State<T>
 internal operator fun <T> State<T>.getValue(obj: Any, property: KProperty<*>): T = get()
 internal operator fun <T> State<T>.setValue(obj: Any, property: KProperty<*>, value: T) = set(value)
 
-internal fun <T> State<T>.readOnly() = ReadyOnlyState(this)
-
 internal fun <T> T.state() = BasicState(this)

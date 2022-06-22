@@ -470,12 +470,15 @@ public abstract class gg/essential/vigilance/gui/Setting : gg/essential/elementa
 public final class gg/essential/vigilance/gui/SettingsCategory : gg/essential/elementa/components/UIContainer {
 	public fun <init> (Lgg/essential/vigilance/data/Category;)V
 	public final fun closePopups ()V
+	public final fun closePopups (Z)V
+	public static synthetic fun closePopups$default (Lgg/essential/vigilance/gui/SettingsCategory;ZILjava/lang/Object;)V
 	public final fun scrollToTop ()V
 }
 
 public final class gg/essential/vigilance/gui/SettingsGui : gg/essential/elementa/WindowScreen {
 	public static final field Companion Lgg/essential/vigilance/gui/SettingsGui$Companion;
 	public static final field animTime F
+	public static final field dividerWidth F
 	public fun <init> (Lgg/essential/vigilance/Vigilant;)V
 	public final fun selectCategory (Lgg/essential/vigilance/data/Category;)V
 	public fun updateGuiScale ()V
@@ -492,25 +495,42 @@ public final class gg/essential/vigilance/gui/VigilancePalette {
 	public static final field INSTANCE Lgg/essential/vigilance/gui/VigilancePalette;
 	public final fun getAccent ()Ljava/awt/Color;
 	public final fun getBackground ()Ljava/awt/Color;
+	public final fun getBlack ()Ljava/awt/Color;
 	public final fun getBrightDivider ()Ljava/awt/Color;
 	public final fun getBrightHighlight ()Ljava/awt/Color;
 	public final fun getBrightText ()Ljava/awt/Color;
+	public final fun getButton ()Ljava/awt/Color;
+	public final fun getButtonHighlight ()Ljava/awt/Color;
+	public final fun getComponentBackground ()Ljava/awt/Color;
+	public final fun getComponentBackgroundHighlight ()Ljava/awt/Color;
+	public final fun getComponentBorder ()Ljava/awt/Color;
+	public final fun getComponentHighlight ()Ljava/awt/Color;
 	public final fun getDarkBackground ()Ljava/awt/Color;
 	public final fun getDarkDivider ()Ljava/awt/Color;
 	public final fun getDarkHighlight ()Ljava/awt/Color;
 	public final fun getDarkText ()Ljava/awt/Color;
 	public final fun getDisabled ()Ljava/awt/Color;
 	public final fun getDivider ()Ljava/awt/Color;
+	public final fun getDividerDark ()Ljava/awt/Color;
+	public final fun getGreen ()Ljava/awt/Color;
 	public final fun getHighlight ()Ljava/awt/Color;
 	public final fun getLightBackground ()Ljava/awt/Color;
+	public final fun getMainBackground ()Ljava/awt/Color;
 	public final fun getMidText ()Ljava/awt/Color;
 	public final fun getModalBackground ()Ljava/awt/Color;
 	public final fun getOutline ()Ljava/awt/Color;
 	public final fun getScrollBar ()Ljava/awt/Color;
+	public final fun getScrollbar ()Ljava/awt/Color;
 	public final fun getSearchBarBackground ()Ljava/awt/Color;
 	public final fun getSuccess ()Ljava/awt/Color;
+	public final fun getText ()Ljava/awt/Color;
+	public final fun getTextDisabled ()Ljava/awt/Color;
+	public final fun getTextHighlight ()Ljava/awt/Color;
+	public final fun getTextShadow ()Ljava/awt/Color;
+	public final fun getTextWarning ()Ljava/awt/Color;
 	public final fun getTransparent ()Ljava/awt/Color;
 	public final fun getWarning ()Ljava/awt/Color;
+	public final fun getWhite ()Ljava/awt/Color;
 }
 
 public abstract class gg/essential/vigilance/gui/settings/AbstractSliderComponent : gg/essential/vigilance/gui/settings/SettingComponent {
@@ -570,6 +590,18 @@ public final class gg/essential/vigilance/gui/settings/DropDown : gg/essential/e
 	public static synthetic fun collapse$default (Lgg/essential/vigilance/gui/settings/DropDown;ZZILjava/lang/Object;)V
 	public final fun getValue ()I
 	public final fun onValueChange (Lkotlin/jvm/functions/Function1;)V
+	public final fun select (I)V
+}
+
+public final class gg/essential/vigilance/gui/settings/DropDownComponent : gg/essential/elementa/components/UIBlock {
+	public fun <init> (ILjava/util/List;I)V
+	public synthetic fun <init> (ILjava/util/List;IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun collapse (Z)V
+	public static synthetic fun collapse$default (Lgg/essential/vigilance/gui/settings/DropDownComponent;ZILjava/lang/Object;)V
+	public final fun expand (Z)V
+	public static synthetic fun expand$default (Lgg/essential/vigilance/gui/settings/DropDownComponent;ZILjava/lang/Object;)V
+	public final fun getSelectedIndex ()Lgg/essential/elementa/state/State;
+	public final fun getSelectedText ()Lgg/essential/elementa/state/State;
 	public final fun select (I)V
 }
 

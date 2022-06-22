@@ -12,7 +12,6 @@ import gg.essential.elementa.constraints.FillConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.ScissorEffect
-import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.GuiScale
 import gg.essential.universal.UKeyboard
 import gg.essential.vigilance.Vigilant
@@ -30,8 +29,6 @@ class SettingsGui(
     restoreCurrentGuiOnClose = true,
 ) {
 
-    val dividerWidth = 3f
-
     private val background by UIBlock(VigilancePalette.mainBackground).constrain {
         width = 100.percent
         height = 100.percent
@@ -44,7 +41,7 @@ class SettingsGui(
         height = 75.percent
     } childOf window
 
-    private val titleBar by SettingsTitleBar(this, config) childOf container
+    private val titleBar by SettingsTitleBar(this, config, window) childOf container
 
     private val bottomContainer by UIContainer().constrain {
         y = SiblingConstraint()
@@ -82,30 +79,17 @@ class SettingsGui(
         width = 100.percent
     } childOf middleDivider
 
-    private val content by UIContainer().constrain {
-        x = SiblingConstraint()
-        width = FillConstraint()
-        height = 100.percent
-    } effect(ScissorEffect()) childOf bottomContainer
-
     private val rightDivider by UIBlock(VigilancePalette.dividerDark).constrain {
-        x = SiblingConstraint()
+        x = 0.pixels(alignOpposite = true)
         width = dividerWidth.pixels
         height = 100.percent
     } childOf bottomContainer
 
-    private val contentScroller by ScrollComponent(
-        "No matching settings found :(",
-        innerPadding = 10f,
-        pixelsPerScroll = 25f,
-    ).constrain {
-        width = 100.percent - 10.pixels - dividerWidth.pixels
+    private val content by UIContainer().constrain {
+        x = SiblingConstraint() boundTo middleDivider
+        width = FillConstraint(useSiblings = false)
         height = 100.percent
-    } childOf content scrollGradient 20.pixels
-
-    private val contentScrollbar by UIBlock(VigilancePalette.scrollbar).constrain {
-        width = 100.percent
-    } childOf rightDivider
+    } effect(ScissorEffect()) childOf bottomContainer
 
     private val bottomDivider by UIBlock(VigilancePalette.dividerDark).constrain {
         y = SiblingConstraint()
@@ -131,24 +115,21 @@ class SettingsGui(
     } childOf window
 
     private val categories = config.getCategories()
-    private var currentCategory = SettingsCategory(categories.first()) childOf contentScroller
+    private var currentCategory = SettingsCategory(categories.first()) childOf content
 
     init {
         backButton.onActiveClick { restorePreviousScreen() }
 
         window.onLeftClick {
-            contentScroller.allChildren.filterIsInstance<Setting>().forEach { it.closePopups() }
+            currentCategory.closePopups()
         }
 
         sidebarScroller.setVerticalScrollBarComponent(sidebarVerticalScrollbar, true)
         sidebarScroller.setHorizontalScrollBarComponent(sidebarHorizontalScrollbar, true)
-        contentScroller.setVerticalScrollBarComponent(contentScrollbar, true)
 
-        repeat(8) {
-            categories.forEach { category ->
-                val label = CategoryLabel(this, category)
-                label childOf sidebarScroller
-            }
+        categories.forEach { category ->
+            val label = CategoryLabel(this, category)
+            label childOf sidebarScroller
         }
 
         sidebarScroller.childrenOfType<CategoryLabel>().firstOrNull()?.select()
@@ -162,7 +143,7 @@ class SettingsGui(
                 return@onKeyType
             }
 
-            currentCategory.childrenOfType<DataBackedSetting>().filter { it.isHovered() }.forEach { child ->
+            currentCategory.scroller.childrenOfType<DataBackedSetting>().filter { it.isHovered() }.forEach { child ->
                 when (child.component) {
                     is AbstractSliderComponent -> if (keyCode == UKeyboard.KEY_LEFT) {
                         child.component.incrementBy(-.05f)
@@ -180,7 +161,7 @@ class SettingsGui(
                         UKeyboard.KEY_ENTER -> child.component.click()
                     }
                     is CheckboxComponent -> if (keyCode == UKeyboard.KEY_ENTER) child.component.click()
-                    is ButtonComponent -> if (keyCode == UKeyboard.KEY_ENTER) child.component.container.click()
+                    is ButtonComponent -> if (keyCode == UKeyboard.KEY_ENTER) child.component.click()
                     is SelectorComponent -> if (keyCode == UKeyboard.KEY_UP) {
                         child.component.dropDown.select(child.component.dropDown.selectedIndex.get() - 1)
                     } else if (keyCode == UKeyboard.KEY_DOWN) {
@@ -193,12 +174,12 @@ class SettingsGui(
     }
 
     fun selectCategory(category: Category) {
-        val newCategory = SettingsCategory(category) childOf contentScroller
+        val newCategory = SettingsCategory(category) childOf content
 
-        currentCategory.childrenOfType<Setting>().forEach { it.closePopups(instantly = true) }
+        currentCategory.closePopups(true)
         currentCategory.hide()
         newCategory.unhide()
-        contentScroller.scrollToTop()
+        newCategory.scrollToTop()
         currentCategory = newCategory
 
         sidebarScroller.childrenOfType<CategoryLabel>().firstOrNull { it.isSelected }?.deselect()
@@ -207,5 +188,10 @@ class SettingsGui(
     override fun updateGuiScale() {
         newGuiScale = GuiScale.scaleForScreenSize().ordinal
         super.updateGuiScale()
+    }
+
+    companion object {
+        const val animTime = .5f
+        const val dividerWidth = 3f
     }
 }

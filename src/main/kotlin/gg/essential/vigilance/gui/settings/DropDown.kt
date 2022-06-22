@@ -1,163 +1,123 @@
 package gg.essential.vigilance.gui.settings
 
+import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.*
 import gg.essential.elementa.constraints.*
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
+import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.effects.ScissorEffect
-import gg.essential.elementa.state.BasicState
-import gg.essential.elementa.state.State
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.USound
 import gg.essential.vigilance.gui.VigilancePalette
-import gg.essential.vigilance.gui.common.shadow.ShadowIcon
-import gg.essential.vigilance.utils.*
-import gg.essential.vigilance.utils.ReadyOnlyState
-import gg.essential.vigilance.utils.and
-import gg.essential.vigilance.utils.hoveredState
+import gg.essential.vigilance.utils.onLeftClick
+import java.awt.Color
 
-internal class DropDown(
+@Deprecated("Use DropDownComponent instead.", ReplaceWith("DropDownComponent", "gg.essential.vigilance.gui.settings.DropDownComponent"))
+class DropDown(
     initialSelection: Int,
     private val options: List<String>,
-    private val maxDisplayOptions: Int = 6,
+    //backgroundColor: Color = VigilancePalette.DARK_HIGHLIGHT,
+    outlineEffect: OutlineEffect? = OutlineEffect(VigilancePalette.getDivider(), 1f).bindColor(VigilancePalette.dividerState),
+    optionPadding: Float = 6f
 ) : UIBlock() {
+    private var selected = initialSelection
+    private var onValueChange: (Int) -> Unit = { }
+    private var active = false
 
-    private val writableExpandedState: State<Boolean> = BasicState(false)
-    private val optionContainerHeight = 18
-
-    /** Public States **/
-    val selectedIndex: State<Int> = BasicState(initialSelection)
-    val selectedText: State<String> = selectedIndex.map {
-        options[it]
-    }
-    val expandedState = ReadyOnlyState(writableExpandedState)
-
-    private val selectedArea by UIContainer().constrain {
-        width = 100.percent
-        height = 17.pixels
+    private val currentSelectionText by UIText(options[selected]).constrain {
+        x = 5.pixels()
+        y = 6.pixels()
+        color = VigilancePalette.midTextState.toConstraint()
+        fontProvider = getFontProvider()
     } childOf this
 
-    private val selectAreaHovered = selectedArea.hoveredState()
+    private val downArrow by UIImage.ofResourceCached(SettingComponent.DOWN_ARROW_PNG).constrain {
+        x = 5.pixels(true)
+        y = 7.5.pixels()
+        width = 9.pixels()
+        height = 5.pixels()
+    } childOf this
 
-    private val currentSelectionText by UIText().bindText(selectedText).constrain {
-        x = 5.pixels
-        y = CenterConstraint()
-        color = VigilancePalette.getTextColor((selectAreaHovered and writableExpandedState)).toConstraint()
-    } childOf selectedArea
+    private val upArrow by UIImage.ofResourceCached(SettingComponent.UP_ARROW_PNG).constrain {
+        x = 5.pixels(true)
+        y = 7.5.pixels()
+        width = 9.pixels()
+        height = 5.pixels()
+    }
 
-    private val iconState = writableExpandedState.map {
-        if (it) {
-            VigilancePalette.ARROW_UP_7X4
-        } else {
-            VigilancePalette.ARROW_DOWN_7X4
+    private val scrollContainer by UIContainer().constrain {
+        x = 5.pixels()
+        y = SiblingConstraint(optionPadding) boundTo currentSelectionText
+        width = ChildBasedMaxSizeConstraint()
+        height = ChildBasedSizeConstraint() + optionPadding.pixels()
+    } childOf this
+
+    private val optionsHolder by ScrollComponent(customScissorBoundingBox = scrollContainer).constrain {
+        x = 0.pixels()
+        y = 0.pixels()
+        height = (((options.size - 1) * (getFontProvider().getStringHeight("Text", getTextScale()) + optionPadding) - optionPadding).pixels()) coerceAtMost
+                basicHeightConstraint { Window.of(this@DropDown).getBottom() - this@DropDown.getTop() - 31 }
+    } childOf scrollContainer
+
+    private val mappedOptions = options.mapIndexed { index, option ->
+        // TODO: Wrap this somehow
+        UIText(option).constrain {
+            y = SiblingConstraint(optionPadding)
+            color = Color(0, 0, 0, 0).toConstraint()
+            fontProvider = getFontProvider()
+        }.onMouseEnter {
+            hoverText(this)
+        }.onMouseLeave {
+            unHoverText(this)
+        }.onMouseClick { event ->
+            event.stopPropagation()
+            select(index)
         }
     }
 
-    private val downArrow by ShadowIcon(iconState, BasicState(true)).constrain {
-        x = 5.pixels(alignOpposite = true)
-        y = CenterConstraint()
-    }.rebindPrimaryColor(VigilancePalette.getTextColor(selectAreaHovered)) childOf selectedArea
+    private val collapsedWidth = 22.pixels() + CopyConstraintFloat().to(currentSelectionText)
 
-
-    private val expandedBlock by UIBlock(VigilancePalette.buttonHighlight).constrain {
-        y = SiblingConstraint()
-        width = 100.percent
-        height = 0.pixels // Start collapsed
-    }.bindFloating(writableExpandedState) childOf this effect ScissorEffect()
-
-    private val scroller by ScrollComponent().centered().constrain {
-        width = 100.percent
-        height = (100.percent - 4.pixels).coerceAtLeast(0.pixels)
-    } childOf expandedBlock
-
-    // Height set in init
-    private val expandedContentArea by UIBlock(VigilancePalette.componentBackground).constrain {
-        x = CenterConstraint()
-        width = 100.percent - 4.pixels
-    } childOf scroller
-
-    private val expandedContent by UIContainer().centered().constrain {
-        width = 100.percent
-        height = ChildBasedSizeConstraint()
-    } childOf expandedContentArea
-
-    private val scrollbarContainer by UIContainer().constrain {
-        x = 3.pixels(alignOpposite = true)
-        y = CenterConstraint()
-        width = 2.pixels
-        height = 100.percent - 4.pixels
-    } childOf expandedBlock
-
-    private val scrollbar by UIBlock(VigilancePalette.scrollbar).constrain {
-        width = 2.pixels
-    } childOf scrollbarContainer
-
-    private fun getMaxItemWidth(): Float {
-        return options.maxOf {
-            it.width()
-        }
-    }
-
-    private val scrollable = options.size > maxDisplayOptions
+    private val expandedWidth = 22.pixels() + (ChildBasedMaxSizeConstraint().to(optionsHolder) coerceAtLeast CopyConstraintFloat().to(currentSelectionText))
 
     init {
         constrain {
-            width = (getMaxItemWidth() + 25).pixels
-            height = ChildBasedSizeConstraint()
-        }
-        setColor((selectAreaHovered or expandedState).map {
-            if (it) {
-                VigilancePalette.getButtonHighlight()
-            } else {
-                VigilancePalette.getComponentBackgroundHighlight()
-            }
-        }.toConstraint())
-
-        expandedContentArea.constrain {
-            height = (100.percent boundTo expandedContent) + 6.pixels
-        }
-        if (scrollable) {
-            scroller.setVerticalScrollBarComponent(scrollbar, hideWhenUseless = false)
-            // Force the scrollbar's height to be recalculated each frame.
-            // Without it, the size of the scrollbar will be incorrect until the user scrolls
-            // because Elementa does not check for size updates in ScrollComponent.
-            onAnimationFrame {
-                scroller.filterChildren { true }
-            }
-
+            width = collapsedWidth
+            height = 20.pixels()
+            color = VigilancePalette.darkHighlightState.toConstraint()
         }
 
-        options.withIndex().forEach { (index, value) ->
-            val optionContainer by UIBlock().constrain {
-                y = SiblingConstraint()
-                width = 100.percent
-                height = optionContainerHeight.pixels
-            }.onLeftClick {
-                USound.playButtonPress()
-                it.stopPropagation()
-                select(index)
-            } childOf expandedContent
-            val hovered = optionContainer.hoveredState()
+        readOptionComponents()
 
-            optionContainer.setColor(hovered.map {
-                if (it) {
-                    VigilancePalette.getButton()
-                } else {
-                    VigilancePalette.getComponentBackground()
-                }
-            }.toConstraint())
-            val text by UIText(value).constrain {
-                x = 5.pixels
-                y = CenterConstraint()
-                color = VigilancePalette.getTextColor(hovered).toConstraint()
-            } childOf optionContainer
+        optionsHolder.hide(instantly = true)
+
+        outlineEffect?.let(::enableEffect)
+
+        val outlineContainer = UIContainer().constrain {
+            x = (-1).pixels()
+            y = (-1).pixels()
+            width = RelativeConstraint(1f) + 2.pixels()
+            height = RelativeConstraint(1f) + 3f.pixels()
+        }
+        outlineContainer.parent = this
+        children.add(0, outlineContainer)
+        enableEffect(ScissorEffect(outlineContainer))
+
+        onMouseEnter {
+            hoverText(currentSelectionText)
         }
 
-        selectedArea.onLeftClick { event ->
+        onMouseLeave {
+            if (active) return@onMouseLeave
+
+            unHoverText(currentSelectionText)
+        }
+
+        onLeftClick { event ->
             USound.playButtonPress()
             event.stopPropagation()
 
-            if (writableExpandedState.get()) {
+            if (active) {
                 collapse()
             } else {
                 expand()
@@ -167,37 +127,89 @@ internal class DropDown(
 
     fun select(index: Int) {
         if (index in options.indices) {
-            selectedIndex.set(index)
+            selected = index
+            onValueChange(index)
+            currentSelectionText.setText(options[index])
             collapse()
+            readOptionComponents()
         }
     }
 
-    fun expand(instantly: Boolean = false) {
-        writableExpandedState.set(true)
-        applyExpandedBlockHeight(
-            instantly,
-            (options.size.coerceAtMost(maxDisplayOptions) * optionContainerHeight).pixels + 6.pixels
-        )
+    fun onValueChange(listener: (Int) -> Unit) {
+        onValueChange = listener
     }
 
-    fun collapse(instantly: Boolean = false) {
-        writableExpandedState.set(false)
-        applyExpandedBlockHeight(instantly, 0.pixels)
+    fun getValue() = selected
+
+    private fun expand() {
+        active = true
+        mappedOptions.forEach {
+            it.setColor(VigilancePalette.midTextState.toConstraint())
+        }
+
+        animate {
+            setHeightAnimation(
+                Animations.IN_SIN,
+                0.35f,
+                20.pixels() + RelativeConstraint(1f).boundTo(scrollContainer)
+            )
+        }
+
+        optionsHolder.scrollToTop(false)
+
+        replaceChild(upArrow, downArrow)
+        setFloating(true)
+        optionsHolder.unhide(useLastPosition = true)
+        setWidth(expandedWidth)
     }
 
-    private fun applyExpandedBlockHeight(
-        instantly: Boolean,
-        heightConstraint: HeightConstraint,
-        onComplete: () -> Unit = {}
-    ) {
-        if (instantly) {
-            expandedBlock.setHeight(heightConstraint)
-            onComplete()
-        } else {
-            expandedBlock.animate {
-                setHeightAnimation(Animations.OUT_EXP, 0.25f, heightConstraint)
-                onComplete(onComplete)
+    fun collapse(unHover: Boolean = false, instantly: Boolean = false) {
+        if (active)
+            replaceChild(downArrow, upArrow)
+        active = false
+
+        fun animationComplete() {
+            mappedOptions.forEach {
+                it.setColor(Color(0, 0, 0, 0).toConstraint())
             }
+            setFloating(false)
+            optionsHolder.hide(instantly = true)
+        }
+
+        if (instantly) {
+            setHeight(20.pixels())
+            animationComplete()
+        } else {
+            animate {
+                setHeightAnimation(Animations.OUT_SIN, 0.35f, 20.pixels())
+
+                onComplete(::animationComplete)
+            }
+        }
+
+        if (unHover)
+            unHoverText(currentSelectionText)
+
+        setWidth(collapsedWidth)
+    }
+
+    private fun hoverText(text: UIComponent) {
+        text.animate {
+            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.brightTextState.toConstraint())
+        }
+    }
+
+    private fun unHoverText(text: UIComponent) {
+        text.animate {
+            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.midTextState.toConstraint())
+        }
+    }
+
+    private fun readOptionComponents() {
+        optionsHolder.clearChildren()
+        mappedOptions.forEachIndexed { index, component ->
+            if (index != selected)
+                component childOf optionsHolder
         }
     }
 }

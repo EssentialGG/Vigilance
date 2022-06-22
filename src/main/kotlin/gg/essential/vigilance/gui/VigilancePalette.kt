@@ -9,11 +9,12 @@ import java.awt.Color
 
 object VigilancePalette {
 
+    // Old
     fun getBrightDivider(): Color = brightDividerState.get()
     fun getDivider(): Color = dividerState.get()
     fun getDarkDivider(): Color = darkDividerState.get()
     fun getOutline(): Color = outlineState.get()
-    fun getScrollBar(): Color = this.scrollBarState.get()
+    fun getScrollBar(): Color = scrollBarState.get()
     fun getBrightHighlight(): Color = brightHighlightState.get()
     fun getHighlight(): Color = highlightState.get()
     fun getDarkHighlight(): Color = darkHighlightState.get()
@@ -22,20 +23,21 @@ object VigilancePalette {
     fun getDarkBackground(): Color = darkBackgroundState.get()
     fun getSearchBarBackground(): Color = searchBarBackgroundState.get()
     fun getBrightText(): Color = brightTextState.get()
-    fun getMidText(): Color = this.midTextState.get()
+    fun getMidText(): Color = midTextState.get()
     fun getDarkText(): Color = darkTextState.get()
     fun getModalBackground(): Color = modalBackgroundState.get()
     fun getWarning(): Color = warningState.get()
-    fun getAccent(): Color = this.accentState.get()
+    fun getAccent(): Color = accentState.get()
     fun getSuccess(): Color = successState.get()
     fun getTransparent(): Color = transparentState.get()
     fun getDisabled(): Color = disabledState.get()
 
-    fun getGreen(): Color = this.green.get()
+    // New
+    fun getGreen(): Color = green.get()
     fun getButton(): Color = button.get()
     fun getButtonHighlight(): Color = buttonHighlight.get()
-    fun getText(): Color = this.text.get()
-    fun getTextHighlight(): Color = this.textHighlight.get()
+    fun getText(): Color = text.get()
+    fun getTextHighlight(): Color = textHighlight.get()
     fun getTextDisabled(): Color = textDisabled.get()
     fun getTextWarning(): Color = textWarning.get()
     fun getComponentBackground(): Color = componentBackground.get()
@@ -43,13 +45,14 @@ object VigilancePalette {
     fun getComponentBorder(): Color = componentBorder.get()
     fun getComponentHighlight(): Color = componentHighlight.get()
     fun getDividerDark(): Color = dividerDark.get()
-    fun getScrollbar(): Color = this.scrollbar.get()
-    fun getTextShadow(): Color = this.textShadow.get()
-    fun getBlack(): Color = this.black.get()
-    fun getWhite(): Color = this.white.get()
-    fun getMainBackground(): Color = this.mainBackground.get()
+    fun getScrollbar(): Color = scrollbar.get()
+    fun getTextShadow(): Color = textShadow.get()
+    fun getBlack(): Color = black.get()
+    fun getWhite(): Color = white.get()
+    fun getMainBackground(): Color = mainBackground.get()
 
-    // these are marked as internal because ideally the user is only changing the colours in the settings gui
+    // These are marked as internal because ideally the user is only changing the colours in the settings gui
+    // Old
     internal val brightDividerState = BasicState(Color.BLACK)
     internal val dividerState = BasicState(Color.BLACK)
     internal val darkDividerState = BasicState(Color.BLACK)
@@ -73,6 +76,7 @@ object VigilancePalette {
     internal val disabledState = BasicState(Color.BLACK)
     internal val bgNoAlpha = BasicState(Color.BLACK)
 
+    // New
     internal val green = BasicState(Color.BLACK)
     internal val button = BasicState(Color.BLACK)
     internal val buttonHighlight = BasicState(Color.BLACK)
@@ -131,6 +135,4 @@ object VigilancePalette {
             }
         }
     }
-
-    internal fun getButtonColor(hovered: State<Boolean>): State<Color> = getButtonColor(hovered, BasicState(true))
 }
