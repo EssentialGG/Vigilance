@@ -45,6 +45,9 @@ object VigilanceConfig {
 
     // New
     private var green = Color(0x2BC553)
+    private var black = Color(0x000000)
+    private var white = Color(0xFFFFFF)
+    private var midGray = Color(0x939393)
     private var button = Color(0x323232)
     private var buttonHighlight = Color(0x474747)
     private var text = Color(0xBBBBBB)
@@ -58,8 +61,6 @@ object VigilanceConfig {
     private var componentHighlight = Color(0x303030)
     private var dividerDark = Color(0x232323)
     private var scrollbar = Color(0x545454)
-    private var black = Color(0x000000)
-    private var white = Color(0xFFFFFF)
     private var mainBackground = Color(0x181818)
 
     internal fun setAllInPalette() {
@@ -87,6 +88,9 @@ object VigilanceConfig {
         VigilancePalette.bgNoAlpha.set(background.withAlpha(0))
 
         VigilancePalette.green.set(green)
+        VigilancePalette.black.set(black)
+        VigilancePalette.white.set(white)
+        VigilancePalette.midGray.set(midGray)
         VigilancePalette.button.set(button)
         VigilancePalette.buttonHighlight.set(buttonHighlight)
         VigilancePalette.text.set(text)
@@ -100,8 +104,6 @@ object VigilanceConfig {
         VigilancePalette.dividerDark.set(dividerDark)
         VigilancePalette.scrollbar.set(scrollbar)
         VigilancePalette.textShadow.set(textShadow)
-        VigilancePalette.black.set(black)
-        VigilancePalette.white.set(white)
         VigilancePalette.mainBackground.set(mainBackground)
     }
 }

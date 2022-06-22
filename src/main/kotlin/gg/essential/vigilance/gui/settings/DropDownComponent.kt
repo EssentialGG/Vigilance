@@ -82,14 +82,14 @@ class DropDownComponent(
     } childOf expandedContentArea
 
     private val scrollbarContainer by UIContainer().constrain {
-        x = 3.pixels(alignOpposite = true)
+        x = 2.pixels(alignOpposite = true)
         y = CenterConstraint()
         width = 2.pixels
         height = 100.percent - 4.pixels
     } childOf expandedBlock
 
-    private val scrollbar by UIBlock(VigilancePalette.scrollbar).constrain {
-        width = 2.pixels
+    private val scrollbar by UIBlock(VigilancePalette.midGray).constrain {
+        width = 100.percent
     } childOf scrollbarContainer
 
     private fun getMaxItemWidth(): Float {

@@ -34,6 +34,9 @@ object VigilancePalette {
 
     // New
     fun getGreen(): Color = green.get()
+    fun getBlack(): Color = black.get()
+    fun getWhite(): Color = white.get()
+    fun getMidGray(): Color = midGray.get()
     fun getButton(): Color = button.get()
     fun getButtonHighlight(): Color = buttonHighlight.get()
     fun getText(): Color = text.get()
@@ -47,8 +50,6 @@ object VigilancePalette {
     fun getDividerDark(): Color = dividerDark.get()
     fun getScrollbar(): Color = scrollbar.get()
     fun getTextShadow(): Color = textShadow.get()
-    fun getBlack(): Color = black.get()
-    fun getWhite(): Color = white.get()
     fun getMainBackground(): Color = mainBackground.get()
 
     // These are marked as internal because ideally the user is only changing the colours in the settings gui
@@ -78,6 +79,9 @@ object VigilancePalette {
 
     // New
     internal val green = BasicState(Color.BLACK)
+    internal val black = BasicState(Color.BLACK)
+    internal val white = BasicState(Color.WHITE)
+    internal val midGray = BasicState(Color.GRAY)
     internal val button = BasicState(Color.BLACK)
     internal val buttonHighlight = BasicState(Color.BLACK)
     internal val text = BasicState(Color.BLACK)
@@ -91,8 +95,6 @@ object VigilancePalette {
     internal val dividerDark = BasicState(Color.BLACK)
     internal val scrollbar = BasicState(Color.BLACK)
     internal val textShadow = BasicState(Color.BLACK)
-    internal val black = BasicState(Color.BLACK)
-    internal val white = BasicState(Color.WHITE)
     internal val mainBackground = BasicState(Color.BLACK)
 
     internal val SEARCH_7X: ImageFactory = ResourceImageFactory("/vigilance/search_7x7.png")
