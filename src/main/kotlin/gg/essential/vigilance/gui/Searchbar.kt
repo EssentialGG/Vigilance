@@ -20,7 +20,7 @@ internal class Searchbar(
     initialValue: String = "",
     private val activateOnSearchHokey: Boolean = true,
     private val activateOnType: Boolean = true,
-    private val expandedWidth: Int = 120,
+    private val expandedWidth: Int = 104,
 ) : UIContainer() {
 
     private val collapsed = BasicState(true)

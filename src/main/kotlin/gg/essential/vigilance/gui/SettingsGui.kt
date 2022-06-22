@@ -59,40 +59,28 @@ class SettingsGui(
 
     private val sidebar by UIContainer().constrain {
         x = SiblingConstraint()
-        width = 25.percent - (dividerWidth * 2f).pixels
+        width = 25.percent
         height = 100.percent
     } effect ScissorEffect() childOf bottomContainer
 
     private val middleDivider by UIBlock(VigilancePalette.dividerDark).constrain {
-        x = 0.pixels(alignOpposite = true)
+        x = SiblingConstraint()
         width = dividerWidth.pixels
         height = 100.percent
-    } childOf sidebar
-
-    private val sidebarBottomDivider by UIBlock(VigilancePalette.dividerDark).constrain {
-        y = 0.pixels(alignOpposite = true)
-        width = 100.percent
-        height = dividerWidth.pixels
-    } childOf sidebar
+    } childOf bottomContainer
 
     private val sidebarScroller by ScrollComponent(
         "No matching settings found :(",
         innerPadding = 10f,
         pixelsPerScroll = 25f,
     ).constrain {
-        width = 100.percent - dividerWidth.pixels
+        width = 100.percent
         height = 100.percent - dividerWidth.pixels
     } childOf sidebar scrollGradient 20.pixels
 
     private val sidebarVerticalScrollbar by UIBlock(VigilancePalette.scrollbar).constrain {
-        x = 0.pixels(alignOpposite = true)
-        width = dividerWidth.pixels
-    } childOf sidebar
-
-    private val sidebarHorizontalScrollbar by UIBlock(VigilancePalette.scrollbar).constrain {
-        y = 0.pixels(alignOpposite = true)
-        height = dividerWidth.pixels
-    } childOf sidebar
+        width = 100.percent
+    } childOf middleDivider
 
     private val content by UIContainer().constrain {
         x = SiblingConstraint()
@@ -101,10 +89,10 @@ class SettingsGui(
     } effect(ScissorEffect()) childOf bottomContainer
 
     private val rightDivider by UIBlock(VigilancePalette.dividerDark).constrain {
-        x = 0.pixels(alignOpposite = true)
+        x = SiblingConstraint()
         width = dividerWidth.pixels
         height = 100.percent
-    } childOf content
+    } childOf bottomContainer
 
     private val contentScroller by ScrollComponent(
         "No matching settings found :(",
@@ -115,17 +103,25 @@ class SettingsGui(
         height = 100.percent
     } childOf content scrollGradient 20.pixels
 
-    private val contentScrollbar by UIBlock().constrain {
-        x = 0.pixels(alignOpposite = true)
-        width = dividerWidth.pixels()
-        color = VigilancePalette.scrollbar.toConstraint()
-    } childOf content
+    private val contentScrollbar by UIBlock(VigilancePalette.scrollbar).constrain {
+        width = 100.percent
+    } childOf rightDivider
 
-    private val contentBottomDivider by UIBlock(VigilancePalette.dividerDark).constrain {
-        y = 0.pixels(alignOpposite = true)
+    private val bottomDivider by UIBlock(VigilancePalette.dividerDark).constrain {
+        y = SiblingConstraint()
         width = 100.percent
         height = dividerWidth.pixels
-    } childOf content
+    } childOf container
+
+    private val sidebarScrollbarContainer by UIContainer().constrain {
+        x = 0.pixels boundTo sidebar
+        width = 100.percent boundTo sidebar
+        height = dividerWidth.pixels
+    } childOf bottomDivider
+
+    private val sidebarHorizontalScrollbar by UIBlock(VigilancePalette.scrollbar).constrain {
+        height = 100.percent
+    } childOf sidebarScrollbarContainer
 
     private val backButton by IconButton(VigilancePalette.ARROW_LEFT_4X7).constrain {
         x = SiblingConstraint(18f, alignOpposite = true) boundTo titleBar
@@ -148,9 +144,11 @@ class SettingsGui(
         sidebarScroller.setHorizontalScrollBarComponent(sidebarHorizontalScrollbar, true)
         contentScroller.setVerticalScrollBarComponent(contentScrollbar, true)
 
-        categories.forEach { category ->
-            val label = CategoryLabel(this, category)
-            label childOf sidebarScroller
+        repeat(8) {
+            categories.forEach { category ->
+                val label = CategoryLabel(this, category)
+                label childOf sidebarScroller
+            }
         }
 
         sidebarScroller.childrenOfType<CategoryLabel>().firstOrNull()?.select()

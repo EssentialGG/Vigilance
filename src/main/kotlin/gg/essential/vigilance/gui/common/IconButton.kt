@@ -91,7 +91,7 @@ internal class IconButton (
 
         buttonTextState.empty().onSetValueAndNow {
             if (it) {
-                icon.setX(CenterConstraint() - if (icon.getWidth() % 2f == 0f) 1.pixel else 0.pixels)
+                icon.setX(CenterConstraint())
             } else {
                 icon.setX(5.pixels)
             }

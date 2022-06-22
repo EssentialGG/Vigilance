@@ -36,7 +36,7 @@ class SettingsTitleBar(private val gui: SettingsGui, config: Vigilant) :
     } childOf contentContainer
 
     private val middleDivider by UIBlock(VigilancePalette.componentHighlight).constrain {
-        x = 25.percent - (gui.dividerWidth * 2f).pixels
+        x = 25.percent + gui.dividerWidth.pixels
         width = gui.dividerWidth.pixels
         height = 100.percent
     } childOf this
