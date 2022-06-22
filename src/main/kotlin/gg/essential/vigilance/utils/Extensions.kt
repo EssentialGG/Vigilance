@@ -152,6 +152,17 @@ internal fun <T : UIComponent> T.bindParent(state: State<UIComponent?>, delayed:
     }
 }
 
+internal fun <T : UIComponent> T.bindFloating(state: State<Boolean>) = apply {
+    state.onSetValueAndNow {
+        if (hasWindow) {
+            this.setFloating(it)
+        }
+    }
+}
+
+internal val UIComponent.hasWindow: Boolean
+    get() = this is Window || hasParent && parent.hasWindow
+
 internal fun <T : UIComponent> T.centered(): T = apply {
     constrain {
         x = CenterConstraint()

@@ -19,16 +19,18 @@ import gg.essential.vigilance.utils.hoveredState
 internal class DropDown(
     initialSelection: Int,
     private val options: List<String>,
+    private val maxDisplayOptions: Int = 6,
 ) : UIBlock() {
 
     private val writableExpandedState: State<Boolean> = BasicState(false)
+    private val optionContainerHeight = 18
 
     /** Public States **/
     val selectedIndex: State<Int> = BasicState(initialSelection)
     val selectedText: State<String> = selectedIndex.map {
         options[it]
     }
-    internal val expandedState = ReadyOnlyState(writableExpandedState)
+    val expandedState = ReadyOnlyState(writableExpandedState)
 
     private val selectedArea by UIContainer().constrain {
         width = 100.percent
@@ -56,21 +58,39 @@ internal class DropDown(
         y = CenterConstraint()
     }.rebindPrimaryColor(VigilancePalette.getTextColor(selectAreaHovered)) childOf selectedArea
 
+
     private val expandedBlock by UIBlock(VigilancePalette.buttonHighlight).constrain {
         y = SiblingConstraint()
         width = 100.percent
         height = 0.pixels // Start collapsed
-    } childOf this effect ScissorEffect()
+    }.bindFloating(writableExpandedState) childOf this effect ScissorEffect()
 
-    private val expandedContentArea by UIBlock(VigilancePalette.componentBackground).centered().constrain {
-        width = 100.percent - 4.pixels
-        height = ChildBasedSizeConstraint() + 6.pixels
+    private val scroller by ScrollComponent().centered().constrain {
+        width = 100.percent
+        height = (100.percent - 4.pixels).coerceAtLeast(0.pixels)
     } childOf expandedBlock
+
+    // Height set in init
+    private val expandedContentArea by UIBlock(VigilancePalette.componentBackground).constrain {
+        x = CenterConstraint()
+        width = 100.percent - 4.pixels
+    } childOf scroller
 
     private val expandedContent by UIContainer().centered().constrain {
         width = 100.percent
         height = ChildBasedSizeConstraint()
     } childOf expandedContentArea
+
+    private val scrollbarContainer by UIContainer().constrain {
+        x = 3.pixels(alignOpposite = true)
+        y = CenterConstraint()
+        width = 2.pixels
+        height = 100.percent - 4.pixels
+    } childOf expandedBlock
+
+    private val scrollbar by UIBlock(VigilancePalette.scrollbar).constrain {
+        width = 2.pixels
+    } childOf scrollbarContainer
 
     private fun getMaxItemWidth(): Float {
         return options.maxOf {
@@ -78,9 +98,11 @@ internal class DropDown(
         }
     }
 
+    private val scrollable = options.size > maxDisplayOptions
+
     init {
         constrain {
-            width = (getMaxItemWidth() + 25f).pixels
+            width = (getMaxItemWidth() + 25).pixels
             height = ChildBasedSizeConstraint()
         }
         setColor((selectAreaHovered or expandedState).map {
@@ -91,11 +113,25 @@ internal class DropDown(
             }
         }.toConstraint())
 
+        expandedContentArea.constrain {
+            height = (100.percent boundTo expandedContent) + 6.pixels
+        }
+        if (scrollable) {
+            scroller.setVerticalScrollBarComponent(scrollbar, hideWhenUseless = false)
+            // Force the scrollbar's height to be recalculated each frame.
+            // Without it, the size of the scrollbar will be incorrect until the user scrolls
+            // because Elementa does not check for size updates in ScrollComponent.
+            onAnimationFrame {
+                scroller.filterChildren { true }
+            }
+
+        }
+
         options.withIndex().forEach { (index, value) ->
             val optionContainer by UIBlock().constrain {
                 y = SiblingConstraint()
                 width = 100.percent
-                height = ChildBasedSizeConstraint() + 8.pixels
+                height = optionContainerHeight.pixels
             }.onLeftClick {
                 USound.playButtonPress()
                 it.stopPropagation()
@@ -138,7 +174,10 @@ internal class DropDown(
 
     fun expand(instantly: Boolean = false) {
         writableExpandedState.set(true)
-        applyExpandedBlockHeight(instantly, ChildBasedSizeConstraint() + 4.pixels)
+        applyExpandedBlockHeight(
+            instantly,
+            (options.size.coerceAtMost(maxDisplayOptions) * optionContainerHeight).pixels + 6.pixels
+        )
     }
 
     fun collapse(instantly: Boolean = false) {
@@ -146,12 +185,18 @@ internal class DropDown(
         applyExpandedBlockHeight(instantly, 0.pixels)
     }
 
-    private fun applyExpandedBlockHeight(instantly: Boolean, heightConstraint: HeightConstraint) {
+    private fun applyExpandedBlockHeight(
+        instantly: Boolean,
+        heightConstraint: HeightConstraint,
+        onComplete: () -> Unit = {}
+    ) {
         if (instantly) {
             expandedBlock.setHeight(heightConstraint)
+            onComplete()
         } else {
             expandedBlock.animate {
                 setHeightAnimation(Animations.OUT_EXP, 0.25f, heightConstraint)
+                onComplete(onComplete)
             }
         }
     }
