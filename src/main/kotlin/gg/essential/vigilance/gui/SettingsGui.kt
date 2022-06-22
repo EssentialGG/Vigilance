@@ -69,15 +69,29 @@ class SettingsGui(
         height = 100.percent
     } childOf sidebar
 
-    private val sidebarScroller by ScrollComponent(pixelsPerScroll = 25f).constrain {
+    private val sidebarBottomDivider by UIBlock(VigilancePalette.dividerDark).constrain {
+        y = 0.pixels(alignOpposite = true)
+        width = 100.percent
+        height = dividerWidth.pixels
+    } childOf sidebar
+
+    private val sidebarScroller by ScrollComponent(
+        "No matching settings found :(",
+        innerPadding = 10f,
+        pixelsPerScroll = 25f,
+    ).constrain {
         width = 100.percent - dividerWidth.pixels
-        height = 100.percent
+        height = 100.percent - dividerWidth.pixels
     } childOf sidebar scrollGradient 20.pixels
 
-    private val categoryScrollBar by UIBlock().constrain {
-        x = 0.pixels(true)
+    private val sidebarVerticalScrollbar by UIBlock(VigilancePalette.scrollbar).constrain {
+        x = 0.pixels(alignOpposite = true)
         width = dividerWidth.pixels
-        color = VigilancePalette.scrollbar.toConstraint()
+    } childOf sidebar
+
+    private val sidebarHorizontalScrollbar by UIBlock(VigilancePalette.scrollbar).constrain {
+        y = 0.pixels(alignOpposite = true)
+        height = dividerWidth.pixels
     } childOf sidebar
 
     private val content by UIContainer().constrain {
@@ -107,11 +121,11 @@ class SettingsGui(
         color = VigilancePalette.scrollbar.toConstraint()
     } childOf content
 
-    private val bottomDivider by UIBlock(VigilancePalette.dividerDark).constrain {
+    private val contentBottomDivider by UIBlock(VigilancePalette.dividerDark).constrain {
         y = 0.pixels(alignOpposite = true)
         width = 100.percent
         height = dividerWidth.pixels
-    } childOf container
+    } childOf content
 
     private val backButton by IconButton(VigilancePalette.ARROW_LEFT_4X7).constrain {
         x = SiblingConstraint(18f, alignOpposite = true) boundTo titleBar
@@ -130,7 +144,8 @@ class SettingsGui(
             contentScroller.allChildren.filterIsInstance<Setting>().forEach { it.closePopups() }
         }
 
-        sidebarScroller.setVerticalScrollBarComponent(categoryScrollBar, true)
+        sidebarScroller.setVerticalScrollBarComponent(sidebarVerticalScrollbar, true)
+        sidebarScroller.setHorizontalScrollBarComponent(sidebarHorizontalScrollbar, true)
         contentScroller.setVerticalScrollBarComponent(contentScrollbar, true)
 
         categories.forEach { category ->
