@@ -1,5 +1,6 @@
 import gg.essential.gradle.multiversion.StripReferencesTransform.Companion.registerStripReferencesAttribute
 import gg.essential.gradle.util.*
+import gg.essential.gradle.util.RelocationTransform.Companion.registerRelocationAttribute
 
 plugins {
     kotlin("jvm") version "1.6.10"
@@ -13,9 +14,12 @@ kotlin.jvmToolchain {
 }
 tasks.compileKotlin.setJvmDefault("all-compatibility")
 
-val internal = makeConfigurationForInternalDependencies {
-    relocate("com.electronwill.nightconfig", "gg.essential.vigilance.impl.nightconfig")
-    remapStringsIn("com.electronwill.nightconfig.core.file.FormatDetector")
+val internal by configurations.creating {
+    val relocated = registerRelocationAttribute("internal-relocated") {
+        relocate("com.electronwill.nightconfig", "gg.essential.vigilance.impl.nightconfig")
+        remapStringsIn("com.electronwill.nightconfig.core.file.FormatDetector")
+    }
+    attributes { attribute(relocated, true) }
 }
 
 val common = registerStripReferencesAttribute("common") {
@@ -24,9 +28,10 @@ val common = registerStripReferencesAttribute("common") {
 
 dependencies {
     internal(libs.nightconfig.toml)
+    implementation(prebundle(internal))
 
-    implementation(libs.kotlin.stdlib.jdk8)
-    implementation(libs.kotlin.reflect)
+    compileOnly(libs.kotlin.stdlib.jdk8)
+    compileOnly(libs.kotlin.reflect)
     compileOnly(libs.jetbrains.annotations)
 
     // Depending on LWJGL3 instead of 2 so we can choose opengl bindings only
