@@ -65,15 +65,22 @@ class DropDownComponent(
         height = 0.pixels // Start collapsed
     }.bindFloating(writableExpandedState) childOf this effect ScissorEffect()
 
-    private val scroller by ScrollComponent().centered().constrain {
-        width = 100.percent
+    private val scrollerContainer by UIContainer().constrain {
+        x = CenterConstraint()
+        y = CenterConstraint()
+        width = 100.percent - 4.pixels
         height = (100.percent - 4.pixels).coerceAtLeast(0.pixels)
     } childOf expandedBlock
+
+    private val scroller by ScrollComponent().centered().constrain {
+        width = 100.percent
+        height = 100.percent
+    } childOf scrollerContainer
 
     // Height set in init
     private val expandedContentArea by UIBlock(VigilancePalette.componentBackground).constrain {
         x = CenterConstraint()
-        width = 100.percent - 4.pixels
+        width = 100.percent
     } childOf scroller
 
     private val expandedContent by UIContainer().centered().constrain {
@@ -85,8 +92,8 @@ class DropDownComponent(
         x = 2.pixels(alignOpposite = true)
         y = CenterConstraint()
         width = 2.pixels
-        height = 100.percent - 4.pixels
-    } childOf expandedBlock
+        height = 100.percent
+    } childOf scrollerContainer
 
     private val scrollbar by UIBlock(VigilancePalette.midGray).constrain {
         width = 100.percent
@@ -176,7 +183,7 @@ class DropDownComponent(
         writableExpandedState.set(true)
         applyExpandedBlockHeight(
             instantly,
-            (options.size.coerceAtMost(maxDisplayOptions) * optionContainerHeight).pixels + 6.pixels
+            (options.size.coerceAtMost(maxDisplayOptions) * optionContainerHeight).pixels + 10.pixels
         )
     }
 
