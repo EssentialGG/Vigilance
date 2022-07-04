@@ -50,7 +50,7 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
             height = ChildBasedSizeConstraint()
         }
 
-        enableEffect(ExpandingClickEffect(VigilancePalette.getGreen().withAlpha(0.5f), scissorBoundingBox = container))
+        enableEffect(ExpandingClickEffect(VigilancePalette.getPrimary().withAlpha(0.5f), scissorBoundingBox = container))
 
         container.onMouseEnter {
             container.animate {

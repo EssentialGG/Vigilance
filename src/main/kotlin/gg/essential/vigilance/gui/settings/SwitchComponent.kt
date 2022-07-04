@@ -59,7 +59,7 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
 
     private fun getOutlineEffect(): OutlineEffect = OutlineEffect(getSwitchColor().get(), 1f).bindColor(getSwitchColor())
 
-    private fun getSwitchColor(): BasicState<Color> = if (enabled) VigilancePalette.green else VigilancePalette.text
+    private fun getSwitchColor(): BasicState<Color> = if (enabled) VigilancePalette.primary else VigilancePalette.text
 
     private fun getSwitchPosition(): PixelConstraint = if (enabled) 0.pixels else 0.pixels(alignOpposite = true)
 }

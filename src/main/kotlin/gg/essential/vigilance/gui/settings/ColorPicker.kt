@@ -44,7 +44,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         y = (RelativeConstraint(1f - currentBrightness) - 3.5f.pixels).coerceIn(2.pixels, 2.pixels(alignOpposite = true))
         width = 3.pixels
         height = 3.pixels
-    } effect OutlineEffect(VigilancePalette.getWhite(), 1f)
+    } effect OutlineEffect(Color.WHITE, 1f)
 
     private val huePickerLine = UIBlock().constrain {
         x = 85.percent

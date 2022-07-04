@@ -23,7 +23,7 @@ class CheckboxComponent(initialValue: Boolean) : SettingComponent() {
         y = CenterConstraint()
         width = 16.pixels
         height = 12.pixels
-        color = VigilancePalette.green.toConstraint()
+        color = VigilancePalette.primary.toConstraint()
     } childOf this
 
     init {
@@ -54,5 +54,5 @@ class CheckboxComponent(initialValue: Boolean) : SettingComponent() {
 
     private fun getOutlineEffect() = OutlineEffect(getSettingColor().get(), 1f).bindColor(getSettingColor())
 
-    private fun getSettingColor() = if (checked) VigilancePalette.green else VigilancePalette.componentBorder
+    private fun getSettingColor() = if (checked) VigilancePalette.primary else VigilancePalette.componentBorder
 }

@@ -33,7 +33,7 @@ class NumberComponent(
     private val valueText by UIText(value.toString()).constrain {
         y = CenterConstraint()
         textScale = 1.5f.pixels
-        color = VigilancePalette.green.toConstraint()
+        color = VigilancePalette.primary.toConstraint()
     } childOf this
 
     private val controlContainer by UIContainer().constrain {
@@ -97,7 +97,7 @@ class NumberComponent(
     }
 
     private fun clickControl(control: UIComponent) {
-        changeOutlineColor(control, VigilancePalette.green)
+        changeOutlineColor(control, VigilancePalette.primary)
 
         val flag = UKeyboard.isCtrlKeyDown()
         val change = if (control == incrementControl) {

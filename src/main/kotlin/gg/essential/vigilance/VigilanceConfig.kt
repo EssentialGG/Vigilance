@@ -44,9 +44,8 @@ object VigilanceConfig {
     private var disabled = Color(80, 80, 80)
 
     // New
-    private var green = Color(0x2BC553)
-    private var black = Color(0x000000)
-    private var white = Color(0xFFFFFF)
+    private var primary = Color(0x2BC553)
+    private var componentBorderDark = Color(0x000000)
     private var midGray = Color(0x939393)
     private var button = Color(0x323232)
     private var buttonHighlight = Color(0x474747)
@@ -87,9 +86,8 @@ object VigilanceConfig {
         VigilancePalette.disabledState.set(disabled)
         VigilancePalette.bgNoAlpha.set(background.withAlpha(0))
 
-        VigilancePalette.green.set(green)
-        VigilancePalette.black.set(black)
-        VigilancePalette.white.set(white)
+        VigilancePalette.primary.set(primary)
+        VigilancePalette.componentBorderDark.set(componentBorderDark)
         VigilancePalette.midGray.set(midGray)
         VigilancePalette.button.set(button)
         VigilancePalette.buttonHighlight.set(buttonHighlight)

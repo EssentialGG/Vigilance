@@ -33,7 +33,7 @@ class Slider(initialValue: Float) : UIContainer() {
     private val completionBox = UIBlock().constrain {
         width = RelativeConstraint(percentage)
         height = 100.percent
-        color = VigilancePalette.green.toConstraint()
+        color = VigilancePalette.primary.toConstraint()
     } childOf outerBox
 
     val grabBox = UIBlock().constrain {
@@ -41,8 +41,8 @@ class Slider(initialValue: Float) : UIContainer() {
         y = CenterConstraint() boundTo outerBox
         width = AspectConstraint(1f)
         height = 100.percent
-        color = VigilancePalette.green.toConstraint()
-    } childOf this effect OutlineEffect(VigilancePalette.getBlack(), 1f)
+        color = VigilancePalette.primary.toConstraint()
+    } childOf this effect OutlineEffect(VigilancePalette.getComponentBorderDark(), 1f)
 
     init {
         grabBox.onLeftClick { event ->

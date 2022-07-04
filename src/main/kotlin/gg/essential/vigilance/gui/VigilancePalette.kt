@@ -33,9 +33,8 @@ object VigilancePalette {
     fun getDisabled(): Color = disabledState.get()
 
     // New
-    fun getGreen(): Color = green.get()
-    fun getBlack(): Color = black.get()
-    fun getWhite(): Color = white.get()
+    fun getPrimary(): Color = primary.get()
+    fun getComponentBorderDark(): Color = componentBorderDark.get()
     fun getMidGray(): Color = midGray.get()
     fun getButton(): Color = button.get()
     fun getButtonHighlight(): Color = buttonHighlight.get()
@@ -78,9 +77,8 @@ object VigilancePalette {
     internal val bgNoAlpha = BasicState(Color.BLACK)
 
     // New
-    internal val green = BasicState(Color.BLACK)
-    internal val black = BasicState(Color.BLACK)
-    internal val white = BasicState(Color.WHITE)
+    internal val primary = BasicState(Color.BLACK)
+    internal val componentBorderDark = BasicState(Color.BLACK)
     internal val midGray = BasicState(Color.GRAY)
     internal val button = BasicState(Color.BLACK)
     internal val buttonHighlight = BasicState(Color.BLACK)

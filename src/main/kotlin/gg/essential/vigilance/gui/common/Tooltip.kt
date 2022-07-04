@@ -134,7 +134,7 @@ internal class EssentialTooltip(
     init {
         textColorState.set(VigilancePalette.getText())
 
-        this effect OutlineEffect(VigilancePalette.getBlack(), 1f)
+        this effect OutlineEffect(VigilancePalette.getComponentBorderDark(), 1f)
 
         constrain {
             width = ChildBasedMaxSizeConstraint() + 6.pixels
@@ -169,7 +169,7 @@ internal class EssentialTooltip(
             for (i in 1..notchSize) {
                 UIBlock.drawBlock(
                     matrixStack,
-                    VigilancePalette.getBlack(),
+                    VigilancePalette.getComponentBorderDark(),
                     center - (notchSize - i) - 0.5,
                     top - 2 - i,
                     center + (notchSize - i) + 0.5,
@@ -192,7 +192,7 @@ internal class EssentialTooltip(
             for (i in 1..notchSize) {
                 UIBlock.drawBlock(
                     matrixStack,
-                    VigilancePalette.getBlack(),
+                    VigilancePalette.getComponentBorderDark(),
                     center - (notchSize - i) - 0.5,
                     bottom + i,
                     center + (notchSize - i) + 0.5,
