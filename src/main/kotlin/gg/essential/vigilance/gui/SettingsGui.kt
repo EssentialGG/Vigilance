@@ -7,6 +7,7 @@ import gg.essential.elementa.components.ScrollComponent
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.inspector.Inspector
+import gg.essential.elementa.constraints.AspectConstraint
 import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.FillConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
@@ -97,7 +98,7 @@ class SettingsGui(
         height = dividerWidth.pixels
     } childOf container
 
-    private val sidebarScrollbarContainer by UIContainer().constrain {
+    private val sidebarHorizontalScrollbarContainer by UIContainer().constrain {
         x = 0.pixels boundTo sidebar
         width = 100.percent boundTo sidebar
         height = dividerWidth.pixels
@@ -105,13 +106,13 @@ class SettingsGui(
 
     private val sidebarHorizontalScrollbar by UIBlock(VigilancePalette.scrollbar).constrain {
         height = 100.percent
-    } childOf sidebarScrollbarContainer
+    } childOf sidebarHorizontalScrollbarContainer
 
     private val backButton by IconButton(VigilancePalette.ARROW_LEFT_4X7).constrain {
         x = SiblingConstraint(18f, alignOpposite = true) boundTo titleBar
         y = CenterConstraint() boundTo titleBar
         width = 17.pixels
-        height = 17.pixels
+        height = AspectConstraint()
     } childOf window
 
     private val categories = config.getCategories()
@@ -156,8 +157,8 @@ class SettingsGui(
                         child.component.decrement()
                     }
                     is SwitchComponent -> when (keyCode) {
-                        UKeyboard.KEY_LEFT -> if (child.component.enabled) child.component.click()
-                        UKeyboard.KEY_RIGHT -> if (!child.component.enabled) child.component.click()
+                        UKeyboard.KEY_LEFT -> if (!child.component.enabled) child.component.click()
+                        UKeyboard.KEY_RIGHT -> if (child.component.enabled) child.component.click()
                         UKeyboard.KEY_ENTER -> child.component.click()
                     }
                     is CheckboxComponent -> if (keyCode == UKeyboard.KEY_ENTER) child.component.click()
@@ -192,6 +193,6 @@ class SettingsGui(
 
     companion object {
         const val animTime = .5f
-        const val dividerWidth = 3f
+        internal const val dividerWidth = 3f
     }
 }
