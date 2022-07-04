@@ -20,7 +20,7 @@ configurations.compileClasspath { extendsFrom(common) }
 configurations.runtimeClasspath { extendsFrom(common) }
 
 dependencies {
-    common(project(":")) { isTransitive = false }
+    common(project(":"))
 
     implementation(libs.kotlin.stdlib.jdk8)
     implementation(libs.kotlin.reflect)
