@@ -16,7 +16,7 @@ import gg.essential.vigilance.utils.ReadyOnlyState
 import gg.essential.vigilance.utils.and
 import gg.essential.vigilance.utils.hoveredState
 
-class DropDownComponent(
+internal class DropDownComponent(
     initialSelection: Int,
     private val options: List<String>,
     private val maxDisplayOptions: Int = 6,
@@ -30,7 +30,7 @@ class DropDownComponent(
     val selectedText: State<String> = selectedIndex.map {
         options[it]
     }
-    private val expandedState = ReadyOnlyState(writableExpandedState)
+    val expandedState = ReadyOnlyState(writableExpandedState)
 
     private val selectedArea by UIContainer().constrain {
         width = 100.percent
@@ -81,6 +81,7 @@ class DropDownComponent(
     private val expandedContentArea by UIBlock(VigilancePalette.componentBackground).constrain {
         x = CenterConstraint()
         width = 100.percent
+        height = ChildBasedSizeConstraint() + 6.pixels
     } childOf scroller
 
     private val expandedContent by UIContainer().centered().constrain {
@@ -93,6 +94,8 @@ class DropDownComponent(
         y = CenterConstraint()
         width = 2.pixels
         height = 100.percent
+    }.onLeftClick {
+        it.stopPropagation()
     } childOf scrollerContainer
 
     private val scrollbar by UIBlock(VigilancePalette.midGray).constrain {
@@ -112,6 +115,7 @@ class DropDownComponent(
             width = (getMaxItemWidth() + 25).pixels
             height = ChildBasedSizeConstraint()
         }
+
         setColor((selectAreaHovered or expandedState).map {
             if (it) {
                 VigilancePalette.getButtonHighlight()
@@ -120,25 +124,15 @@ class DropDownComponent(
             }
         }.toConstraint())
 
-        expandedContentArea.constrain {
-            height = (100.percent boundTo expandedContent) + 6.pixels
-        }
         if (scrollable) {
             scroller.setVerticalScrollBarComponent(scrollbar, hideWhenUseless = false)
-            // Force the scrollbar's height to be recalculated each frame.
-            // Without it, the size of the scrollbar will be incorrect until the user scrolls
-            // because Elementa does not check for size updates in ScrollComponent.
-            onAnimationFrame {
-                scroller.filterChildren { true }
-            }
-
         }
 
         options.withIndex().forEach { (index, value) ->
             val optionContainer by UIBlock().constrain {
                 y = SiblingConstraint()
                 width = 100.percent
-                height = optionContainerHeight.pixels
+                height = 20.pixels
             }.onLeftClick {
                 USound.playButtonPress()
                 it.stopPropagation()
@@ -183,7 +177,7 @@ class DropDownComponent(
         writableExpandedState.set(true)
         applyExpandedBlockHeight(
             instantly,
-            (options.size.coerceAtMost(maxDisplayOptions) * optionContainerHeight).pixels + 10.pixels
+            (options.size.coerceAtMost(maxDisplayOptions) * 20).pixels + 10.pixels
         )
     }
 
@@ -195,15 +189,12 @@ class DropDownComponent(
     private fun applyExpandedBlockHeight(
         instantly: Boolean,
         heightConstraint: HeightConstraint,
-        onComplete: () -> Unit = {}
     ) {
         if (instantly) {
             expandedBlock.setHeight(heightConstraint)
-            onComplete()
         } else {
             expandedBlock.animate {
                 setHeightAnimation(Animations.OUT_EXP, 0.25f, heightConstraint)
-                onComplete(onComplete)
             }
         }
     }

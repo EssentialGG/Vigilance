@@ -13,7 +13,6 @@ import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.utils.onLeftClick
 import java.awt.Color
 
-@Deprecated("Use DropDownComponent instead.", ReplaceWith("DropDownComponent", "gg.essential.vigilance.gui.settings.DropDownComponent"))
 class DropDown(
     initialSelection: Int,
     private val options: List<String>,
