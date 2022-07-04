@@ -100,7 +100,7 @@ internal class Searchbar(
                     collapsed.set(false)
                     activateSearch()
                 }
-                activateOnType && typedChar != '\u0000' && (keyCode != UKeyboard.KEY_ENTER || toggleButton.isHovered()) -> {
+                activateOnType && !typedChar.isISOControl() -> {
                     collapsed.set(false)
                     activateSearch()
                     searchInput.keyType(typedChar, keyCode)
