@@ -56,6 +56,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     private val hueIndicator = VigilancePalette.ARROW_LEFT_4X7.create().constrain {
         x = (-4).pixels(alignOpposite = true)
         y = RelativeConstraint(currentHue) - 3.pixels
+        color = VigilancePalette.textHighlight.toConstraint()
     }
 
     private val alphaSlider = Slider(currentAlpha).constrain {
