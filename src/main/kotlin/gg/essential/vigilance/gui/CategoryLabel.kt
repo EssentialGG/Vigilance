@@ -15,7 +15,7 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
 
     private val text by UIText(category.name).constrain {
         y = CenterConstraint()
-        textScale = GuiScaleOffsetConstraint(-1f)
+        textScale = GuiScaleOffsetConstraint(1f)
         color = VigilancePalette.text.toConstraint()
     } childOf this
 

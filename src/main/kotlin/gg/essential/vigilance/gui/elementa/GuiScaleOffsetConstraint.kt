@@ -6,7 +6,7 @@ import gg.essential.elementa.constraints.HeightConstraint
 import gg.essential.elementa.constraints.resolution.ConstraintVisitor
 import gg.essential.universal.UResolution
 
-internal class GuiScaleOffsetConstraint(val offset: Float = 1f) : HeightConstraint {
+internal class GuiScaleOffsetConstraint(val offset: Float = -1f) : HeightConstraint {
 
     override var cachedValue = 0f
     override var recalculate = true
@@ -14,7 +14,7 @@ internal class GuiScaleOffsetConstraint(val offset: Float = 1f) : HeightConstrai
 
     override fun getHeightImpl(component: UIComponent): Float {
         val scaleFactor = UResolution.scaleFactor
-        return ((scaleFactor - offset).coerceAtLeast(1.0) / scaleFactor).toFloat()
+        return ((scaleFactor + offset).coerceAtLeast(1.0) / scaleFactor).toFloat()
     }
 
     override fun visitImpl(visitor: ConstraintVisitor, type: ConstraintType) {
