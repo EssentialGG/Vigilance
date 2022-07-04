@@ -107,7 +107,7 @@ class SettingsCategory(category: Category) : UIContainer() {
 
         scroller.setVerticalScrollBarComponent(scrollBar, true)
 
-        scroller.addScrollAdjustEvent(true) { _, _ ->
+        scroller.onMouseScroll {
             closePopups()
         }
     }
