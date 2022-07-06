@@ -90,7 +90,7 @@ internal class DropDownComponent(
     } childOf expandedContentArea
 
     private val scrollbarContainer by UIContainer().constrain {
-        x = 2.pixels(alignOpposite = true)
+        x = 0.pixels(alignOpposite = true)
         y = CenterConstraint()
         width = 2.pixels
         height = 100.percent
