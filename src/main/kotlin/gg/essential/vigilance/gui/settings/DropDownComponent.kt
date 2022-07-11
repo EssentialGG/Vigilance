@@ -12,7 +12,7 @@ import gg.essential.universal.USound
 import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.gui.common.shadow.ShadowIcon
 import gg.essential.vigilance.utils.*
-import gg.essential.vigilance.utils.ReadyOnlyState
+import gg.essential.vigilance.utils.ReadOnlyState
 import gg.essential.vigilance.utils.and
 import gg.essential.vigilance.utils.hoveredState
 
@@ -30,7 +30,7 @@ internal class DropDownComponent(
     val selectedText: State<String> = selectedIndex.map {
         options[it]
     }
-    val expandedState = ReadyOnlyState(writableExpandedState)
+    val expandedState = ReadOnlyState(writableExpandedState)
 
     private val selectedArea by UIContainer().constrain {
         width = 100.percent

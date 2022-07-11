@@ -224,7 +224,7 @@ internal fun State<String>.empty() = map{ it.isBlank()}
 internal infix fun State<Boolean>.and(other: State<Boolean>) = zip(other).map { (a, b) -> a && b }
 internal infix fun State<Boolean>.or(other: State<Boolean>) = zip(other).map { (a, b) -> a || b }
 
-internal class ReadyOnlyState<T>(private val internalState: State<T>) : State<T>() {
+internal class ReadOnlyState<T>(private val internalState: State<T>) : State<T>() {
 
     init {
         internalState.onSetValueAndNow {
