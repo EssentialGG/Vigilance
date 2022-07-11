@@ -157,8 +157,8 @@ class SettingsGui(
                         child.component.decrement()
                     }
                     is SwitchComponent -> when (keyCode) {
-                        UKeyboard.KEY_LEFT -> if (!child.component.enabled) child.component.click()
-                        UKeyboard.KEY_RIGHT -> if (child.component.enabled) child.component.click()
+                        UKeyboard.KEY_LEFT -> if (child.component.enabled) child.component.click()
+                        UKeyboard.KEY_RIGHT -> if (!child.component.enabled) child.component.click()
                         UKeyboard.KEY_ENTER -> child.component.click()
                     }
                     is CheckboxComponent -> if (keyCode == UKeyboard.KEY_ENTER) child.component.click()
