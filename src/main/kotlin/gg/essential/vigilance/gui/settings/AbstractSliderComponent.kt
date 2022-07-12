@@ -11,6 +11,7 @@ import gg.essential.universal.USound
 import gg.essential.vigilance.utils.onLeftClick
 
 abstract class AbstractSliderComponent : SettingComponent() {
+
     protected abstract val slider: Slider
     private var expanded = false
     private var mouseHeld = false
@@ -25,7 +26,7 @@ abstract class AbstractSliderComponent : SettingComponent() {
     override fun setupParentListeners(parent: UIComponent) {
         parent.onMouseEnter {
             slider.animate {
-                setWidthAnimation(Animations.OUT_EXP, .25f, 100.pixels())
+                setWidthAnimation(Animations.OUT_EXP, .25f, 85.pixels())
             }
             expanded = true
         }.onMouseLeave {

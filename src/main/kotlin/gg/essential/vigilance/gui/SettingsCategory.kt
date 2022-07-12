@@ -1,61 +1,42 @@
 package gg.essential.vigilance.gui
 
 import gg.essential.elementa.components.*
-import gg.essential.elementa.constraints.CenterConstraint
-import gg.essential.elementa.constraints.ChildBasedMaxSizeConstraint
-import gg.essential.elementa.constraints.RelativeConstraint
-import gg.essential.elementa.constraints.SiblingConstraint
+import gg.essential.elementa.constraints.*
 import gg.essential.elementa.dsl.*
-import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.data.Category
 import gg.essential.vigilance.data.PropertyItem
-import gg.essential.vigilance.utils.onLeftClick
+import gg.essential.vigilance.utils.scrollGradient
 
 class SettingsCategory(category: Category) : UIContainer() {
-    private val scrollerBoundingBox by UIContainer().constrain {
-        width = RelativeConstraint(1f) - 5.pixels()
-        height = RelativeConstraint(1f)
-    } childOf this
 
     internal val scroller by ScrollComponent(
         "No matching settings found :(",
-        innerPadding = 4f,
+        innerPadding = 10f,
         pixelsPerScroll = 25f,
-        customScissorBoundingBox = scrollerBoundingBox
     ).constrain {
-        y = 50.pixels(alignOpposite = true)
-        width = RelativeConstraint(1f) - 5.pixels()
-        height = RelativeConstraint(1f) - 50.pixels()
-    } childOf this
+        width = 100.percent - (10 + SettingsGui.dividerWidth).pixels
+        height = 100.percent
+    } childOf this scrollGradient 20.pixels
 
-    private val scrollBar by UIBlock().constrain {
-        x = SiblingConstraint() - 3.pixels()
-        width = 3.pixels()
-        color = VigilancePalette.scrollBarState.toConstraint()
+    private val scrollBar by UIBlock(VigilancePalette.scrollbar).constrain {
+        x = 0.pixels(alignOpposite = true)
+        width = SettingsGui.dividerWidth.pixels
     } childOf this
 
     init {
         constrain {
-            width = RelativeConstraint(1f)
-            height = RelativeConstraint(1f)
+            width = 100.percent
+            height = 100.percent
         }
 
         if (category.description != null) {
-            val textContainer = UIContainer().constrain {
-                x = DataBackedSetting.INNER_PADDING.pixels()
-                y = SiblingConstraint(DataBackedSetting.INNER_PADDING)
-                width = 100.percent() - (DataBackedSetting.INNER_PADDING * 2f).pixels()
-                height = ChildBasedMaxSizeConstraint() + DataBackedSetting.INNER_PADDING.pixels()
-            } childOf scroller
-
             UIWrappedText(category.description, centered = true).constrain {
                 x = CenterConstraint()
-                y = SiblingConstraint() + 3.pixels()
-                width = 70.percent()
-                color = VigilancePalette.midTextState.toConstraint()
-                fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
-            } childOf textContainer
+                y = SiblingConstraint(DataBackedSetting.INNER_PADDING)
+                width = 100.percent - (DataBackedSetting.INNER_PADDING * 2f).pixels
+                color = VigilancePalette.text.toConstraint()
+            } childOf scroller
         }
 
         val categoryItemsSettingsObjects: ArrayList<DataBackedSetting> = ArrayList()
@@ -77,7 +58,6 @@ class SettingsCategory(category: Category) : UIContainer() {
         }
 
         category.items.forEach {
-            //it.toSettingsObject()?.childOf(scroller)
             val settingsObject = it.toSettingsObject()
             if (settingsObject != null) {
                 settingsObject childOf scroller
@@ -127,22 +107,15 @@ class SettingsCategory(category: Category) : UIContainer() {
 
         scroller.setVerticalScrollBarComponent(scrollBar, true)
 
-        GradientComponent().bindStartColor(VigilancePalette.bgNoAlpha).bindEndColor(VigilancePalette.backgroundState).constrain {
-            y = 0.pixels(alignOpposite = true)
-            width = 100.percent() - 10.pixels()
-            height = 50.pixels()
-        }.onLeftClick {
-            it.stopPropagation()
-            scroller.mouseClick(it.absoluteX.toDouble(), it.absoluteY.toDouble(), it.mouseButton)
-        }.onMouseScroll {
-            it.stopPropagation()
-            scroller.mouseScroll(it.delta)
-        } childOf this
+        scroller.onMouseScroll {
+            closePopups()
+        }
     }
 
-    fun closePopups() {
-        scroller.allChildren.filterIsInstance<Setting>().forEach {
-            it.closePopups()
+    @JvmOverloads
+    fun closePopups(instantly: Boolean = false) {
+        scroller.childrenOfType<Setting>().forEach {
+            it.closePopups(instantly)
         }
     }
 

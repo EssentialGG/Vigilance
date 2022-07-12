@@ -470,6 +470,8 @@ public abstract class gg/essential/vigilance/gui/Setting : gg/essential/elementa
 public final class gg/essential/vigilance/gui/SettingsCategory : gg/essential/elementa/components/UIContainer {
 	public fun <init> (Lgg/essential/vigilance/data/Category;)V
 	public final fun closePopups ()V
+	public final fun closePopups (Z)V
+	public static synthetic fun closePopups$default (Lgg/essential/vigilance/gui/SettingsCategory;ZILjava/lang/Object;)V
 	public final fun scrollToTop ()V
 }
 
@@ -495,20 +497,37 @@ public final class gg/essential/vigilance/gui/VigilancePalette {
 	public final fun getBrightDivider ()Ljava/awt/Color;
 	public final fun getBrightHighlight ()Ljava/awt/Color;
 	public final fun getBrightText ()Ljava/awt/Color;
+	public final fun getButton ()Ljava/awt/Color;
+	public final fun getButtonHighlight ()Ljava/awt/Color;
+	public final fun getComponentBackground ()Ljava/awt/Color;
+	public final fun getComponentBackgroundHighlight ()Ljava/awt/Color;
+	public final fun getComponentBorder ()Ljava/awt/Color;
+	public final fun getComponentBorderDark ()Ljava/awt/Color;
+	public final fun getComponentHighlight ()Ljava/awt/Color;
 	public final fun getDarkBackground ()Ljava/awt/Color;
 	public final fun getDarkDivider ()Ljava/awt/Color;
 	public final fun getDarkHighlight ()Ljava/awt/Color;
 	public final fun getDarkText ()Ljava/awt/Color;
 	public final fun getDisabled ()Ljava/awt/Color;
 	public final fun getDivider ()Ljava/awt/Color;
+	public final fun getDividerDark ()Ljava/awt/Color;
 	public final fun getHighlight ()Ljava/awt/Color;
 	public final fun getLightBackground ()Ljava/awt/Color;
+	public final fun getMainBackground ()Ljava/awt/Color;
+	public final fun getMidGray ()Ljava/awt/Color;
 	public final fun getMidText ()Ljava/awt/Color;
 	public final fun getModalBackground ()Ljava/awt/Color;
 	public final fun getOutline ()Ljava/awt/Color;
+	public final fun getPrimary ()Ljava/awt/Color;
 	public final fun getScrollBar ()Ljava/awt/Color;
+	public final fun getScrollbar ()Ljava/awt/Color;
 	public final fun getSearchBarBackground ()Ljava/awt/Color;
 	public final fun getSuccess ()Ljava/awt/Color;
+	public final fun getText ()Ljava/awt/Color;
+	public final fun getTextDisabled ()Ljava/awt/Color;
+	public final fun getTextHighlight ()Ljava/awt/Color;
+	public final fun getTextShadow ()Ljava/awt/Color;
+	public final fun getTextWarning ()Ljava/awt/Color;
 	public final fun getTransparent ()Ljava/awt/Color;
 	public final fun getWarning ()Ljava/awt/Color;
 }

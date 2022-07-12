@@ -4,10 +4,10 @@ package gg.essential.vigilance.example
 
 import gg.essential.universal.UChat
 import gg.essential.vigilance.Vigilant
-import gg.essential.vigilance.data.*
+import gg.essential.vigilance.data.Property
+import gg.essential.vigilance.data.PropertyType
 import java.awt.Color
 import java.io.File
-import java.lang.reflect.Field
 import kotlin.math.PI
 
 /**

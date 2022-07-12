@@ -13,7 +13,6 @@ import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.pixels
 import gg.essential.elementa.dsl.provideDelegate
 import gg.essential.elementa.effects.OutlineEffect
-import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.State
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.UKeyboard
@@ -28,13 +27,13 @@ class NumberComponent(
     private val max: Int,
     private val inc: Int
 ) : SettingComponent() {
+
     private var value = initialValue
 
     private val valueText by UIText(value.toString()).constrain {
         y = CenterConstraint()
-        textScale = 1.5f.pixels()
-        color = VigilancePalette.accentState.toConstraint()
-        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
+        textScale = 1.5f.pixels
+        color = VigilancePalette.primary.toConstraint()
     } childOf this
 
     private val controlContainer by UIContainer().constrain {
@@ -45,31 +44,31 @@ class NumberComponent(
 
     private val incrementControl by UIContainer().constrain {
         y = SiblingConstraint(CONTROL_PADDING)
-        width = CONTROL_WIDTH.pixels()
-        height = CONTROL_HEIGHT.pixels()
+        width = CONTROL_WIDTH.pixels
+        height = CONTROL_HEIGHT.pixels
     } childOf controlContainer
 
     init {
         UIImage.ofResourceCached(UP_ARROW_PNG).constrain {
             x = CenterConstraint()
             y = CenterConstraint()
-            width = 9.pixels()
-            height = 5.pixels()
+            width = 9.pixels
+            height = 5.pixels
         } childOf incrementControl
     }
 
     private val decrementControl by UIContainer().constrain {
         y = SiblingConstraint(CONTROL_PADDING)
-        width = CONTROL_WIDTH.pixels()
-        height = CONTROL_HEIGHT.pixels()
+        width = CONTROL_WIDTH.pixels
+        height = CONTROL_HEIGHT.pixels
     } childOf controlContainer
 
     init {
         UIImage.ofResourceCached(DOWN_ARROW_PNG).constrain {
             x = CenterConstraint()
             y = CenterConstraint()
-            width = 9.pixels()
-            height = 5.pixels()
+            width = 9.pixels
+            height = 5.pixels
         } childOf decrementControl
     }
 
@@ -98,7 +97,7 @@ class NumberComponent(
     }
 
     private fun clickControl(control: UIComponent) {
-        changeOutlineColor(control, VigilancePalette.accentState)
+        changeOutlineColor(control, VigilancePalette.primary)
 
         val flag = UKeyboard.isCtrlKeyDown()
         val change = if (control == incrementControl) {
@@ -111,7 +110,7 @@ class NumberComponent(
         changeValue(value)
 
         if (isControlDisabled(control)) {
-            changeOutlineColor(control, VigilancePalette.disabledState)
+            changeOutlineColor(control, VigilancePalette.textDisabled)
         }
 
         // TODO: Repeat these increases until the mouse is released!
@@ -120,7 +119,7 @@ class NumberComponent(
     private fun releaseControl(control: UIComponent) {
         changeOutlineColor(
             control,
-            if (isControlDisabled(control)) VigilancePalette.disabledState else VigilancePalette.midTextState
+            if (isControlDisabled(control)) VigilancePalette.textDisabled else VigilancePalette.text
         )
     }
 

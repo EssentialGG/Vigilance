@@ -1,11 +1,11 @@
 package gg.essential.vigilance.gui.settings
 
 import gg.essential.elementa.components.UIBlock
+import gg.essential.elementa.constraints.AspectConstraint
+import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.PixelConstraint
-import gg.essential.elementa.constraints.RelativeConstraint
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
-import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.state.BasicState
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.USound
@@ -14,31 +14,33 @@ import gg.essential.vigilance.utils.onLeftClick
 import java.awt.Color
 
 class SwitchComponent(initialState: Boolean) : SettingComponent() {
+
     internal var enabled = initialState
 
-    private val switchBox = UIBlock(getSwitchColor()).constrain {
+    private val background by UIBlock(getSwitchColor()).constrain {
+        width = 100.percent
+        height = 100.percent
+    } childOf this
+
+    private val switchBox = UIBlock(VigilancePalette.componentBackground).constrain {
         x = getSwitchPosition()
-        width = RelativeConstraint(0.5f)
-        height = RelativeConstraint(1f)
+        y = CenterConstraint()
+        width = AspectConstraint()
+        height = 100.percent - 2.pixels
     } childOf this
 
     init {
         constrain {
-            width = 20.pixels()
-            height = 10.pixels()
+            width = 20.pixels
+            height = 11.pixels
         }
-
-        effect(getOutlineEffect())
 
         onLeftClick {
             USound.playButtonPress()
             enabled = !enabled
             changeValue(enabled)
 
-            removeEffect<OutlineEffect>()
-            enableEffect(getOutlineEffect())
-
-            switchBox.setColor((if (isHovered()) getSwitchColor().map { it.darker() } else getSwitchColor()).toConstraint())
+            background.setColor(getSwitchColor().toConstraint())
             switchBox.animate {
                 setXAnimation(Animations.OUT_EXP, 0.5f, getSwitchPosition())
             }
@@ -46,20 +48,18 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
 
         onMouseEnter {
             switchBox.animate {
-                setColorAnimation(Animations.OUT_EXP, .25f, getSwitchColor().map { it.darker() }.toConstraint())
+                setColorAnimation(Animations.OUT_EXP, .25f, VigilancePalette.componentBackground.map { it.brighter() }.toConstraint())
             }
         }
 
         onMouseLeave {
             switchBox.animate {
-                setColorAnimation(Animations.OUT_EXP, .25f, getSwitchColor().toConstraint())
+                setColorAnimation(Animations.OUT_EXP, .25f, VigilancePalette.componentBackground.toConstraint())
             }
         }
     }
 
-    private fun getOutlineEffect(): OutlineEffect = OutlineEffect(getSwitchColor().get(), 1f).bindColor(getSwitchColor())
+    private fun getSwitchColor(): BasicState<Color> = if (enabled) VigilancePalette.primary else VigilancePalette.text
 
-    private fun getSwitchColor(): BasicState<Color> = if (enabled) VigilancePalette.accentState else VigilancePalette.brightDividerState
-
-    private fun getSwitchPosition(): PixelConstraint = if (enabled) 0.pixels(true) else 0.pixels()
+    private fun getSwitchPosition(): PixelConstraint = if (enabled) 1.pixels(alignOpposite = true) else 1.pixels
 }

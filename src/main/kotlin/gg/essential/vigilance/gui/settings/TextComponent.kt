@@ -20,28 +20,27 @@ class TextComponent(
     wrap: Boolean,
     protected: Boolean
 ) : SettingComponent() {
+
     private val textHolder = UIBlock().constrain {
-        width = ChildBasedSizeConstraint() + (if (protected) 14 else 6).pixels()
-        height = ChildBasedSizeConstraint() + 6.pixels()
-        color = VigilancePalette.darkHighlightState.toConstraint()
-    } childOf this effect OutlineEffect(VigilancePalette.getDivider(), 1f).bindColor(VigilancePalette.dividerState)
+        width = ChildBasedSizeConstraint() + (if (protected) 14 else 6).pixels
+        height = ChildBasedSizeConstraint() + 6.pixels
+        color = VigilancePalette.dividerDark.toConstraint()
+    } childOf this effect OutlineEffect(VigilancePalette.getComponentBorder(), 1f).bindColor(VigilancePalette.componentBorder)
 
     private val textInput: AbstractTextInput = when {
-        wrap -> UIMultilineTextInput(placeholder).constrain {
-            x = 3.pixels()
-            y = 3.pixels()
+        wrap -> UIMultilineTextInput(placeholder = placeholder).setMaxLines(10).constrain {
             width = basicWidthConstraint { this@TextComponent.parent.getWidth() * 0.4f }
-        }.setMaxLines(10)
-        protected -> UIPasswordInput(placeholder = placeholder).constrain {
-            x = 3.pixels()
-            y = 3.pixels()
-        }.setMinWidth(50.pixels()).setMaxWidth(basicWidthConstraint { this@TextComponent.parent.getWidth() * 0.5f })
-        else -> UITextInput(placeholder).constrain {
-            x = 3.pixels()
-            y = 3.pixels()
-        }.setMinWidth(50.pixels()).setMaxWidth(
-            basicWidthConstraint { this@TextComponent.parent.getWidth() * 0.5f }
-        )
+        }
+
+        protected -> UIPasswordInput(placeholder = placeholder).setMinWidth(50.pixels)
+            .setMaxWidth(basicWidthConstraint { this@TextComponent.parent.getWidth() * 0.5f })
+
+        else -> UITextInput(placeholder = placeholder).setMinWidth(50.pixels)
+            .setMaxWidth(basicWidthConstraint { this@TextComponent.parent.getWidth() * 0.5f })
+    }.constrain {
+        x = 3.pixels
+        y = 3.pixels
+        color = VigilancePalette.text.toConstraint()
     }
 
     private var hasSetInitialText = false
@@ -63,22 +62,21 @@ class TextComponent(
         if (protected) {
             var toggle = false
             UIImage.ofResourceCached("/vigilance/eye.png").constrain {
-//            UIBlock().constrain {
-                y = 3.pixels()
-                x = 3.pixels(true)
-                width = 12.pixels()
+                y = 3.pixels
+                x = 3.pixels(alignOpposite = true)
+                width = 12.pixels
                 height = basicHeightConstraint { textInput.getHeight() }
-                color = VigilancePalette.darkTextState.toConstraint()
+                color = VigilancePalette.textDisabled.toConstraint()
             }.onMouseEnter {
                 if (!toggle) {
                     animate {
-                        setColorAnimation(Animations.OUT_EXP, .2f, VigilancePalette.midTextState.toConstraint())
+                        setColorAnimation(Animations.OUT_EXP, .2f, VigilancePalette.text.toConstraint())
                     }
                 }
             }.onMouseLeave {
                 if (!toggle) {
                     animate {
-                        setColorAnimation(Animations.OUT_EXP, .2f, VigilancePalette.darkTextState.toConstraint())
+                        setColorAnimation(Animations.OUT_EXP, .2f, VigilancePalette.textDisabled.toConstraint())
                     }
                 }
             }.onLeftClick {
@@ -86,9 +84,9 @@ class TextComponent(
                 (textInput as UIPasswordInput).setProtection(!toggle)
                 animate {
                     setColorAnimation(Animations.OUT_EXP, .2f, if (toggle) {
-                        VigilancePalette.warningState
+                        VigilancePalette.textWarning
                     } else {
-                        VigilancePalette.midTextState
+                        VigilancePalette.text
                     }.toConstraint())
                 }
             } childOf textHolder

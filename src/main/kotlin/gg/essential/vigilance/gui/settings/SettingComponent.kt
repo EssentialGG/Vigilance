@@ -8,12 +8,13 @@ import gg.essential.elementa.dsl.pixels
 import gg.essential.vigilance.gui.DataBackedSetting
 
 abstract class SettingComponent : UIContainer() {
+
     private var onValueChange: (Any?) -> Unit = {}
     private var lastValue: Any? = null
 
     init {
         constrain {
-            x = DataBackedSetting.INNER_PADDING.pixels(true)
+            x = (DataBackedSetting.INNER_PADDING + 10f).pixels(alignOpposite = true)
             y = CenterConstraint()
         }
     }

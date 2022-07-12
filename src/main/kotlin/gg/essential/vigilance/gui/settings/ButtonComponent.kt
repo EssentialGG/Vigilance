@@ -1,12 +1,11 @@
 package gg.essential.vigilance.gui.settings
 
-import gg.essential.elementa.components.UIRoundedRectangle
+import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIWrappedText
 import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
-import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.BasicState
 import gg.essential.elementa.state.State
 import gg.essential.elementa.state.toConstraint
@@ -20,33 +19,28 @@ import gg.essential.vigilance.impl.I18n
 import gg.essential.vigilance.utils.onLeftClick
 
 class ButtonComponent(placeholder: String? = null, private val callback: () -> Unit) : SettingComponent() {
+
     private var textState: State<String> = BasicState(placeholder.orEmpty().ifEmpty { "Activate" }).map { I18n.format(it) }
     private var listener: () -> Unit = textState.onSetValue {
         text.setText(textState.get())
     }
 
-    internal val container by UIRoundedRectangle(2f).constrain {
-        width = ChildBasedSizeConstraint() + 2.pixels()
-        height = ChildBasedSizeConstraint() + 2.pixels()
-        color = VigilancePalette.outlineState.toConstraint()
+    private val container by UIBlock(VigilancePalette.button).constrain {
+        width = ChildBasedSizeConstraint() + 14.pixels
+        height = ChildBasedSizeConstraint() + 8.pixels
     } childOf this
 
-    private val contentContainer by UIRoundedRectangle(2f).constrain {
-        x = 1.pixel()
-        y = 1.pixel()
-        width = ChildBasedSizeConstraint() + 20.pixels()
-        height = ChildBasedSizeConstraint() + 10.pixels()
-        color = VigilancePalette.lightBackgroundState.toConstraint()
-    } childOf container
-
-    private val text by UIWrappedText(textState.get(), trimText = true).constrain {
+    private val text by UIWrappedText(
+        textState.get(),
+        trimText = true,
+        shadowColor = VigilancePalette.getTextShadow()
+    ).constrain {
         x = CenterConstraint()
         y = CenterConstraint()
-        width = width.coerceAtMost(300.pixels())
-        height = 10.pixels()
-        color = VigilancePalette.midTextState.toConstraint()
-        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
-    } childOf contentContainer
+        width = width.coerceAtMost(300.pixels)
+        height = 10.pixels
+        color = VigilancePalette.text.toConstraint()
+    } childOf container
 
     init {
         constrain {
@@ -54,15 +48,15 @@ class ButtonComponent(placeholder: String? = null, private val callback: () -> U
             height = ChildBasedSizeConstraint()
         }
 
-        enableEffect(ExpandingClickEffect(VigilancePalette.getAccent().withAlpha(0.5f), scissorBoundingBox = contentContainer))
+        enableEffect(ExpandingClickEffect(VigilancePalette.getPrimary().withAlpha(0.5f), scissorBoundingBox = container))
 
         container.onMouseEnter {
             container.animate {
-                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.accentState.toConstraint())
+                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.buttonHighlight.toConstraint())
             }
         }.onMouseLeave {
             container.animate {
-                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.outlineState.toConstraint())
+                setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.button.toConstraint())
             }
         }.onLeftClick {
             USound.playButtonPress()

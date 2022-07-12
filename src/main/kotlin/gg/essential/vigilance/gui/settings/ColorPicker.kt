@@ -16,6 +16,7 @@ import java.util.*
 import kotlin.math.roundToInt
 
 class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
+
     private var currentHue: Float
     private var currentSaturation: Float
     private var currentBrightness: Float
@@ -33,44 +34,43 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     private var draggingPicker = false
 
     private val bigPickerBox = UIBlock().constrain {
-        width = RelativeConstraint(0.8f)
-        height = RelativeConstraint(if (allowAlpha) 0.8f else 1f)
-        color = VigilancePalette.dividerState.toConstraint()
+        width = 80.percent
+        height = if (allowAlpha) 80.percent else 100.percent
+        color = VigilancePalette.componentBorder.toConstraint()
     } childOf this
 
     private val pickerIndicator = UIContainer().constrain {
-        x = (RelativeConstraint(currentSaturation) - 3.5f.pixels()).coerceIn(2.pixels(), 2.pixels(true))
-        y = (RelativeConstraint(1f - currentBrightness) - 3.5f.pixels()).coerceIn(2.pixels(), 2.pixels(true))
-        width = 3.pixels()
-        height = 3.pixels()
+        x = (RelativeConstraint(currentSaturation) - 3.5f.pixels).coerceIn(2.pixels, 2.pixels(alignOpposite = true))
+        y = (RelativeConstraint(1f - currentBrightness) - 3.5f.pixels).coerceIn(2.pixels, 2.pixels(alignOpposite = true))
+        width = 3.pixels
+        height = 3.pixels
     } effect OutlineEffect(Color.WHITE, 1f)
 
     private val huePickerLine = UIBlock().constrain {
-        x = RelativeConstraint(0.85f)
+        x = 85.percent
         width = FillConstraint(false)
-        height = RelativeConstraint(if (allowAlpha) 0.8f else 1f)
-        color = VigilancePalette.dividerState.toConstraint()
+        height = if (allowAlpha) 80.percent else 100.percent
+        color = VigilancePalette.componentBorder.toConstraint()
     } childOf this
 
-    private val hueIndicator = UIImage.ofResourceCached("/vigilance/arrow-left.png").constrain {
-        x = (-4).pixels(true)
-        y = RelativeConstraint(currentHue) - 3f.pixels()
-        width = 4.pixels()
-        height = 7.pixels()
+    private val hueIndicator = VigilancePalette.ARROW_LEFT_4X7.create().constrain {
+        x = (-4).pixels(alignOpposite = true)
+        y = RelativeConstraint(currentHue) - 3.pixels
+        color = VigilancePalette.textHighlight.toConstraint()
     }
 
     private val alphaSlider = Slider(currentAlpha).constrain {
         x = CenterConstraint() boundTo bigPickerBox
         y = SiblingConstraint(5f)
-        width = RelativeConstraint(0.8f)
+        width = 80.percent
         height = FillConstraint(false)
     }
 
     private val alphaText = UIText(getFormattedAlpha()).constrain {
-        x = RelativeConstraint(0.85f)
+        x = 85.percent
         y = CenterConstraint() boundTo alphaSlider
-        textScale = (2f / 3f).pixels()
-        color = VigilancePalette.brightTextState.toConstraint()
+        textScale = (2f / 3f).pixels
+        color = VigilancePalette.text.toConstraint()
         fontProvider = getFontProvider()
     }
 
@@ -89,6 +89,8 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
         huePickerLine.addChild(object : UIComponent() {
             override fun draw(matrixStack: UMatrixStack) {
+                super.beforeDraw(matrixStack)
+
                 drawHueLine(matrixStack, this)
 
                 super.draw(matrixStack)
@@ -96,8 +98,8 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         }.constrain {
             x = CenterConstraint()
             y = CenterConstraint()
-            width = 100.percent() - 2.pixels()
-            height = 100.percent() - 2.pixels()
+            width = 100.percent - 2.pixels
+            height = 100.percent - 2.pixels
         }).addChild(hueIndicator)
 
         huePickerLine.onLeftClick { event ->
@@ -116,6 +118,8 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
         bigPickerBox.addChild(object : UIComponent() {
             override fun draw(matrixStack: UMatrixStack) {
+                super.beforeDraw(matrixStack)
+
                 drawColorPicker(matrixStack, this)
 
                 super.draw(matrixStack)
@@ -123,8 +127,8 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         }.constrain {
             x = CenterConstraint()
             y = CenterConstraint()
-            width = 100.percent() - 2.pixels()
-            height = 100.percent() - 2.pixels()
+            width = 100.percent - 2.pixels
+            height = 100.percent - 2.pixels
         }).addChild(pickerIndicator)
 
         bigPickerBox.onLeftClick { event ->
@@ -146,17 +150,17 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     }
 
     private fun updateHueIndicator() {
-        hueIndicator.setY(RelativeConstraint(currentHue.coerceAtMost(0.98f)) - 3.pixels())
+        hueIndicator.setY(RelativeConstraint(currentHue.coerceAtMost(0.98f)) - 3.pixels)
 
         recalculateColor()
     }
 
     private fun updatePickerIndicator() {
         pickerIndicator.setX(
-            (RelativeConstraint(currentSaturation) - 2.5f.pixels()).coerceIn(2.pixels(), 2.pixels(true))
+            (RelativeConstraint(currentSaturation) - 2.5f.pixels).coerceIn(2.pixels, 2.pixels(alignOpposite = true))
         )
         pickerIndicator.setY(
-            (RelativeConstraint(1f - currentBrightness) - 2.5f.pixels()).coerceIn(2.pixels(), 2.pixels(true))
+            (RelativeConstraint(1f - currentBrightness) - 2.5f.pixels).coerceIn(2.pixels, 2.pixels(alignOpposite = true))
         )
 
         recalculateColor()

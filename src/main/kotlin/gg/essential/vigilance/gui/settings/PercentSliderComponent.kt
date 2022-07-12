@@ -2,28 +2,26 @@ package gg.essential.vigilance.gui.settings
 
 import gg.essential.elementa.components.UIText
 import gg.essential.elementa.constraints.CenterConstraint
-import gg.essential.elementa.constraints.ChildBasedMaxSizeConstraint
-import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
-import gg.essential.elementa.dsl.*
-import gg.essential.elementa.font.DefaultFonts
+import gg.essential.elementa.dsl.childOf
+import gg.essential.elementa.dsl.constrain
+import gg.essential.elementa.dsl.pixels
+import gg.essential.elementa.dsl.provideDelegate
 import gg.essential.elementa.state.toConstraint
-import gg.essential.vigilance.gui.SettingsGui
 import gg.essential.vigilance.gui.VigilancePalette
-import java.util.*
 import kotlin.math.roundToInt
 
 class PercentSliderComponent(initialValue: Float) : AbstractSliderComponent() {
+
     private val percentageText by UIText(getFormattedPercent(initialValue)).constrain {
         y = CenterConstraint()
-        color = VigilancePalette.midTextState.toConstraint()
-        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
+        color = VigilancePalette.text.toConstraint()
     } childOf this
 
     override val slider by Slider(initialValue).constrain {
         x = SiblingConstraint()
-        width = 60.pixels()
-        height = 12.pixels()
+        width = 60.pixels
+        height = 12.pixels
     } childOf this
 
     init {

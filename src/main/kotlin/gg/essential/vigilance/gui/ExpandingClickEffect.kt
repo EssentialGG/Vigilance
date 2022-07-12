@@ -20,6 +20,7 @@ class ExpandingClickEffect @JvmOverloads constructor(
     private val animationTime: Float = 0.2f,
     private val scissorBoundingBox: UIComponent? = null
 ) : Effect() {
+
     private var state = State.NotActive
     private var targetRadius = -1f
     private var radiusDelta = -1f
@@ -60,10 +61,10 @@ class ExpandingClickEffect @JvmOverloads constructor(
             radiusDelta = targetRadius / animationTime / Window.of(boundComponent).animationFPS
 
             circle.constrain {
-                x = clickEvent.absoluteX.pixels()
-                y = clickEvent.absoluteY.pixels()
+                x = clickEvent.absoluteX.pixels
+                y = clickEvent.absoluteY.pixels
                 color = this@ExpandingClickEffect.color.toConstraint()
-                radius = 0.pixels()
+                radius = 0.pixels
             }
         }
 
@@ -82,7 +83,7 @@ class ExpandingClickEffect @JvmOverloads constructor(
                 if (newRadius >= targetRadius) {
                     state = State.Expanded
                 } else {
-                    circle.setRadius(newRadius.pixels())
+                    circle.setRadius(newRadius.pixels)
                 }
             }
             State.Expanded -> {

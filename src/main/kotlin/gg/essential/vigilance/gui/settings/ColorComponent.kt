@@ -2,67 +2,65 @@ package gg.essential.vigilance.gui.settings
 
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.UIContainer
-import gg.essential.elementa.components.UIImage
 import gg.essential.elementa.components.input.UITextInput
-import gg.essential.elementa.constraints.*
+import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.effects.ScissorEffect
-import gg.essential.elementa.font.DefaultFonts
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.USound
 import gg.essential.vigilance.gui.VigilancePalette
+import gg.essential.vigilance.gui.common.shadow.ShadowIcon
 import gg.essential.vigilance.utils.onLeftClick
 import java.awt.Color
 
 class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingComponent() {
+
     private var active = false
 
     private val currentColorHex by UITextInput().constrain {
-        x = 5.pixels()
-        y = 6.pixels()
-        width = RelativeConstraint(1f) - 30.pixels()
-        color = VigilancePalette.midTextState.toConstraint()
-        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
+        x = 5.pixels
+        y = 6.pixels
+        width = 100.percent - 30.pixels
+        color = VigilancePalette.text.toConstraint()
     } childOf this
 
-    private val downArrow by UIImage.ofResourceCached(DOWN_ARROW_PNG).constrain {
-        x = 5.pixels(true)
-        y = 7.5.pixels()
-        width = 9.pixels()
-        height = 5.pixels()
+    private val downArrow by ShadowIcon(VigilancePalette.ARROW_DOWN_7X4, buttonShadow = true).constrain {
+        x = 5.pixels(alignOpposite = true)
+        y = 7.5.pixels
+        width = 9.pixels
+        height = 5.pixels
     } childOf this
 
-    private val upArrow by UIImage.ofResourceCached(UP_ARROW_PNG).constrain {
-        x = 5.pixels(true)
-        y = 7.5.pixels()
-        width = 9.pixels()
-        height = 5.pixels()
+    private val upArrow by ShadowIcon(VigilancePalette.ARROW_UP_7X4, buttonShadow = true).constrain {
+        x = 5.pixels(alignOpposite = true)
+        y = 7.5.pixels
+        width = 9.pixels
+        height = 5.pixels
     }
 
     private val colorPicker by ColorPicker(initial, allowAlpha).constrain {
         x = CenterConstraint()
-        y = 22.pixels()
-        width = RelativeConstraint(0.9f)
-        height = (if (allowAlpha) 78 else 62).pixels()
-        fontProvider = DefaultFonts.VANILLA_FONT_RENDERER
+        y = 22.pixels
+        width = 90.percent
+        height = (if (allowAlpha) 78 else 62).pixels
     } childOf this
 
     init {
         constrain {
-            width = 85.pixels()
-            height = 20.pixels()
+            width = 85.pixels
+            height = 20.pixels
         }
 
         colorPicker.hide(instantly = true)
 
-        enableEffect(OutlineEffect(VigilancePalette.getDivider(), 1f).bindColor(VigilancePalette.dividerState))
+        enableEffect(OutlineEffect(VigilancePalette.getComponentBorder(), 1f).bindColor(VigilancePalette.componentBorder))
         val outlineContainer = UIContainer().constrain {
-            x = (-1).pixels()
-            y = (-1).pixels()
-            width = RelativeConstraint(1f) + 2.pixels()
-            height = RelativeConstraint(1f) + 3f.pixels()
+            x = (-1).pixels
+            y = (-1).pixels
+            width = 100.percent + 2.pixels
+            height = 100.percent + 3f.pixels
         }
         outlineContainer.parent = this
         children.add(0, outlineContainer)
@@ -145,7 +143,7 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         active = true
 
         animate {
-            setHeightAnimation(Animations.IN_SIN, 0.35f, 25.pixels() + RelativeConstraint(1f).boundTo(colorPicker))
+            setHeightAnimation(Animations.IN_SIN, 0.35f, 25.pixels + 100.percent.boundTo(colorPicker))
         }
 
         replaceChild(upArrow, downArrow)
@@ -158,11 +156,11 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
         active = false
 
         if (instantly) {
-            setHeight(20.pixels())
+            setHeight(20.pixels)
             colorPicker.hide(instantly = true)
         } else {
             animate {
-                setHeightAnimation(Animations.OUT_SIN, 0.35f, 20.pixels())
+                setHeightAnimation(Animations.OUT_SIN, 0.35f, 20.pixels)
                 onComplete {
                     colorPicker.hide(instantly = true)
                 }
@@ -178,13 +176,13 @@ class ColorComponent(initial: Color, private val allowAlpha: Boolean) : SettingC
 
     private fun hoverText(text: UIComponent) {
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.brightTextState.toConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.textHighlight.toConstraint())
         }
     }
 
     private fun unHoverText(text: UIComponent) {
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.midTextState.toConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.25f, VigilancePalette.text.toConstraint())
         }
     }
 
