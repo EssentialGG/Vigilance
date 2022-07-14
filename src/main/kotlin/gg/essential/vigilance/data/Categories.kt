@@ -2,6 +2,7 @@ package gg.essential.vigilance.data
 
 import gg.essential.vigilance.gui.*
 import gg.essential.vigilance.gui.settings.*
+import gg.essential.vigilance.utils.translate
 
 class Category(val name: String, val items: List<CategoryItem>, val description: String?) {
     override fun toString(): String {
@@ -42,7 +43,7 @@ class PropertyItem(val data: PropertyData, val subcategory: String) : CategoryIt
                 data.attributesExt.max,
                 data.attributesExt.increment
             )
-            PropertyType.SELECTOR -> SelectorComponent(data.getValue(), data.attributesExt.options.toList())
+            PropertyType.SELECTOR -> SelectorComponent(data.getValue(), data.attributesExt.options.toList().map(data::translate))
             PropertyType.COLOR -> ColorComponent(data.getValue(), data.attributesExt.allowAlpha)
             PropertyType.TEXT -> TextComponent(
                 data.getValue(),
@@ -56,7 +57,7 @@ class PropertyItem(val data: PropertyData, val subcategory: String) : CategoryIt
                 wrap = true,
                 protected = false
             )
-            PropertyType.BUTTON -> ButtonComponent(data.attributesExt.placeholder, data)
+            PropertyType.BUTTON -> ButtonComponent(data.translate(data.attributesExt.placeholder), data)
             PropertyType.CUSTOM -> {
                 val propertyInfoClass = data.attributesExt.customPropertyInfo
                 propertyInfoClass

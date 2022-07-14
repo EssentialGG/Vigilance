@@ -8,7 +8,6 @@ import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.dsl.*
 import gg.essential.vigilance.Vigilant
-import gg.essential.vigilance.impl.I18n
 
 class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilant, window: Window) :
     UIContainer() {
@@ -31,7 +30,7 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
         height = 100.percent
     } childOf this
 
-    private val titleText by UIText(I18n.format(config.guiTitle)).constrain {
+    private val titleText by UIText(config.i18nProvider.translate(config.guiTitle)).constrain {
         x = 10.pixels
         y = CenterConstraint()
     } childOf contentContainer
