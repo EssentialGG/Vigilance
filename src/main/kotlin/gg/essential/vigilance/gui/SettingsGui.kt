@@ -23,7 +23,8 @@ import gg.essential.vigilance.utils.onLeftClick
 import gg.essential.vigilance.utils.scrollGradient
 
 class SettingsGui(
-    config: Vigilant
+    @Suppress("CanBeParameter") // FIXME: breaks with the skytils accessor, remove once a new version is adopted by the majority of users
+    private val config: Vigilant
 ) : WindowScreen(
     version = ElementaVersion.V2,
     newGuiScale = GuiScale.scaleForScreenSize().ordinal,
