@@ -39,7 +39,7 @@ class DataBackedSetting(internal val data: PropertyData, internal val component:
     } childOf textBoundingBox
 
     init {
-        UIWrappedText(data.attributesExt.localizedDescription).constrain {
+        UIWrappedText(data.attributesExt.localizedDescription, lineSpacing = 10f).constrain {
             y = SiblingConstraint() + 3.pixels
             width = 100.percent
             color = VigilancePalette.text.toConstraint()
