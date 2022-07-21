@@ -2,16 +2,16 @@ package gg.essential.vigilance.gui.settings
 
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIImage
-import gg.essential.elementa.components.input.AbstractTextInput
-import gg.essential.elementa.components.input.UIMultilineTextInput
-import gg.essential.elementa.components.input.UIPasswordInput
-import gg.essential.elementa.components.input.UITextInput
 import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.gui.VigilancePalette
+import gg.essential.vigilance.gui.common.input.AbstractTextInput
+import gg.essential.vigilance.gui.common.input.UIMultilineTextInput
+import gg.essential.vigilance.gui.common.input.UIPasswordInput
+import gg.essential.vigilance.gui.common.input.UITextInput
 import gg.essential.vigilance.utils.onLeftClick
 
 class TextComponent(
