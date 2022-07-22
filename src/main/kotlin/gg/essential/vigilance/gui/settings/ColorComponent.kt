@@ -2,7 +2,6 @@ package gg.essential.vigilance.gui.settings
 
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.UIContainer
-import gg.essential.elementa.components.input.UITextInput
 import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
@@ -11,6 +10,7 @@ import gg.essential.elementa.effects.ScissorEffect
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.USound
 import gg.essential.vigilance.gui.VigilancePalette
+import gg.essential.vigilance.gui.common.input.UITextInput
 import gg.essential.vigilance.gui.common.shadow.ShadowIcon
 import gg.essential.vigilance.utils.onLeftClick
 import java.awt.Color

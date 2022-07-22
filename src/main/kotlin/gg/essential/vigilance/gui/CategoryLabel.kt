@@ -23,7 +23,7 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
 
     init {
         constrain {
-            y = SiblingConstraint(13f)
+            y = SiblingConstraint()
             width = ChildBasedMaxSizeConstraint()
             height = ChildBasedSizeConstraint() + 4.pixels
         }
