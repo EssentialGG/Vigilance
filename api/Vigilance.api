@@ -511,6 +511,7 @@ public final class gg/essential/vigilance/gui/VigilancePalette {
 	public final fun getDisabled ()Ljava/awt/Color;
 	public final fun getDivider ()Ljava/awt/Color;
 	public final fun getDividerDark ()Ljava/awt/Color;
+	public final fun getEssentialAccentBlue ()Ljava/awt/Color;
 	public final fun getHighlight ()Ljava/awt/Color;
 	public final fun getLightBackground ()Ljava/awt/Color;
 	public final fun getMainBackground ()Ljava/awt/Color;
