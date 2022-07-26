@@ -57,7 +57,7 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
 
         isSelected = true
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.essentialAccentBlue.toConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.textActive.toConstraint())
         }
     }
 

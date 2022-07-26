@@ -61,7 +61,7 @@ object VigilanceConfig {
     private var dividerDark = Color(0x232323)
     private var scrollbar = Color(0x545454)
     private var mainBackground = Color(0x181818)
-    private var essentialAccentBlue = Color(0x1D6AFF)
+    private var textActive = Color(0x1D6AFF)
 
     internal fun setAllInPalette() {
         VigilancePalette.brightDividerState.set(brightDivider)
@@ -104,6 +104,6 @@ object VigilanceConfig {
         VigilancePalette.scrollbar.set(scrollbar)
         VigilancePalette.textShadow.set(textShadow)
         VigilancePalette.mainBackground.set(mainBackground)
-        VigilancePalette.essentialAccentBlue.set(essentialAccentBlue)
+        VigilancePalette.textActive.set(textActive)
     }
 }

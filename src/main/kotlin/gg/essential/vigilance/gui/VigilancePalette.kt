@@ -50,7 +50,7 @@ object VigilancePalette {
     fun getScrollbar(): Color = scrollbar.get()
     fun getTextShadow(): Color = textShadow.get()
     fun getMainBackground(): Color = mainBackground.get()
-    fun getEssentialAccentBlue(): Color = essentialAccentBlue.get()
+    fun getTextActive(): Color = textActive.get()
 
     // These are marked as internal because ideally the user is only changing the colours in the settings gui
     // Old
@@ -95,7 +95,7 @@ object VigilancePalette {
     internal val scrollbar = BasicState(Color.BLACK)
     internal val textShadow = BasicState(Color.BLACK)
     internal val mainBackground = BasicState(Color.BLACK)
-    internal val essentialAccentBlue = BasicState(Color.BLACK)
+    internal val textActive = BasicState(Color.BLACK)
 
     internal val SEARCH_7X: ImageFactory = ResourceImageFactory("/vigilance/search_7x7.png")
     internal val CANCEL_5X: ImageFactory = ResourceImageFactory("/vigilance/cancel_5x5.png")
