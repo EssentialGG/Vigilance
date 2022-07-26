@@ -524,6 +524,7 @@ public final class gg/essential/vigilance/gui/VigilancePalette {
 	public final fun getSearchBarBackground ()Ljava/awt/Color;
 	public final fun getSuccess ()Ljava/awt/Color;
 	public final fun getText ()Ljava/awt/Color;
+	public final fun getTextActive ()Ljava/awt/Color;
 	public final fun getTextDisabled ()Ljava/awt/Color;
 	public final fun getTextHighlight ()Ljava/awt/Color;
 	public final fun getTextShadow ()Ljava/awt/Color;
