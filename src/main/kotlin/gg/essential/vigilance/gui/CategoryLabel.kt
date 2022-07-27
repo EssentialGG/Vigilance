@@ -25,7 +25,7 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
         constrain {
             y = SiblingConstraint()
             width = ChildBasedMaxSizeConstraint()
-            height = ChildBasedSizeConstraint() + 4.pixels
+            height = ChildBasedSizeConstraint() + 8.pixels
         }
 
         onLeftClick {
