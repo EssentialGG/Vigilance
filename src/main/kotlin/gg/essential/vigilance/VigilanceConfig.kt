@@ -44,7 +44,7 @@ object VigilanceConfig {
     private var disabled = Color(80, 80, 80)
 
     // New
-    private var primary = Color(0x2BC553)
+    private var primary = Color(0x1D6AFF)
     private var componentBorderDark = Color(0x000000)
     private var midGray = Color(0x939393)
     private var button = Color(0x323232)
