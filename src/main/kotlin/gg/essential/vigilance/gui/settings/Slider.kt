@@ -42,7 +42,7 @@ class Slider(initialValue: Float) : UIContainer() {
         width = AspectConstraint(1f)
         height = 100.percent
         color = VigilancePalette.primary.toConstraint()
-    } childOf this effect OutlineEffect(VigilancePalette.getComponentBorderDark(), 1f)
+    } childOf this effect OutlineEffect(VigilancePalette.getTextHighlight(), 1f)
 
     init {
         grabBox.onLeftClick { event ->

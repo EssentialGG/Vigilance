@@ -23,9 +23,9 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
 
     init {
         constrain {
-            y = SiblingConstraint(13f)
+            y = SiblingConstraint()
             width = ChildBasedMaxSizeConstraint()
-            height = ChildBasedSizeConstraint() + 4.pixels
+            height = ChildBasedSizeConstraint() + 8.pixels
         }
 
         onLeftClick {
@@ -38,7 +38,7 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
         onMouseEnter {
             if (!isSelected) {
                 text.animate {
-                    setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.primary.toConstraint())
+                    setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.textHighlight.toConstraint())
                 }
             }
         }
@@ -57,7 +57,7 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
 
         isSelected = true
         text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.primary.toConstraint())
+            setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.textActive.toConstraint())
         }
     }
 

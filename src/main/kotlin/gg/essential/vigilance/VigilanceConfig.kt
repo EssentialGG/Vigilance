@@ -44,7 +44,7 @@ object VigilanceConfig {
     private var disabled = Color(80, 80, 80)
 
     // New
-    private var primary = Color(0x2BC553)
+    private var primary = Color(0x2997FF)
     private var componentBorderDark = Color(0x000000)
     private var midGray = Color(0x939393)
     private var button = Color(0x323232)
@@ -61,6 +61,7 @@ object VigilanceConfig {
     private var dividerDark = Color(0x232323)
     private var scrollbar = Color(0x545454)
     private var mainBackground = Color(0x181818)
+    private var textActive = Color(0x2997FF)
 
     internal fun setAllInPalette() {
         VigilancePalette.brightDividerState.set(brightDivider)
@@ -103,5 +104,6 @@ object VigilanceConfig {
         VigilancePalette.scrollbar.set(scrollbar)
         VigilancePalette.textShadow.set(textShadow)
         VigilancePalette.mainBackground.set(mainBackground)
+        VigilancePalette.textActive.set(textActive)
     }
 }

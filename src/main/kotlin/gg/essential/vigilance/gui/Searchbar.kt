@@ -3,12 +3,12 @@ package gg.essential.vigilance.gui
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.Window
-import gg.essential.elementa.components.input.UITextInput
 import gg.essential.elementa.constraints.*
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.state.BasicState
 import gg.essential.universal.UKeyboard
 import gg.essential.vigilance.gui.common.IconButton
+import gg.essential.vigilance.gui.common.input.UITextInput
 import gg.essential.vigilance.gui.common.shadow.ShadowIcon
 import gg.essential.vigilance.utils.bindParent
 import gg.essential.vigilance.utils.not
@@ -68,6 +68,7 @@ internal class Searchbar(
         x = SiblingConstraint(5f)
         y = CenterConstraint()
         width = FillConstraint(useSiblings = false)
+        height = 9.pixels
     } childOf searchContainer
 
     init {
