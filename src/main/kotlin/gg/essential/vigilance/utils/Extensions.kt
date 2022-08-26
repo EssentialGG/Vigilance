@@ -173,7 +173,7 @@ internal fun <T : UIComponent> T.centered(): T = apply {
 internal fun ScrollComponent.createScrollGradient(
     top: Boolean,
     heightSize: HeightConstraint,
-    color: Color = VigilancePalette.getTextShadow(),
+    color: Color = VigilancePalette.getMainBackground(),
     maxGradient: Int = 204,
 ): GradientComponent {
 
