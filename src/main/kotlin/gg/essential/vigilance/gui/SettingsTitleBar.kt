@@ -5,7 +5,6 @@ import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIText
 import gg.essential.elementa.components.Window
 import gg.essential.elementa.constraints.CenterConstraint
-import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.dsl.*
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.impl.I18n
@@ -15,18 +14,18 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
 
     // Notches in titlebar
     private val leftDivider by UIBlock(VigilancePalette.componentHighlight).constrain {
+        x = 0.pixels(alignOutside = true)
         width = SettingsGui.dividerWidth.pixels
         height = 100.percent
     } childOf this
 
     private val contentContainer by UIBlock(VigilancePalette.getComponentBackground()).constrain {
-        x = SiblingConstraint()
-        width = 100.percent - (SettingsGui.dividerWidth * 2f).pixels
+        width = 100.percent
         height = 100.percent
     } childOf this
 
     private val rightDivider by UIBlock(VigilancePalette.componentHighlight).constrain {
-        x = 0.pixels(alignOpposite = true)
+        x = 0.pixels(alignOpposite = true, alignOutside = true)
         width = SettingsGui.dividerWidth.pixels
         height = 100.percent
     } childOf this
@@ -37,7 +36,7 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
     } childOf contentContainer
 
     private val middleDivider by UIBlock(VigilancePalette.componentHighlight).constrain {
-        x = 25.percent + SettingsGui.dividerWidth.pixels
+        x = 25.percent
         width = SettingsGui.dividerWidth.pixels
         height = 100.percent
     } childOf this
@@ -49,11 +48,6 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
     } childOf contentContainer
 
     init {
-        constrain {
-            width = 100.percent
-            height = 30.pixels
-        }
-
         searchBar.textContent.onSetValue {
             gui.selectCategory(config.getCategoryFromSearch(it))
         }

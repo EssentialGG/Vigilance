@@ -39,11 +39,14 @@ class SettingsGui(
     private val container by UIContainer().constrain {
         x = CenterConstraint()
         y = CenterConstraint()
-        width = 85.percent
+        width = 85.percent.coerceAtMost(100.percent - basicWidthConstraint { backButton.getWidth() * 2 }).coerceAtLeast(0.pixels)
         height = 75.percent
     } childOf window
 
-    private val titleBar by SettingsTitleBar(this, config, window) childOf container
+    private val titleBar by SettingsTitleBar(this, config, window).constrain {
+        width = 100.percent
+        height = 30.pixels
+    } childOf container
 
     private val bottomContainer by UIContainer().constrain {
         y = SiblingConstraint()
@@ -52,12 +55,12 @@ class SettingsGui(
     } childOf container
 
     private val leftDivider by UIBlock(VigilancePalette.dividerDark).constrain {
+        x = 0.pixels(alignOutside = true)
         width = dividerWidth.pixels
         height = 100.percent
     } childOf bottomContainer
 
     private val sidebar by UIContainer().constrain {
-        x = SiblingConstraint()
         width = 25.percent
         height = 100.percent
     } effect ScissorEffect() childOf bottomContainer
@@ -66,6 +69,26 @@ class SettingsGui(
         x = SiblingConstraint()
         width = dividerWidth.pixels
         height = 100.percent
+    } childOf bottomContainer
+
+    private val content by UIContainer().constrain {
+        x = SiblingConstraint()
+        width = FillConstraint(useSiblings = false)
+        height = 100.percent
+    } childOf bottomContainer
+
+    private val rightDivider by UIBlock(VigilancePalette.dividerDark).constrain {
+        x = 0.pixels(alignOpposite = true, alignOutside = true)
+        width = dividerWidth.pixels
+        height = 100.percent
+    } childOf content
+
+    private val bottomDivider by UIBlock(VigilancePalette.dividerDark).constrain {
+        x = 0.pixels boundTo leftDivider
+        y = SiblingConstraint()
+        width =
+            100.percent + (dividerWidth.pixels * 2) // 2* dividerWidth so the corners aren't missing
+        height = dividerWidth.pixels
     } childOf bottomContainer
 
     private val sidebarScroller by ScrollComponent(
@@ -81,24 +104,6 @@ class SettingsGui(
         width = 100.percent
     } childOf middleDivider
 
-    private val rightDivider by UIBlock(VigilancePalette.dividerDark).constrain {
-        x = 0.pixels(alignOpposite = true)
-        width = dividerWidth.pixels
-        height = 100.percent
-    } childOf bottomContainer
-
-    private val content by UIContainer().constrain {
-        x = SiblingConstraint() boundTo middleDivider
-        width = FillConstraint(useSiblings = false)
-        height = 100.percent
-    } effect(ScissorEffect()) childOf bottomContainer
-
-    private val bottomDivider by UIBlock(VigilancePalette.dividerDark).constrain {
-        y = SiblingConstraint()
-        width = 100.percent
-        height = dividerWidth.pixels
-    } childOf container
-
     private val sidebarHorizontalScrollbarContainer by UIContainer().constrain {
         x = 0.pixels boundTo sidebar
         width = 100.percent boundTo sidebar
@@ -109,8 +114,8 @@ class SettingsGui(
         height = 100.percent
     } childOf sidebarHorizontalScrollbarContainer
 
-    private val backButton by IconButton(VigilancePalette.ARROW_LEFT_4X7).constrain {
-        x = SiblingConstraint(18f, alignOpposite = true) boundTo titleBar
+    private val backButton: IconButton by IconButton(VigilancePalette.ARROW_LEFT_4X7).constrain {
+        x = (SiblingConstraint(18f, alignOpposite = true) boundTo leftDivider).coerceAtLeast(0.pixels)
         y = CenterConstraint() boundTo titleBar
         width = 17.pixels
         height = AspectConstraint()
