@@ -100,6 +100,7 @@ object VigilancePalette {
     internal val SEARCH_7X: ImageFactory = ResourceImageFactory("/vigilance/search_7x7.png")
     internal val CANCEL_5X: ImageFactory = ResourceImageFactory("/vigilance/cancel_5x5.png")
     internal val ARROW_LEFT_4X7: ImageFactory = ResourceImageFactory("/vigilance/arrow-left.png")
+    internal val ARROW_LEFT_5X7: ImageFactory = ResourceImageFactory("/vigilance/arrow-left_5x7.png")
     internal val ARROW_UP_7X4: ImageFactory = ResourceImageFactory("/vigilance/arrow_up.png")
     internal val ARROW_DOWN_7X4: ImageFactory = ResourceImageFactory("/vigilance/arrow_down.png")
 
