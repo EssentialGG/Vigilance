@@ -14,6 +14,8 @@ public abstract class gg/essential/vigilance/Vigilant {
 	public fun <init> (Ljava/io/File;Ljava/lang/String;Lgg/essential/vigilance/data/PropertyCollector;)V
 	public fun <init> (Ljava/io/File;Ljava/lang/String;Lgg/essential/vigilance/data/PropertyCollector;Lgg/essential/vigilance/data/SortingBehavior;)V
 	public synthetic fun <init> (Ljava/io/File;Ljava/lang/String;Lgg/essential/vigilance/data/PropertyCollector;Lgg/essential/vigilance/data/SortingBehavior;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/io/File;Ljava/lang/String;Lgg/essential/vigilance/data/PropertyCollector;Lgg/essential/vigilance/data/SortingBehavior;Lgg/essential/vigilance/i18n/I18nProvider;)V
+	public synthetic fun <init> (Ljava/io/File;Ljava/lang/String;Lgg/essential/vigilance/data/PropertyCollector;Lgg/essential/vigilance/data/SortingBehavior;Lgg/essential/vigilance/i18n/I18nProvider;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun addDependency (Ljava/lang/String;Ljava/lang/String;)V
 	public final fun addDependency (Ljava/lang/reflect/Field;Ljava/lang/reflect/Field;)V
 	public final fun addDependency (Lkotlin/reflect/KProperty;Lkotlin/reflect/KProperty;)V
@@ -22,6 +24,7 @@ public abstract class gg/essential/vigilance/Vigilant {
 	public final fun getCategories ()Ljava/util/List;
 	public final fun getCategoryFromSearch (Ljava/lang/String;)Lgg/essential/vigilance/data/Category;
 	public final fun getGuiTitle ()Ljava/lang/String;
+	public final fun getI18nProvider ()Lgg/essential/vigilance/i18n/I18nProvider;
 	public final fun getSortingBehavior ()Lgg/essential/vigilance/data/SortingBehavior;
 	public final fun gui ()Lgg/essential/vigilance/gui/SettingsGui;
 	public final fun hiddenIf (Lkotlin/reflect/KProperty;Lkotlin/jvm/functions/Function0;)V
@@ -649,6 +652,15 @@ public final class gg/essential/vigilance/gui/settings/TextComponent : gg/essent
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;ZZ)V
 	public fun animationFrame ()V
 	public fun closePopups (Z)V
+}
+
+public abstract interface class gg/essential/vigilance/i18n/I18nProvider {
+	public abstract fun translate (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class gg/essential/vigilance/i18n/PlatformI18nProvider : gg/essential/vigilance/i18n/I18nProvider {
+	public static final field INSTANCE Lgg/essential/vigilance/i18n/PlatformI18nProvider;
+	public fun translate (Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class gg/essential/vigilance/utils/ExtensionsKt {

@@ -3,7 +3,8 @@ package gg.essential.vigilance
 import gg.essential.universal.UChat
 import gg.essential.vigilance.data.*
 import gg.essential.vigilance.gui.SettingsGui
-import gg.essential.vigilance.impl.I18n
+import gg.essential.vigilance.i18n.I18nProvider
+import gg.essential.vigilance.i18n.PlatformI18nProvider
 import gg.essential.vigilance.impl.nightconfig.core.file.FileConfig
 import java.awt.Color
 import java.io.File
@@ -15,12 +16,21 @@ import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KProperty
 import kotlin.reflect.jvm.javaField
 
-abstract class Vigilant @JvmOverloads constructor(
+abstract class Vigilant(
     file: File,
     val guiTitle: String = "Settings",
     private val propertyCollector: PropertyCollector = JVMAnnotationPropertyCollector(),
-    val sortingBehavior: SortingBehavior = SortingBehavior()
+    val sortingBehavior: SortingBehavior = SortingBehavior(),
+    val i18nProvider: I18nProvider = PlatformI18nProvider
 ) {
+
+    @JvmOverloads constructor(
+        file: File,
+        guiTitle: String = "Settings",
+        propertyCollector: PropertyCollector = JVMAnnotationPropertyCollector(),
+        sortingBehavior: SortingBehavior = SortingBehavior()
+    ) : this(file, guiTitle, propertyCollector, sortingBehavior, PlatformI18nProvider)
+
     /*
     TODO: Fix this in production
     private val miscData = (this::class as KClass<Vigilant>).memberProperties
@@ -195,16 +205,16 @@ abstract class Vigilant @JvmOverloads constructor(
     fun getCategories(): List<Category> {
         return propertyCollector.getProperties()
             .filter { !it.attributesExt.hidden }
-            .groupBy { it.attributesExt.localizedCategory to it.attributesExt.category }
-            .map { Category(it.key.first, it.value.splitBySubcategory(), categoryDescription[it.key.second]?.description?.let { desc -> I18n.format(desc) }) }
+            .groupBy { it.attributesExt.localizedCategory(this) to it.attributesExt.category }
+            .map { Category(it.key.first, it.value.splitBySubcategory(), categoryDescription[it.key.second]?.description?.let { desc -> i18nProvider.translate(desc) }) }
             .sortedWith(sortingBehavior.getCategoryComparator())
     }
 
     fun getCategoryFromSearch(term: String): Category {
         val sorted = propertyCollector.getProperties()
             .filter {
-                !it.attributesExt.hidden && (it.attributesExt.localizedName.contains(term, ignoreCase = true) || it.attributesExt.localizedDescription
-                    .contains(term, ignoreCase = true) || it.attributesExt.localizedSearchTags.any { str -> str.contains(term, ignoreCase = true) })
+                !it.attributesExt.hidden && (it.attributesExt.localizedName(this).contains(term, ignoreCase = true) || it.attributesExt.localizedDescription(this)
+                    .contains(term, ignoreCase = true) || it.attributesExt.localizedSearchTags(this).any { str -> str.contains(term, ignoreCase = true) })
             }
             .sortedWith(sortingBehavior.getPropertyComparator())
 
@@ -274,15 +284,17 @@ abstract class Vigilant @JvmOverloads constructor(
     }
 
     private fun List<PropertyData>.splitBySubcategory(): List<CategoryItem> {
-        val items = this.groupBy { it.attributesExt.localizedSubcategory }.entries.sortedWith(sortingBehavior.getSubcategoryComparator())
+        val items = this.groupBy { it.attributesExt.localizedSubcategory(this@Vigilant) }.entries.sortedWith(sortingBehavior.getSubcategoryComparator())
         val withDividers = mutableListOf<CategoryItem>()
 
         items.forEachIndexed { index, (subcategoryName, listOfProperties) ->
-            val subcategoryInfo = categoryDescription[listOfProperties[0].attributesExt.category]?.subcategoryDescriptions?.get(subcategoryName)?.let { I18n.format(it) }
+            val firstProperty = listOfProperties[0]
+            val subcategoryInfo = categoryDescription[firstProperty.attributesExt.category]?.subcategoryDescriptions
+                ?.get(firstProperty.attributesExt.subcategory)?.let { i18nProvider.translate(it) }
             if (index > 0 || subcategoryName.isNotBlank() || !subcategoryInfo.isNullOrBlank()) {
                 withDividers.add(DividerItem(subcategoryName, subcategoryInfo))
             }
-            withDividers.addAll(listOfProperties.sortedWith(sortingBehavior.getPropertyComparator()).map { PropertyItem(it, it.attributesExt.localizedSubcategory) })
+            withDividers.addAll(listOfProperties.sortedWith(sortingBehavior.getPropertyComparator()).map { PropertyItem(it, it.attributesExt.localizedSubcategory(this@Vigilant)) })
         }
 
         return withDividers

@@ -6,6 +6,7 @@ import gg.essential.universal.UChat
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.Property
 import gg.essential.vigilance.data.PropertyType
+import gg.essential.vigilance.i18n.I18nProvider
 import java.awt.Color
 import java.io.File
 import kotlin.math.PI
@@ -15,7 +16,7 @@ import kotlin.math.PI
  * as well as a visual demonstration of each option. Also demos some
  * aspects such as fields with different initial values.
  */
-object ExampleConfig : Vigilant(File("./config/example.toml")) {
+object ExampleConfig : Vigilant(File("./config/example.toml"), i18nProvider = ExampleI18nProvider) {
     @Property(
         type = PropertyType.CHECKBOX,
         name = "Checkbox",
@@ -496,6 +497,46 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
 
     @Property(
         type = PropertyType.SWITCH,
+        name = "config.switch",
+        description = "config.switch.description",
+        category = "Property Deep-Dive",
+        subcategory = "config.subcategory.localized",
+        searchTags = ["config.searchtag.i18n"]
+    )
+    var localizedSwitch = false
+
+    @Property(
+        type = PropertyType.BUTTON,
+        name = "config.button",
+        description = "config.button.description",
+        placeholder = "config.button.placeholder",
+        category = "Property Deep-Dive",
+        subcategory = "config.subcategory.localized",
+        searchTags = ["config.searchtag.i18n"]
+    )
+    fun localizedButton() {
+
+    }
+
+    @Property(
+        type = PropertyType.SELECTOR,
+        name = "config.selector",
+        description = "config.selector.description",
+        options = [
+            "config.selector.1",
+            "config.selector.2",
+            "config.selector.3",
+            "config.selector.4",
+            "config.selector.5"
+        ],
+        category = "Property Deep-Dive",
+        subcategory = "config.subcategory.localized",
+        searchTags = ["config.searchtag.i18n"]
+    )
+    var localizedSelector = 0
+
+    @Property(
+        type = PropertyType.SWITCH,
         name = "This is a switch property with a very long name. It is recommended to use the description for lengthy property text, however this is still supported",
         category = "Meta"
     )
@@ -550,5 +591,34 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
             "Buttons",
             "Buttons are a great way for the user to run an action. Buttons don't have any associated state, and as such their annotation target has to be a method."
         )
+
+        setSubcategoryDescription(
+            "Property Deep-Dive",
+            "config.subcategory.localized",
+            "config.subcategory.localized.description"
+        )
+    }
+
+    object ExampleI18nProvider : I18nProvider {
+        override fun translate(key: String): String =
+            when(key) {
+                "config.subcategory.localized" -> "Localized"
+                "config.subcategory.localized.description" -> "Vigilance has (some) localization support!"
+                "config.switch" -> "Localized switch"
+                "config.switch.description" -> "Localized switch description"
+                "config.button" -> "Localized Button"
+                "config.button.description" -> "Localized button description"
+                "config.button.placeholder" -> "Click me!"
+                "config.selector" -> "Localized selector"
+                "config.selector.description" -> "Localized selector description"
+                "config.selector.1" -> "Localized option 1"
+                "config.selector.2" -> "Localized option 2"
+                "config.selector.3" -> "Localized option 3"
+                "config.selector.4" -> "Localized option 4"
+                "config.selector.5" -> "Localized option 5"
+                "config.searchtag.i18n" -> "internationalization"
+                else -> key
+            }
+
     }
 }

@@ -32,14 +32,14 @@ class DataBackedSetting(internal val data: PropertyData, internal val component:
         height = ChildBasedSizeConstraint(3f) + INNER_PADDING.pixels
     } childOf boundingBox
 
-    private val settingName by UIWrappedText(data.attributesExt.localizedName).constrain {
+    private val settingName by UIWrappedText(data.attributesExt.localizedName(data.instance)).constrain {
         width = 100.percent
         textScale = GuiScaleOffsetConstraint(1f)
         color = VigilancePalette.textHighlight.toConstraint()
     } childOf textBoundingBox
 
     init {
-        UIWrappedText(data.attributesExt.localizedDescription, lineSpacing = 10f).constrain {
+        UIWrappedText(data.attributesExt.localizedDescription(data.instance), lineSpacing = 10f).constrain {
             y = SiblingConstraint() + 3.pixels
             width = 100.percent
             color = VigilancePalette.text.toConstraint()

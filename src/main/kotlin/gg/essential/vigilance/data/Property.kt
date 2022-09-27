@@ -1,6 +1,6 @@
 package gg.essential.vigilance.data
 
-import gg.essential.vigilance.impl.I18n
+import gg.essential.vigilance.Vigilant
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -300,15 +300,15 @@ class PropertyAttributesExt(
     ) : this(type, name, category, subcategory, description, min, max, minF, maxF, decimalPlaces, increment, options, allowAlpha, placeholder, protected, triggerActionOnInitialization, hidden, searchTags, i18nName, i18nCategory, i18nSubcategory)
 
 
-    internal val localizedName get() = I18n.format(i18nName)
+    internal fun localizedName(vigilant: Vigilant) = vigilant.i18nProvider.translate(i18nName)
 
-    internal val localizedCategory get() = I18n.format(i18nCategory)
+    internal fun localizedCategory(vigilant: Vigilant) = vigilant.i18nProvider.translate(i18nCategory)
 
-    internal val localizedSubcategory get() = I18n.format(i18nSubcategory)
+    internal fun localizedSubcategory(vigilant: Vigilant) = vigilant.i18nProvider.translate(i18nSubcategory)
 
-    internal val localizedDescription get() = I18n.format(description)
+    internal fun localizedDescription(vigilant: Vigilant) = vigilant.i18nProvider.translate(description)
 
-    internal val localizedSearchTags get() = searchTags.map { I18n.format(it) }
+    internal fun localizedSearchTags(vigilant: Vigilant) = searchTags.map { vigilant.i18nProvider.translate(it) }
 
     companion object {
         fun fromPropertyAnnotation(property: Property): PropertyAttributesExt {
