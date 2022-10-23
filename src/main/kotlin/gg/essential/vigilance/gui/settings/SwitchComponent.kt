@@ -15,7 +15,7 @@ import java.awt.Color
 
 class SwitchComponent(initialState: Boolean) : SettingComponent() {
 
-    internal var enabled = initialState
+    internal val enabled = BasicState(initialState)
 
     private val background by UIBlock(getSwitchColor()).constrain {
         width = 100.percent
@@ -37,8 +37,8 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
 
         onLeftClick {
             USound.playButtonPress()
-            enabled = !enabled
-            changeValue(enabled)
+            enabled.set { !it }
+            changeValue(enabled.get())
 
             background.setColor(getSwitchColor().toConstraint())
             switchBox.animate {
@@ -59,7 +59,7 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
         }
     }
 
-    private fun getSwitchColor(): BasicState<Color> = if (enabled) VigilancePalette.primary else VigilancePalette.text
+    private fun getSwitchColor(): BasicState<Color> = if (enabled.get()) VigilancePalette.primary else VigilancePalette.text
 
-    private fun getSwitchPosition(): PixelConstraint = if (enabled) 1.pixels(alignOpposite = true) else 1.pixels
+    private fun getSwitchPosition(): PixelConstraint = if (enabled.get()) 1.pixels(alignOpposite = true) else 1.pixels
 }
