@@ -247,3 +247,14 @@ internal operator fun <T> State<T>.getValue(obj: Any, property: KProperty<*>): T
 internal operator fun <T> State<T>.setValue(obj: Any, property: KProperty<*>, value: T) = set(value)
 
 internal fun <T> T.state() = BasicState(this)
+
+internal fun <T> UIComponent.pollingState(initialValue: T? = null, getter: () -> T): State<T> {
+    val state = BasicState(initialValue ?: getter())
+    enableEffect(object : Effect() {
+        override fun animationFrame() {
+            state.set(getter())
+        }
+    })
+    return state
+}
+

@@ -1,6 +1,7 @@
 package gg.essential.vigilance.gui.settings
 
 import gg.essential.elementa.components.UIBlock
+import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.constraints.AspectConstraint
 import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.PixelConstraint
@@ -10,7 +11,10 @@ import gg.essential.elementa.state.BasicState
 import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.USound
 import gg.essential.vigilance.gui.VigilancePalette
-import gg.essential.vigilance.utils.onLeftClick
+import gg.essential.vigilance.utils.*
+import gg.essential.vigilance.utils.and
+import gg.essential.vigilance.utils.bindParent
+import gg.essential.vigilance.utils.pollingState
 import java.awt.Color
 
 class SwitchComponent(initialState: Boolean) : SettingComponent() {
@@ -28,6 +32,32 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
         width = AspectConstraint()
         height = 100.percent - 2.pixels
     } childOf this
+
+    // Property set by Essential
+    private val showToggleIndicators = pollingState {
+        System.getProperty("essential.hideSwitchIndicators") != "true"
+    }
+
+    private val onIndicator by UIContainer().constrain {
+        height = 100.percent
+        width = 50.percent
+    }.addChild {
+        VigilancePalette.TOGGLE_ON_1X5.withColor(VigilancePalette.componentBackground.get()).create().constrain {
+            x = CenterConstraint()
+            y = CenterConstraint()
+        }
+    }.bindParent(this, showToggleIndicators and enabled)
+
+    private val offIndicator by UIContainer().constrain {
+        x = 0.pixels(alignOpposite = true)
+        height = 100.percent
+        width = 50.percent
+    }.addChild {
+        VigilancePalette.TOGGLE_OFF_4X5.withColor(VigilancePalette.getMidGray()).create().constrain {
+            x = CenterConstraint()
+            y = CenterConstraint()
+        }
+    }.bindParent(this, showToggleIndicators and !enabled)
 
     init {
         constrain {
