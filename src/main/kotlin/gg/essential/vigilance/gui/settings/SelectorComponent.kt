@@ -11,7 +11,10 @@ class SelectorComponent(initialSelection: Int, options: List<String>) : SettingC
     init {
         constrain {
             width = ChildBasedSizeConstraint()
-            height = ChildBasedSizeConstraint()
+            // Height of the drop-down in the collapsed state.
+            // The height is locked at this value so that when the dropdown
+            // opens, the size of the component doesn't change.
+            height = 17.pixels
         }
 
         dropDown.selectedIndex.onSetValue { newValue ->
