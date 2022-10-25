@@ -46,7 +46,6 @@ abstract class Vigilant @JvmOverloads constructor(
      * Initialise your config.
      */
     fun initialize() {
-        Vigilance.initialize()
         loadData()
     }
 

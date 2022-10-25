@@ -103,6 +103,8 @@ object VigilancePalette {
     internal val ARROW_LEFT_5X7: ImageFactory = ResourceImageFactory("/vigilance/arrow-left_5x7.png")
     internal val ARROW_UP_7X4: ImageFactory = ResourceImageFactory("/vigilance/arrow_up.png")
     internal val ARROW_DOWN_7X4: ImageFactory = ResourceImageFactory("/vigilance/arrow_down.png")
+    internal val TOGGLE_ON_1X5: ImageFactory = ResourceImageFactory("/vigilance/toggle_on.png")
+    internal val TOGGLE_OFF_4X5: ImageFactory = ResourceImageFactory("/vigilance/toggle_off.png")
 
     init {
         VigilanceConfig.setAllInPalette()

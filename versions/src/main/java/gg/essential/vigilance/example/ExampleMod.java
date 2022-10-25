@@ -67,9 +67,7 @@ public class ExampleMod {
     //#endif
 
     private void init() {
-        Vigilance.initialize();
         ExampleConfig.INSTANCE.preload();
-        StencilEffect.enableStencil();
     }
 
     private void tick() {
