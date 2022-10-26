@@ -46,7 +46,7 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
             x = CenterConstraint()
             y = CenterConstraint()
         }
-    }.bindParent(this, showToggleIndicators and enabled)
+    }.bindParent(this, showToggleIndicators and enabled, index = 0)
 
     private val offIndicator by UIContainer().constrain {
         x = 0.pixels(alignOpposite = true)
@@ -57,7 +57,7 @@ class SwitchComponent(initialState: Boolean) : SettingComponent() {
             x = CenterConstraint()
             y = CenterConstraint()
         }
-    }.bindParent(this, showToggleIndicators and !enabled)
+    }.bindParent(this, showToggleIndicators and !enabled, index = 0)
 
     init {
         constrain {

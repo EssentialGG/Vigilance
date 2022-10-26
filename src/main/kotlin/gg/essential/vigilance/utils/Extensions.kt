@@ -127,19 +127,23 @@ internal fun UIComponent.hoveredState(hitTest: Boolean = true, layoutSafe: Boole
     }
 }
 
-internal fun <T : UIComponent> T.bindParent(parent: UIComponent, state: State<Boolean>, delayed: Boolean = false) =
+internal fun <T : UIComponent> T.bindParent(parent: UIComponent, state: State<Boolean>, delayed: Boolean = false, index: Int? = null) =
     bindParent(state.map {
         if (it) parent else null
-    }, delayed)
+    }, delayed, index)
 
-internal fun <T : UIComponent> T.bindParent(state: State<UIComponent?>, delayed: Boolean = false) = apply {
+internal fun <T : UIComponent> T.bindParent(state: State<UIComponent?>, delayed: Boolean = false, index: Int? = null) = apply {
     state.onSetValueAndNow { parent ->
         val handleStateUpdate = {
             if (this.hasParent && this.parent != parent) {
                 this.parent.removeChild(this)
             }
             if (parent != null && this !in parent.children) {
-                parent.addChild(this)
+                if (index != null) {
+                    parent.insertChildAt(this, index)
+                } else {
+                    parent.addChild(this)
+                }
             }
         }
         if (delayed) {
