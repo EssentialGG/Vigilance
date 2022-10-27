@@ -39,8 +39,8 @@ class SettingsGui(
     private val container by UIContainer().constrain {
         x = CenterConstraint()
         y = CenterConstraint()
-        width = 85.percent.coerceAtMost(100.percent - basicWidthConstraint { backButton.getWidth() * 2 }).coerceAtLeast(0.pixels)
-        height = 75.percent
+        width = (85.percent + dividerWidth.pixels).coerceAtMost(100.percent - basicWidthConstraint { backButton.getWidth() * 2 }).coerceAtLeast(0.pixels)
+        height = 75.percent + dividerWidth.pixels
     } childOf window
 
     private val titleBar by SettingsTitleBar(this, config, window).constrain {
