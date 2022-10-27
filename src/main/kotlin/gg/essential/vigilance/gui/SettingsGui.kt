@@ -87,7 +87,7 @@ class SettingsGui(
         x = 0.pixels boundTo leftDivider
         y = 0.pixels(alignOpposite = true)
         width =
-            100.percent + (dividerWidth.pixels * 2) // 2* dividerWidth so the corners aren't missing
+            100.percent + dividerWidth.pixels // Extra dividerWidth so the corner isn't missing
         height = dividerWidth.pixels
     } childOf bottomContainer
 
