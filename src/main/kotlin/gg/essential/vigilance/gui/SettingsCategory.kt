@@ -5,6 +5,7 @@ import gg.essential.elementa.constraints.*
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.state.toConstraint
 import gg.essential.vigilance.data.Category
+import gg.essential.vigilance.data.DividerItem
 import gg.essential.vigilance.data.PropertyItem
 import gg.essential.vigilance.utils.scrollGradient
 
@@ -77,6 +78,12 @@ class SettingsCategory(category: Category) : UIContainer() {
                             }
                             dividerItemsSettingsObjects.forEach { divider ->
                                 divider.hideMaybe(hideDividerMaybe(divider))
+                            }
+                            scroller.sortChildren { child ->
+                                category.items.indexOfFirst { categoryItem ->
+                                    (categoryItem is DividerItem && child is Divider && categoryItem.name == child.name)
+                                            || (categoryItem is PropertyItem && child is DataBackedSetting && categoryItem.data == child.data)
+                                }
                             }
                         }
                     }
