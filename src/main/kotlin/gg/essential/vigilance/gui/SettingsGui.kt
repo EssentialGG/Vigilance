@@ -78,14 +78,14 @@ class SettingsGui(
     } childOf bottomContainer
 
     private val rightDivider by UIBlock(VigilancePalette.dividerDark).constrain {
-        x = 0.pixels(alignOpposite = true, alignOutside = true)
+        x = 0.pixels(alignOpposite = true)
         width = dividerWidth.pixels
         height = 100.percent
     } childOf content
 
     private val bottomDivider by UIBlock(VigilancePalette.dividerDark).constrain {
         x = 0.pixels boundTo leftDivider
-        y = SiblingConstraint()
+        y = 0.pixels(alignOpposite = true)
         width =
             100.percent + (dividerWidth.pixels * 2) // 2* dividerWidth so the corners aren't missing
         height = dividerWidth.pixels

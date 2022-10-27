@@ -25,7 +25,7 @@ class SettingsTitleBar(private val gui: SettingsGui, private val config: Vigilan
     } childOf this
 
     private val rightDivider by UIBlock(VigilancePalette.componentHighlight).constrain {
-        x = 0.pixels(alignOpposite = true, alignOutside = true)
+        x = 0.pixels(alignOpposite = true)
         width = SettingsGui.dividerWidth.pixels
         height = 100.percent
     } childOf this

@@ -20,7 +20,7 @@ class SettingsCategory(category: Category) : UIContainer() {
     } childOf this scrollGradient 20.pixels
 
     private val scrollBar by UIBlock(VigilancePalette.scrollbar).constrain {
-        x = 0.pixels(alignOpposite = true, alignOutside = true)
+        x = 0.pixels(alignOpposite = true)
         width = SettingsGui.dividerWidth.pixels
     } childOf this
 
