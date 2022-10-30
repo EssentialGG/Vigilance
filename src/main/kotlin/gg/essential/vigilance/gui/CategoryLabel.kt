@@ -54,17 +54,19 @@ class CategoryLabel(private val gui: SettingsGui, internal val category: Categor
 
     fun select() {
         gui.selectCategory(category)
-
-        isSelected = true
-        text.animate {
-            setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.textActive.toConstraint())
-        }
     }
 
     fun deselect() {
         isSelected = false
         text.animate {
             setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.text.toConstraint())
+        }
+    }
+
+    fun markSelected() {
+        isSelected = true
+        text.animate {
+            setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.textActive.toConstraint())
         }
     }
 }
