@@ -184,7 +184,16 @@ class SettingsGui(
         newCategory.scrollToTop()
         currentCategory = newCategory
 
-        sidebarScroller.childrenOfType<CategoryLabel>().firstOrNull { it.isSelected }?.deselect()
+        val labels = sidebarScroller.childrenOfType<CategoryLabel>()
+
+        labels
+            .firstOrNull { it.isSelected }
+            ?.deselect()
+
+        // We compare names because the `items` field could technically be the same but the `Category` could be a different instance.
+        labels
+            .firstOrNull { it.category.name == category.name }
+            ?.markSelected()
     }
 
     override fun updateGuiScale() {
