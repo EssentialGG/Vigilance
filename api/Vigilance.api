@@ -392,6 +392,7 @@ public final class gg/essential/vigilance/gui/CategoryLabel : gg/essential/eleme
 	public fun <init> (Lgg/essential/vigilance/gui/SettingsGui;Lgg/essential/vigilance/data/Category;)V
 	public final fun deselect ()V
 	public final fun isSelected ()Z
+	public final fun markSelected ()V
 	public final fun select ()V
 	public final fun setSelected (Z)V
 }
