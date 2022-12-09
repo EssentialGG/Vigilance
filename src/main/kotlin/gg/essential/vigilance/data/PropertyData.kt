@@ -17,6 +17,7 @@ data class PropertyData(@Deprecated("Replace with attributesExt", ReplaceWith("a
         private set
     var action: ((Any?) -> Unit)? = null
     var dependsOn: PropertyData? = null
+    var inverseDependency: Boolean = false
     var hasDependants: Boolean = false
 
     fun getDataType() = attributesExt.type
@@ -31,7 +32,7 @@ data class PropertyData(@Deprecated("Replace with attributesExt", ReplaceWith("a
 
     fun <T> getAs(clazz: Class<T>) = clazz.cast(getAsAny())
 
-    fun isHidden(): Boolean = if (dependsOn == null) false else !dependsOn!!.getAsBoolean()
+    fun isHidden(): Boolean = if (dependsOn == null) false else inverseDependency xor !dependsOn!!.getAsBoolean()
 
     fun setValue(value: Any?) {
         if (value == null) {
