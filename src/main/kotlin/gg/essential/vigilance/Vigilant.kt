@@ -156,13 +156,8 @@ abstract class Vigilant @JvmOverloads constructor(
         addInverseDependency(propertyCollector.getProperty(field)!!, propertyCollector.getProperty(dependency)!!)
 
     private fun addInverseDependency(property: PropertyData, dependency: PropertyData) {
-        if (dependency.getDataType() != PropertyType.SWITCH && dependency.getDataType() != PropertyType.CHECKBOX) {
-            error("Dependency must be a boolean PropertyType!")
-        }
-
-        property.dependsOn = dependency
+        addDependency(property, dependency)
         property.inverseDependency = true
-        dependency.hasDependants = true
     }
 
     @Deprecated(
