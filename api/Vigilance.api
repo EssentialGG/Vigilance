@@ -17,6 +17,8 @@ public abstract class gg/essential/vigilance/Vigilant {
 	public final fun addDependency (Ljava/lang/String;Ljava/lang/String;)V
 	public final fun addDependency (Ljava/lang/reflect/Field;Ljava/lang/reflect/Field;)V
 	public final fun addDependency (Lkotlin/reflect/KProperty;Lkotlin/reflect/KProperty;)V
+	public final fun addInverseDependency (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun addInverseDependency (Ljava/lang/reflect/Field;Ljava/lang/reflect/Field;)V
 	public final fun category (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 	public final fun dependsOn (Lkotlin/reflect/KProperty;Lkotlin/reflect/KProperty;)V
 	public final fun getCategories ()Ljava/util/List;
@@ -302,6 +304,7 @@ public final class gg/essential/vigilance/data/PropertyData {
 	public final fun getDependsOn ()Lgg/essential/vigilance/data/PropertyData;
 	public final fun getHasDependants ()Z
 	public final fun getInstance ()Lgg/essential/vigilance/Vigilant;
+	public final fun getInverseDependency ()Z
 	public final fun getValue ()Lgg/essential/vigilance/data/PropertyValue;
 	public fun hashCode ()I
 	public final fun isHidden ()Z
@@ -309,6 +312,7 @@ public final class gg/essential/vigilance/data/PropertyData {
 	public final fun setCallbackConsumer (Ljava/util/function/Consumer;)V
 	public final fun setDependsOn (Lgg/essential/vigilance/data/PropertyData;)V
 	public final fun setHasDependants (Z)V
+	public final fun setInverseDependency (Z)V
 	public final fun setValue (Ljava/lang/Object;)V
 	public fun toString ()Ljava/lang/String;
 }

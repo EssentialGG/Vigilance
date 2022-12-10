@@ -149,6 +149,17 @@ abstract class Vigilant @JvmOverloads constructor(
         dependency.hasDependants = true
     }
 
+    fun addInverseDependency(propertyName: String, dependencyName: String): Unit =
+        addInverseDependency(propertyCollector.getProperty(propertyName)!!, propertyCollector.getProperty(dependencyName)!!)
+
+    fun addInverseDependency(field: Field, dependency: Field): Unit =
+        addInverseDependency(propertyCollector.getProperty(field)!!, propertyCollector.getProperty(dependency)!!)
+
+    private fun addInverseDependency(property: PropertyData, dependency: PropertyData) {
+        addDependency(property, dependency)
+        property.inverseDependency = true
+    }
+
     @Deprecated(
         message = "Due to startup performance penalties due to KReflect, we advise against using this.",
         replaceWith = ReplaceWith("hidePropertyIf(javaField!!, condition())", "kotlin.reflect.jvm.javaField"),

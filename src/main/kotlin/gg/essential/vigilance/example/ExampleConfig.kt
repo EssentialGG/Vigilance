@@ -169,6 +169,15 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
     var dependant: String = "hey"
 
     @Property(
+        type = PropertyType.TEXT,
+        name = "Inverted",
+        description = "This setting only shows when Switch with dependants toggle is false",
+        category = "Property Deep-Dive",
+        subcategory = "Dependencies"
+    )
+    var inverted = "hi"
+
+    @Property(
         type = PropertyType.SWITCH,
         name = "Initially off switch",
         description = "Switch that starts in the off position",
@@ -529,6 +538,7 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         addDependency(clazz.getDeclaredField("dependant"), clazz.getDeclaredField("dependency"))
         addDependency(clazz.getDeclaredField("propertyPete"), clazz.getDeclaredField("toggleTom"))
         addDependency(clazz.getDeclaredField("checkboxChuck"), clazz.getDeclaredField("toggleTom"))
+        addInverseDependency("inverted", "dependency")
 
         val os = System.getProperty("os.name", "windows").lowercase()
         hidePropertyIf("windowsOnlyProperty") { !os.contains("windows") }
