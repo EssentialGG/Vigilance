@@ -32,7 +32,7 @@ class SettingsCategory(category: Category) : UIContainer() {
         }
 
         if (category.description != null) {
-            UIWrappedText(category.description, centered = true).constrain {
+            UIWrappedText(category.description, shadowColor = VigilancePalette.getTextShadowLight(), centered = true).constrain {
                 x = CenterConstraint()
                 y = SiblingConstraint(DataBackedSetting.INNER_PADDING)
                 width = 100.percent - (DataBackedSetting.INNER_PADDING * 2f).pixels

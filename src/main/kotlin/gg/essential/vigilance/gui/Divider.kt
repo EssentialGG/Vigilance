@@ -23,7 +23,7 @@ class Divider(val name: String, description: String?) : Setting() {
     } childOf dividerContainer
 
     init {
-        UIText(name).constrain {
+        UIText(name, shadowColor = VigilancePalette.getTextShadowLight()).constrain {
             x = CenterConstraint()
             color = VigilancePalette.text.toConstraint()
         } childOf textContainer
