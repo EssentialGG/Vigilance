@@ -13,7 +13,7 @@ import gg.essential.vigilance.utils.onLeftClick
 
 class CategoryLabel(private val gui: SettingsGui, private val category: Category) : UIContainer() {
 
-    private val text by UIText(category.name).constrain {
+    private val text by UIText(category.name, shadowColor = VigilancePalette.getTextShadowMid()).constrain {
         y = CenterConstraint()
         textScale = GuiScaleOffsetConstraint(1f)
         color = VigilancePalette.text.toConstraint()
@@ -39,7 +39,7 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
             if (!isSelected) {
                 text.animate {
                     setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.textHighlight.toConstraint())
-                }
+                }.setShadowColor(VigilancePalette.getTextShadowMid())
             }
         }
 
@@ -47,7 +47,7 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
             if (!isSelected) {
                 text.animate {
                     setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.text.toConstraint())
-                }
+                }.setShadowColor(VigilancePalette.getTextShadowMid())
             }
         }
     }
@@ -58,13 +58,13 @@ class CategoryLabel(private val gui: SettingsGui, private val category: Category
         isSelected = true
         text.animate {
             setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.textActive.toConstraint())
-        }
+        }.setShadowColor(VigilancePalette.getTextActiveShadow())
     }
 
     fun deselect() {
         isSelected = false
         text.animate {
             setColorAnimation(Animations.OUT_EXP, 0.5f, VigilancePalette.text.toConstraint())
-        }
+        }.setShadowColor(VigilancePalette.getTextShadowMid())
     }
 }
