@@ -32,11 +32,10 @@ abstract class Vigilant @JvmOverloads constructor(
 
     private val fileConfig = FileConfig.builder(file)
         .onFileNotFound { f, c ->
-            try {
-                // Make sure the parent folder always exists
-                Files.createDirectories(f.parent)
-                Files.createFile(f)
-            } catch (_: FileAlreadyExistsException) {}
+            // Make sure the parent folder always exists
+            Files.createDirectories(f.parent)
+            Files.createFile(f)
+            c.initEmptyFile(f)
             false
         }.build()
     private val categoryDescription = mutableMapOf<String, CategoryDescription>()
