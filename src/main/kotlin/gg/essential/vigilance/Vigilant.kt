@@ -8,6 +8,8 @@ import gg.essential.vigilance.impl.nightconfig.core.file.FileConfig
 import java.awt.Color
 import java.io.File
 import java.lang.reflect.Field
+import java.nio.file.FileAlreadyExistsException
+import java.nio.file.Files
 import java.util.function.Consumer
 import kotlin.concurrent.fixedRateTimer
 import kotlin.reflect.KClass
@@ -28,7 +30,14 @@ abstract class Vigilant @JvmOverloads constructor(
         .map { it.apply { isAccessible = true } as KMutableProperty1<Vigilant, Any?> to it.findAnnotation<Data>()!! }
     */
 
-    private val fileConfig = FileConfig.of(file)
+    private val fileConfig = FileConfig.builder(file)
+        .onFileNotFound { f, c ->
+            // Make sure the parent folder always exists
+            Files.createDirectories(f.parent)
+            Files.createFile(f)
+            c.initEmptyFile(f)
+            false
+        }.build()
     private val categoryDescription = mutableMapOf<String, CategoryDescription>()
     private var dirty = false
     private var hasError = false
