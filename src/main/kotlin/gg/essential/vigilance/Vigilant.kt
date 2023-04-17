@@ -171,8 +171,7 @@ abstract class Vigilant @JvmOverloads constructor(
         replaceWith = ReplaceWith("addDependency(propertyName, dependencyName) { value: Boolean -> !value }")
     )
     fun addInverseDependency(propertyName: String, dependencyName: String) {
-        checkBoolean(propertyCollector.getProperty(dependencyName)!!)
-        addDependency(propertyName, dependencyName) { value: Boolean -> !value }
+        addInverseDependency(propertyCollector.getProperty(propertyName)!!, propertyCollector.getProperty(dependencyName)!!)
     }
 
     @Deprecated(
@@ -180,8 +179,13 @@ abstract class Vigilant @JvmOverloads constructor(
         replaceWith = ReplaceWith("addDependency(field, dependency) { value: Boolean -> !value }")
     )
     fun addInverseDependency(field: Field, dependency: Field) {
-        checkBoolean(propertyCollector.getProperty(dependency)!!)
-        addDependency(field, dependency) { value: Boolean -> !value }
+        addInverseDependency(propertyCollector.getProperty(field)!!, propertyCollector.getProperty(dependency)!!)
+    }
+
+    private fun addInverseDependency(property: PropertyData, dependency: PropertyData) {
+        checkBoolean(dependency)
+        property.inverseDependency = true
+        addDependency(property, dependency) { value: Boolean -> value xor property.inverseDependency }
     }
 
     private fun checkBoolean(propertyData: PropertyData) {
