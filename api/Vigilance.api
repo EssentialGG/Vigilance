@@ -15,7 +15,9 @@ public abstract class gg/essential/vigilance/Vigilant {
 	public fun <init> (Ljava/io/File;Ljava/lang/String;Lgg/essential/vigilance/data/PropertyCollector;Lgg/essential/vigilance/data/SortingBehavior;)V
 	public synthetic fun <init> (Ljava/io/File;Ljava/lang/String;Lgg/essential/vigilance/data/PropertyCollector;Lgg/essential/vigilance/data/SortingBehavior;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun addDependency (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun addDependency (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 	public final fun addDependency (Ljava/lang/reflect/Field;Ljava/lang/reflect/Field;)V
+	public final fun addDependency (Ljava/lang/reflect/Field;Ljava/lang/reflect/Field;Lkotlin/jvm/functions/Function1;)V
 	public final fun addDependency (Lkotlin/reflect/KProperty;Lkotlin/reflect/KProperty;)V
 	public final fun addInverseDependency (Ljava/lang/String;Ljava/lang/String;)V
 	public final fun addInverseDependency (Ljava/lang/reflect/Field;Ljava/lang/reflect/Field;)V
@@ -301,6 +303,7 @@ public final class gg/essential/vigilance/data/PropertyData {
 	public final fun getAttributes ()Lgg/essential/vigilance/data/PropertyAttributes;
 	public final fun getAttributesExt ()Lgg/essential/vigilance/data/PropertyAttributesExt;
 	public final fun getDataType ()Lgg/essential/vigilance/data/PropertyType;
+	public final fun getDependencyPredicate ()Lkotlin/jvm/functions/Function1;
 	public final fun getDependsOn ()Lgg/essential/vigilance/data/PropertyData;
 	public final fun getHasDependants ()Z
 	public final fun getInstance ()Lgg/essential/vigilance/Vigilant;
@@ -310,6 +313,7 @@ public final class gg/essential/vigilance/data/PropertyData {
 	public final fun isHidden ()Z
 	public final fun setAction (Lkotlin/jvm/functions/Function1;)V
 	public final fun setCallbackConsumer (Ljava/util/function/Consumer;)V
+	public final fun setDependencyPredicate (Lkotlin/jvm/functions/Function1;)V
 	public final fun setDependsOn (Lgg/essential/vigilance/data/PropertyData;)V
 	public final fun setHasDependants (Z)V
 	public final fun setInverseDependency (Z)V

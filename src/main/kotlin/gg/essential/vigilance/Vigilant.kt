@@ -143,30 +143,55 @@ abstract class Vigilant @JvmOverloads constructor(
     fun <T> addDependency(property: KProperty<T>, dependency: KProperty<T>): Unit =
         addDependency(property.javaField!!, dependency.javaField!!)
 
-    fun addDependency(propertyName: String, dependencyName: String): Unit =
-        addDependency(propertyCollector.getProperty(propertyName)!!, propertyCollector.getProperty(dependencyName)!!)
-
-    fun addDependency(field: Field, dependency: Field): Unit =
-        addDependency(propertyCollector.getProperty(field)!!, propertyCollector.getProperty(dependency)!!)
-
-    private fun addDependency(property: PropertyData, dependency: PropertyData) {
-        if (dependency.getDataType() != PropertyType.SWITCH && dependency.getDataType() != PropertyType.CHECKBOX) {
-            error("Dependency must be a boolean PropertyType!")
-        }
-
-        property.dependsOn = dependency
-        dependency.hasDependants = true
+    fun addDependency(propertyName: String, dependencyName: String) {
+        checkBoolean(propertyCollector.getProperty(dependencyName)!!)
+        addDependency(propertyName, dependencyName) { value: Boolean -> value }
     }
 
-    fun addInverseDependency(propertyName: String, dependencyName: String): Unit =
-        addInverseDependency(propertyCollector.getProperty(propertyName)!!, propertyCollector.getProperty(dependencyName)!!)
+    fun addDependency(field: Field, dependency: Field) {
+        checkBoolean(propertyCollector.getProperty(dependency)!!)
+        addDependency(field, dependency) { value: Boolean -> value }
+    }
 
-    fun addInverseDependency(field: Field, dependency: Field): Unit =
+    fun <T> addDependency(propertyName: String, dependencyName: String, predicate: (value: T) -> Boolean): Unit =
+        addDependency(propertyCollector.getProperty(propertyName)!!, propertyCollector.getProperty(dependencyName)!!, predicate)
+
+    fun <T> addDependency(field: Field, dependency: Field, predicate: (value: T) -> Boolean): Unit =
+        addDependency(propertyCollector.getProperty(field)!!, propertyCollector.getProperty(dependency)!!, predicate)
+
+    @Suppress("UNCHECKED_CAST")
+    private fun <T> addDependency(property: PropertyData, dependency: PropertyData, predicate: (value: T) -> Boolean) {
+        property.dependsOn = dependency
+        dependency.hasDependants = true
+        property.dependencyPredicate = { value -> predicate(value as T) }
+    }
+
+    @Deprecated(
+        message = "This method is deprecated, use addDependency with predicate instead.",
+        replaceWith = ReplaceWith("addDependency(propertyName, dependencyName) { value: Boolean -> !value }")
+    )
+    fun addInverseDependency(propertyName: String, dependencyName: String) {
+        addInverseDependency(propertyCollector.getProperty(propertyName)!!, propertyCollector.getProperty(dependencyName)!!)
+    }
+
+    @Deprecated(
+        message = "This method is deprecated, use addDependency with predicate instead.",
+        replaceWith = ReplaceWith("addDependency(field, dependency) { value: Boolean -> !value }")
+    )
+    fun addInverseDependency(field: Field, dependency: Field) {
         addInverseDependency(propertyCollector.getProperty(field)!!, propertyCollector.getProperty(dependency)!!)
+    }
 
     private fun addInverseDependency(property: PropertyData, dependency: PropertyData) {
-        addDependency(property, dependency)
+        checkBoolean(dependency)
         property.inverseDependency = true
+        addDependency(property, dependency) { value: Boolean -> value xor property.inverseDependency }
+    }
+
+    private fun checkBoolean(propertyData: PropertyData) {
+        if (propertyData.getDataType() != PropertyType.SWITCH && propertyData.getDataType() != PropertyType.CHECKBOX) {
+            error("Dependency without a specified predicate must be a boolean PropertyType!")
+        }
     }
 
     @Deprecated(
