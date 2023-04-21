@@ -151,6 +151,16 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
     var password: String = ""
 
     @Property(
+        type = PropertyType.CUSTOM,
+        name = "Custom Property",
+        description = "This is a custom property which allows for creating your own input method.",
+        category = "Property Overview",
+        subcategory = "Custom",
+        customPropertyInfo = CustomPropertyInfo::class
+    )
+    var customProperty = listOf<String>()
+
+    @Property(
         type = PropertyType.SWITCH,
         name = "Switch with dependants",
         description = "When ticked, this switch will make another setting appear",
