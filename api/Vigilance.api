@@ -26,6 +26,7 @@ public abstract class gg/essential/vigilance/Vigilant {
 	public final fun getCategories ()Ljava/util/List;
 	public final fun getCategoryFromSearch (Ljava/lang/String;)Lgg/essential/vigilance/data/Category;
 	public final fun getGuiTitle ()Ljava/lang/String;
+	protected fun getMigrations ()Ljava/util/List;
 	public final fun getSortingBehavior ()Lgg/essential/vigilance/data/SortingBehavior;
 	public final fun gui ()Lgg/essential/vigilance/gui/SettingsGui;
 	public final fun hiddenIf (Lkotlin/reflect/KProperty;Lkotlin/jvm/functions/Function0;)V
