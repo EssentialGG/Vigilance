@@ -1,5 +1,6 @@
 package gg.essential.vigilance.impl
 
+import gg.essential.vigilance.data.Migration
 import gg.essential.vigilance.impl.nightconfig.core.Config
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -8,21 +9,21 @@ class MigrationTest {
     @Test
     fun testUpToDate() {
         val input = config("__meta" to mapOf("version" to 2), "test" to 42)
-        migrate(input, listOf({}, {}))
+        migrate(input, listOf(Migration {}, Migration {}))
         assertEquals(config("__meta" to mapOf("version" to 2), "test" to 42), input)
     }
 
     @Test
     fun testNoOpMigration() {
         val input = config("__meta" to mapOf("version" to 1), "test" to 42)
-        migrate(input, listOf({}, {}))
+        migrate(input, listOf(Migration {}, Migration {}))
         assertEquals(config("__meta" to mapOf("version" to 2), "test" to 42), input)
     }
 
     @Test
     fun testAddMigration() {
         val input = config("__meta" to mapOf("version" to 1), "test" to 42)
-        migrate(input, listOf({}, { it["new"] = 43 }))
+        migrate(input, listOf(Migration {}, Migration { it["new"] = 43 }))
         assertEquals(config(
             "__meta" to mapOf("version" to 2, "migration_log" to mapOf("1" to mapOf("added" to listOf("new")))),
             "test" to 42,
@@ -33,7 +34,7 @@ class MigrationTest {
     @Test
     fun testChangeMigration() {
         val input = config("__meta" to mapOf("version" to 1), "test" to 42)
-        migrate(input, listOf({}, { it["test"] = it["test"] as Int + 1 }))
+        migrate(input, listOf(Migration {}, Migration { it["test"] = it["test"] as Int + 1 }))
         assertEquals(config(
             "__meta" to mapOf("version" to 2, "migration_log" to mapOf("1" to mapOf("changed" to mapOf("test" to 42)))),
             "test" to 43,
@@ -43,7 +44,7 @@ class MigrationTest {
     @Test
     fun testRemoveMigration() {
         val input = config("__meta" to mapOf("version" to 1), "test" to 42)
-        migrate(input, listOf({}, { it.remove("test") }))
+        migrate(input, listOf(Migration {}, Migration { it.remove("test") }))
         assertEquals(config(
             "__meta" to mapOf("version" to 2, "migration_log" to mapOf("1" to mapOf("changed" to mapOf("test" to 42)))),
         ), input)
@@ -52,7 +53,7 @@ class MigrationTest {
     @Test
     fun testMultipleMigrations() {
         val input = config("__meta" to mapOf("version" to 1), "test" to 42)
-        migrate(input, listOf({}, { it["test"] = 1 }, { it["test"] = it["test"] as Int + 1 }))
+        migrate(input, listOf(Migration {}, Migration { it["test"] = 1 }, Migration { it["test"] = it["test"] as Int + 1 }))
         assertEquals(config(
             "__meta" to mapOf("version" to 3, "migration_log" to mapOf(
                 "1" to mapOf("changed" to mapOf("test" to 42)),
@@ -69,7 +70,7 @@ class MigrationTest {
             "test" to 42,
             "new" to 43,
         )
-        migrate(input, listOf {})
+        migrate(input, listOf(Migration {}))
         assertEquals(config("__meta" to mapOf("version" to 1), "test" to 42), input)
     }
 
@@ -79,7 +80,7 @@ class MigrationTest {
             "__meta" to mapOf("version" to 2, "migration_log" to mapOf("1" to mapOf("changed" to mapOf("test" to 42)))),
             "test" to 43,
         )
-        migrate(input, listOf {})
+        migrate(input, listOf(Migration {}))
         assertEquals(config("__meta" to mapOf("version" to 1), "test" to 42), input)
     }
 
@@ -88,7 +89,7 @@ class MigrationTest {
         val input = config(
             "__meta" to mapOf("version" to 2, "migration_log" to mapOf("1" to mapOf("changed" to mapOf("test" to 42)))),
         )
-        migrate(input, listOf {})
+        migrate(input, listOf(Migration {}))
         assertEquals(config("__meta" to mapOf("version" to 1), "test" to 42), input)
     }
 
@@ -101,7 +102,7 @@ class MigrationTest {
             )),
             "test" to 2,
         )
-        migrate(input, listOf {})
+        migrate(input, listOf(Migration {}))
         assertEquals(config("__meta" to mapOf("version" to 1), "test" to 42), input)
     }
 
@@ -115,10 +116,10 @@ class MigrationTest {
     @Test
     fun testInitialMigration() {
         val input = config("test" to 42)
-        migrate(input, listOf { config ->
+        migrate(input, listOf(Migration { config ->
             assert(config == mapOf("test" to 42))
             config["test"] = 43
-        })
+        }))
         assertEquals(config(
             "__meta" to mapOf("version" to 1, "migration_log" to mapOf("0" to mapOf("changed" to mapOf("test" to 42)))),
             "test" to 43,

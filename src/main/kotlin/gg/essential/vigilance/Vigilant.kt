@@ -69,7 +69,7 @@ abstract class Vigilant @JvmOverloads constructor(
      * must artificially modify that setting in a migration (e.g. increase its value by 1) and then change it back to
      * its actual value in a second migration (e.g. decrease its value again by 1).
      */
-    protected open val migrations: List<(MutableMap<String, Any?>) -> Unit> = emptyList()
+    protected open val migrations: List<Migration> = emptyList()
 
     private var dirty = false
     private var hasError = false

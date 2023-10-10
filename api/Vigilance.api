@@ -154,6 +154,10 @@ public final class gg/essential/vigilance/data/MethodBackedPropertyValue : gg/es
 	public fun invoke (Lgg/essential/vigilance/Vigilant;)V
 }
 
+public abstract interface class gg/essential/vigilance/data/Migration {
+	public abstract fun apply (Ljava/util/Map;)V
+}
+
 public abstract interface annotation class gg/essential/vigilance/data/Property : java/lang/annotation/Annotation {
 	public abstract fun allowAlpha ()Z
 	public abstract fun category ()Ljava/lang/String;

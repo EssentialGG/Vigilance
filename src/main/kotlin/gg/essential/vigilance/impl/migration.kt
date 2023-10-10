@@ -1,12 +1,11 @@
 package gg.essential.vigilance.impl
 
+import gg.essential.vigilance.data.Migration
 import gg.essential.vigilance.impl.nightconfig.core.Config
 
 private const val META_KEY = "__meta"
 private val VERSION_KEY = listOf(META_KEY, "version")
 private fun migrationLogKey(migration: Int): List<String> = listOf(META_KEY, "migration_log", "$migration")
-
-private typealias Migration = (MutableMap<String, Any?>) -> Unit
 
 internal fun migrate(root: Config, migrations: List<Migration>) {
     val fileVersion = root[VERSION_KEY] ?: 0
@@ -15,7 +14,7 @@ internal fun migrate(root: Config, migrations: List<Migration>) {
         for (migration in fileVersion until migrations.size) {
             val newMap = oldMap.toMutableMap()
 
-            migrations[migration](newMap)
+            migrations[migration].apply(newMap)
 
             applyMigration(root, migration, oldMap, newMap)
 
