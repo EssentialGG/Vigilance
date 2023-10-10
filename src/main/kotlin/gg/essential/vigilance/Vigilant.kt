@@ -4,6 +4,7 @@ import gg.essential.universal.UChat
 import gg.essential.vigilance.data.*
 import gg.essential.vigilance.gui.SettingsGui
 import gg.essential.vigilance.impl.I18n
+import gg.essential.vigilance.impl.migrate
 import gg.essential.vigilance.impl.nightconfig.core.file.FileConfig
 import java.awt.Color
 import java.io.File
@@ -38,7 +39,38 @@ abstract class Vigilant @JvmOverloads constructor(
             c.initEmptyFile(f)
             false
         }.build()
+
     private val categoryDescription = mutableMapOf<String, CategoryDescription>()
+
+    /**
+     * List of migrations to apply to the config file when it is loaded.
+     *
+     * Each entry in the list is a "migration" which should be a pure function that transforms a given old config
+     * to a newer format.
+     * The config is passed to the migration as a [MutableMap] of paths to arbitrary values.
+     * Each path consist of one or more parts joint by `.` characters.
+     * To get the path for a given property, join its category, (optionally) subcategory, and name with a `.`, lowercase
+     * everything and replace all spaces with `_` (other special characters are unaffected).
+     * E.g. `@Property(name = "My Fancy Setting", category = "General", subcategory = "Fancy Stuff")`
+     * becomes `general.fancy_stuff.my_fancy_setting`.
+     * See also [gg.essential.vigilance.data.fullPropertyPath].
+     *
+     * The config file keeps track of how many migrations have already been applied to it, so a migration will only be
+     * applied if it has not yet been applied.
+     * Note that for this to work properly, the list must effectively be treated as append-only. Removing or re-ordering
+     * migrations in the list will change their index and may cause them to be re-applied / other migrations to not be
+     * applied at all.
+     *
+     * The config file also keeps track of what changes each migration made and stores this information in the file,
+     * such that, if the mod is downgraded, it can roll back those changes.
+     * Note that this will only roll back things which have actually changed. If a new version of your mod adds a new
+     * option to a selector, and the user manually selects that option and then downgrades the mod, the old version
+     * will see that new index and likely error. If you wish to prevent this via the migrations/rollback system, you
+     * must artificially modify that setting in a migration (e.g. increase its value by 1) and then change it back to
+     * its actual value in a second migration (e.g. decrease its value again by 1).
+     */
+    protected open val migrations: List<Migration> = emptyList()
+
     private var dirty = false
     private var hasError = false
 
@@ -264,6 +296,8 @@ abstract class Vigilant @JvmOverloads constructor(
 
     private fun readData() {
         fileConfig.load()
+
+        migrate(fileConfig, migrations)
 
         propertyCollector.getProperties().filter { it.value.writeDataToFile }.forEach {
             val fullPath = it.attributesExt.fullPropertyPath()

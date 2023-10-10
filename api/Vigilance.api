@@ -26,6 +26,7 @@ public abstract class gg/essential/vigilance/Vigilant {
 	public final fun getCategories ()Ljava/util/List;
 	public final fun getCategoryFromSearch (Ljava/lang/String;)Lgg/essential/vigilance/data/Category;
 	public final fun getGuiTitle ()Ljava/lang/String;
+	protected fun getMigrations ()Ljava/util/List;
 	public final fun getSortingBehavior ()Lgg/essential/vigilance/data/SortingBehavior;
 	public final fun gui ()Lgg/essential/vigilance/gui/SettingsGui;
 	public final fun hiddenIf (Lkotlin/reflect/KProperty;Lkotlin/jvm/functions/Function0;)V
@@ -151,6 +152,10 @@ public final class gg/essential/vigilance/data/KPropertyBackedPropertyValue : gg
 public final class gg/essential/vigilance/data/MethodBackedPropertyValue : gg/essential/vigilance/data/CallablePropertyValue {
 	public fun <init> (Ljava/lang/reflect/Method;)V
 	public fun invoke (Lgg/essential/vigilance/Vigilant;)V
+}
+
+public abstract interface class gg/essential/vigilance/data/Migration {
+	public abstract fun apply (Ljava/util/Map;)V
 }
 
 public abstract interface annotation class gg/essential/vigilance/data/Property : java/lang/annotation/Annotation {
