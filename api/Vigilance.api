@@ -295,6 +295,7 @@ public final class gg/essential/vigilance/data/PropertyData {
 	public static final field Companion Lgg/essential/vigilance/data/PropertyData$Companion;
 	public fun <init> (Lgg/essential/vigilance/data/PropertyAttributes;Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/Vigilant;)V
 	public fun <init> (Lgg/essential/vigilance/data/PropertyAttributesExt;Lgg/essential/vigilance/data/PropertyValue;Lgg/essential/vigilance/Vigilant;)V
+	public final fun addAction (Lkotlin/jvm/functions/Function1;)V
 	public final fun component1 ()Lgg/essential/vigilance/data/PropertyAttributes;
 	public final fun component2 ()Lgg/essential/vigilance/data/PropertyValue;
 	public final fun component3 ()Lgg/essential/vigilance/Vigilant;

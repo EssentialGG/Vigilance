@@ -143,14 +143,14 @@ abstract class Vigilant @JvmOverloads constructor(
         propertyCollector
             .getProperties()
             .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field == field }!!
-            .action = { obj -> listener.accept(obj as T) }
+            .addAction { obj -> listener.accept(obj as T) }
     }
 
     @Suppress("UNCHECKED_CAST")
     fun <T> registerListener(propertyName: String, listener: Consumer<T>) {
         propertyCollector.getProperties()
             .firstOrNull { it.value is FieldBackedPropertyValue && it.value.field.name == propertyName }!!
-            .action = { obj -> listener.accept(obj as T) }
+            .addAction { obj -> listener.accept(obj as T) }
     }
 
     @Deprecated(
@@ -530,7 +530,7 @@ abstract class Vigilant @JvmOverloads constructor(
             )
 
             if (action != null) {
-                data.action = { action(it as T) }
+                data.addAction { action(it as T) }
             }
 
             properties.add(data)
