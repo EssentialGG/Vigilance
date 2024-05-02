@@ -8,8 +8,6 @@ interface Platform {
 
     fun i18n(key: String): String
 
-    fun isAllowedInChat(char: Char): Boolean
-
     @ApiStatus.Internal
     companion object {
         internal val platform: Platform =
