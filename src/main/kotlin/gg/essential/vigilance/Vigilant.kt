@@ -99,7 +99,7 @@ abstract class Vigilant @JvmOverloads constructor(
             e.printStackTrace()
         }
 
-        fixedRateTimer(period = 30 * 1000) { writeData() }
+        fixedRateTimer(period = 30 * 1000, daemon = true) { writeData() }
 
         Runtime.getRuntime().addShutdownHook(Thread { writeData() })
     }

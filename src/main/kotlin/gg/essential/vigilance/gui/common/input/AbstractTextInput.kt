@@ -12,7 +12,6 @@ import gg.essential.universal.UDesktop
 import gg.essential.universal.UKeyboard
 import gg.essential.universal.UMatrixStack
 import gg.essential.vigilance.gui.VigilancePalette
-import gg.essential.vigilance.impl.Platform.Companion.platform
 import java.awt.Color
 import java.util.*
 import kotlin.math.abs

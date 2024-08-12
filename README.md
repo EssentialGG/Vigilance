@@ -5,108 +5,42 @@ this library provides a simple and clean configuration menu and an easy-to-use s
 
 ## Dependency
 
-It's recommended that you include [Essential](link eventually) instead of adding it yourself.
+```kotlin
+repository {
+    // All versions of Vigilance and UniversalCraft are published to Essential's public maven repository.
+    // (if you're still using Groovy build scripts, replace `()` with `{}`)
+    maven(url = "https://repo.essential.gg/repository/maven-public")
+}
+dependencies {
+    // Add Vigilance dependency. For the latest $vigilanceVersion, see the badge below this code snippet.
+    implementation("gg.essential:vigilance:$vigilanceVersion")
 
-In your repository block, add:
+    // Vigilance itself is independent of Minecraft versions and mod loaders, instead it depends on UniversalCraft which
+    // provides bindings to specific Minecraft versions.
+    // As such, you must include the UniversalCraft version for the Minecraft version + mod loader you're targeting.
+    // For a list of all available platforms, see https://github.com/EssentialGG/UniversalCraft
+    // For your convenience, the latest $ucVersion is also included in a badge below this code snippet.
+    // (Note: if you are not using Loom, replace `modImplementation` with `implementation` or your equivalent)
+    modImplementation("gg.essential:universalcraft-1.8.9-forge:$ucVersion")
 
-Groovy
-```groovy
-maven {
-    url = "https://repo.essential.gg/repository/maven-public"
+    // If you're using Fabric, you may use its jar-in-jar mechanism to bundle Vigilance and UniversalCraft with your
+    // mod by additionally adding them to the `include` configuration like this (in place of the above):
+    implementation(include("gg.essential:vigilance:$vigilanceVersion")!!)
+    modImplementation(include("gg.essential:universalcraft-1.8.9-forge:$ucVersion"))
+    // If you're using Forge, you must instead include them directly into your jar file and relocate them to your
+    // own package (this is important! otherwise you will be incompatible with other mods!)
+    // using e.g. https://gradleup.com/shadow/configuration/relocation/
+    // For an example, read the IMPORTANT section below.
 }
 ```
-Kotlin
-```kotlin
-maven(url = "https://repo.essential.gg/repository/maven-public")
-```
 
-To use the latest builds, use the following dependency:
-
-<details><summary>Forge</summary>
-
-Kotlin
-```kotlin
-implementation("gg.essential:vigilance-$mcVersion-$mcPlatform:$buildNumber")
-```
-</details>
-<details><summary>Fabric</summary>
-
-Groovy
-```groovy
-modImplementation(include("gg.essential:vigilance-$mcVersion-$mcPlatform:$buildNumber"))
-```
-Kotlin
-```kotlin
-modImplementation(include("gg.essential:vigilance-$mcVersion-$mcPlatform:$buildNumber")!!)
-```
-</details>
-
-### Build Reference
-<details><summary>Build Reference</summary>
-    <table>
-      <tbody>
-        <tr>
-          <th>mcVersion</th>
-          <th>mcPlatform</th>
-          <th>buildNumber</th>
-        </tr>
-        <tr>
-          <td>1.18.1</td>
-          <td>fabric</td>
-          <td>
-            <img alt="1.18.1-fabric" src="https://img.shields.io/badge/dynamic/xml?color=A97BFF&label=%20&query=/metadata/versioning/versions/version[not(contains(text(),'%2B'))][last()]&url=https://repo.sk1er.club/repository/maven-releases/gg/essential/vigilance-1.18.1-fabric/maven-metadata.xml">
-          </td>
-        </tr>
-        <tr>
-          <td>1.18.1</td>
-          <td>forge</td>
-          <td>
-            <img alt="1.18.1-forge" src="https://img.shields.io/badge/dynamic/xml?color=A97BFF&label=%20&query=/metadata/versioning/versions/version[not(contains(text(),'%2B'))][last()]&url=https://repo.sk1er.club/repository/maven-releases/gg/essential/vigilance-1.18.1-forge/maven-metadata.xml">
-          </td>
-        </tr>
-        <tr>
-          <td>1.17.1</td>
-          <td>fabric</td>
-          <td>
-            <img alt="1.17.1-fabric" src="https://img.shields.io/badge/dynamic/xml?color=A97BFF&label=%20&query=/metadata/versioning/versions/version[not(contains(text(),'%2B'))][last()]&url=https://repo.sk1er.club/repository/maven-releases/gg/essential/vigilance-1.17.1-fabric/maven-metadata.xml">
-          </td>
-        </tr>
-        <tr>
-          <td>1.17.1</td>
-          <td>forge</td>
-          <td>
-            <img alt="1.17.1-forge" src="https://img.shields.io/badge/dynamic/xml?color=A97BFF&label=%20&query=/metadata/versioning/versions/version[not(contains(text(),'%2B'))][last()]&url=https://repo.sk1er.club/repository/maven-releases/gg/essential/vigilance-1.17.1-forge/maven-metadata.xml">
-          </td>
-        </tr>
-        <tr>
-          <td>1.16.2</td>
-          <td>forge</td>
-          <td>
-            <img alt="1.16.2-forge" src="https://img.shields.io/badge/dynamic/xml?color=A97BFF&label=%20&query=/metadata/versioning/versions/version[not(contains(text(),'%2B'))][last()]&url=https://repo.sk1er.club/repository/maven-releases/gg/essential/vigilance-1.16.2-forge/maven-metadata.xml">
-          </td>
-        </tr>
-        <tr>
-          <td>1.12.2</td>
-          <td>forge</td>
-          <td>
-            <img alt="1.12.2-forge" src="https://img.shields.io/badge/dynamic/xml?color=A97BFF&label=%20&query=/metadata/versioning/versions/version[not(contains(text(),'%2B'))][last()]&url=https://repo.sk1er.club/repository/maven-releases/gg/essential/vigilance-1.12.2-forge/maven-metadata.xml">
-          </td>
-        </tr>
-        <tr>
-          <td>1.8.9</td>
-          <td>forge</td>
-          <td>
-            <img alt="1.8.9-forge" src="https://img.shields.io/badge/dynamic/xml?color=A97BFF&label=%20&query=/metadata/versioning/versions/version[not(contains(text(),'%2B'))][last()]&url=https://repo.sk1er.club/repository/maven-releases/gg/essential/vigilance-1.8.9-forge/maven-metadata.xml">
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-</details>
+<img alt="gg.essential:vigilance" src="https://img.shields.io/badge/dynamic/xml?color=A97BFF&label=Latest%20Vigilance&query=/metadata/versioning/versions/version[not(contains(text(),'%2B'))][last()]&url=https://repo.essential.gg/repository/maven-releases/gg/essential/vigilance/maven-metadata.xml">
+<img alt="gg.essential:universalcraft-1.8.9-forge" src="https://img.shields.io/badge/dynamic/xml?color=A97BFF&label=Latest%20UniversalCraft&query=/metadata/versioning/versions/version[not(contains(text(),'%2B'))][last()]&url=https://repo.essential.gg/repository/maven-releases/gg/essential/universalcraft-1.8.9-forge/maven-metadata.xml">
 
 <h2><span style="font-size:3em; color:red;">IMPORTANT!</span></h2>
 
-If you are using forge, you must also relocate Vigilance to avoid potential crashes with other mods. To do this, you will need to use the Shadow Gradle plugin.
+If you are using Forge, you must also relocate Vigilance to avoid incompatibility with other mods.
+To do this, you may use the Shadow Gradle plugin.
 
 <details><summary>Groovy Version</summary>
 
@@ -182,5 +116,8 @@ tasks.reobfJar { dependsOn(tasks.shadowJar) }
 
 ## Examples
 
-For examples of how to use Vigilance, refer to the example package within Vigilance for [annotation style](https://github.com/Sk1erLLC/Vigilance/blob/master/src/main/kotlin/gg/essential/vigilance/example/ExampleConfig.kt) 
-and [DSL style](https://github.com/Sk1erLLC/Vigilance/blob/master/src/main/kotlin/gg/essential/vigilance/example/ExampleConfigDSL.kt)
+For examples of how to use Vigilance, refer to the `example` sub-project within Vigilance for
+[annotation style](https://github.com/Sk1erLLC/Vigilance/blob/master/example/src/main/kotlin/gg/essential/vigilance/example/ExampleConfig.kt) 
+and [DSL style](https://github.com/Sk1erLLC/Vigilance/blob/master/example/src/main/kotlin/gg/essential/vigilance/example/ExampleConfigDSL.kt)
+
+You can run the examples via `./gradlew :example:run`.

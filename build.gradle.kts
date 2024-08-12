@@ -3,11 +3,15 @@ import gg.essential.gradle.util.*
 import gg.essential.gradle.util.RelocationTransform.Companion.registerRelocationAttribute
 
 plugins {
-    kotlin("jvm") version "1.6.10"
+    kotlin("jvm") version "1.9.23"
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.8.0"
-    id("org.jetbrains.dokka") version "1.6.10" apply false
+    id("org.jetbrains.dokka") version "1.9.20"
     id("gg.essential.defaults")
+    id("gg.essential.defaults.maven-publish")
 }
+
+group = "gg.essential"
+version = versionFromBuildIdAndBranch()
 
 kotlin.jvmToolchain {
     (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(8))
@@ -34,13 +38,10 @@ dependencies {
     compileOnly(libs.kotlin.reflect)
     compileOnly(libs.jetbrains.annotations)
 
-    // Depending on LWJGL3 instead of 2 so we can choose opengl bindings only
-    compileOnly("org.lwjgl:lwjgl-opengl:3.3.1")
+    api(libs.elementa)
+
     // Depending on 1.8.9 for all of these because that's the oldest version we support
-    compileOnly(libs.versions.elementa.map { "gg.essential:elementa-1.8.9-forge:$it" }) {
-        attributes { attribute(common, true) }
-    }
-    compileOnly("gg.essential:universalcraft-1.8.9-forge") {
+    compileOnly(libs.universalcraft.forge10809) {
         attributes { attribute(common, true) }
     }
 
@@ -52,12 +53,27 @@ dependencies {
     testImplementation("io.strikt:strikt-core:0.22.1")
 }
 
+tasks.processResources {
+    inputs.property("project.version", project.version)
+    filesMatching("fabric.mod.json") {
+        expand("version" to project.version)
+    }
+}
+
+tasks.jar {
+    dependsOn(internal)
+    from({ internal.map { zipTree(it) } })
+}
+
 apiValidation {
-    ignoredProjects.addAll(project("platform").allprojects.map { it.name })
-    ignoredPackages.add("gg.essential.vigilance.example")
+    ignoredProjects.addAll(subprojects.map { it.name })
     nonPublicMarkers.add("org.jetbrains.annotations.ApiStatus\$Internal")
 }
 
 tasks.test {
     useJUnitPlatform()
+}
+
+publishing.publications.named<MavenPublication>("maven") {
+    artifactId = "vigilance"
 }

@@ -577,6 +577,11 @@ public final class gg/essential/vigilance/gui/settings/CheckboxComponent : gg/es
 	public final fun setChecked (Z)V
 }
 
+public final class gg/essential/vigilance/gui/settings/CheckboxComponent$inlined$sam$i$java_util_function_Predicate$0 : java/util/function/Predicate {
+	public fun <init> (Lkotlin/jvm/functions/Function1;)V
+	public final synthetic fun test (Ljava/lang/Object;)Z
+}
+
 public final class gg/essential/vigilance/gui/settings/ColorComponent : gg/essential/vigilance/gui/settings/SettingComponent {
 	public fun <init> (Ljava/awt/Color;Z)V
 	public fun closePopups (Z)V
@@ -617,6 +622,11 @@ public final class gg/essential/vigilance/gui/settings/NumberComponent : gg/esse
 }
 
 public final class gg/essential/vigilance/gui/settings/NumberComponent$Companion {
+}
+
+public final class gg/essential/vigilance/gui/settings/NumberComponent$inlined$sam$i$java_util_function_Predicate$0 : java/util/function/Predicate {
+	public fun <init> (Lkotlin/jvm/functions/Function1;)V
+	public final synthetic fun test (Ljava/lang/Object;)Z
 }
 
 public final class gg/essential/vigilance/gui/settings/PercentSliderComponent : gg/essential/vigilance/gui/settings/AbstractSliderComponent {

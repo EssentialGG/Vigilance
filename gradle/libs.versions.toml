@@ -1,11 +1,15 @@
 [versions]
 kotlin = "1.5.10"
 jetbrains-annotations = "23.0.0"
-elementa = "638"
+universalcraft = "353+feature-standalone"
+elementa = "659"
 nightconfig = "3.6.0"
 
 [libraries]
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+universalcraft-forge10809 = { module = "gg.essential:universalcraft-1.8.9-forge", version.ref = "universalcraft" }
+universalcraft-standalone = { module = "gg.essential:universalcraft-standalone", version.ref = "universalcraft" }
+elementa = { module = "gg.essential:elementa", version.ref = "elementa" }
 jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains-annotations" }
 nightconfig-toml = { module = "com.electronwill.night-config:toml", version.ref = "nightconfig" }

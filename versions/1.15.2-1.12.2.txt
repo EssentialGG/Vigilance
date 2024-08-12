@@ -1,1 +1,0 @@
-net.minecraft.util.SharedConstants net.minecraft.util.ChatAllowedCharacters

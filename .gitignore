@@ -28,6 +28,3 @@ build
 run
 .DS_Store
 Thumbs.db
-
-versions/*/tmp.srg
-versions/*/api/

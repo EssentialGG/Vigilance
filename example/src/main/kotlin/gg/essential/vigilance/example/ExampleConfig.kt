@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package gg.essential.vigilance.example
 
 import gg.essential.universal.UChat
