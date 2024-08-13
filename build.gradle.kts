@@ -74,6 +74,8 @@ tasks.test {
     useJUnitPlatform()
 }
 
+java.withSourcesJar()
+
 publishing.publications.named<MavenPublication>("maven") {
     artifactId = "vigilance"
 }
