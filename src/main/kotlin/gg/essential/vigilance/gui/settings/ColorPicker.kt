@@ -9,6 +9,9 @@ import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.UGraphics
 import gg.essential.universal.UMatrixStack
 import gg.essential.universal.USound
+import gg.essential.universal.render.URenderPipeline
+import gg.essential.universal.shader.BlendState
+import gg.essential.universal.vertex.UBufferBuilder
 import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.utils.onLeftClick
 import java.awt.Color
@@ -204,8 +207,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         val bottom = component.getBottom().toDouble()
 
         setupDraw()
-        val graphics = UGraphics.getFromTessellator()
-        graphics.beginWithDefaultShader(UGraphics.DrawMode.QUADS, UGraphics.CommonVertexFormats.POSITION_COLOR)
+        val graphics = UBufferBuilder.create(UGraphics.DrawMode.QUADS, UGraphics.CommonVertexFormats.POSITION_COLOR)
 
         val height = bottom - top
 
@@ -232,7 +234,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
         }
 
-        graphics.drawDirect()
+        graphics.build()?.drawAndClose(pipeline)
         cleanupDraw()
     }
 
@@ -247,9 +249,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         val height = component.getHeight().toDouble()
 
         setupDraw()
-        val graphics = UGraphics.getFromTessellator()
-
-        graphics.beginWithDefaultShader(UGraphics.DrawMode.QUADS, UGraphics.CommonVertexFormats.POSITION_COLOR)
+        val graphics = UBufferBuilder.create(UGraphics.DrawMode.QUADS, UGraphics.CommonVertexFormats.POSITION_COLOR)
 
         var first = true
         for ((i, color) in hueColorList.withIndex()) {
@@ -265,11 +265,16 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
             first = false
         }
 
-        graphics.drawDirect()
+        graphics.build()?.drawAndClose(pipeline)
         cleanupDraw()
     }
 
+    private val pipeline = URenderPipeline.builderWithDefaultShader("vigilance:color_picker", UGraphics.DrawMode.QUADS, UGraphics.CommonVertexFormats.POSITION_COLOR).apply {
+        blendState = BlendState.ALPHA.copy(dstAlpha = BlendState.Param.ZERO)
+    }.build()
+
     private fun setupDraw() {
+        // NO-OP on 1.21.5+
         UGraphics.enableBlend()
         UGraphics.disableAlpha()
         UGraphics.tryBlendFuncSeparate(770, 771, 1, 0)
@@ -277,12 +282,13 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
     }
 
     private fun cleanupDraw() {
+        // NO-OP on 1.21.5+
         UGraphics.shadeModel(7424)
         UGraphics.disableBlend()
         UGraphics.enableAlpha()
     }
 
-    private fun drawVertex(graphics: UGraphics, matrixStack: UMatrixStack, x: Double, y: Double, color: Color) {
+    private fun drawVertex(graphics: UBufferBuilder, matrixStack: UMatrixStack, x: Double, y: Double, color: Color) {
         graphics
             .pos(matrixStack, x, y, 0.0)
             .color(color.red.toFloat() / 255f, color.green.toFloat() / 255f, color.blue.toFloat() / 255f, 1f)
