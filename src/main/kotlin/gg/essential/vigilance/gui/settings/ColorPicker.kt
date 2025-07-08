@@ -9,8 +9,13 @@ import gg.essential.elementa.state.toConstraint
 import gg.essential.universal.UGraphics
 import gg.essential.universal.UMatrixStack
 import gg.essential.universal.USound
+import gg.essential.universal.render.URenderPipeline
+import gg.essential.universal.shader.BlendState
+import gg.essential.universal.vertex.UBufferBuilder
+import gg.essential.universal.vertex.UVertexConsumer
 import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.utils.onLeftClick
+import org.intellij.lang.annotations.Language
 import java.awt.Color
 import java.util.*
 import kotlin.math.roundToInt
@@ -204,35 +209,16 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         val bottom = component.getBottom().toDouble()
 
         setupDraw()
-        val graphics = UGraphics.getFromTessellator()
-        graphics.beginWithDefaultShader(UGraphics.DrawMode.QUADS, UGraphics.CommonVertexFormats.POSITION_COLOR)
+        val graphics = UBufferBuilder.create(UGraphics.DrawMode.QUADS, UGraphics.CommonVertexFormats.POSITION_COLOR)
 
-        val height = bottom - top
-
-        for (x in 0..49) {
-            val curLeft = left + (right - left).toFloat() * x.toFloat() / 50f
-            val curRight = left + (right - left).toFloat() * (x.toFloat() + 1) / 50f
-
-            var first = true
-            for (y in 0..50) {
-                val yPos = top + (y.toFloat() * height / 50.0)
-                val color = getColor(x.toFloat() / 50f, 1 - y.toFloat() / 50f, currentHue)
-
-                if (!first) {
-                    drawVertex(graphics, matrixStack, curLeft, yPos, color)
-                    drawVertex(graphics, matrixStack, curRight, yPos, color)
-                }
-
-                if (y < 50) {
-                    drawVertex(graphics, matrixStack, curRight, yPos, color)
-                    drawVertex(graphics, matrixStack, curLeft, yPos, color)
-                }
-                first = false
-            }
-
+        drawVertex(graphics, matrixStack, left, top, Color(0, 255, 0))
+        drawVertex(graphics, matrixStack, left, bottom, Color(0, 0, 0))
+        drawVertex(graphics, matrixStack, right, bottom, Color(255, 0, 0))
+        drawVertex(graphics, matrixStack, right, top, Color(255, 255, 0))
+        graphics.build()?.drawAndClose(PIPELINE_SATURATION_VALUE_QUAD) {
+            uniform("u_Hue", currentHue)
         }
 
-        graphics.drawDirect()
         cleanupDraw()
     }
 
@@ -247,9 +233,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
         val height = component.getHeight().toDouble()
 
         setupDraw()
-        val graphics = UGraphics.getFromTessellator()
-
-        graphics.beginWithDefaultShader(UGraphics.DrawMode.QUADS, UGraphics.CommonVertexFormats.POSITION_COLOR)
+        val graphics = UBufferBuilder.create(UGraphics.DrawMode.QUADS, UGraphics.CommonVertexFormats.POSITION_COLOR)
 
         var first = true
         for ((i, color) in hueColorList.withIndex()) {
@@ -265,25 +249,20 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
             first = false
         }
 
-        graphics.drawDirect()
+        graphics.build()?.drawAndClose(PIPELINE)
         cleanupDraw()
     }
 
     private fun setupDraw() {
-        UGraphics.enableBlend()
-        UGraphics.disableAlpha()
-        UGraphics.tryBlendFuncSeparate(770, 771, 1, 0)
         UGraphics.shadeModel(7425)
     }
 
     private fun cleanupDraw() {
         UGraphics.shadeModel(7424)
-        UGraphics.disableBlend()
-        UGraphics.enableAlpha()
     }
 
-    private fun drawVertex(graphics: UGraphics, matrixStack: UMatrixStack, x: Double, y: Double, color: Color) {
-        graphics
+    private fun drawVertex(vertexConsumer: UVertexConsumer, matrixStack: UMatrixStack, x: Double, y: Double, color: Color) {
+        vertexConsumer
             .pos(matrixStack, x, y, 0.0)
             .color(color.red.toFloat() / 255f, color.green.toFloat() / 255f, color.blue.toFloat() / 255f, 1f)
             .endVertex()
@@ -295,5 +274,51 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
 
     companion object {
         private val hueColorList: List<Color> = (0..50).map { i -> Color(Color.HSBtoRGB(i / 50f, 1f, 0.7f)) }
+
+        private val PIPELINE = URenderPipeline.builderWithDefaultShader(
+            "vigilance:color_picker",
+            UGraphics.DrawMode.QUADS,
+            UGraphics.CommonVertexFormats.POSITION_COLOR
+        ).apply {
+            blendState = BlendState.ALPHA
+        }.build()
+
+        private val PIPELINE_SATURATION_VALUE_QUAD = run {
+            @Language("GLSL")
+            val vertSource = """
+                #version 110
+                
+                void main() {
+                    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+                    gl_FrontColor = gl_Color;
+                }
+            """.trimIndent()
+            @Language("GLSL")
+            val fragSource = """
+                #version 110
+                
+                uniform float u_Hue;
+                
+                // From https://stackoverflow.com/a/17897228 (Licence: WTFPL)
+                // All components are in the range [0…1], including hue.
+                vec3 hsv2rgb(vec3 c) {
+                    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+                    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+                    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+                }
+                
+                void main() {
+                    vec3 hsv = vec3(u_Hue, gl_Color.r, gl_Color.g);
+                    gl_FragColor = vec4(hsv2rgb(hsv), 1.0);
+                }
+            """.trimIndent()
+            URenderPipeline.builderWithLegacyShader(
+                "essential:screenshot_color_picker_saturation_value",
+                UGraphics.DrawMode.QUADS,
+                UGraphics.CommonVertexFormats.POSITION_COLOR,
+                vertSource,
+                fragSource,
+            ).build()
+        }
     }
 }
