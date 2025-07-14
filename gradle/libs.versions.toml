@@ -1,8 +1,8 @@
 [versions]
 kotlin = "1.5.10"
 jetbrains-annotations = "23.0.0"
-universalcraft = "355"
-elementa = "659"
+universalcraft = "421"
+elementa = "710"
 nightconfig = "3.6.0"
 
 [libraries]
