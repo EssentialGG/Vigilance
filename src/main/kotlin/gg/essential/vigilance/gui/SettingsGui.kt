@@ -26,7 +26,7 @@ class SettingsGui(
     @Suppress("CanBeParameter") // FIXME: breaks with the skytils accessor, remove once a new version is adopted by the majority of users
     private val config: Vigilant
 ) : WindowScreen(
-    version = ElementaVersion.V2,
+    version = ElementaVersion.V10,
     newGuiScale = GuiScale.scaleForScreenSize().ordinal,
     restoreCurrentGuiOnClose = true,
 ) {
