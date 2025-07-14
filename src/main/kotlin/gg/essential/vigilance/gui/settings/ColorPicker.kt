@@ -313,7 +313,7 @@ class ColorPicker(initial: Color, allowAlpha: Boolean) : UIContainer() {
                 }
             """.trimIndent()
             URenderPipeline.builderWithLegacyShader(
-                "vigilance:screenshot_color_picker_saturation_value",
+                "vigilance:color_picker_saturation_value",
                 UGraphics.DrawMode.QUADS,
                 UGraphics.CommonVertexFormats.POSITION_COLOR,
                 vertSource,
