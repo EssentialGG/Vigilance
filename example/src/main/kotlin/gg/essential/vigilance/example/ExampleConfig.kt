@@ -266,7 +266,7 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         category = "Property Deep-Dive",
         subcategory = "Paragraphs"
     )
-    var paragraphWithInitialValue = "I am a paragraph! I can have text that is much, much longer than the regular text property. I also use Elementa's multiline text input component, which supports features like coyp paste, cursor navigation, click selection, and more :)"
+    var paragraphWithInitialValue = "I am a paragraph! I can have text that is much, much longer than the regular text property. I also use Elementa's multiline text input component, which supports features like copy paste, cursor navigation, click selection, and more :)"
 
     @Property(
         type = PropertyType.PARAGRAPH,
@@ -286,7 +286,7 @@ object ExampleConfig : Vigilant(File("./config/example.toml")) {
         subcategory = "Paragraphs",
         placeholder = "Type some text!"
     )
-    var paragraphWithPlaceholderAndInitialValue = "I am a paragraph! I can have text that is much, much longer than the regular text property. I also use Elementa's multiline text input component, which supports features like coyp paste, cursor navigation, click selection, and more :)"
+    var paragraphWithPlaceholderAndInitialValue = "I am a paragraph! I can have text that is much, much longer than the regular text property. I also use Elementa's multiline text input component, which supports features like copy paste, cursor navigation, click selection, and more :)"
 
     @Property(
         type = PropertyType.PERCENT_SLIDER,
