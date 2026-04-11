@@ -15,7 +15,20 @@ data class PropertyData(@Deprecated("Replace with attributesExt", ReplaceWith("a
 
     var attributesExt: PropertyAttributesExt = PropertyAttributesExt(attributes)
         private set
+
+    @Deprecated("Replace with addAction", ReplaceWith("addAction"))
     var action: ((Any?) -> Unit)? = null
+        set(value) {
+            if (value != null) {
+                actions.add(value)
+            } else {
+                actions.remove(field)
+            }
+
+            field = value
+        }
+
+    private val actions = mutableListOf<(Any?) -> Unit>()
     var dependsOn: PropertyData? = null
     var dependencyPredicate: ((Any?) -> Boolean)? = null
     var inverseDependency: Boolean = false
@@ -45,7 +58,7 @@ data class PropertyData(@Deprecated("Replace with attributesExt", ReplaceWith("a
         }
 
         if (attributesExt.triggerActionOnInitialization || this.value.initialized)
-            action?.invoke(value)
+            actions.forEach { it.invoke(value) }
 
         this.value.initialized = true
         this.value.setValue(value, instance)
@@ -53,8 +66,12 @@ data class PropertyData(@Deprecated("Replace with attributesExt", ReplaceWith("a
         instance.markDirty()
     }
 
+    fun addAction(action: (Any?) -> Unit) {
+        actions.add(action)
+    }
+
     fun setCallbackConsumer(callback: Consumer<Any?>) {
-        this.action = callback::accept
+        this.actions.add(callback::accept)
     }
 
     companion object {
